@@ -69,11 +69,9 @@ ___
 
 ### :key: User permissions
 The permissions of each of the user types are:
-- <b>Anonymous</b>: View  public content, sign up, sign in.
-- <b>Registered</b>:  Allows to do everything an anonymous user can plus mark teams as favourite, view and download match reports, view their profile and modify it and sign out.
-- <b>Referee</b>: Allows to do everything a registered user can plus fill out the match report.
-- <b>Coach</b>: Allows to do everything a registered user can plus create teams and add players to teams and their teams to tournaments.
-- <b>Admin</b>: Allows everything other users can do plus create tournaments,  teams, matches, add players, modify stadiums information, tournaments, matches, teams and players.
+- <b>Anonymous</b>: View the menu and dishes, search for dishes, view promotions, reserve a table at the restaurant, check out news and updates, about us section, view the restaurant's location.
+- <b>Registered</b>: Order for delivery, rate orders, access order history, view public ratings for each dish and your own ratings for each dish.
+- <b>Admin</b>: All the permissions of a registered user, remove dishes from the menu, modify dishes, modify reservations, add new dishes to menu, block users, unblock users, cancel orders.
 ___
 ### :framed_picture: Images
 The images mentioned are related to the entities mentioned above.
