@@ -93,7 +93,9 @@ The information that will be displayed using graphics is:
 ___
 ### :bulb: Complementary technology
 The complementary technology to be used is:
-- PDF autogenerate with the ticket of the order
+- Our application allows users to generate a PDF receipt for their orders.
+- Our application calculates the estimated delivery time based on the restaurant's address and the delivery address provided by the customer.
+
 
 ___
 
