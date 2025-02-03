@@ -94,10 +94,7 @@ The information that will be displayed using graphics is:
 ___
 ### :bulb: Complementary technology
 The complementary technology to be used is:
-- PDF autogenerate  for match reports.
-- Google Maps API integration for stadiums location.
-- Weather API for match weather information.
-- Email notifications for players, coaches, referee and registered users.
+- PDF autogenerate with the ticket of the order
 
 ___
 
