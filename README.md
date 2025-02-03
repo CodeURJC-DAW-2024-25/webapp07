@@ -37,17 +37,15 @@ ___
 ### :memo: Entities
 The main entities that the application will manage are:
 - Users
-- Teams
-- Tournaments
-- Matches
-- Stadium
+- Orders
+- Products
+- Promotions
+- Reviews
 
 :twisted_rightwards_arrows: <b>Main relations between entities: </b>
-Users can be anonymous users, admins, players, coaches, or referees.
-Players and coaches belong to teams. Referees do not belong to any team but they participate in matches.
-Teams can have multiple players and coaches. They also take part in tournaments.
-Tournaments consist of several matches with different teams.
-Each team has its own stadium.
+Users can be anonymous users, admins, or clients.
+Customers can place orders with one or more dishes and rate each dish.
+Admins can add dishes to the menu.
 
 ___
 ### :gear: Functionalities
