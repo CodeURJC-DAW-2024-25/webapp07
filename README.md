@@ -16,20 +16,20 @@ ___
 ___
 ## :busts_in_silhouette: Development team members
 
-|Name and surname|mail|github|
-|----------------|----|------|
+| Name and surname         |mail|github|
+|--------------------------|----|------|
 | Nicolás Hernández Tejero | n.hernandezt.2021@alumnos.urjc.es | nicohht |
-| Manuel López Corchado | m.lopezc.2021@alumnos.urjc.es | MNXLPZ |
-| Ahmad Abdel Raziq Al Otaibi | a.abdel.2021@alumnos.urjc.es | Ahmad-SE |
-| Adrián Soriano Aragón | a.soriano.2021@alumnos.urjc.es | aadrisoriiano |
-| Natalia Hernández Vargas | n.hernandezv.2021@alumnos.urjc.es | nataaah |
+| Hugo Sánchez Torres      | h.sanchez.2021@alumnos.urjc.es | stHugo010 |
+| Juan Ramírez Blanco      | j.ramirez.2021@alumnos.urjc.es | juanramirezbl |
+| Jesús López Esquinas     | j.lopeze.2020@alumnos.urjc.es | jesuslpzZz |
+| Víctor Muñoz Regalón     | v.munozr.2020@alumnos.urjc.es | victoor-78 |
 
 ___
 
 ## :hammer_and_wrench: Team coordination tool
 ### Trello
 This tool offers a Kanban-like organization, allowing us to view at any time and from any location the section of the software that is under development, completed, or pending.
-<a href="https://trello.com/b/arU2ZCsQ/daw">Trello link</a>
+<a href="https://trello.com/b/k80Jt9Pc/daw-wabapp07">Trello link</a>
 
 ___
 ## Main aspects of the web application
