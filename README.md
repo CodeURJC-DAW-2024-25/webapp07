@@ -46,6 +46,7 @@ The main entities that the application will manage are:
 Users can be anonymous users, admins, or clients.
 Customers can place orders with one or more dishes and rate each dish.
 Admins can add dishes to the menu.
+Orders contain the dishes, the price, the user information and delivery adress.
 
 ___
 ### :gear: Functionalities
