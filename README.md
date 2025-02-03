@@ -50,28 +50,27 @@ Orders contain the dishes, the price, the user information and delivery adress.
 
 ___
 ### :gear: Functionalities
-- Create a new tournament  with all its attributes (name, date, stadium, teams participating).
-- Add teams  to a tournament.
-- Add players to a team.
-- Generate matches for each round of the tournament based on the number of teams in it.
-- Show match results after they have been played.
-- Access to information about users, teams, tournaments, matches, and stadiums.
-- User registration and login system.
-- Write a match report.
-- Show statistics and graphics about the performance of players or teams.
-- Follow your favorite teams and players.
-- Use search bar.
-- Download match reports.
-- Consult weather forecast.
-- Send notifications about a match.
-- Modify personal profile.
+- Register/Login system for accounts
+- Modify account information
+- View the restaurant information
+- View the menu dishes
+- Search with filters
+- Book a restaurant table
+- Place an order for take-away or delivery
+- Check order history
+- Rate the dishes
+- Download the digital receipt as a PDF file
+- Send notifications about orders
+- Modify and manage the orders, reservations, menu and products
+- Manage user accounts
+- Consult graphs about orders
 ___
 
 ### :key: User permissions
 The permissions of each of the user types are:
 - <b>Anonymous</b>: View the menu and dishes, search for dishes, view promotions, reserve a table at the restaurant, check out news and updates, about us section, view the restaurant's location.
 - <b>Registered</b>: Order for delivery, rate orders, access order history, view public ratings for each dish and your own ratings for each dish.
-- <b>Admin</b>: All the permissions of a registered user, remove dishes from the menu, modify dishes, modify reservations, add new dishes to menu, block users, unblock users, cancel orders.
+- <b>Admin</b>: All the permissions of a registered user, remove dishes from the menu, modify dishes, modify reservations, add new dishes to menu, block users, unblock users, cancel orders, view the graphs with order statistics.
 ___
 ### :framed_picture: Images
 The images mentioned are related to the entities mentioned above.
