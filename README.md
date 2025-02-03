@@ -82,10 +82,9 @@ The images mentioned are related to the entities mentioned above.
 ___
 ### :bar_chart: Graphics
 The information that will be displayed using graphics is:
-- Top Scorers: Table
-- Goals per team: Column chart
-- Number of goals scored vs goals conceded: Bar graph
-- Average age of players: Pie chart
+- Average orders per hour: Table
+- Top 10 best-selling dishes with the number of orders on that day: Table
+- The 15 best-rated dishes along with their number of ratings: Table
 
 ___
 ### :bulb: Complementary technology
