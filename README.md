@@ -76,10 +76,9 @@ ___
 ### :framed_picture: Images
 The images mentioned are related to the entities mentioned above.
 - Favicon of the web page.
-- Team Icons.
-- Player Photos.
-- Stands Image (Stadium).
-- Tournament logo.
+- Dish Photos.
+- Stands Image (Restaurant).
+- Restaurant logo.
 ___
 ### :bar_chart: Graphics
 The information that will be displayed using graphics is:
