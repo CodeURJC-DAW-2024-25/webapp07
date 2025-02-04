@@ -38,15 +38,19 @@ ___
 The main entities that the application will manage are:
 - Users
 - Orders
-- Products
+- Dishes
 - Promotions
 - Reviews
+- Restaurants
+- Reservations
 
 :twisted_rightwards_arrows: <b>Main relations between entities: </b>
-Users can be anonymous users, admins, or clients.
-Customers can place orders with one or more dishes and rate each dish.
+Users can be anonymous users, admins, or customers.
+Customers can place orders with one or more dishes and rate each dish appart from make reservations at one of the restaurants.
 Admins can add dishes to the menu.
 Orders contain the dishes, the price, the user information and delivery adress.
+Restaurants contain dishes, reservations, reviews and promotions. 
+Dishes conatin the promotions about them.
 
 ___
 ### :gear: Functionalities
