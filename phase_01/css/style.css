@@ -484,3 +484,27 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+.suspension-message {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.suspension-submessage {
+    font-size: 1rem;
+    color: #777;
+}
+
+.contact-support-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-support-btn:hover {
+    background-color: #e60000;
+}
