@@ -508,3 +508,12 @@
 .contact-support-btn:hover {
     background-color: #e60000;
 }
+
+.back-link {
+    font-size: 3rem !important;
+}
+
+.show-logo {
+    width: 150px !important;
+    height: auto !important;
+}
