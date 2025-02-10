@@ -32,6 +32,7 @@ ___
       - [**Orders-list**](#Orders-list)
       - [**Pickup-delivery-order**](#Pickup-delivery-order)
       - [**Profile**](#Profile)
+      - [**Rate-order**](#Rate-order)
       - [**Ban-message**](#Ban-message)
       - [**Manage-user**](#Manage-user)
       - [**Restaurant-availability**](#Restaurant-availability)
@@ -240,11 +241,16 @@ ___
 ![*Pickup-delivery-order*](readme-img/phase_01/pickup-delivery-order.png)
 
 ___
+
 ## Profile:
 ![*Profile*](readme-img/phase_01/profile.png)
 
 ___
 
+## Rate-order:
+![*Rate-order*](readme-img/phase_01/rate-order.png)
+
+___
 ## Ban-message:
 This screen displays a notification to the user, JohnDoe123, informing them that their account has been suspended due to violations of the platform's terms of service. The message is clear and direct, providing the user with the option to contact the support team if they believe the suspension is a mistake. The "CONTACT SUPPORT" button is prominently displayed, guiding the user on the next steps to resolve the issue.
 ![*Ban-message*](readme-img/phase_01/ban-message.png)
