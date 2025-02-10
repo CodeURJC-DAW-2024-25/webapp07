@@ -517,3 +517,17 @@
     width: 150px !important;
     height: auto !important;
 }
+.star-rating {
+    font-size: 24px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star-rating .fas {
+    transition: color 0.2s ease;
+}
+
+.star-rating .fas:hover,
+.star-rating .fas.active {
+    color: #ffcc00;
+}
