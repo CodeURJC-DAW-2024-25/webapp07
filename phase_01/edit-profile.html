@@ -47,6 +47,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
             <a href="" class="navbar-brand p-0">
                 <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Voltereta Croqueta</h1>
+                <!-- <img src="img/logo.png" alt="Logo"> -->
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
@@ -54,11 +55,11 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0 pe-4">
                     <a href="index.html" class="nav-item nav-link">Home</a>
-                    <a href="about.html" class="nav-item nav-link">About</a>
+                    <a href="about.html" class="nav-item nav-link active">About</a>
                     <a href="service.html" class="nav-item nav-link">Service</a>
                     <a href="menu.html" class="nav-item nav-link">Menu</a>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu m-0">
                             <a href="booking.html" class="dropdown-item">Booking</a>
                             <a href="team.html" class="dropdown-item">Our Team</a>
@@ -73,85 +74,44 @@
 
         <div class="container-xxl py-5 bg-dark hero-header mb-5">
             <div class="container text-center my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Dish Information</h1>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb justify-content-center text-uppercase">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Menu</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">Dish Information</li>
-                    </ol>
-                </nav>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Profile</h1>
             </div>
         </div>
     </div>
     <!-- Navbar & Hero End -->
 
-    <!-- Dish Information Start -->
-    <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="row g-0">
-            <div class="col-md-6">
-                <div class="dish-image">
-                    <img src="img/dishes/Spaghetti_Carbonara.jpg" alt="Dish Image" class="img-fluid">
-                </div>
-            </div>
-            <div class="col-md-6 bg-dark d-flex align-items-center">
-                <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
-                    <h5 class="section-title ff-secondary text-start text-primary fw-normal">Dish Details</h5>
-                    <h1 class="text-white mb-4">Spaghetti Carbonara</h1>
-                    <p class="text-white mb-4">Classic Italian pasta dish with eggs, cheese, pancetta, and pepper.</p>
-
-                    <!-- Rating Display -->
-                    <div class="rating-section mb-4">
-                        <div class="star-rating">
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-muted"></i>
+    <!-- Edit Profile Form Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5 align-items-left">
+                <div class="col-lg-6 mx-auto">
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label text-primary">Name</label>
+                            <input type="text" class="form-control" id="name" value="Name Last Name">
                         </div>
-                    </div>
-
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <h5 class="text-white">Price:</h5>
-                            <p class="text-white">$12.99</p>
+                        <div class="mb-3">
+                            <label for="email" class="form-label text-primary">Email</label>
+                            <input type="email" class="form-control" id="email" value="name@gmail.com">
                         </div>
-                        <div class="col-md-6">
-                            <h5 class="text-white">Ingredients:</h5>
-                            <ul class="text-white">
-                                <li>Spaghetti</li>
-                                <li>Eggs</li>
-                                <li>Pancetta</li>
-                                <li>Parmesan Cheese</li>
-                                <li>Black Pepper</li>
-                            </ul>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label text-primary">Phone Number</label>
+                            <input type="tel" class="form-control" id="phone" value="+34101010101">
                         </div>
-                        <div class="col-12">
-                            <h5 class="text-white">Allergens:</h5>
-                            <div class="allergens">
-                                <img src="img/allergen_symbols/allergen_symbol_cereal.png" alt="Gluten" class="img-thumbnail" style="width: 50px;">
-                                <img src="img/allergen_symbols/allergen_symbol_dairy.png" alt="Dairy" class="img-thumbnail" style="width: 50px;">
-                                <img src="img/allergen_symbols/allergen_symbol_eggs.png" alt="Eggs" class="img-thumbnail" style="width: 50px;">
-                            </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label text-primary">Address</label>
+                            <input type="text" class="form-control" id="address" value="Jovellanos, 4 - 28014 Madrid, España">
                         </div>
-                        <div class="col-12">
-                            <h5 class="text-white">Additional Notes:</h5>
-                            <p class="text-white">Please inform us of any dietary restrictions.</p>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary py-3 px-5">Save Changes</button>
+                            <a href="profile.html" class="btn btn-secondary py-3 px-5">Cancel</a>
                         </div>
-                        <div class="col-12">
-                            <div class="d-flex gap-2">
-                                <a href="edit-dish.html" class="btn btn-primary">Edit Dish</a>
-                                <button class="btn btn-warning">Mark as Unavailable</button>
-                                <button class="btn btn-danger">Delete Dish</button>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Dish Information End -->
-
+    <!-- Edit Profile Form End -->
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
@@ -198,6 +158,10 @@
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                         &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
+
+                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
+                        Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <div class="footer-menu">
@@ -212,6 +176,7 @@
         </div>
     </div>
     <!-- Footer End -->
+
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
