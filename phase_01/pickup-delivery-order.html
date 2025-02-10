@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Order Selection</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        .hidden { display: none; }
+        .logo-container { text-align: center; margin: 30px 0; }
+        .logo-container img { width: 150px; }
+    </style>
+</head>
+
+<body>
+<div class="container-xxl bg-white p-0">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+        <a href="" class="navbar-brand p-0">
+            <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Order Selection</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0 pe-4">
+                <a href="index.html" class="nav-item nav-link">Home</a>
+                <a href="menu.html" class="nav-item nav-link">Menu</a>
+                <a href="contact.html" class="nav-item nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Logo -->
+    <div class="logo-container">
+        <img src="./img/logo.jpg" alt="Restaurant Logo">
+    </div>
+
+    <!-- Order Selection -->
+    <div class="container py-5">
+        <h2 class="text-center mb-4">Choose Your Order Type</h2>
+        <div class="text-center mb-4">
+            <input type="radio" id="pickupOption" name="orderType" value="pickup" onclick="toggleForms()">
+            <label for="pickupOption">Pick Up</label>
+            <input type="radio" id="deliveryOption" name="orderType" value="delivery" onclick="toggleForms()" class="ms-3">
+            <label for="deliveryOption">Delivery</label>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center hidden" id="pickupForm">
+                <div class="card p-4 shadow-lg">
+                    <h4 class="text-primary">Pick Up</h4>
+                    <select class="form-select mb-3">
+                        <option selected>Select a location</option>
+                        <option>Location 1</option>
+                        <option>Location 2</option>
+                    </select>
+                    <input type="text" class="form-control mb-3" placeholder="Your Name">
+                    <input type="time" class="form-control mb-3">
+                    <button class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+            <div class="col-md-6 text-center hidden" id="deliveryForm">
+                <div class="card p-4 shadow-lg">
+                    <h4 class="text-primary">Delivery</h4>
+                    <input type="text" class="form-control mb-3" placeholder="Your Name">
+                    <input type="text" class="form-control mb-3" placeholder="Address">
+                    <input type="text" class="form-control mb-3" placeholder="Postal Code">
+                    <input type="tel" class="form-control mb-3" placeholder="Phone Number">
+                    <input type="time" class="form-control mb-3">
+                    <button class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container-fluid bg-dark text-light py-4 text-center">
+        <p class="mb-0">&copy; 2025 Order Selection. All Rights Reserved.</p>
+    </div>
+</div>
+
+<script>
+    function toggleForms() {
+        document.getElementById('pickupForm').classList.add('hidden');
+        document.getElementById('deliveryForm').classList.add('hidden');
+
+        if (document.getElementById('pickupOption').checked) {
+            document.getElementById('pickupForm').classList.remove('hidden');
+        } else if (document.getElementById('deliveryOption').checked) {
+            document.getElementById('deliveryForm').classList.remove('hidden');
+        }
+    }
+</script>
+
+</body>
+
+</html>
