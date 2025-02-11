@@ -218,36 +218,45 @@ This screen confirms that a user's order has been successfully placed. It provid
 ___
 
 ## Order-manager:
+This screen allows administrators to manage restaurant orders. It displays a list of current orders with details such as order number, date, total amount, and ordered items. Each order includes options to view more details, cancel, or accept the order. A progress tracker shows the number of active orders and the order limit. The interface is designed for easy order monitoring and management.
 ![*Order-manager*](readme-img/phase_01/order-manager.png)
 
 ___
 
 ## Order-summary:
+This screen provides users with a detailed summary of their order before proceeding to payment. It displays the list of ordered items, their quantities, individual prices, and the total cost, including delivery fees. The selected delivery address is also shown. Users have the option to go back, cancel the order, or proceed to payment. The interface ensures clarity and ease of navigation for a smooth checkout experience.
 ![*Order-summary*](readme-img/phase_01/order-summary.png)
 
 ___
 
 ## Order-summary-admin:
+This screen is designed for restaurant administrators to review and manage customer orders. It displays a detailed summary of each order, including the order number, list of purchased items with their quantities, individual prices, and the total cost, including delivery fees. Additionally, it provides customer information, such as name and delivery address, as well as the restaurant location associated with the order.
+
+Admins can also see whether the order is for pickup or delivery, with an option to modify this selection. A "Back" button allows them to return to the order management interface. The layout ensures clarity and ease of navigation, helping staff efficiently process and verify orders.
 ![*Order-summary-admin*](readme-img/phase_01/order-summary-admin.png)
 
 ___
 
 ## Orders-list:
+This screen allows customers to view their past orders. It displays order details, including the date, order number, and total price. Each order card lists the ordered items, their quantities, and individual prices. Customers can access additional options, such as viewing more details, downloading the receipt, reordering, or rating their experience.
 ![*Orders-list*](readme-img/phase_01/orders-list.png)
 
 ___
 
 ## Pickup-delivery-order:
+This screen allows customers to choose between pickup and delivery options for their orders. Users can select their preferred order type and fill out the necessary details, such as location, name, and time for pickup or address and contact information for delivery. A simple interface ensures an easy and efficient ordering process, with a "Confirm" button to finalize the selection.
 ![*Pickup-delivery-order*](readme-img/phase_01/pickup-delivery-order.png)
 
 ___
 
 ## Profile:
+This screen displays the user profile information for Voltereta Croqueta. It includes essential details such as name, email, phone number, and address, allowing users to review their personal data. The interface offers quick access to actions like editing the profile, viewing past orders, or returning to the homepage. A clean layout ensures easy navigation for managing account details.
 ![*Profile*](readme-img/phase_01/profile.png)
 
 ___
 
 ## Rate-order:
+This screen allows users to view and rate their past orders. It includes details like the order number, date, and the dish's name with a description and price. Users can provide feedback by rating their dish with a star-based system and submitting their review. A "Back to Order" button ensures easy navigation to previous orders. The clean and structured layout ensures a user-friendly experience.
 ![*Rate-order*](readme-img/phase_01/rate-order.png)
 
 ___
