@@ -142,7 +142,7 @@ ___
 ## Home-page:
 Voltereta Croqueta's home screen features a welcoming interface with navigation options. It highlights the restaurant's main features, such as expert chefs, quality food, online ordering and 24/7 service. It also includes a welcome section describing the restaurant's experience and history, along with information about years of experience and popular chefs.
 
-![*Home-page*](readme-img/phase_01/home-page.png)
+![*Home-page*](readme-img/phase_01/index.png)
 
 ___
 ## Register-Login:
@@ -166,6 +166,12 @@ ___
 ## Booking:
 This screen allows users to book a table at Voltereta Croqueta. It includes options to choose a restaurant, specify the number of people, select the date and time, and provide reservation details such as name, last name, email, and phone number. A "CONFIRM ORDER" button finalizes the reservation.
 ![*Booking*](readme-img/phase_01/booking.png)
+
+___
+
+## Booking-confirmation:
+This screen confirms that a user's reservation has been successfully placed. It provides a thank-you message and informs the user that they will receive a confirmation email shortly. A "BACK TO HOME" button allows users to return to the main page.
+![*Order-confirmation-screen*](readme-img/phase_01/booking-confirmation.png)
 
 ___
 
@@ -211,9 +217,9 @@ This screen allows administrators to add a new dish to the menu. It includes fie
 
 ___
 
-## Order-confirmation-screen:
-This screen confirms that a user's order has been successfully placed. It provides a thank-you message and informs the user that they will receive a confirmation email shortly. A "BACK TO HOME" button allows users to return to the main page.
-![*Order-confirmation-screen*](readme-img/phase_01/order-confirmation-screen.png)
+## Order-confirmation:
+This screen confirms that a user's order has been successfully placed. It provides a thank-you message and informs the user that they will receive a confirmation email shortly. A "VIEW LAST ORDERS" button allows users to check their orders list.
+![*Order-confirmation-screen*](readme-img/phase_01/order-confirmation.png)
 
 ___
 
