@@ -279,11 +279,13 @@ This screen provides an overview of the reservation status for different restaur
 ___
 
 ## Restaurant-information:
+This screen provides essential details about Voltereta Móstoles, including its address, contact information, and opening hours. Users can explore available services such as accessibility, WiFi, and delivery. The page also features booking and ordering options, along with images of the restaurant and its location on Google Maps.
 ![*Restaurant-information*](readme-img/phase_01/restaurant-information.png)
 
 ___
 
 ## Restaurants:
+This screen allows users to explore the various locations of Voltereta Croqueta. It features a search bar for finding nearby restaurants and a "Use My Location" button for convenience. Users can view popular restaurants through images and interact with an embedded Google Maps preview for easy navigation.
 ![*Restaurants*](readme-img/phase_01/restaurants.png)
 
 ___
