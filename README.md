@@ -153,7 +153,7 @@ ___
 
 ## About-us:
 This screen provides detailed information about Voltereta Croqueta, highlighting its culinary philosophy and commitment to fresh ingredients and authentic recipes. It includes a brief history of the restaurant and a list of the master chefs, each specializing in different types of cuisine.
-![*About-us*](readme-img/phase_01/about-us.png)
+![*About-us*](readme-img/phase_01/about.png)
 
 ___
 
