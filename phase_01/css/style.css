@@ -438,7 +438,7 @@
     color: #FFFFFF;
     font-size: 15px;
     font-weight: normal;
-    text-transform: capitalize;
+    text-transform: none;
     transition: .3s;
 }
 
@@ -450,14 +450,18 @@
     margin-right: 10px;
 }
 
+.footer .btn.btn-link.btn-link-no-before::before {
+    content: none !important;
+}
+
 .footer .btn.btn-link:hover {
     letter-spacing: 1px;
     box-shadow: none;
 }
 
 .footer .copyright {
-    padding: 25px 0;
-    font-size: 15px;
+    padding: 10px 0;
+    font-size: 10px;
     border-top: 1px solid rgba(256, 256, 256, .1);
 }
 
