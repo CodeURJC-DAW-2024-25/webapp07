@@ -300,10 +300,11 @@ ___
 The diagram is a flow chart showing user permissions and navigation steps within a web interface. The diagram uses colored arrows to indicate the progression from one web page or state to another, based on user actions or permissions.
 
 - The diagram is a complex schematic with multiple screenshots of web pages connected by colored arrows indicating different user actions or states.
-- Each screenshot represents different sections or pages of a sports or tournament related website.
-- There are three initial states at the top: "Registered User", "Guest", "Referee" and "Admin", leading to different paths depending on the user's status.
-- Arrows connect these initial states to various web pages, including "Tournament Create", "Events" and "Player/Team Login" among others.
+- Each screenshot represents different sections or pages of a restaurant website.
+- There is an initial state at the top: "Index", leading to different paths depending on the user's status.
+- Arrows connect these initial state to various web pages, including "Menu", "Restaurants", "Profile" and diferent admin workflow pages, among others.
 - Each colored arrow represents a user, and therefore the path through which he/she can navigate the site.
+- Red arrows represent Admin functions, the green one is for Registered User and the blue arrows are for every user. 
 
-![*Flow Diagram*](readmeImg/usersDiagram.jpg)
+![*Flow Diagram*](readme-img/phase_01/flow_diagram.png)
 
