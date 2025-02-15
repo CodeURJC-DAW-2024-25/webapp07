@@ -87,6 +87,3 @@ public class Dish {
         this.imageURL = imageURL;
     }
 }
-
-
-}
