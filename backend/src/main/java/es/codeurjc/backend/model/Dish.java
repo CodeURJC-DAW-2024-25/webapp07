@@ -1,4 +1,14 @@
-@Entitie
+package es.codeurjc.backend.model;
+
+import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
+
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
+
+@Entity
 public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -7,21 +17,21 @@ public class Dish {
     private String description;
     private int price;
     private String ingredients;
-    private Array<String> Allergens;
+    //private List<String> Allergens;
     private boolean isVegan;
     private String imageURL;
 
-    public Dish(Long id, @NotNull @Size(min = 3, max = 50) String name, @Size(min = 0, max = 1024) String description, int price, @Size(min = 0, max = 1024) String ingredients, Array<String> allergens, boolean isVegan, String imageURL) {
+    public Dish(){}
+    public Dish(Long id, @NotNull String name,String description, int price, String ingredients, boolean isVegan, String imageURL) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.ingredients = ingredients;
-        this.allergens = allergens;
+        //this.allergens = allergens;
         this.isVegan = isVegan;
         this.imageURL = imageURL;
     }
-
     // Getters and Setters
     public Long getId() {
         return id;
@@ -63,13 +73,13 @@ public class Dish {
         this.ingredients = ingredients;
     }
 
-    public Array<String> getAllergens() {
-        return allergens;
-    }
+    //public Array<String> getAllergens() {
+    //    return allergens;
+    //}
 
-    public void setAllergens(Array<String> allergens) {
-        this.allergens = allergens;
-    }
+    //public void setAllergens(Array<String> allergens) {
+      //  this.allergens = allergens;
+    //}
 
     public boolean isVegan() {
         return isVegan;
