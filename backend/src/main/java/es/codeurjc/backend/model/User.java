@@ -14,12 +14,10 @@ public class User {
     private Long id;
 
     @NotNull
-    private String userName;
+    private String username;
 
-    @NotNull
     private String firstName;
 
-    @NotNull
     private String lastName;
 
     private LocalDate dateOfBirth;
@@ -38,7 +36,7 @@ public class User {
     public User() {}
 
     public User(String username, String encodedPassword, String... roles) {
-        this.userName = username;
+        this.username = username;
         this.encodedPassword = encodedPassword;
         this.roles = Arrays.asList(roles);
     }
@@ -52,17 +50,15 @@ public class User {
     }
 
     public String getUsername() {
-        return userName;
+        return username;
     }
-
-    public void setUsername(String userName) {
-        this.userName = userName;
+    public void setUsername(@NotNull String username) {
+        this.username = username;
     }
 
     public String getFirstName() {
         return firstName;
     }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -70,7 +66,6 @@ public class User {
     public String getLastName() {
         return lastName;
     }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -78,7 +73,6 @@ public class User {
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
-
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
@@ -86,7 +80,6 @@ public class User {
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
@@ -94,7 +87,6 @@ public class User {
     public String getAddress() {
         return address;
     }
-
     public void setAddress(String address) {
         this.address = address;
     }
@@ -102,7 +94,6 @@ public class User {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -110,9 +101,14 @@ public class User {
     public String getEncodedPassword() {
         return encodedPassword;
     }
-
     public void setEncodedPassword(String encodedPassword) {
         this.encodedPassword = encodedPassword;
     }
 
+    public List<String> getRoles() {
+        return roles;
+    }
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
 }

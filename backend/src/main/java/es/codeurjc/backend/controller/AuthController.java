@@ -27,7 +27,6 @@ public class AuthController {
     }
 
 
-    /*
     @PostMapping("/auth/login")
     public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
         Optional<User> user = userService.authenticate(username, password);
@@ -66,5 +65,5 @@ public class AuthController {
         userService.registerUser(user);
         model.addAttribute("message", "Registration successful!");
         return "login";
-    }*/
+    }
 }
