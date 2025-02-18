@@ -1,7 +1,7 @@
 package es.codeurjc.backend.sampleData;
 
-import es.codeurjc.backend.model.User;
-import es.codeurjc.backend.repository.UserRepository;
+//import es.codeurjc.backend.model.User;
+//import es.codeurjc.backend.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,8 +11,8 @@ import java.sql.SQLException;
 @Service
 public class SampleAllData {
 
-    @Autowired
-    private UserRepository userRepository;
+//    @Autowired
+//    private UserRepository userRepository;
 
     //@Autowired
     //private PasswordEncoder passwordEncoder;
