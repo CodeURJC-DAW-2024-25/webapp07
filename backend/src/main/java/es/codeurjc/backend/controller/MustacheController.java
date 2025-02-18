@@ -11,6 +11,10 @@ public class MustacheController {
     public String showIndex(Model model) {
         return "index";
     }
+    @GetMapping("/aboutUs")
+    public String showAboutUs(Model model) {
+        return "about-us";
+    }
     @GetMapping("/header")
     public String showHeader(Model model) {
         return "fragments/header";
