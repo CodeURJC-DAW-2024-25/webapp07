@@ -3,9 +3,7 @@ package es.codeurjc.backend.model;
 import jakarta.persistence.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
+import java.io.File;
 
 
 @Entity
@@ -19,10 +17,10 @@ public class Dish {
     private String ingredients;
     //private List<String> Allergens;
     private boolean isVegan;
-    private String imageURL;
+    private File imageURL;
 
     public Dish(){}
-    public Dish(Long id, @NotNull String name,String description, int price, String ingredients, boolean isVegan, String imageURL) {
+    public Dish(@NotNull String name, String description, int price, String ingredients, boolean isVegan, File imageURL) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -89,11 +87,11 @@ public class Dish {
         isVegan = vegan;
     }
 
-    public String getImageURL() {
+    public File getImageURL() {
         return imageURL;
     }
 
-    public void setImageURL(String imageURL) {
+    public void setImageURL(File imageURL) {
         this.imageURL = imageURL;
     }
 }
