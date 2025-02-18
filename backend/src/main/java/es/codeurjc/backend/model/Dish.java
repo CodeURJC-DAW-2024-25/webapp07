@@ -1,9 +1,21 @@
 package es.codeurjc.backend.model;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Base64;
+import java.util.List;
+
+import javax.sql.rowset.serial.SerialBlob;
+
 
 
 @Entity
@@ -17,18 +29,21 @@ public class Dish {
     private String ingredients;
     //private List<String> Allergens;
     private boolean isVegan;
-    private File imageURL;
+    @Lob
+    @JsonIgnore
+    private Blob dishImagefile;
+
+    private String dishImagePath;
 
     public Dish(){}
-    public Dish(@NotNull String name, String description, int price, String ingredients, boolean isVegan, File imageURL) {
-        this.id = id;
+    public Dish(@NotNull String name, String description, int price, String ingredients, boolean isVegan, String dishImagePath) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.ingredients = ingredients;
         //this.allergens = allergens;
         this.isVegan = isVegan;
-        this.imageURL = imageURL;
+        this.dishImagePath = dishImagePath;
     }
     // Getters and Setters
     public Long getId() {
@@ -87,11 +102,49 @@ public class Dish {
         isVegan = vegan;
     }
 
-    public File getImageURL() {
-        return imageURL;
+    public String getDishImagePath() {
+        return dishImagePath;
     }
 
-    public void setImageURL(File imageURL) {
-        this.imageURL = imageURL;
+    public void setDishImagePath(String imageURL) {
+        this.dishImagePath = imageURL;
     }
+
+    public Blob getDishImagefile() {
+        return dishImagefile;
+    }
+
+    public void setDishImagefile(Blob dishImagefile) {
+        this.dishImagefile = dishImagefile;
+    }
+
+    public Blob URLtoBlob(String webURL){
+        try {
+            URL url = new URL(webURL);
+            InputStream in = url.openStream();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            // Read the image data into a byte array
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = in.read(buffer)) != -1) {
+                baos.write(buffer, 0, length);
+            }
+            in.close();
+            // Convert the ByteArrayOutputStream to a byte array
+            byte[] imageBytes = baos.toByteArray();
+            Blob imageBlob = new SerialBlob(imageBytes);
+            return imageBlob;
+        } catch (IOException | SQLException e) {
+            System.out.println("Error");
+            return null;
+        }
+    }
+
+    public String blobToString(Blob imageFile, Dish dishE) throws SQLException {
+        Blob blob = dishE.getDishImagefile();
+        byte[] bytes = blob.getBytes(1,(int) blob.length());
+        String dishImage = Base64.getEncoder().encodeToString(bytes);
+        return dishImage;
+    }
+
 }

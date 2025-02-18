@@ -25,9 +25,9 @@ public class DishController {
         return "menu";
     }
 
-    @PostMapping("/menu/new-dish")
+    /*@PostMapping("/menu/new-dish")
     public String showNewDishForm(Model model,@RequestParam String dishName, @RequestParam String description, @RequestParam int price, @RequestParam String ingredients, @RequestParam boolean vegan, @RequestParam File image) {
         Dish newDish = new Dish(dishName, description, price, ingredients, vegan, image);
         return "admin-actions-confirm";
-    }
+    }*/
 }
