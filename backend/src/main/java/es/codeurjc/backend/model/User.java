@@ -40,6 +40,18 @@ public class User {
         this.encodedPassword = encodedPassword;
         this.roles = Arrays.asList(roles);
     }
+    public User(String username, String encodedPassword, String firstName, String lastName,
+                LocalDate dateOfBirth, String phoneNumber, String address, String email, String... roles) {
+        this.username = username;
+        this.encodedPassword = encodedPassword;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.email = email;
+        this.roles = Arrays.asList(roles);
+    }
 
     public Long getId() {
         return id;
@@ -52,7 +64,7 @@ public class User {
     public String getUsername() {
         return username;
     }
-    public void setUsername(@NotNull String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 

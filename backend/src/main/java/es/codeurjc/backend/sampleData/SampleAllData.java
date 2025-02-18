@@ -25,6 +25,9 @@ public class SampleAllData {
         //userCreation
         userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER"));
         userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
+        //userRepository.save(new User("username", passwordEncoder.encode("pass"), "name", "", 2025-03-05, "", "", email, "USER"));
+
+
 
     }
 }

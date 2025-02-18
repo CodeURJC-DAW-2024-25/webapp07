@@ -29,8 +29,13 @@ public class UserService {
     }
 
     public void registerUser(User user) {
-        user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
-        userRepository.save(user);
+        try {
+            user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
+            userRepository.save(user);
+        } catch (Exception e) {
+            System.err.println("Error saving user: " + e.getMessage());
+            throw e;
+        }
     }
 
     public boolean existsByUsername(String username) {
