@@ -51,8 +51,14 @@ public class DishController {
 
     @GetMapping("/menu/{id}")
     public String showDishInfo(Model model, @PathVariable long id){
-        model.addAttribute("dish", dishService.findById(id));
-        return "dish-information";
+
+        Optional<Dish> dish = dishService.findById(id);
+        if (dish.isPresent()) {
+            model.addAttribute("dish", dish.get());
+            return "dish-information";
+        } else {
+            return "menu";
+        }
     }
 
 
