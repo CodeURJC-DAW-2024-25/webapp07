@@ -14,5 +14,21 @@ public class MustacheController {
     @GetMapping("/auth/login/error")
     public String showLoginError(Model model) {
         return "login-error";
+    @GetMapping("/aboutUs")
+    public String showAboutUs(Model model) {
+        return "about-us";
     }
+    @GetMapping("/header")
+    public String showHeader(Model model) {
+        return "fragments/header";
+    }
+    @GetMapping("/footer")
+    public String showFooter(Model model) {
+        return "fragments/footer";
+    }
+    @GetMapping("/header-admin")
+    public String showHeaderAdmin(Model model) {
+        return "fragments/header-admin";
+    }
+
 }
