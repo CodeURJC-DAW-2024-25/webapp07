@@ -50,10 +50,10 @@
                             </div>
                             <div class="col-12">
                                 <h5 class="text-white">Allergens:</h5>
-                                <div class="allergens">
-                                    <img src="img/allergen_symbols/allergen_symbol_cereal.png" alt="Gluten" class="img-thumbnail" style="width: 50px;">
-                                    <img src="img/allergen_symbols/allergen_symbol_dairy.png" alt="Dairy" class="img-thumbnail" style="width: 50px;">
-                                    <img src="img/allergen_symbols/allergen_symbol_eggs.png" alt="Eggs" class="img-thumbnail" style="width: 50px;">
+                                <div class="allergens text-white">
+                                    {{#dish.allergens}}
+                                    <li>{{.}}</li>
+                                    {{/dish.allergens}}
                                 </div>
                             </div>
                             <div class="col-12">

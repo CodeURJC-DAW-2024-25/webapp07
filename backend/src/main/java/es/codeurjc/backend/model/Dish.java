@@ -2,6 +2,7 @@ package es.codeurjc.backend.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import es.codeurjc.backend.enums.Allergens;
 import jakarta.persistence.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ import java.util.Base64;
 import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
-
+import es.codeurjc.backend.enums.Allergens;
 
 
 @Entity
@@ -29,7 +30,10 @@ public class Dish {
 
     @ElementCollection
     private List<String> ingredients;
-    //private List<String> Allergens;
+
+    @ElementCollection
+    private List<Allergens> allergens;
+
     private boolean isVegan;
     @Lob
     @JsonIgnore
@@ -38,12 +42,12 @@ public class Dish {
     private String dishImagePath;
 
     public Dish(){}
-    public Dish(@NotNull String name, String description, int price, List<String> ingredients, boolean isVegan, String dishImagePath) {
+    public Dish(@NotNull String name, String description, int price, List<String> ingredients, boolean isVegan, String dishImagePath, List<Allergens> allergens) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.ingredients = ingredients;
-        //this.allergens = allergens;
+        this.allergens = allergens;
         this.isVegan = isVegan;
         this.dishImagePath = dishImagePath;
     }
@@ -88,13 +92,13 @@ public class Dish {
         this.ingredients = ingredients;
     }
 
-    //public Array<String> getAllergens() {
-    //    return allergens;
-    //}
+    public List<Allergens> getAllergens() {
+        return allergens;
+    }
 
-    //public void setAllergens(Array<String> allergens) {
-      //  this.allergens = allergens;
-    //}
+    public void setAllergens(List<Allergens> allergens) {
+        this.allergens = allergens;
+    }
 
     public boolean isVegan() {
         return isVegan;
