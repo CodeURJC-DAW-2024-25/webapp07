@@ -5,74 +5,76 @@
                 <h1 class="display-3 text-white animated slideInDown pt-4 pb-4">Dish Info</h1>
             </div>
         </div>
-    </div>
+
 
     <!-- Navbar & Hero End -->
 
     <!-- Dish Information Start -->
-    <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="row g-0">
-            <div class="col-md-6">
-                <div class="dish-image">
-                    <img src="img/dishes/Spaghetti_Carbonara.jpg" alt="Dish Image" class="img-fluid">
-                </div>
-            </div>
-            <div class="col-md-6 bg-dark d-flex align-items-center">
-                <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
-                    <h5 class="section-title ff-secondary text-start text-primary fw-normal">Dish Details</h5>
-                    <h1 class="text-white mb-4">Spaghetti Carbonara</h1>
-                    <p class="text-white mb-4">Classic Italian pasta dish with eggs, cheese, pancetta, and pepper.</p>
 
-                    <!-- Rating Display -->
-                    <div class="rating-section mb-4">
-                        <div class="star-rating">
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-warning"></i>
-                            <i class="fas fa-star text-muted"></i>
-                        </div>
+        <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="row g-0">
+                <div class="col-md-6">
+                    <div class="dish-image">
+                        <img src="img/dishes/Spaghetti_Carbonara.jpg" alt="Dish Image" class="img-fluid">
                     </div>
+                </div>
+                <div class="col-md-6 bg-dark d-flex align-items-center">
+                    <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Dish Details</h5>
+                        <h1 class="text-white mb-4">{{dish.name}}</h1>
+                        <p class="text-white mb-4">Classic Italian pasta dish with eggs, cheese, pancetta, and pepper.</p>
 
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <h5 class="text-white">Price:</h5>
-                            <p class="text-white">$12.99</p>
-                        </div>
-                        <div class="col-md-6">
-                            <h5 class="text-white">Ingredients:</h5>
-                            <ul class="text-white">
-                                <li>Spaghetti</li>
-                                <li>Eggs</li>
-                                <li>Pancetta</li>
-                                <li>Parmesan Cheese</li>
-                                <li>Black Pepper</li>
-                            </ul>
-                        </div>
-                        <div class="col-12">
-                            <h5 class="text-white">Allergens:</h5>
-                            <div class="allergens">
-                                <img src="img/allergen_symbols/allergen_symbol_cereal.png" alt="Gluten" class="img-thumbnail" style="width: 50px;">
-                                <img src="img/allergen_symbols/allergen_symbol_dairy.png" alt="Dairy" class="img-thumbnail" style="width: 50px;">
-                                <img src="img/allergen_symbols/allergen_symbol_eggs.png" alt="Eggs" class="img-thumbnail" style="width: 50px;">
+                        <!-- Rating Display -->
+                        <div class="rating-section mb-4">
+                            <div class="star-rating">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-muted"></i>
                             </div>
                         </div>
-                        <div class="col-12">
-                            <h5 class="text-white">Additional Notes:</h5>
-                            <p class="text-white">Please inform us of any dietary restrictions.</p>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex gap-2">
-                                <a href="edit-dish.html" class="btn btn-primary">Edit Dish</a>
-                                <button class="btn btn-warning">Mark as Unavailable</button>
-                                <button class="btn btn-danger">Delete Dish</button>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <h5 class="text-white">Price:</h5>
+                                <p class="text-white">$12.99</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="text-white">Ingredients:</h5>
+                                <ul class="text-white">
+                                    <li>Spaghetti</li>
+                                    <li>Eggs</li>
+                                    <li>Pancetta</li>
+                                    <li>Parmesan Cheese</li>
+                                    <li>Black Pepper</li>
+                                </ul>
+                            </div>
+                            <div class="col-12">
+                                <h5 class="text-white">Allergens:</h5>
+                                <div class="allergens">
+                                    <img src="img/allergen_symbols/allergen_symbol_cereal.png" alt="Gluten" class="img-thumbnail" style="width: 50px;">
+                                    <img src="img/allergen_symbols/allergen_symbol_dairy.png" alt="Dairy" class="img-thumbnail" style="width: 50px;">
+                                    <img src="img/allergen_symbols/allergen_symbol_eggs.png" alt="Eggs" class="img-thumbnail" style="width: 50px;">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <h5 class="text-white">Additional Notes:</h5>
+                                <p class="text-white">Please inform us of any dietary restrictions.</p>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex gap-2">
+                                    <a href="edit-dish.html" class="btn btn-primary">Edit Dish</a>
+                                    <button class="btn btn-warning">Mark as Unavailable</button>
+                                    <button class="btn btn-danger">Delete Dish</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
     <!-- Dish Information End -->
 
 {{> fragments/footer}}
