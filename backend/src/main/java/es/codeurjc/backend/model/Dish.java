@@ -26,7 +26,9 @@ public class Dish {
     private String name;
     private String description;
     private int price;
-    private String ingredients;
+
+    @ElementCollection
+    private List<String> ingredients;
     //private List<String> Allergens;
     private boolean isVegan;
     @Lob
@@ -36,7 +38,7 @@ public class Dish {
     private String dishImagePath;
 
     public Dish(){}
-    public Dish(@NotNull String name, String description, int price, String ingredients, boolean isVegan, String dishImagePath) {
+    public Dish(@NotNull String name, String description, int price, List<String> ingredients, boolean isVegan, String dishImagePath) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -78,11 +80,11 @@ public class Dish {
         this.price = price;
     }
 
-    public String getIngredients() {
+    public List<String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(String ingredients) {
+    public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
 

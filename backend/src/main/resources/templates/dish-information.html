@@ -43,11 +43,9 @@
                             <div class="col-md-6">
                                 <h5 class="text-white">Ingredients:</h5>
                                 <ul class="text-white">
-                                    <li>Spaghetti</li>
-                                    <li>Eggs</li>
-                                    <li>Pancetta</li>
-                                    <li>Parmesan Cheese</li>
-                                    <li>Black Pepper</li>
+                                    {{#dish.ingredients}}
+                                        <li>{{.}}</li>
+                                    {{/dish.ingredients}}
                                 </ul>
                             </div>
                             <div class="col-12">
