@@ -14,6 +14,7 @@ public class MustacheController {
     @GetMapping("/auth/login/error")
     public String showLoginError(Model model) {
         return "login-error";
+    }
     @GetMapping("/aboutUs")
     public String showAboutUs(Model model) {
         return "about-us";
