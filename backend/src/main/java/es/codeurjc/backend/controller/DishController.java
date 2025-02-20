@@ -84,6 +84,7 @@ public class DishController {
 
     @GetMapping("/menu/new-dish")
     public String showNewDishForm(Model model) {
+        model.addAttribute("allergens", Allergens.values());
         return "dish-form";
     }
 

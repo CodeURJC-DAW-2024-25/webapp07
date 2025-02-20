@@ -18,7 +18,7 @@
                         <img src="/menu/{{id}}/image" alt="Dish Image" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
                     {{/dish.image}}
                     {{^dish.image}}
-                        <img src="../static/img/logo.jpg" alt="Dish Image" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
+                        <img src="/img/logo.jpg" alt="Dish Image" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
                     {{/dish.image}}
 
                 </div>
@@ -88,104 +88,15 @@
                             <div class="col-12">
                                 <h5 class="text-white">Allergens:</h5>
                                 <div class="allergens">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="lupin" value="lupin">
-                                        <label class="form-check-label text-white" for="lupin">
-                                            <img src="img/allergen_symbols/allergen_symbol_altramuz.png" alt="Lupin" class="img-thumbnail" style="width: 30px;">
-                                            Lupin
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="celery" value="celery">
-                                        <label class="form-check-label text-white" for="celery">
-                                            <img src="img/allergen_symbols/allergen_symbol_apio.png" alt="Celery" class="img-thumbnail" style="width: 30px;">
-                                            Celery
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="gluten" value="gluten">
-                                        <label class="form-check-label text-white" for="gluten">
-                                            <img src="img/allergen_symbols/allergen_symbol_cereal.png" alt="Gluten" class="img-thumbnail" style="width: 30px;">
-                                            Gluten
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="crustaceans" value="crustaceans">
-                                        <label class="form-check-label text-white" for="crustaceans">
-                                            <img src="img/allergen_symbols/allergen_symbol_crustacean.png" alt="Crustaceans" class="img-thumbnail" style="width: 30px;">
-                                            Crustaceans
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="dairy" value="dairy">
-                                        <label class="form-check-label text-white" for="dairy">
-                                            <img src="img/allergen_symbols/allergen_symbol_dairy.png" alt="Dairy" class="img-thumbnail" style="width: 30px;">
-                                            Dairy
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="eggs" value="eggs">
-                                        <label class="form-check-label text-white" for="eggs">
-                                            <img src="img/allergen_symbols/allergen_symbol_eggs.png" alt="Eggs" class="img-thumbnail" style="width: 30px;">
-                                            Eggs
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="fish" value="fish">
-                                        <label class="form-check-label text-white" for="fish">
-                                            <img src="img/allergen_symbols/allergen_symbol_fish.png" alt="Fish" class="img-thumbnail" style="width: 30px;">
-                                            Fish
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="mollusks" value="mollusks">
-                                        <label class="form-check-label text-white" for="mollusks">
-                                            <img src="img/allergen_symbols/allergen_symbol_mollusks.png" alt="Mollusks" class="img-thumbnail" style="width: 30px;">
-                                            Mollusks
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="mustard" value="mustard">
-                                        <label class="form-check-label text-white" for="mustard">
-                                            <img src="img/allergen_symbols/allergen_symbol_mustard.png" alt="Mustard" class="img-thumbnail" style="width: 30px;">
-                                            Mustard
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="nuts" value="nuts">
-                                        <label class="form-check-label text-white" for="nuts">
-                                            <img src="img/allergen_symbols/allergen_symbol_nuts.png" alt="Nuts" class="img-thumbnail" style="width: 30px;">
-                                            Nuts
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="peanuts" value="peanuts">
-                                        <label class="form-check-label text-white" for="peanuts">
-                                            <img src="img/allergen_symbols/allergen_symbol_peanut.png" alt="Peanuts" class="img-thumbnail" style="width: 30px;">
-                                            Peanuts
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="sesame" value="sesame">
-                                        <label class="form-check-label text-white" for="sesame">
-                                            <img src="img/allergen_symbols/allergen_symbol_sesame.png" alt="Sesame" class="img-thumbnail" style="width: 30px;">
-                                            Sesame
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="soy" value="soy">
-                                        <label class="form-check-label text-white" for="soy">
-                                            <img src="img/allergen_symbols/allergen_symbol_soybeans.png" alt="Soy" class="img-thumbnail" style="width: 30px;">
-                                            Soy
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="sulfites" value="sulfites">
-                                        <label class="form-check-label text-white" for="sulfites">
-                                            <img src="img/allergen_symbols/allergen_symbol_sulfites.png" alt="Sulfites" class="img-thumbnail" style="width: 30px;">
-                                            Sulfites
-                                        </label>
-                                    </div>
+                                    {{#allergens}}
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="{{name}}" value="{{name}}">
+                                            <label class="form-check-label text-white" for="{{name}}">
+                                                <img src="{{imageUrl}}" alt="Lupin" class="img-thumbnail" style="width: 30px;">
+                                                {{name}}
+                                            </label>
+                                        </div>
+                                    {{/allergens}}
                                 </div>
                             </div>
                             <div class="col-12">
@@ -193,7 +104,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="vegan" value="vegan">
                                     <label class="form-check-label text-white" for="vegan">
-                                        <img src="img/allergen_symbols/vegan_symbol.png" alt="Vegan" class="img-thumbnail" style="width: 30px;">
+                                        <img src="/img/allergen_symbols/vegan_symbol.png" alt="Vegan" class="img-thumbnail" style="width: 30px;">
                                         Vegan Option
                                     </label>
                                 </div>
@@ -205,7 +116,12 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary btn-sm m-2 p-2 " type="submit">Add to Cart</button>
+                                {{#dish}}
+                                    <button class="btn btn-primary btn-sm m-2 p-2 " type="submit">Save Changes</button>
+                                {{/dish}}
+                                {{^dish}}
+                                    <button class="btn btn-primary btn-sm m-2 p-2 " type="submit">Add to Menu</button>
+                                {{/dish}}
                             </div>
                         </div>
                     </form>
