@@ -1,7 +1,10 @@
 package es.codeurjc.backend.controller;
 
 import es.codeurjc.backend.model.Dish;
+import es.codeurjc.backend.enums.Allergens;
+
 import es.codeurjc.backend.service.DishService;
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -12,11 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -61,10 +67,37 @@ public class DishController {
         }
     }
 
+    @GetMapping("/menu/{id}/edit-dish")
+    public String showEditDishForm(Model model, @PathVariable long id) {
+        Optional<Dish> dish = dishService.findById(id);
+        if (dish.isPresent()) {
+            List<Allergens> allergens = dish.get().getAllergens();
+            model.addAttribute("allergens", Allergens.values());
 
-    /*@PostMapping("/menu/new-dish")
-    public String showNewDishForm(Model model,@RequestParam String dishName, @RequestParam String description, @RequestParam int price, @RequestParam String ingredients, @RequestParam boolean vegan, @RequestParam File image) {
-        Dish newDish = new Dish(dishName, description, price, ingredients, vegan, image);
-        return "admin-actions-confirm";
-    }*/
+            model.addAttribute("dish", dish.get());
+
+            return "dish-form";
+        } else {
+            return "menu";
+        }
+    }
+
+    @GetMapping("/menu/new-dish")
+    public String showNewDishForm(Model model) {
+        return "dish-form";
+    }
+
+    @PostMapping("menu/new-dish")
+    public String newBookProcess(Model model, Dish dish, MultipartFile imageField) throws IOException {
+
+        if (!imageField.isEmpty()) {
+            dish.setDishImagefile(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
+        }
+
+        dishService.save(dish);
+
+        model.addAttribute("dishId", dish.getId());
+
+        return "redirect:/menu/"+dish.getId()+"/dish-information";
+    }
 }

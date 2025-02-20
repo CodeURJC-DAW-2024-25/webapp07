@@ -39,7 +39,7 @@ public class SampleAllData {
                 Arrays.asList("Leche", "harina", "pan rallado", "jamón", "huevo"),
                 true,
                 "https://th.bing.com/th/id/OIP.hVsuwAU-55Z_Qk649qroVAHaE4?rs=1&pid=ImgDetMain",
-                List.of(Allergens.GLUTEN, Allergens.EGGS, Allergens.DAIRY)
+                List.of(Allergens.GLUTEN, Allergens.EGGS, Allergens.DAIRY, Allergens.ALTRAMUZ)
         );
         croquetasJamon.setDishImagefile(croquetasJamon.URLtoBlob(croquetasJamon.getDishImagePath()));
         dishRepository.save(croquetasJamon);
