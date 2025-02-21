@@ -37,4 +37,7 @@ public class DishService {
         return dishRepository.findById(id);
 
     }
+    public void deleteById(long id) {
+        dishRepository.deleteById(id);
+    }
 }

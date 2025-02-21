@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,21 @@ import java.util.Optional;
 public class DishController {
     @Autowired
     private DishService dishService;
+
+    @RequestMapping("/menu")
+    public class MenuController {
+
+
+    }
+    @PostMapping("/menu/{id}/remove-dish")
+    public String removeDish(Model model, @PathVariable long id, RedirectAttributes redirectAttributes) {
+        Optional<Dish> dish = dishService.findById(id);
+        if (dish.isPresent()) {
+            dishService.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "Plato eliminado con éxito");
+        }
+        return "redirect:/menu";
+    }
 
     @GetMapping("/menu/{id}/image")
     public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
@@ -99,6 +115,6 @@ public class DishController {
 
         model.addAttribute("dishId", dish.getId());
 
-        return "redirect:/menu/"+dish.getId()+"/dish-information";
+        return "redirect:/menu/" + dish.getId() + "/dish-information";
     }
 }

@@ -62,9 +62,12 @@
                             </div>
                             <div class="col-12">
                                 <div class="d-flex gap-2">
-                                    <a href="edit-dish.html" class="btn btn-primary">Edit Dish</a>
+                                    <a href="/menu/{{id}}/edit-dish" class="btn btn-primary">Edit Dish</a>
                                     <button class="btn btn-warning">Mark as Unavailable</button>
-                                    <button class="btn btn-danger">Delete Dish</button>
+                                    <form action="/menu/{{id}}/remove-dish" method="post">
+                                        <input type="hidden" name="id" value="{{id}}">
+                                        <button class="btn btn-danger btn-sm" type="submit">Delete Dish</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
