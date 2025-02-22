@@ -67,8 +67,20 @@ public class DishController {
     @GetMapping("/menu")
     public String showMenu(Model model){
 
-        model.addAttribute("dish", dishService.findAll());
+        List<Dish> dishes = dishService.findAll();
+        model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
         return "menu";
+    }
+
+    @GetMapping("/api/dishes")
+    @ResponseBody
+    public List<Dish> getDishes(@RequestParam("offset") int offset,
+                                @RequestParam("limit") int limit) {
+        List<Dish> allDishes = dishService.findAll();
+        int total = allDishes.size();
+        int fromIndex = Math.min(offset, total);
+        int toIndex = Math.min(offset + limit, total);
+        return allDishes.subList(fromIndex, toIndex);
     }
 
     @GetMapping("/menu/{id}")

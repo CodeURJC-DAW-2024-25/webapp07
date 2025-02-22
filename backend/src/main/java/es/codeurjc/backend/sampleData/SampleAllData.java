@@ -50,7 +50,7 @@ public class SampleAllData {
                 6,
                 Arrays.asList("Patatas", "huevos", "cebolla", "aceite de oliva", "sal"),
                 true,
-                "https://th.bing.com/th/id/OIP.hVsuwAU-55Z_Qk649qroVAHaE4?rs=1&pid=ImgDetMain",true,
+                "https://th.bing.com/th/id/OIP.m6-FnJ8zbiBuhoqBAsQZbwAAAA?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.EGGS),true
         );
         tortillaEspanola.setDishImagefile(tortillaEspanola.URLtoBlob(tortillaEspanola.getDishImagePath()));
@@ -62,7 +62,7 @@ public class SampleAllData {
                 15,
                 Arrays.asList("Arroz", "mariscos", "caldo de pescado", "azafrán", "pimientos"),
                 false,
-                "https://th.bing.com/th/id/OIP.hVsuwAU-55Z_Qk649qroVAHaE4?rs=1&pid=ImgDetMain",true,
+                "https://recetinas.com/wp-content/uploads/2022/06/paella-de-marisco.jpg",true,
                 List.of(Allergens.FISH),true
         );
         paellaMariscos.setDishImagefile(paellaMariscos.URLtoBlob(paellaMariscos.getDishImagePath()));
@@ -74,7 +74,7 @@ public class SampleAllData {
                 5,
                 Arrays.asList("Tomates", "pepino", "pimiento", "ajo", "aceite de oliva", "vinagre"),
                 true,
-                "https://th.bing.com/th/id/OIP.hVsuwAU-55Z_Qk649qroVAHaE4?rs=1&pid=ImgDetMain",true,
+                "https://animalgourmet.com/wp-content/uploads/2023/05/Gazpacho3-scaled.jpeg",true,
                 List.of(Allergens.NONE),true
         );
         gazpacho.setDishImagefile(gazpacho.URLtoBlob(gazpacho.getDishImagePath()));
@@ -86,7 +86,7 @@ public class SampleAllData {
                 12,
                 Arrays.asList("Pulpo", "patatas", "pimentón", "aceite de oliva", "sal"),
                 false,
-                "https://th.bing.com/th/id/OIP.hVsuwAU-55Z_Qk649qroVAHaE4?rs=1&pid=ImgDetMain",true,
+                "https://th.bing.com/th/id/OIP.DV3DDF4KJ4pofQ061akwwgHaE7?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.FISH),true
         );
         pulpoGallega.setDishImagefile(pulpoGallega.URLtoBlob(pulpoGallega.getDishImagePath()));
@@ -98,7 +98,7 @@ public class SampleAllData {
                 7,
                 Arrays.asList("Lechuga", "tomate", "cebolla", "aceitunas", "atún", "huevo"),
                 true,
-                "https://th.bing.com/th/id/OIP.5.jpg",true,
+                "https://th.bing.com/th/id/R.fb84e8df3891046bc50627f9147d7a73?rik=LMk7IexCc%2bZ3UQ&pid=ImgRaw&r=0",true,
                 List.of(Allergens.FISH, Allergens.EGGS),true
         );
         ensaladaMixta.setDishImagefile(ensaladaMixta.URLtoBlob(ensaladaMixta.getDishImagePath()));
@@ -110,7 +110,7 @@ public class SampleAllData {
                 10,
                 Arrays.asList("Calamares", "harina", "aceite de oliva", "limón", "sal"),
                 false,
-                "https://pixabay.com/es/images/search/calamares%20fritos/",true,
+                "https://content-cocina.lecturas.com/medio/2022/05/15/calamares_12ab6b0e_1200x1200.jpg",true,
                 List.of(Allergens.FISH, Allergens.GLUTEN),true
         );
         calamaresFritos.setDishImagefile(calamaresFritos.URLtoBlob(calamaresFritos.getDishImagePath()));
@@ -122,7 +122,7 @@ public class SampleAllData {
                 9,
                 Arrays.asList("Carne picada", "pan rallado", "huevo", "tomate", "cebolla", "ajo"),
                 false,
-                "https://unsplash.com/es/s/fotos/albondigas",true,
+                "https://th.bing.com/th/id/OIP.ybJY43zS0AwqOuguVREnQgHaE8?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.GLUTEN, Allergens.EGGS),true
         );
         albondigas.setDishImagefile(albondigas.URLtoBlob(albondigas.getDishImagePath()));
@@ -134,7 +134,7 @@ public class SampleAllData {
                 5,
                 Arrays.asList("Pimientos de Padrón", "aceite de oliva", "sal"),
                 true,
-                "https://www.shutterstock.com/search/pimientos-de-padr%C3%B3n",true,
+                "https://th.bing.com/th/id/R.d0cc3cbb524003be3398c5cca6cde047?rik=cSfcMlUmM2XdUg&pid=ImgRaw&r=0",true,
                 List.of(Allergens.NONE),true
         );
         pimientosPadron.setDishImagefile(pimientosPadron.URLtoBlob(pimientosPadron.getDishImagePath()));
@@ -146,7 +146,7 @@ public class SampleAllData {
                 8,
                 Arrays.asList("Chorizo", "sidra", "laurel"),
                 false,
-                "https://www.shutterstock.com/search/chorizo-la-sidra",true,
+                "https://th.bing.com/th/id/R.d3ed939910203c3ab7657b0290070db0?rik=YXRr8oRIRWSpAA&pid=ImgRaw&r=0",true,
                 List.of(Allergens.NONE),true
         );
         chorizoSidra.setDishImagefile(chorizoSidra.URLtoBlob(chorizoSidra.getDishImagePath()));
@@ -158,7 +158,7 @@ public class SampleAllData {
                 6,
                 Arrays.asList("Patatas", "tomate", "pimentón", "ajo", "aceite de oliva"),
                 true,
-                "https://www.shutterstock.com/search/patatas-bravas",true,
+                "https://th.bing.com/th/id/OIP.2c6Gy8jW9Vp8qzdqiln8WwHaE8?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.NONE),true
         );
         patatasBravas.setDishImagefile(patatasBravas.URLtoBlob(patatasBravas.getDishImagePath()));
@@ -170,7 +170,7 @@ public class SampleAllData {
                 14,
                 Arrays.asList("Fabes", "chorizo", "morcilla", "panceta", "laurel"),
                 false,
-                "https://www.gettyimages.com/photos/gazpacho",true,
+                "https://th.bing.com/th/id/OIP.zizD368b0P6bLEnUtGYY6gHaFj?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.NONE),true
         );
         fabadaAsturiana.setDishImagefile(fabadaAsturiana.URLtoBlob(fabadaAsturiana.getDishImagePath()));
@@ -182,7 +182,7 @@ public class SampleAllData {
                 13,
                 Arrays.asList("Bacalao", "pimientos", "tomate", "cebolla", "ajo"),
                 false,
-                "https://www.gettyimages.com/photos/gazpacho",true,
+                "https://th.bing.com/th/id/OIP.zajHKCzQXbM5TJcuYvTFeAHaFj?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.FISH),true
         );
         bacalaoVizcaina.setDishImagefile(bacalaoVizcaina.URLtoBlob(bacalaoVizcaina.getDishImagePath()));
@@ -191,7 +191,7 @@ public class SampleAllData {
         Dish empanadaGallega = new Dish(
                 "Empanada Gallega","Empanada rellena de atún y pimientos",7,
                 Arrays.asList("Harina", "atún", "pimientos", "cebolla", "tomate"),
-                true,"https://www.gettyimages.com/photos/gazpacho", true,
+                true,"https://th.bing.com/th/id/R.252c45b238d61ac2e6910011a51299b2?rik=IE7cr2Mv4SpotQ&riu=http%3a%2f%2fwww.galiciatips.com%2fnl%2ffiles%2f2019%2f12%2fempanada-tonijn.jpg&ehk=Mm7LyQByYU785%2bHZ1TZefcy8h5rxV3O1fO7S60r%2bn34%3d&risl=&pid=ImgRaw&r=0", true,
                 List.of(Allergens.FISH),true
         );
         empanadaGallega.setDishImagefile(empanadaGallega.URLtoBlob(empanadaGallega.getDishImagePath()));
