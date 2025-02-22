@@ -43,6 +43,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/css/**", "/img/**", "/js/**", "/lib/**", "/scss/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/register").permitAll()
+                        .requestMatchers("/profile").authenticated()
                         // PRIVATE PAGES
                         .requestMatchers("/newbook").hasAnyRole("USER")
                         .requestMatchers("/editbook").hasAnyRole("USER")

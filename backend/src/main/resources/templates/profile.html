@@ -9,38 +9,37 @@
 
     <!-- Navbar & Hero End -->
 
-    <!-- Profile Data Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row g-5 align-items-left">
-                <div class=" ms-auto align-items-center">
-                    <table>
-                        <tr>
-                            <h3 class="section-title ff-secondary text-start text-primary fw-normal">Name</h3>
-                            <p class="mb-4">Name Last Name</p>
-                        </tr>
-                        <tr>
-                            <h3 class="section-title ff-secondary text-start text-primary fw-normal">Email</h3>
-                            <p class="mb-4">name@gmail.com</p>
-                        </tr>
-                        <tr>
-                            <h3 class="section-title ff-secondary text-start text-primary fw-normal">Phone number</h3>
-                            <p class="mb-4">+34101010101</p>
-                        </tr>
-                        <tr>
-                            <h3 class="section-title ff-secondary text-start text-primary fw-normal">Adress</h3>
-                            <p class="mb-4">Jovellanos, 4 - 28014 Madrid, España</p>
-                        </tr>
-                    </table>
-                    <div class="justify-content-md-between breadcrumb">
-                        <a class="btn btn-primary py-3 px-5 mt-2" href="edit-profile.html">Edit</a>
-                        <a class="btn btn-primary py-3 px-5 mt-2" href="orders-list.html">My Orders</a>
-                        <a class="btn btn-primary py-3 px-5 mt-2" href="index.html">Home</a>
-                    </div>
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5 align-items-left">
+            <div class="ms-auto align-items-center">
+                <table>
+                    <tr>
+                        <h3 class="section-title ff-secondary text-start text-primary fw-normal">Name</h3>
+                        <p class="mb-4">${user.firstName} ${user.lastName}</p>
+                    </tr>
+                    <tr>
+                        <h3 class="section-title ff-secondary text-start text-primary fw-normal">Email</h3>
+                        <p class="mb-4">${user.email}</p>
+                    </tr>
+                    <tr>
+                        <h3 class="section-title ff-secondary text-start text-primary fw-normal">Phone number</h3>
+                        <p class="mb-4">${user.phoneNumber}</p>
+                    </tr>
+                    <tr>
+                        <h3 class="section-title ff-secondary text-start text-primary fw-normal">Address</h3>
+                        <p class="mb-4">${user.address}</p>
+                    </tr>
+                </table>
+                <div class="justify-content-md-between breadcrumb">
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="/edit-profile">Edit</a>
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="/orders-list">My Orders</a>
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="/">Home</a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Profile Data End -->
+</div>
+<!-- Profile Data End -->
 
 {{> fragments/footer}}

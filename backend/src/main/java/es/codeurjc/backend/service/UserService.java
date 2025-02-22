@@ -37,7 +37,9 @@ public class UserService {
             throw e;
         }
     }
-
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
