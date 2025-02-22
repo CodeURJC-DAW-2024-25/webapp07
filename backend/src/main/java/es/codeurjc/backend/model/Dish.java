@@ -38,11 +38,14 @@ public class Dish {
     @Lob
     @JsonIgnore
     private Blob dishImagefile;
+    private boolean image;
 
     private String dishImagePath;
 
+    private boolean isAvailable;
+
     public Dish(){}
-    public Dish(@NotNull String name, String description, int price, List<String> ingredients, boolean isVegan, String dishImagePath, List<Allergens> allergens) {
+    public Dish(@NotNull String name, String description, int price, List<String> ingredients, boolean isVegan, String dishImagePath, boolean image, List<Allergens> allergens, boolean isAvailable) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -50,6 +53,8 @@ public class Dish {
         this.allergens = allergens;
         this.isVegan = isVegan;
         this.dishImagePath = dishImagePath;
+        this.image = image;
+        this.isAvailable = isAvailable;
     }
     // Getters and Setters
     public Long getId() {
@@ -114,6 +119,14 @@ public class Dish {
 
     public void setDishImagePath(String imageURL) {
         this.dishImagePath = imageURL;
+    }
+
+    public boolean getImage() {
+        return image;
+    }
+
+    public void setImage(boolean image) {
+        this.image = image;
     }
 
     public Blob getDishImagefile() {

@@ -1,11 +1,11 @@
 {{> fragments/header}}
 
-        <div class="container-xxl bg-dark hero-header">
+<div class="container-xxl bg-dark hero-header" xmlns:th="http://www.w3.org/1999/xhtml">
             <div class="container text-center pt-5">
                 <h1 class="display-3 text-white animated slideInDown pt-4 pb-4">Add New Dish</h1>
             </div>
-        </div>
     </div>
+
 
     <!-- Navbar & Hero End -->
 
@@ -14,9 +14,9 @@
         <div class="row g-0 align-items-center">
             <div class="col-md-6">
                 <div class="dish-image text-center">
-                    {{#dish.image}}
+                    <!--{{#dish.image}}
                         <img src="/menu/{{id}}/image" alt="Dish Image" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
-                    {{/dish.image}}
+                    {{/dish.image}}-->
                     {{^dish.image}}
                         <img src="/img/logo.jpg" alt="Dish Image" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
                     {{/dish.image}}
@@ -28,81 +28,92 @@
                     {{^dish}}
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">Add New Dish</h5>
                     {{/dish}}
-                    {{#dish}}
+                    <!--{{#dish}}
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">Edit Dish</h5>
-                    {{/dish}}
-                    <form action="../../java/es/codeurjc/backend/controller/DishController.java">
+                    {{/dish}}-->
+                    <form action="/menu/new-dish" method="post" enctype="multipart/form-data">
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     {{^dish}}
-                                        <input type="text" class="form-control" id="dishName1" placeholder="Dish Name">
-                                        <label for="dishName">Dish Name</label>
+                                        <input type="text" class="form-control" name="name" id="name" placeholder="Dish Name">
+                                        <label for="name">Dish Name</label>
                                     {{/dish}}
-                                    {{#dish}}
-                                        <input type="text" class="form-control" id="dishName" value="{{dish.name}}" placeholder="Dish Name">
-                                        <label for="dishName">Dish Name</label>
-                                    {{/dish}}
+                                    <!--{{#dish}}
+                                        <input type="text" class="form-control" id="name1" value="{{dish.name}}" placeholder="Dish Name">
+                                        <label for="name1">Dish Name</label>
+                                    {{/dish}}-->
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     {{^dish}}
-                                        <textarea class="form-control" placeholder="Description" id="description1" style="height: 100px"></textarea>
-                                        <label for="dishName">Dish Description</label>
+                                        <textarea class="form-control" placeholder="Description" name="description" id="description" style="height: 100px"></textarea>
+                                        <label for="description">Dish Description</label>
                                     {{/dish}}
-                                    {{#dish}}
-                                        <textarea class="form-control" placeholder="Description" id="description" style="height: 100px">{{dish.description}}</textarea>
-                                        <label for="dishName">Dish Description</label>
-                                    {{/dish}}
+                                    <!--{{#dish}}
+                                        <textarea class="form-control" placeholder="Description" id="description1" style="height: 100px">{{dish.description}}</textarea>
+                                        <label for="description1">Dish Description</label>
+                                    {{/dish}}-->
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
                                     {{^dish}}
-                                        <input type="text" class="form-control" id="dishPrice1" placeholder="Dish Name">
-                                        <label for="dishName">Dish Price</label>
+                                        <input type="text" class="form-control" id="price" name="price" placeholder="Dish Price">
+                                        <label for="price">Dish Price</label>
                                     {{/dish}}
-                                    {{#dish}}
+                                    <!--{{#dish}}
                                         <input type="text" class="form-control" id="dishPrice" value="{{dish.price}}" placeholder="Dish Name">
                                         <label for="dishName">Dish Price</label>
-                                    {{/dish}}
+                                    {{/dish}}-->
 
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="ingredients" placeholder="Ingredients">
+                                    <input type="text" class="form-control" id="newIngredient" name="newIngredient" placeholder="Ingredients">
                                     {{^dish}}
-                                        <label for="dishName">Ingredients</label>
+                                        <label for="newIngredient">Ingredients</label>
                                     {{/dish}}
-                                    {{#dish}}
+                                    <!--{{#dish}}
                                         {{#dish.ingredients}}
                                             <ul class="text-white">
                                                 <li>{{.}}</li>
                                             </ul>
                                         {{/dish.ingredients}}
-                                    {{/dish}}
+                                    {{/dish}} -->
+                                    <button type="submit" name="action" value="add" class="btn btn-primary">Agregar Ingrediente</button>
+                                    {{#dish.ingredients}}
+                                    <ul class="text-white">
+                                        <li>{{.}}</li>
+                                    </ul>
+                                    {{/dish.ingredients}}
+
                                 </div>
                             </div>
                             <div class="col-12">
                                 <h5 class="text-white">Allergens:</h5>
-                                <div class="allergens col-3">
-                                    {{#allergens}}
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="{{name}}" value="{{name}}">
-                                            <label class="form-check-label text-white" for="{{name}}">
-                                                <img src="{{imageUrl}}" alt="Lupin" class="img-thumbnail" style="width: 30px;">
-                                                {{name}}
-                                            </label>
+                                <div class="allergens container">
+                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                                        {{#allergens}}
+                                        <div class="col">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="selectedAllergens" id="{{name}}" value="{{name}}">
+                                                <label class="form-check-label text-white" for="{{name}}">
+                                                    <img src="{{imageUrl}}" alt="{{name}}" class="img-thumbnail" style="width: 30px;">
+                                                    {{name}}
+                                                </label>
+                                            </div>
                                         </div>
-                                    {{/allergens}}
+                                        {{/allergens}}
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <h5 class="text-white">Dietary Preferences:</h5>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="vegan" value="vegan">
+                                    <input class="form-check-input" type="checkbox" name="vegan" id="vegan" value="true">
                                     <label class="form-check-label text-white" for="vegan">
                                         <img src="/img/allergen_symbols/vegan_symbol.png" alt="Vegan" class="img-thumbnail" style="width: 30px;">
                                         Vegan Option
@@ -111,16 +122,16 @@
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input type="file" class="form-control" id="image" accept="image/*">
-                                    <label for="image">Upload Dish Image</label>
+                                    <input type="file" class="form-control" id="imageField" name="imageField" accept=".jpg, .jpeg">
+                                    <label for="imageField">Upload Dish Image</label>
                                 </div>
                             </div>
                             <div class="col-12">
-                                {{#dish}}
-                                    <button class="btn btn-primary btn-sm m-2 p-2 " type="submit">Save Changes</button>
-                                {{/dish}}
+                                <!--{{#dish}}
+                                    <button class="btn btn-primary btn-sm m-2 p-2 "  name="action" value="save" type="submit">Save Changes</button>
+                                {{/dish}}-->
                                 {{^dish}}
-                                    <button class="btn btn-primary btn-sm m-2 p-2 " type="submit">Add to Menu</button>
+                                    <button type="submit" class="btn btn-primary btn-sm m-2 p-2 " name="action" value="save" >Add to Menu</button>
                                 {{/dish}}
                             </div>
                         </div>

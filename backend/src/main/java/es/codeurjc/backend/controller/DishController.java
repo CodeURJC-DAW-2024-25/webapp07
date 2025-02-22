@@ -104,17 +104,29 @@ public class DishController {
         return "dish-form";
     }
 
-    @PostMapping("menu/new-dish")
-    public String newBookProcess(Model model, Dish dish, MultipartFile imageField) throws IOException {
+    @PostMapping("/menu/new-dish")
+    public String newBookProcess(Model model, Dish dish, String newIngredient, String action, MultipartFile imageField, @RequestParam List<Allergens> selectedAllergens, @RequestParam boolean vegan) throws IOException {
+        //@RequestParam(value = "newIngredient", required = false) String newIngredient;
+        //@RequestParam("action") String action)
+        if ("add".equals(action) && newIngredient != null && !newIngredient.trim().isEmpty()) {
+            dish.getIngredients().add(newIngredient.trim());
+        }
+
+        dish.setAllergens(selectedAllergens);
+        dish.setVegan(vegan);
 
         if (!imageField.isEmpty()) {
             dish.setDishImagefile(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
+            dish.setImage(true);
         }
-
-        dishService.save(dish);
 
         model.addAttribute("dishId", dish.getId());
 
-        return "redirect:/menu/" + dish.getId() + "/dish-information";
+        if ("save".equals(action)){
+            dishService.save(dish);
+            return "redirect:/menu/" + dish.getId();
+        }
+
+        return "dish-form";
     }
 }
