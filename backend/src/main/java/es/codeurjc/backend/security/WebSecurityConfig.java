@@ -43,12 +43,10 @@ public class WebSecurityConfig {
                         .requestMatchers("/css/**", "/img/**", "/js/**", "/lib/**", "/scss/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/register").permitAll()
-                        .requestMatchers("/profile").authenticated()
+
                         // PRIVATE PAGES
-                        .requestMatchers("/newbook").hasAnyRole("USER")
-                        .requestMatchers("/editbook").hasAnyRole("USER")
-                        .requestMatchers("/editbook/*").hasAnyRole("USER")
-                        .requestMatchers("/removebook/*").hasAnyRole("ADMIN"))
+                        .requestMatchers("/profile", "/edit-profile").authenticated()
+                        )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .failureUrl("/login/error")
