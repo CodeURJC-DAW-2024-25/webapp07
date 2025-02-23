@@ -40,11 +40,11 @@ public class AuthController {
             return "login";
         }
 
-        if (password.length() < 8 || !password.matches(".*[A-Za-z].*") || !password.matches(".*\\d.*") || !password.matches(".*[@$!%*#?&].*")) {
-            System.out.println("⚠️ Error: Password does not meet requirements");
-            model.addAttribute("error", "Password must be at least 8 characters long and include a letter, a number, and a special character.");
-            return "login";
-        }
+//        if (password.length() < 8 || !password.matches(".*[A-Za-z].*") || !password.matches(".*\\d.*") || !password.matches(".*[@$!%*#?&].*")) {
+//            System.out.println("⚠️ Error: Password does not meet requirements");
+//            model.addAttribute("error", "Password must be at least 8 characters long and include a letter, a number, and a special character.");
+//            return "login";
+//        }
 
         if (userService.existsByUsername(username)) {
             System.out.println("⚠️ Error: Username '" + username + "' is already taken");
