@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 @Controller
@@ -24,32 +25,15 @@ public class AuthController {
         return "login";
     }
 
-//    @PostMapping("/login")
-//    public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
-//        System.out.println("🔑 Intentando iniciar sesión con usuario: " + username);
-//
-//        Optional<User> user = userService.authenticate(username, password);
-//        if (user.isPresent()) {
-//            System.out.println("✅ Inicio de sesión exitoso para: " + username);
-//            model.addAttribute("message", "Login successful!");
-//            return "redirect:/";
-//        } else {
-//            System.out.println("❌ Error: Credenciales inválidas para: " + username);
-//            model.addAttribute("error", "Invalid credentials");
-//            return "redirect:/";
-//        }
-//    }
-
     @PostMapping("/register")
-    public String registerUser(@RequestParam String name,
+    public String registerUser(@RequestParam String username,
                                @RequestParam String email,
-                               @RequestParam String username,
                                @RequestParam String password,
                                @RequestParam String passwordConfirm,
-                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateOfBirth,
+                               @RequestParam String dateOfBirth,
                                Model model) {
         System.out.println("✅ Se ha invocado el método registerUser");
-        System.out.println("📩 Datos recibidos en registro -> Name: " + name + ", Email: " + email + ", Username: " + username + ", Date of Birth: " + dateOfBirth);
+        System.out.println("📩 Datos recibidos en registro -> Username: " + username + ", Email: " + email + ", Date of Birth: " + dateOfBirth);
 
         if (!password.equals(passwordConfirm)) {
             System.out.println("⚠️ Error: Las contraseñas no coinciden");
@@ -71,7 +55,16 @@ public class AuthController {
 
         System.out.println("✅ Datos validados correctamente, creando usuario...");
 
-        User user = new User(username, password, name, "", dateOfBirth, "", "", email, "USER");
+        LocalDate dob;
+        try {
+            dob = LocalDate.parse(dateOfBirth);
+        } catch (DateTimeParseException e) {
+            System.out.println("❌ Error: Formato de fecha inválido");
+            model.addAttribute("error", "Invalid date format. Please use yyyy-MM-dd.");
+            return "login";
+        }
+
+        User user = new User(username, password, "", "", dob, "", "", email, "USER");
 
         try {
             userService.registerUser(user);
