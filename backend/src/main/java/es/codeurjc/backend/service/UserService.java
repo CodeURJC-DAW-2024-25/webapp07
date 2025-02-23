@@ -20,14 +20,6 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
 
-    public Optional<User> authenticate(String username, String password) {
-        Optional<User> userOpt = userRepository.findByUsername(username);
-        if (userOpt.isPresent() && passwordEncoder.matches(password, userOpt.get().getEncodedPassword())) {
-            return userOpt;
-        }
-        return Optional.empty();
-    }
-
     public void registerUser(User user) {
         try {
             user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
