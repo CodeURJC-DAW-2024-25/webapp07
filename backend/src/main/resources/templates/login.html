@@ -22,6 +22,13 @@
                                 <div class="center-wrap">
                                     <div class="section text-center">
                                         <h4 class="mb-4 pb-3">Log In</h4>
+                                        <!-- Error -->
+                                        {{#errorMessage}}
+                                        <div class="alert alert-danger">
+                                            {{errorMessage}}
+                                        </div>
+                                        {{/errorMessage}}
+
                                         <form action="/login" method="post">
                                         <div class="form-group">
                                             <input type="text" class="form-style" placeholder="username" name="username" required>
