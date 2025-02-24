@@ -12,7 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
-import java.util.List;
+
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
@@ -39,7 +39,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                     System.out.println("🔍 Roles del usuario: " + authorities);
 
                     isAdmin = authorities.stream()
-                            .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN")); // Cambia por "ROLE_ADMIN" si es necesario
+                            .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
 
                     System.out.println("⚡ Usuario es admin: " + isAdmin);
                 } else {
