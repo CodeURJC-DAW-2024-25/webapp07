@@ -114,6 +114,28 @@
             }
         }
     });
+    (function ($) {
+        "use strict";
+
+            function toggleForms() {
+            const pickupOption = document.getElementById('pickupOption');
+            const deliveryForm = document.getElementById('deliveryForm');
+            const pickupForm = document.getElementById('pickupForm');
+
+            if (pickupOption.checked) {
+                pickupForm.classList.remove('hidden');
+                deliveryForm.classList.add('hidden');
+            } else {
+                deliveryForm.classList.remove('hidden');
+                pickupForm.classList.add('hidden');
+            }
+        }
+
+        $(document).ready(function () {
+        toggleForms();
+        });
+
+    })(jQuery);
     
 })(jQuery);
 
