@@ -3,7 +3,6 @@ package es.codeurjc.backend.controller;
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.util.Optional;
+import java.time.format.DateTimeParseException;
 
 @Controller
 public class AuthController {
@@ -24,65 +23,64 @@ public class AuthController {
         return "login";
     }
 
-//    @PostMapping("/login")
-//    public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
-//        System.out.println("🔑 Intentando iniciar sesión con usuario: " + username);
-//
-//        Optional<User> user = userService.authenticate(username, password);
-//        if (user.isPresent()) {
-//            System.out.println("✅ Inicio de sesión exitoso para: " + username);
-//            model.addAttribute("message", "Login successful!");
-//            return "redirect:/";
-//        } else {
-//            System.out.println("❌ Error: Credenciales inválidas para: " + username);
-//            model.addAttribute("error", "Invalid credentials");
-//            return "redirect:/";
-//        }
-//    }
-
     @PostMapping("/register")
-    public String registerUser(@RequestParam String name,
+    public String registerUser(@RequestParam String username,
                                @RequestParam String email,
-                               @RequestParam String username,
                                @RequestParam String password,
                                @RequestParam String passwordConfirm,
-                               @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateOfBirth,
+                               @RequestParam String dateOfBirth,
                                Model model) {
-        System.out.println("✅ Se ha invocado el método registerUser");
-        System.out.println("📩 Datos recibidos en registro -> Name: " + name + ", Email: " + email + ", Username: " + username + ", Date of Birth: " + dateOfBirth);
+        System.out.println("✅ registerUser method invoked");
+        System.out.println("📩 Registration data -> Username: " + username + ", Email: " + email + ", Date of Birth: " + dateOfBirth);
 
+        // Password validation
         if (!password.equals(passwordConfirm)) {
-            System.out.println("⚠️ Error: Las contraseñas no coinciden");
-            model.addAttribute("error", "Passwords do not match");
+            System.out.println("⚠️ Error: Passwords do not match");
+            model.addAttribute("error", "Passwords do not match.");
             return "login";
         }
 
+//        if (password.length() < 8 || !password.matches(".*[A-Za-z].*") || !password.matches(".*\\d.*") || !password.matches(".*[@$!%*#?&].*")) {
+//            System.out.println("⚠️ Error: Password does not meet requirements");
+//            model.addAttribute("error", "Password must be at least 8 characters long and include a letter, a number, and a special character.");
+//            return "login";
+//        }
+
         if (userService.existsByUsername(username)) {
-            System.out.println("⚠️ Error: El username '" + username + "' ya está registrado");
+            System.out.println("⚠️ Error: Username '" + username + "' is already taken");
             model.addAttribute("error", "The username is already taken.");
             return "login";
         }
 
         if (userService.existsByEmail(email)) {
-            System.out.println("⚠️ Error: El email '" + email + "' ya está registrado");
+            System.out.println("⚠️ Error: Email '" + email + "' is already in use");
             model.addAttribute("error", "The email is already in use.");
             return "login";
         }
 
-        System.out.println("✅ Datos validados correctamente, creando usuario...");
+        System.out.println("✅ Data validated successfully, creating user...");
 
-        User user = new User(username, password, name, "", dateOfBirth, "", "", email, "USER");
+        LocalDate dob;
+        try {
+            dob = LocalDate.parse(dateOfBirth);
+        } catch (DateTimeParseException e) {
+            System.out.println("❌ Error: Invalid date format");
+            model.addAttribute("error", "Invalid date format. Please use yyyy-MM-dd.");
+            return "login";
+        }
+
+        User user = new User(username, password, "", "", dob, "", "", email, "USER");
 
         try {
             userService.registerUser(user);
-            System.out.println("✅ Usuario '" + username + "' registrado correctamente");
+            System.out.println("✅ User '" + username + "' registered successfully");
             model.addAttribute("message", "Registration successful!");
+            return "redirect:/";
         } catch (Exception e) {
-            System.out.println("❌ Error al registrar usuario: " + e.getMessage());
+            System.out.println("❌ Error registering user: " + e.getMessage());
             model.addAttribute("error", "An error occurred during registration.");
+            return "redirect:/login";
         }
 
-        return "redirect:/";
     }
-
 }
