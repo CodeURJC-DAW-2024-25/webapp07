@@ -16,19 +16,23 @@
                 <table>
                     <tr>
                         <h3 class="section-title ff-secondary text-start text-primary fw-normal">Name</h3>
-                        <p class="mb-4">${user.firstName} ${user.lastName}</p>
+                        <p class="mb-4">{{#user.firstName}}{{user.firstName}} {{/user.firstName}}{{#user.lastName}}{{user.lastName}}{{/user.lastName}}</p>
+                    </tr>
+                    <tr>
+                        <h3 class="section-title ff-secondary text-start text-primary fw-normal">Username</h3>
+                        <p class="mb-4">{{#user.username}}{{user.username}} {{/user.username}}</p>
                     </tr>
                     <tr>
                         <h3 class="section-title ff-secondary text-start text-primary fw-normal">Email</h3>
-                        <p class="mb-4">${user.email}</p>
+                        <p class="mb-4">{{#user.email}}{{user.email}}{{/user.email}}</p>
                     </tr>
                     <tr>
                         <h3 class="section-title ff-secondary text-start text-primary fw-normal">Phone number</h3>
-                        <p class="mb-4">${user.phoneNumber}</p>
+                        <p class="mb-4">{{#user.phoneNumber}}{{user.phoneNumber}}{{/user.phoneNumber}}</p>
                     </tr>
                     <tr>
                         <h3 class="section-title ff-secondary text-start text-primary fw-normal">Address</h3>
-                        <p class="mb-4">${user.address}</p>
+                        <p class="mb-4">{{#user.address}}{{user.address}}{{/user.address}}</p>
                     </tr>
                 </table>
                 <div class="justify-content-md-between breadcrumb">
