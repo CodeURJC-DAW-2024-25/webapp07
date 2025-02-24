@@ -11,7 +11,7 @@ public class MustacheController {
     public String showIndex(Model model) {
         return "index";
     }
-    @GetMapping("/auth/login/error")
+    @GetMapping("/login/error")
     public String showLoginError(Model model) {
         return "login-error";
     }

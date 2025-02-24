@@ -75,11 +75,12 @@ public class AuthController {
             userService.registerUser(user);
             System.out.println("✅ User '" + username + "' registered successfully");
             model.addAttribute("message", "Registration successful!");
+            return "redirect:/";
         } catch (Exception e) {
             System.out.println("❌ Error registering user: " + e.getMessage());
             model.addAttribute("error", "An error occurred during registration.");
+            return "redirect:/login";
         }
 
-        return "redirect:/";
     }
 }
