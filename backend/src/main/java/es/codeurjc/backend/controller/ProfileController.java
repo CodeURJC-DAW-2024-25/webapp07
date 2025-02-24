@@ -18,25 +18,22 @@ public class ProfileController {
     private UserService userService;
 
     @GetMapping("/profile")
-    public String showProfile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        String username = userDetails.getUsername();
+    public String showProfile(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(required = false, defaultValue = "false") boolean edit,
+            Model model) {
 
+        String username = userDetails.getUsername();
         User user = userService.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         model.addAttribute("user", user);
+        model.addAttribute("editMode", edit);
 
         return "profile";
     }
-    @GetMapping("/edit-profile")
-    public String showEditProfileForm(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        String username = userDetails.getUsername();
-        User user = userService.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        model.addAttribute("user", user);
-        return "edit-profile";
-    }
-    @PostMapping("/edit-profile")
+
+    @PostMapping("/profile")
     public String updateProfile(
             @AuthenticationPrincipal UserDetails userDetails,
             @RequestParam String firstName,
@@ -58,7 +55,8 @@ public class ProfileController {
 
         userService.updateUser(user);
 
-        model.addAttribute("message", "Profile updated successfully!");
         return "redirect:/profile";
     }
 }
+
+

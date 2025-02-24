@@ -48,8 +48,13 @@ public class WebSecurityConfig {
                         .requestMatchers("/register").permitAll()
 
                         // PRIVATE PAGES
-                        .requestMatchers("/profile", "/edit-profile").authenticated()
-                        )
+                        //.requestMatchers("/profile/**", "/profile").authenticated()
+
+                )
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
+                )
+
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .failureUrl("/login/error")
