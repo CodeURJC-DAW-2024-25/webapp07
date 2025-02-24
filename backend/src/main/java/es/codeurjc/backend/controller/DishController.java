@@ -23,8 +23,8 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class DishController {
@@ -95,13 +95,18 @@ public class DishController {
         }
     }
 
-    @GetMapping("/menu/{id}/edit-dish")
+    /*@GetMapping("/menu/{id}/edit-dish")
     public String showEditDishForm(Model model, @PathVariable long id) {
+
+
         Optional<Dish> dish = dishService.findById(id);
         if (dish.isPresent()) {
             List<Allergens> allergens = dish.get().getAllergens();
             model.addAttribute("allergens", Allergens.values());
 
+            String ingredientsFormatted = String.join(", ", dish.get().getIngredients());
+
+            model.addAttribute("ingredients", ingredientsFormatted);
             model.addAttribute("dish", dish.get());
 
             return "dish-form";
@@ -109,20 +114,55 @@ public class DishController {
             return "menu";
         }
     }
-
     @GetMapping("/menu/new-dish")
     public String showNewDishForm(Model model) {
         model.addAttribute("allergens", Allergens.values());
         return "dish-form";
+    }*/
+
+    @GetMapping({"/menu/new-dish", "/menu/{id}/edit-dish"})
+    public String showDishForm(@PathVariable(required = false) Long id, Model model) {
+        Dish dish;
+        String formAction;
+
+        if (id != null) { // Modo edición
+            Optional<Dish> dishOpt = dishService.findById(id);
+            if (dishOpt.isPresent()) {
+                dish = dishOpt.get();
+
+                List<Allergens> allergens = dish.getAllergens();
+                model.addAttribute("allergens",allergens);
+
+                formAction = "/menu/" + dish.getId() + "/edit-dish";
+
+                String ingredientsFormatted = String.join(", ", dish.getIngredients());
+                model.addAttribute("ingredients", ingredientsFormatted);
+
+                model.addAttribute("dish", dish);
+            } else {
+                // Si no se encuentra, redirige o maneja el error
+                return "redirect:/menu";
+            }
+        } else { // Modo creación
+            dish = new Dish();
+            model.addAttribute("allergens", Allergens.values());
+            formAction = "/menu/new-dish";
+        }
+
+        // Agregar al modelo
+        model.addAttribute("formAction", formAction);
+
+        return "dish-form";
     }
 
-    @PostMapping("/menu/new-dish")
-    public String newBookProcess(Model model, Dish dish, String newIngredient, String action, MultipartFile imageField, @RequestParam List<Allergens> selectedAllergens, @RequestParam boolean vegan) throws IOException {
-        //@RequestParam(value = "newIngredient", required = false) String newIngredient;
-        //@RequestParam("action") String action)
-        if ("add".equals(action) && newIngredient != null && !newIngredient.trim().isEmpty()) {
-            dish.getIngredients().add(newIngredient.trim());
-        }
+
+    @PostMapping({"/menu/new-dish", "/menu/{id}/edit-dish"})
+    public String editDishProcess(Model model, Dish dish, String ingredients, String action, MultipartFile imageField, @RequestParam List<Allergens> selectedAllergens, @RequestParam boolean vegan) throws IOException {
+        List<String> ingredientsList = Arrays.stream(ingredients.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+        dish.setIngredients(ingredientsList);
 
         dish.setAllergens(selectedAllergens);
         dish.setVegan(vegan);
@@ -138,7 +178,32 @@ public class DishController {
             dishService.save(dish);
             return "redirect:/menu/" + dish.getId();
         }
-
         return "dish-form";
     }
-}
+
+    /*@PostMapping("/menu/new-dish")
+    public String newDishProcess(Model model, Dish dish, String ingredients, String action, MultipartFile imageField, @RequestParam List<Allergens> selectedAllergens, @RequestParam boolean vegan) throws IOException {
+        List<String> ingredientsList = Arrays.stream(ingredients.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+        dish.setIngredients(ingredientsList);
+
+        dish.setAllergens(selectedAllergens);
+        dish.setVegan(vegan);
+
+        if (!imageField.isEmpty()) {
+            dish.setDishImagefile(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
+            dish.setImage(true);
+        }
+
+        model.addAttribute("dishId", dish.getId());
+
+        if ("save".equals(action)){
+            dishService.save(dish);
+            return "redirect:/menu/" + dish.getId();
+        }
+        return "dish-form";
+    }*/
+
+    }
