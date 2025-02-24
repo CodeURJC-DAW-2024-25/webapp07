@@ -1,13 +1,19 @@
 package es.codeurjc.backend.sampleData;
 
-//import es.codeurjc.backend.model.User;
-//import es.codeurjc.backend.repository.UserRepository;
+import es.codeurjc.backend.enums.Allergens;
+import es.codeurjc.backend.model.Dish;
+import es.codeurjc.backend.model.User;
+import es.codeurjc.backend.repository.DishRepository;
+import es.codeurjc.backend.repository.UserRepository;
+import es.codeurjc.backend.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class SampleAllData {
@@ -18,16 +24,18 @@ public class SampleAllData {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private DishRepository dishRepository;
+
 
     @PostConstruct
     public void init() throws SQLException {
 
 
         //userCreation
-        //userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER"));
-        //userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
+        userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER"));
+        userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
 
-        // dishCreation
         Dish croquetasJamon = new Dish(
                 "Croquetas de jamón",
                 "Croquetas caseras de nuestra cocinera. Preparadas con el ingrediente secreto de la casa",
@@ -193,11 +201,7 @@ public class SampleAllData {
         empanadaGallega.setDishImagefile(empanadaGallega.URLtoBlob(empanadaGallega.getDishImagePath()));
         dishRepository.save(empanadaGallega);
     }
-        userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER"));
-        userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
-        //userRepository.save(new User("username", passwordEncoder.encode("pass"), "name", "", 2025-03-05, "", "", email, "USER"));
 
 
-
-    }
 }
+
