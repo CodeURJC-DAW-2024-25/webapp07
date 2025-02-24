@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@localhost" uuid="7ba54de5-29be-4634-abdf-47ba30c5a846">
+    <data-source source="LOCAL" name="volteretaCroqueta" uuid="e87a8d67-a2d9-4366-9f39-83fd84b6ca0b">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
@@ -13,7 +13,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="volteretaCroqueta@localhost" uuid="b5e4f0c0-aa65-4722-9d47-59af67a552ab">
+    <data-source source="LOCAL" name="volteretaCroqueta@localhost" uuid="91289475-9780-496b-aba6-f65225cc0e52">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
