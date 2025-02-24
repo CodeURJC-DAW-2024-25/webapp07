@@ -1,5 +1,7 @@
 package es.codeurjc.backend.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,10 @@ public class MustacheController {
 
     @GetMapping("/")
     public String showIndex(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAuthenticated = auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal());
+
+        model.addAttribute("isAuthenticated", isAuthenticated);
         return "index";
     }
     @GetMapping("/login/error")

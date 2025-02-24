@@ -68,8 +68,9 @@
           </div>
         </div>
         <a href="booking" class="btn btn-primary py-2 px-4 me-3">Book A Table</a>
-        <a href="login" class="me-2"><i class="fa fa-user me-2"></i>Account</a>
+        <a href="profile" class="me-2"><i class="fa fa-user me-2"></i>Account</a>
         <!-- <a href=""><i class="fa fa-shopping-cart me-2"></i>Cart</a> -->
+        {{#isAuthenticated}}
         <!-- Cart button -->
         <div class="dropdown">
           <a href="#" class="btn btn-link" id="cartButton" data-bs-toggle="dropdown" aria-expanded="false" style="box-shadow:none; text-transform:none;">
@@ -106,6 +107,7 @@
           </div>
         </div>
         <!-- End cart button -->
+        {{/isAuthenticated}}
       </div>
     </nav>
   </div>
