@@ -91,41 +91,18 @@ public class DishController {
     }
 
     @GetMapping("/menu/{id}")
-    public String showDishInfo(Model model, @PathVariable long id){
+    public String showDishInfo(Model model, @PathVariable long id) throws SQLException {
 
         Optional<Dish> dish = dishService.findById(id);
         if (dish.isPresent()) {
+            dish.get().setDishImagePath(dish.get().blobToString(dish.get().getDishImagefile(), dish.get()));
+
             model.addAttribute("dish", dish.get());
             return "dish-information";
         } else {
             return "menu";
         }
     }
-
-    /*@GetMapping("/menu/{id}/edit-dish")
-    public String showEditDishForm(Model model, @PathVariable long id) {
-
-
-        Optional<Dish> dish = dishService.findById(id);
-        if (dish.isPresent()) {
-            List<Allergens> allergens = dish.get().getAllergens();
-            model.addAttribute("allergens", Allergens.values());
-
-            String ingredientsFormatted = String.join(", ", dish.get().getIngredients());
-
-            model.addAttribute("ingredients", ingredientsFormatted);
-            model.addAttribute("dish", dish.get());
-
-            return "dish-form";
-        } else {
-            return "menu";
-        }
-    }
-    @GetMapping("/menu/new-dish")
-    public String showNewDishForm(Model model) {
-        model.addAttribute("allergens", Allergens.values());
-        return "dish-form";
-    }*/
 
     @GetMapping({"/menu/new-dish", "/menu/{id}/edit-dish"})
     public String showDishForm(@PathVariable(required = false) Long id, Model model) {

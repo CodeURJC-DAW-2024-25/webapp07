@@ -9,8 +9,16 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
                 if (data.length > 0) {
-                    var newDishesHtml = '';
+                    let newDishesHtml = '';
                     data.forEach(function(dish) {
+                        let cartButton = '';
+                        if (isAuthenticated === "true") {
+                            cartButton = `
+                                <button class="btn btn-primary btn-sm m-2 p-2">
+                                    <i class="fa fa-shopping-cart"></i> Add to Cart
+                                </button>
+                            `;
+                        }
                         newDishesHtml += `
                             <div class="col-lg-12">
                     <div class="d-flex align-items-center">
@@ -29,9 +37,7 @@ $(document).ready(function() {
                                 </div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <button class="btn btn-primary btn-sm m-2 p-2">
-                                    <i class="fa fa-shopping-cart"></i> Add to Cart
-                                </button>
+                                ${cartButton}
                             </div>
                         </div>
                     </div>

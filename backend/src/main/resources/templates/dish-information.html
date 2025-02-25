@@ -15,7 +15,7 @@
             <div class="row g-0">
                 <div class="col-md-6">
                     <div class="dish-image">
-                        <img src="/menu/{{id}}/image" alt="Dish Image" class="img-fluid">
+                        <img src="data:image/png;base64,{{dish.dishImagePath}}" alt="{{dish.name}}" class="img-fluid">
                     </div>
                 </div>
                 <div class="col-md-6 bg-dark d-flex align-items-center">
@@ -62,11 +62,14 @@
                             </div>
                             <div class="col-12">
                                 <div class="d-flex gap-2">
-                                    <a href="/menu/{{id}}/edit-dish" class="btn btn-primary">Edit Dish</a>
-                                    <button class="btn btn-warning">Mark as Unavailable</button>
-                                    <form action="/menu/{{id}}/remove-dish" method="post">
+                                    <a href="/menu" class="btn btn-primary">Back menu</a>
+                                    {{#isAdmin}}
+                                        <a href="/menu/{{id}}/edit-dish" class="btn btn-primary">Edit Dish</a>
+                                        <button class="btn btn-warning">Mark as Unavailable</button>
+                                        <form action="/menu/{{id}}/remove-dish" method="post">
                                         <input type="hidden" name="id" value="{{id}}">
                                         <button class="btn btn-danger btn-sm" type="submit">Delete Dish</button>
+                                    {{/isAdmin}}
                                     </form>
                                 </div>
                             </div>
