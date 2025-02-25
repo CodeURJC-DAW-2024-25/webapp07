@@ -15,6 +15,11 @@ public class Order {
     @ManyToMany
     private List<Dish> dishes;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id") // foreign key in users table.
+    private User user;
+
+
     private LocalDateTime orderDate;
     private String address;
     private String status; // Could be "Pending" / "Accepted" / "Cancelled";
@@ -50,6 +55,14 @@ public class Order {
 
     public LocalDateTime getOrderDate(){
         return orderDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getAddress(){
