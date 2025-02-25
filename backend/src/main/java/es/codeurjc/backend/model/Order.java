@@ -35,7 +35,7 @@ public class Order {
         this.orderDate = LocalDateTime.now();
         this.address = address;
         this.status = status;
-        this.totalPrice = dishes.stream().mapToDouble(Dish::getPrice).sum();
+        this.totalPrice = dishes.stream().mapToDouble(Dish::getPrice).sum(); // calculate total price sum each dish price
     }
 
 
