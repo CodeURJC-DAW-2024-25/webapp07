@@ -34,44 +34,11 @@ public class DishController {
     @Autowired
     private DishService dishService;
 
-    @RequestMapping("/menu")
-    public class MenuController {
-
-
-    }
-    @PostMapping("/menu/{id}/remove-dish")
-    public String removeDish(Model model, @PathVariable long id, RedirectAttributes redirectAttributes) {
-        Optional<Dish> dish = dishService.findById(id);
-        if (dish.isPresent()) {
-            dishService.deleteById(id);
-            redirectAttributes.addFlashAttribute("message", "Plato eliminado con éxito");
-        }
-        return "redirect:/menu";
-    }
-
-    @GetMapping("/menu/{id}/image")
-    public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
-
-        Optional<Dish> op = dishService.findById(id);
-
-        if (op.isPresent() && op.get().getDishImagefile() != null) {
-
-            Blob image = op.get().getDishImagefile();
-            Resource file = new InputStreamResource(image.getBinaryStream());
-
-            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
-                    .contentLength(image.length()).body(file);
-
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @GetMapping("/menu")
     public String showMenu(Model model) throws SQLException {
 
         List<Dish> dishes = dishService.findAll();
-        for(int i=0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
         }
         model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
@@ -81,7 +48,7 @@ public class DishController {
     @GetMapping("/api/menu")
     @ResponseBody
     public List<Dish> getDishes(@RequestParam(defaultValue = "0") int page,
-                                   @RequestParam(defaultValue = "10") int pageSize) throws SQLException {
+                                @RequestParam(defaultValue = "10") int pageSize) throws SQLException {
         Page<Dish> menuPage = dishService.findAllDishes(PageRequest.of(page, pageSize));
         for (Dish currentDish : menuPage.getContent()) {
             currentDish.setDishImagePath(currentDish.blobToString(currentDish.getDishImagefile(), currentDish));
@@ -103,6 +70,34 @@ public class DishController {
         }
     }
 
+    @GetMapping("/menu/{id}/image")
+    public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
+
+        Optional<Dish> op = dishService.findById(id);
+
+        if (op.isPresent() && op.get().getDishImagefile() != null) {
+
+            Blob image = op.get().getDishImagefile();
+            Resource file = new InputStreamResource(image.getBinaryStream());
+
+            return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                    .contentLength(image.length()).body(file);
+
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/menu/{id}/remove-dish")
+    public String removeDish(Model model, @PathVariable long id, RedirectAttributes redirectAttributes) {
+        Optional<Dish> dish = dishService.findById(id);
+        if (dish.isPresent()) {
+            dishService.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "Plato eliminado con éxito");
+        }
+        return "redirect:/menu";
+    }
+
     @GetMapping({"/menu/new-dish", "/menu/{id}/edit-dish"})
     public String showDishForm(@PathVariable(required = false) Long id, Model model) throws SQLException {
         Dish dish;
@@ -116,7 +111,7 @@ public class DishController {
                 dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
 
                 List<Allergens> allergens = dish.getAllergens();
-                model.addAttribute("allergens",allergens);
+                model.addAttribute("allergens", allergens);
 
                 formAction = "/menu/" + dish.getId() + "/edit-dish";
 
@@ -159,36 +154,10 @@ public class DishController {
 
         model.addAttribute("dishId", dish.getId());
 
-        if ("save".equals(action)){
+        if ("save".equals(action)) {
             dishService.save(dish);
             return "redirect:/menu/" + dish.getId();
         }
         return "dish-form";
     }
-
-    /*@PostMapping("/menu/new-dish")
-    public String newDishProcess(Model model, Dish dish, String ingredients, String action, MultipartFile imageField, @RequestParam List<Allergens> selectedAllergens, @RequestParam boolean vegan) throws IOException {
-        List<String> ingredientsList = Arrays.stream(ingredients.split(","))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .collect(Collectors.toList());
-        dish.setIngredients(ingredientsList);
-
-        dish.setAllergens(selectedAllergens);
-        dish.setVegan(vegan);
-
-        if (!imageField.isEmpty()) {
-            dish.setDishImagefile(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
-            dish.setImage(true);
-        }
-
-        model.addAttribute("dishId", dish.getId());
-
-        if ("save".equals(action)){
-            dishService.save(dish);
-            return "redirect:/menu/" + dish.getId();
-        }
-        return "dish-form";
-    }*/
-
-    }
+}
