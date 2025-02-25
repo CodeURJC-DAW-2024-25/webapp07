@@ -49,7 +49,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         // PUBLIC PAGES
                         .requestMatchers("/css/**", "/img/**", "/images/**", "/js/**", "/lib/**", "/scss/**").permitAll()
-                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/", "aboutUs", "faqs").permitAll()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/menu").permitAll()
                         .requestMatchers("/menu/{id}").permitAll()
