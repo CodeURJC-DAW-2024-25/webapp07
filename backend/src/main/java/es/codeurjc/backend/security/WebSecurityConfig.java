@@ -54,7 +54,7 @@ public class WebSecurityConfig {
 
                         // PRIVATE PAGES
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
-
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                 )
 
                 .formLogin(formLogin -> formLogin
