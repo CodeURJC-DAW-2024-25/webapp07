@@ -6,11 +6,10 @@ import java.time.LocalDateTime;
 
 @Entity
 public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO);
-    @Id
-    private Long id;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
 
     @ManyToMany
