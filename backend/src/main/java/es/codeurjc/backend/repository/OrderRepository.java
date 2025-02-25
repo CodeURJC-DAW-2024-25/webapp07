@@ -1,0 +1,17 @@
+package es.codeurjc.backend.repository;
+
+import es.codeurjc.backend.model.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface OrderRepository extends JpaRepository<Order, Long> {
+
+    // get orders from a specific user
+    List<Order> findByUserId(Long userId);
+
+    // get orders according to the status ("Pending", "Accepted", "Cancelled")
+    List<Order> findByStatus(String status);
+}

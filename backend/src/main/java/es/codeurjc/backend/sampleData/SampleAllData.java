@@ -2,9 +2,11 @@ package es.codeurjc.backend.sampleData;
 
 import es.codeurjc.backend.enums.Allergens;
 import es.codeurjc.backend.model.Dish;
+import es.codeurjc.backend.model.Order;
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.repository.DishRepository;
 import es.codeurjc.backend.repository.UserRepository;
+import es.codeurjc.backend.repository.OrderRepository;
 import es.codeurjc.backend.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ import java.util.List;
 
 @Service
 public class SampleAllData {
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -36,7 +41,7 @@ public class SampleAllData {
         userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER"));
         userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
 
-        Dish croquetasJamon = new Dish(
+         Dish croquetasJamon = new Dish(
                 "Croquetas de jamón",
                 "Croquetas caseras de nuestra cocinera. Preparadas con el ingrediente secreto de la casa",
                 8,
@@ -201,6 +206,25 @@ public class SampleAllData {
         empanadaGallega.setDishImagefile(empanadaGallega.URLtoBlob(empanadaGallega.getDishImagePath()));
         dishRepository.save(empanadaGallega);
     }
+
+
+    //order creation
+    Order order1 = new Order(Arrays.asList(croquetasJamon, tortillaEspanola), user1, "Calle A, 14", "Pending");
+    Order order2 = new Order(List.of(paellaMariscos, gazpacho), user2, "Calle B, 22", "Accepted");
+    Order order3 = new Order(List.of(pulpoGallega, croquetasJamon), user3, "Calle C, 35", "Pending");
+    Order order4 = new Order(List.of(tortillaEspanola, gazpacho), user4, "Calle D, 48", "Cancelled");
+    Order order5 = new Order(List.of(paellaMariscos, pulpoGallega), user5, "Calle E, 50", "Accepted");
+
+    // save orders in database.
+        orderRepository.save(order1);
+        orderRepository.save(order2);
+        orderRepository.save(order3);
+        orderRepository.save(order4);
+        orderRepository.save(order5);
+
+
+
+
 
 
 }
