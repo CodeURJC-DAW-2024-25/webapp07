@@ -1,46 +1,95 @@
 {{> fragments/header}}
+{{> fragments/hero}}
 
-        <div class="container-xxl bg-dark hero-header">
-            <div class="container text-center pt-5">
-                <h1 class="display-3 text-white animated slideInDown pt-4 pb-4">Profile</h1>
-            </div>
-        </div>
-    </div>
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5 align-items-left">
+            <div class="ms-auto align-items-center">
 
-    <!-- Navbar & Hero End -->
+                <!-- View mode -->
+                {{^editMode}}
+                <table>
+                    <tr>
+                        <h3 class="section-title ff-secondary text-start text-primary fw-normal">Username</h3>
+                        <p class="mb-4">{{user.username}}</p>
+                    <tr>
+                        <h3 class="section-title ff-secondary text-start text-primary fw-normal">Name</h3>
+                        <p class="mb-4">
+                            {{#user.firstName}}{{user.firstName}}{{/user.firstName}}
+                            {{#user.lastName}}{{user.lastName}}{{/user.lastName}}
+                            {{^user.firstName}}{{^user.lastName}}No name available{{/user.lastName}}{{/user.firstName}}
+                        </p>
+                    </tr>
 
-    <!-- Profile Data Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="row g-5 align-items-left">
-                <div class=" ms-auto align-items-center">
-                    <table>
-                        <tr>
-                            <h3 class="section-title ff-secondary text-start text-primary fw-normal">Name</h3>
-                            <p class="mb-4">Name Last Name</p>
-                        </tr>
-                        <tr>
-                            <h3 class="section-title ff-secondary text-start text-primary fw-normal">Email</h3>
-                            <p class="mb-4">name@gmail.com</p>
-                        </tr>
-                        <tr>
-                            <h3 class="section-title ff-secondary text-start text-primary fw-normal">Phone number</h3>
-                            <p class="mb-4">+34101010101</p>
-                        </tr>
-                        <tr>
-                            <h3 class="section-title ff-secondary text-start text-primary fw-normal">Adress</h3>
-                            <p class="mb-4">Jovellanos, 4 - 28014 Madrid, España</p>
-                        </tr>
-                    </table>
-                    <div class="justify-content-md-between breadcrumb">
-                        <a class="btn btn-primary py-3 px-5 mt-2" href="edit-profile.html">Edit</a>
-                        <a class="btn btn-primary py-3 px-5 mt-2" href="orders-list.html">My Orders</a>
-                        <a class="btn btn-primary py-3 px-5 mt-2" href="index.html">Home</a>
-                    </div>
+                    <tr>
+                        <h3 class="section-title ff-secondary text-start text-primary fw-normal">Email</h3>
+                        <p class="mb-4">
+                            {{#user.email}}{{user.email}}{{/user.email}}
+                            {{^user.email}}No email provided{{/user.email}}
+                        </p>
+                    </tr>
+
+                    <tr>
+                        <h3 class="section-title ff-secondary text-start text-primary fw-normal">Phone number</h3>
+                        <p class="mb-4">
+                            {{#user.phoneNumber}}{{user.phoneNumber}}{{/user.phoneNumber}}
+                            {{^user.phoneNumber}}No phone number available{{/user.phoneNumber}}
+                        </p>
+                    </tr>
+
+                    <tr>
+                        <h3 class="section-title ff-secondary text-start text-primary fw-normal">Address</h3>
+                        <p class="mb-4">
+                            {{#user.address}}{{user.address}}{{/user.address}}
+                            {{^user.address}}No address provided{{/user.address}}
+                        </p>
+                    </tr>
+                </table>
+
+                <div class="breadcrumb">
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="/profile?edit=true">Edit</a>
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="/orders-list">My Orders</a>
+                    <a class="btn btn-danger py-3 px-5 mt-2" href="/logout">Logout</a>
                 </div>
+                {{/editMode}}
+
+                <!-- Edit mode -->
+                {{#editMode}}
+                <form action="/profile" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-control" value="{{user.username}}" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-control" name="firstName" value="{{#user.firstName}}{{user.firstName}}{{/user.firstName}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-control" name="lastName" value="{{#user.lastName}}{{user.lastName}}{{/user.lastName}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="email" value="{{#user.email}}{{user.email}}{{/user.email}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" name="phoneNumber" value="{{#user.phoneNumber}}{{user.phoneNumber}}{{/user.phoneNumber}}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Address</label>
+                        <input type="text" class="form-control" name="address" value="{{#user.address}}{{user.address}}{{/user.address}}">
+                    </div>
+                    <button type="submit" class="btn btn-primary py-3 px-5 mt-2">Save</button>
+                    <a href="/profile" class="btn btn-secondary py-3 px-5 mt-2">Cancel</a>
+                </form>
+                {{/editMode}}
+
+
             </div>
         </div>
     </div>
-    <!-- Profile Data End -->
+</div>
 
 {{> fragments/footer}}

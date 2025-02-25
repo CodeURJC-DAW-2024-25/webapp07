@@ -4,10 +4,13 @@ import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.enums.Allergens;
 
 import es.codeurjc.backend.service.DishService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,27 +26,48 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class DishController {
     @Autowired
     private DishService dishService;
 
-    @RequestMapping("/menu")
-    public class MenuController {
+    @GetMapping("/menu")
+    public String showMenu(Model model) throws SQLException {
 
-
+        List<Dish> dishes = dishService.findAll();
+        for (int i = 0; i < 10; i++) {
+            dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
+        }
+        model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
+        return "menu";
     }
-    @PostMapping("/menu/{id}/remove-dish")
-    public String removeDish(Model model, @PathVariable long id, RedirectAttributes redirectAttributes) {
+
+    @GetMapping("/api/menu")
+    @ResponseBody
+    public List<Dish> getDishes(@RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "10") int pageSize) throws SQLException {
+        Page<Dish> menuPage = dishService.findAllDishes(PageRequest.of(page, pageSize));
+        for (Dish currentDish : menuPage.getContent()) {
+            currentDish.setDishImagePath(currentDish.blobToString(currentDish.getDishImagefile(), currentDish));
+        }
+
+        return menuPage.getContent();
+    }
+
+    @GetMapping("/menu/{id}")
+    public String showDishInfo(Model model, @PathVariable long id) throws SQLException {
+
         Optional<Dish> dish = dishService.findById(id);
         if (dish.isPresent()) {
-            dishService.deleteById(id);
-            redirectAttributes.addFlashAttribute("message", "Plato eliminado con éxito");
+            dish.get().setDishImagePath(dish.get().blobToString(dish.get().getDishImagefile(), dish.get()));
+            model.addAttribute("dish", dish.get());
+            return "dish-information";
+        } else {
+            return "menu";
         }
-        return "redirect:/menu";
     }
 
     @GetMapping("/menu/{id}/image")
@@ -64,65 +88,61 @@ public class DishController {
         }
     }
 
-    @GetMapping("/menu")
-    public String showMenu(Model model){
-
-        List<Dish> dishes = dishService.findAll();
-        model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
-        return "menu";
-    }
-
-    @GetMapping("/api/dishes")
-    @ResponseBody
-    public List<Dish> getDishes(@RequestParam("offset") int offset,
-                                @RequestParam("limit") int limit) {
-        List<Dish> allDishes = dishService.findAll();
-        int total = allDishes.size();
-        int fromIndex = Math.min(offset, total);
-        int toIndex = Math.min(offset + limit, total);
-        return allDishes.subList(fromIndex, toIndex);
-    }
-
-    @GetMapping("/menu/{id}")
-    public String showDishInfo(Model model, @PathVariable long id){
-
+    @PostMapping("/menu/{id}/remove-dish")
+    public String removeDish(Model model, @PathVariable long id, RedirectAttributes redirectAttributes) {
         Optional<Dish> dish = dishService.findById(id);
         if (dish.isPresent()) {
-            model.addAttribute("dish", dish.get());
-            return "dish-information";
-        } else {
-            return "menu";
+            dishService.deleteById(id);
+            redirectAttributes.addFlashAttribute("message", "Plato eliminado con éxito");
         }
+        return "redirect:/menu";
     }
 
-    @GetMapping("/menu/{id}/edit-dish")
-    public String showEditDishForm(Model model, @PathVariable long id) {
-        Optional<Dish> dish = dishService.findById(id);
-        if (dish.isPresent()) {
-            List<Allergens> allergens = dish.get().getAllergens();
+    @GetMapping({"/menu/new-dish", "/menu/{id}/edit-dish"})
+    public String showDishForm(@PathVariable(required = false) Long id, Model model) throws SQLException {
+        Dish dish;
+        String formAction;
+
+        if (id != null) { // Modo edición
+            Optional<Dish> dishOpt = dishService.findById(id);
+            if (dishOpt.isPresent()) {
+
+                dish = dishOpt.get();
+                dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+
+                List<Allergens> allergens = dish.getAllergens();
+                model.addAttribute("allergens", allergens);
+
+                formAction = "/menu/" + dish.getId() + "/edit-dish";
+
+                String ingredientsFormatted = String.join(", ", dish.getIngredients());
+                model.addAttribute("ingredients", ingredientsFormatted);
+
+                model.addAttribute("dish", dish);
+            } else {
+                // Si no se encuentra, redirige o maneja el error
+                return "redirect:/menu";
+            }
+        } else { // Modo creación
+            dish = new Dish();
             model.addAttribute("allergens", Allergens.values());
-
-            model.addAttribute("dish", dish.get());
-
-            return "dish-form";
-        } else {
-            return "menu";
+            formAction = "/menu/new-dish";
         }
-    }
 
-    @GetMapping("/menu/new-dish")
-    public String showNewDishForm(Model model) {
-        model.addAttribute("allergens", Allergens.values());
+        // Agregar al modelo
+        model.addAttribute("formAction", formAction);
+
         return "dish-form";
     }
 
-    @PostMapping("/menu/new-dish")
-    public String newBookProcess(Model model, Dish dish, String newIngredient, String action, MultipartFile imageField, @RequestParam List<Allergens> selectedAllergens, @RequestParam boolean vegan) throws IOException {
-        //@RequestParam(value = "newIngredient", required = false) String newIngredient;
-        //@RequestParam("action") String action)
-        if ("add".equals(action) && newIngredient != null && !newIngredient.trim().isEmpty()) {
-            dish.getIngredients().add(newIngredient.trim());
-        }
+
+    @PostMapping({"/menu/new-dish", "/menu/{id}/edit-dish"})
+    public String editDishProcess(Model model, Dish dish, String ingredients, String action, MultipartFile imageField, @RequestParam List<Allergens> selectedAllergens, @RequestParam boolean vegan) throws IOException {
+        List<String> ingredientsList = Arrays.stream(ingredients.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+        dish.setIngredients(ingredientsList);
 
         dish.setAllergens(selectedAllergens);
         dish.setVegan(vegan);
@@ -134,11 +154,10 @@ public class DishController {
 
         model.addAttribute("dishId", dish.getId());
 
-        if ("save".equals(action)){
+        if ("save".equals(action)) {
             dishService.save(dish);
             return "redirect:/menu/" + dish.getId();
         }
-
         return "dish-form";
     }
 }

@@ -1,9 +1,9 @@
 {{> fragments/header-admin}}
 <body>
     <div>
-        <a href="index.html" class="back-link"><i class='input-icon uil uil-arrow-left fs-1 mt-2'></i></a>
+        <a href="/" class="back-link"><i class='input-icon uil uil-arrow-left fs-1 mt-2'></i></a>
         <div style="display: flex; justify-content: center;">
-            <a href="index.html"><img class="show-logo" src="./img/logo.jpg" alt="#"/></a>   
+            <a href="/"><img class="show-logo" src="./img/logo.jpg" alt="#"/></a>
         </div>
     </div>
 <div class="section">
@@ -17,10 +17,12 @@
                     <label for="reg-log"></label>
                     <div class="card-3d-wrap mx-auto">
                         <div class="card-3d-wrapper">
+                            <!-- Login Form -->
                             <div class="card-front">
                                 <div class="center-wrap">
                                     <div class="section text-center">
                                         <h4 class="mb-4 pb-3">Log In</h4>
+                                        <form action="/login" method="post">
                                         <div class="form-group">
                                             <input type="text" class="form-style" placeholder="username" name="username" required>
                                             <i class="input-icon uil uil-user"></i>
@@ -29,39 +31,48 @@
                                             <input type="password" class="form-style" placeholder="Password" name="password" required>
                                             <i class="input-icon uil uil-lock-alt"></i>
                                         </div>
-                                        <a href="index.html" class="btn mt-4">Login</a>
+                                        <button class="btn mt-4" type="submit">Login</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+                            <!-- Register Form -->
                             <div class="card-back">
                                 <div class="center-wrap">
                                     <div class="section text-center">
                                         <h4 class="mb-3 pb-3">Sign Up</h4>
-                                        <div class="form-group">
-                                            <input type="text" class="form-style" placeholder="Name" name="name" required>
-                                            <i class="input-icon uil uil-user"></i>
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <input type="email" class="form-style" placeholder="Email" name="email" required>
-                                            <i class="input-icon uil uil-at"></i>
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <input type="password" class="form-style" placeholder="Password" name="password" required>
-                                            <i class="input-icon uil uil-lock-alt"></i>
-                                        </div>
-                                        <div class="form-group mt-2">
-                                            <input type="password" class="form-style" placeholder="Password confirmation" name="passwordConfirm" required>
-                                            <i class="input-icon uil uil-lock-alt"></i>
-                                        </div>
-                                        <span class="dob-label mt-2">Date of birth</span>
-                                        <div class="form-group">
-                                            <input type="date" class="form-style" name="date" required>
-                                            <i class="input-icon uil uil-schedule"></i>
-                                        </div>
-                                        <span class="button-group">
-                                            <a href="index.html" class="btn mt-4">Register</a>
-                                            <a href="index.html" class="btn mt-4">Enter as a guest</a>
-                                        </span>
+                                        <form action="/register" method="post">
+                                            <div class="form-group">
+                                                <input type="text" class="form-style" placeholder="Username" name="username" required>
+                                                <i class="input-icon uil uil-user"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="email" class="form-style" placeholder="Email" name="email" required>
+                                                <i class="input-icon uil uil-at"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="password" class="form-style" placeholder="Password" name="password" required>
+                                                <!-- Comentado temporalmente para pruebas -->
+                                                <!--
+                                                <input type="password" class="form-style" placeholder="Password" name="password" required
+                                                       pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+                                                       title="Password must be at least 8 characters long and include a letter, a number, and a special character.">
+                                                -->
+                                                <i class="input-icon uil uil-lock-alt"></i>
+                                            </div>
+                                            <div class="form-group mt-2">
+                                                <input type="password" class="form-style" placeholder="Password confirmation" name="passwordConfirm" required>
+                                                <i class="input-icon uil uil-lock-alt"></i>
+                                            </div>
+                                            <span class="dob-label mt-2">Date of birth</span>
+                                            <div class="form-group">
+                                                <input type="date" class="form-style" name="dateOfBirth" required>
+                                                <i class="input-icon uil uil-schedule"></i>
+                                            </div>
+                                            <button class="btn mt-4" type="submit">Register</button>
+                                            <button class="btn mt-4" type="button" onclick="location.href='index.html'">Enter as a guest</button>
+                                            </span>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

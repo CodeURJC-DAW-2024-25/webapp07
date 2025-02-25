@@ -1,11 +1,15 @@
 package es.codeurjc.backend.sampleData;
 
-import es.codeurjc.backend.model.*;
-import es.codeurjc.backend.repository.*;
 import es.codeurjc.backend.enums.Allergens;
+import es.codeurjc.backend.model.Dish;
+import es.codeurjc.backend.model.User;
+import es.codeurjc.backend.repository.DishRepository;
+import es.codeurjc.backend.repository.UserRepository;
+import es.codeurjc.backend.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -15,12 +19,13 @@ import java.util.List;
 public class SampleAllData {
 
     @Autowired
-    private DishRepository dishRepository;
-   //@Autowired
-   //private UserRepository userRepository;
+    private UserRepository userRepository;
 
-    //@Autowired
-    //private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private DishRepository dishRepository;
 
 
     @PostConstruct
@@ -28,10 +33,9 @@ public class SampleAllData {
 
 
         //userCreation
-        //userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER"));
-        //userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
+        userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER"));
+        userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
 
-        // dishCreation
         Dish croquetasJamon = new Dish(
                 "Croquetas de jamón",
                 "Croquetas caseras de nuestra cocinera. Preparadas con el ingrediente secreto de la casa",
@@ -198,4 +202,6 @@ public class SampleAllData {
         dishRepository.save(empanadaGallega);
     }
 
+
 }
+
