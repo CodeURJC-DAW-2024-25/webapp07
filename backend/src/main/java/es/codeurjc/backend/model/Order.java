@@ -15,9 +15,10 @@ public class Order {
     @ManyToMany
     private List<Dish> dishes;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id") // foreign key in users table.
+    @ManyToOne // one user can order several orders
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
 
 
     private LocalDateTime orderDate;
@@ -27,8 +28,9 @@ public class Order {
 
     public Order() {}
 
-    public Order(List<Dish> dishes, String address, String status) {
+    public Order(List<Dish> dishes, User user, String address, String status) {
         this.dishes = dishes;
+        this.user = user;
         this.orderDate = LocalDateTime.now();
         this.address = address;
         this.status = status;
