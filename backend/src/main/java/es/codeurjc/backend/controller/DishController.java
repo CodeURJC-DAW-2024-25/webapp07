@@ -96,7 +96,6 @@ public class DishController {
         Optional<Dish> dish = dishService.findById(id);
         if (dish.isPresent()) {
             dish.get().setDishImagePath(dish.get().blobToString(dish.get().getDishImagefile(), dish.get()));
-
             model.addAttribute("dish", dish.get());
             return "dish-information";
         } else {
@@ -105,14 +104,16 @@ public class DishController {
     }
 
     @GetMapping({"/menu/new-dish", "/menu/{id}/edit-dish"})
-    public String showDishForm(@PathVariable(required = false) Long id, Model model) {
+    public String showDishForm(@PathVariable(required = false) Long id, Model model) throws SQLException {
         Dish dish;
         String formAction;
 
         if (id != null) { // Modo edición
             Optional<Dish> dishOpt = dishService.findById(id);
             if (dishOpt.isPresent()) {
+
                 dish = dishOpt.get();
+                dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
 
                 List<Allergens> allergens = dish.getAllergens();
                 model.addAttribute("allergens",allergens);

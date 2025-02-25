@@ -15,7 +15,7 @@
             <div class="col-md-6">
                 <div class="dish-image text-center">
                     {{#dish.image}}
-                        <img src="/menu/{{id}}/image" alt="Dish Image" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
+                        <img src="data:image/png;base64,{{dish.dishImagePath}}" alt="{{dish.name}}" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
                     {{/dish.image}}
                     {{^dish.image}}
                         <img  src="/img/logo.jpg" alt="Dish Image" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
