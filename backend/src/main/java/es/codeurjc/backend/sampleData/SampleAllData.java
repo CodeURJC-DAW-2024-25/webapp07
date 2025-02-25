@@ -32,10 +32,12 @@ public class SampleAllData {
     public void init() throws SQLException {
 
 
-        //userCreation
-        userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER"));
-        userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
+        // UserCreation
+        userRepository.save(new User("user", passwordEncoder.encode("pass"), false,"USER"));
+        userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), false, "USER", "ADMIN"));
+        userRepository.save(new User("banned", passwordEncoder.encode("pass"), true, "USER"));
 
+        // Dish creation
         Dish croquetasJamon = new Dish(
                 "Croquetas de jamón",
                 "Croquetas caseras de nuestra cocinera. Preparadas con el ingrediente secreto de la casa",

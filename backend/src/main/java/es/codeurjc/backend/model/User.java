@@ -33,15 +33,18 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles; //"USER", "ADMIN"
 
+    private boolean banned;
+
     public User() {}
 
-    public User(String username, String encodedPassword, String... roles) {
+    public User(String username, String encodedPassword,boolean banned, String... roles) {
         this.username = username;
         this.encodedPassword = encodedPassword;
+        this.banned = banned;
         this.roles = Arrays.asList(roles);
     }
     public User(String username, String encodedPassword, String firstName, String lastName,
-                LocalDate dateOfBirth, String phoneNumber, String address, String email, String... roles) {
+                LocalDate dateOfBirth, String phoneNumber, String address, String email,boolean banned, String... roles) {
         this.username = username;
         this.encodedPassword = encodedPassword;
         this.firstName = firstName;
@@ -50,6 +53,7 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.email = email;
+        this.banned = banned;
         this.roles = Arrays.asList(roles);
     }
 
@@ -122,5 +126,12 @@ public class User {
     }
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public boolean isBanned() {
+        return banned;
+    }
+    public void setBanned(boolean banned) {
+        this.banned = banned;
     }
 }

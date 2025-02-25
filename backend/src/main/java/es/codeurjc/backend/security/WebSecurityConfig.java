@@ -18,6 +18,9 @@ public class WebSecurityConfig {
     @Autowired
     RepositoryUserDetailsService userDetailsService;
 
+    @Autowired
+    private CustomAuthenticationFailureHandler customFailureHandler;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -29,6 +32,8 @@ public class WebSecurityConfig {
 
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
+
+        authProvider.setHideUserNotFoundExceptions(false);
 
         return authProvider;
     }
@@ -57,17 +62,19 @@ public class WebSecurityConfig {
 
 
 
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                 )
 
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .failureUrl("/login/error")
+                        .failureHandler(customFailureHandler)
                         .defaultSuccessUrl("/")
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .permitAll());
+
         return http.build();
 
 

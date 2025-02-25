@@ -1,25 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/login.css" type="text/css">
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
-    <title>FutProLeague</title>
-</head>
+{{> fragments/header-admin}}
 <body>
-<header>
-    <div>
-        <a href="/" style="margin-left: 20px; color: #d8302f;"><i class='input-icon uil uil-arrow-left' style="font-size: 2rem;"></i></a>
-        <a href="/" style="justify-content: center; align-items: center; display: flex;"><img class="show-logo" src="/img/logo.jpg" alt="#"/></a>
+<div>
+    <a href="/" class="back-link"><i class='input-icon uil uil-arrow-left fs-1 mt-2'></i></a>
+    <div style="display: flex; justify-content: center;">
+        <a href="/"><img class="show-logo" src="./img/logo.jpg" alt="#"/></a>
     </div>
-</header>
-<section class="section">
-    <div class="login-container">
-        <h2>Incorrect Credentials</h2>
-        <p>Please verify your credentials and try again.</p>
-        <a href="/login" class="retry-button">Try Again!</a>
+</div>
+<div class="section">
+    <div class="container">
+        <div class="col-12 text-center align-self-center py-5">
+            <div class="section text-center">
+                <div class="card-3d-wrap mx-auto">
+                    <div class="card-3d-wrapper">
+                        <div class="card-front">
+                            <div class="center-wrap">
+                                <div class="section text-center">
+                                    <h4 class="mb-4 pb-3">Error</h4>
+                                    <p class="text-danger">{{errorMessage}}</p>
+                                    <button class="btn mt-4" onclick="location.href='/'">Return to Home</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</section>
+</div>
 </body>
 </html>

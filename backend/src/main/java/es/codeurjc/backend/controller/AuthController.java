@@ -2,10 +2,15 @@ package es.codeurjc.backend.controller;
 
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,9 +24,24 @@ public class AuthController {
     private UserService userService;
 
     @GetMapping("/login")
-    public String showLoginForm() {
+    public String login(HttpSession session, Model model, @RequestParam(value = "error", required = false) String error) {
+
+        System.out.println("🔹 [LoginController] Contenido de la sesión: " + session.getAttribute("errorMessage"));
+
+        String errorMessage = (String) session.getAttribute("errorMessage");
+        if (errorMessage != null) {
+            model.addAttribute("errorMessage", errorMessage);
+            session.removeAttribute("errorMessage");
+
+
+            System.out.println("🔹 [LoginController] Mensaje recuperado de sesión: " + errorMessage);
+        }
+
+        System.out.println("📌 [LoginController] Mensaje en LoginController: " + errorMessage);
         return "login";
     }
+
+
 
     @PostMapping("/register")
     public String registerUser(@RequestParam String username,
@@ -29,33 +49,28 @@ public class AuthController {
                                @RequestParam String password,
                                @RequestParam String passwordConfirm,
                                @RequestParam String dateOfBirth,
-                               Model model) {
+                               Model model,
+                               HttpSession session) {
         System.out.println("✅ registerUser method invoked");
         System.out.println("📩 Registration data -> Username: " + username + ", Email: " + email + ", Date of Birth: " + dateOfBirth);
 
         // Password validation
         if (!password.equals(passwordConfirm)) {
             System.out.println("⚠️ Error: Passwords do not match");
-            model.addAttribute("error", "Passwords do not match.");
-            return "login";
+            session.setAttribute("errorMessage", "Passwords do not match.");
+            return "redirect:/login";
         }
-
-//        if (password.length() < 8 || !password.matches(".*[A-Za-z].*") || !password.matches(".*\\d.*") || !password.matches(".*[@$!%*#?&].*")) {
-//            System.out.println("⚠️ Error: Password does not meet requirements");
-//            model.addAttribute("error", "Password must be at least 8 characters long and include a letter, a number, and a special character.");
-//            return "login";
-//        }
 
         if (userService.existsByUsername(username)) {
             System.out.println("⚠️ Error: Username '" + username + "' is already taken");
-            model.addAttribute("error", "The username is already taken.");
-            return "login";
+            session.setAttribute("errorMessage", "The username is already taken.");
+            return "redirect:/login";
         }
 
         if (userService.existsByEmail(email)) {
             System.out.println("⚠️ Error: Email '" + email + "' is already in use");
-            model.addAttribute("error", "The email is already in use.");
-            return "login";
+            session.setAttribute("errorMessage", "The email is already in use.");
+            return "redirect:/login";
         }
 
         System.out.println("✅ Data validated successfully, creating user...");
@@ -65,22 +80,21 @@ public class AuthController {
             dob = LocalDate.parse(dateOfBirth);
         } catch (DateTimeParseException e) {
             System.out.println("❌ Error: Invalid date format");
-            model.addAttribute("error", "Invalid date format. Please use yyyy-MM-dd.");
-            return "login";
+            session.setAttribute("errorMessage", "Invalid date format. Please use yyyy-MM-dd.");
+            return "redirect:/login";
         }
 
-        User user = new User(username, password, "", "", dob, "", "", email, "USER");
+        User user = new User(username, password, "", "", dob, "", "", email, false, "USER");
 
         try {
             userService.registerUser(user);
             System.out.println("✅ User '" + username + "' registered successfully");
-            model.addAttribute("message", "Registration successful!");
+            session.setAttribute("message", "Registration successful!");
             return "redirect:/";
         } catch (Exception e) {
             System.out.println("❌ Error registering user: " + e.getMessage());
-            model.addAttribute("error", "An error occurred during registration.");
+            session.setAttribute("errorMessage", "An error occurred during registration.");
             return "redirect:/login";
         }
-
     }
 }
