@@ -26,7 +26,7 @@ public class MustacheController {
         model.addAttribute("pageTitle", "About us");
         return "about-us";
     }
-    @GetMapping("/aboutUs")
+    @GetMapping("/faqs")
     public String showFaqs(Model model) {
         model.addAttribute("pageTitle", "Frecuently Asked Questions");
         return "faqs";
