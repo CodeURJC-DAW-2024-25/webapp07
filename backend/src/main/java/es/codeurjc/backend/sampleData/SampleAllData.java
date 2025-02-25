@@ -40,6 +40,7 @@ public class SampleAllData {
         //userCreation
         userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER"));
         userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
+        User user1 = userRepository.save(new User("user1", passwordEncoder.encode("pass1"),"USER"));
 
          Dish croquetasJamon = new Dish(
                 "Croquetas de jamón",
@@ -205,26 +206,22 @@ public class SampleAllData {
         );
         empanadaGallega.setDishImagefile(empanadaGallega.URLtoBlob(empanadaGallega.getDishImagePath()));
         dishRepository.save(empanadaGallega);
-    }
 
+        //order creation
+        Order order1 = new Order(Arrays.asList(croquetasJamon, tortillaEspanola), user1, "Calle A, 14", "Pending");
+        Order order2 = new Order(List.of(paellaMariscos, gazpacho), user1, "Calle B, 22", "Accepted");
+        Order order3 = new Order(List.of(pulpoGallega, croquetasJamon), user1, "Calle C, 35", "Pending");
+        Order order4 = new Order(List.of(tortillaEspanola, gazpacho), user1, "Calle D, 48", "Cancelled");
+        Order order5 = new Order(List.of(paellaMariscos, pulpoGallega), user1, "Calle E, 50", "Accepted");
 
-    //order creation
-    Order order1 = new Order(Arrays.asList(croquetasJamon, tortillaEspanola), user1, "Calle A, 14", "Pending");
-    Order order2 = new Order(List.of(paellaMariscos, gazpacho), user2, "Calle B, 22", "Accepted");
-    Order order3 = new Order(List.of(pulpoGallega, croquetasJamon), user3, "Calle C, 35", "Pending");
-    Order order4 = new Order(List.of(tortillaEspanola, gazpacho), user4, "Calle D, 48", "Cancelled");
-    Order order5 = new Order(List.of(paellaMariscos, pulpoGallega), user5, "Calle E, 50", "Accepted");
-
-    // save orders in database.
+        // save orders in database.
         orderRepository.save(order1);
         orderRepository.save(order2);
         orderRepository.save(order3);
         orderRepository.save(order4);
         orderRepository.save(order5);
 
-
-
-
+    }
 
 
 }

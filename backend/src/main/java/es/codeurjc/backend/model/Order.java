@@ -5,6 +5,7 @@ import java.util.List;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "orders")
 public class Order {
 
     @Id
