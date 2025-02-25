@@ -43,12 +43,19 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // PUBLIC PAGES
-                        .requestMatchers("/css/**", "/img/**", "/js/**", "/lib/**", "/scss/**").permitAll()
+                        .requestMatchers("/css/**", "/img/**", "/images/**", "/js/**", "/lib/**", "/scss/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/register").permitAll()
+                        .requestMatchers("/menu").permitAll()
+                        .requestMatchers("/menu/{id}").permitAll()
+                        .requestMatchers("/api/menu").permitAll()
 
                         // PRIVATE PAGES
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
+                        .requestMatchers("/menu/new-dish").hasAnyRole("ADMIN")
+                        .requestMatchers("/menu/{id}/edit-dish").hasAnyRole("ADMIN")
+
+
 
                 )
 
@@ -61,7 +68,6 @@ public class WebSecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .permitAll());
-
         return http.build();
 
 

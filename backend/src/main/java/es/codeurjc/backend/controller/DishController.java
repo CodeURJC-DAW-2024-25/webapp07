@@ -4,10 +4,13 @@ import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.enums.Allergens;
 
 import es.codeurjc.backend.service.DishService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -65,22 +68,26 @@ public class DishController {
     }
 
     @GetMapping("/menu")
-    public String showMenu(Model model){
+    public String showMenu(Model model) throws SQLException {
 
         List<Dish> dishes = dishService.findAll();
+        for(int i=0;i<10;i++){
+            dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
+        }
         model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
         return "menu";
     }
 
-    @GetMapping("/api/dishes")
+    @GetMapping("/api/menu")
     @ResponseBody
-    public List<Dish> getDishes(@RequestParam("offset") int offset,
-                                @RequestParam("limit") int limit) {
-        List<Dish> allDishes = dishService.findAll();
-        int total = allDishes.size();
-        int fromIndex = Math.min(offset, total);
-        int toIndex = Math.min(offset + limit, total);
-        return allDishes.subList(fromIndex, toIndex);
+    public List<Dish> getDishes(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int pageSize) throws SQLException {
+        Page<Dish> menuPage = dishService.findAllDishes(PageRequest.of(page, pageSize));
+        for (Dish currentDish : menuPage.getContent()) {
+            currentDish.setDishImagePath(currentDish.blobToString(currentDish.getDishImagefile(), currentDish));
+        }
+
+        return menuPage.getContent();
     }
 
     @GetMapping("/menu/{id}")

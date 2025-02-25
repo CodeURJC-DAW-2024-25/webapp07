@@ -4,6 +4,8 @@ import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.repository.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -39,5 +41,9 @@ public class DishService {
     }
     public void deleteById(long id) {
         dishRepository.deleteById(id);
+    }
+
+    public Page<Dish> findAllDishes(PageRequest pageRequest) {
+        return dishRepository.findAll(pageRequest);
     }
 }

@@ -1,4 +1,7 @@
 {{> fragments/header}}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="/js/dishes.js"></script>
+
 
 <div class="container-xxl bg-dark hero-header">
     <div class="container text-center pt-5">
@@ -27,7 +30,7 @@
                     <div class="d-flex align-items-center">
                         <div class="w-100 d-flex flex-column text-start ps-4">
                             <div class="d-flex">
-                                <img class="flex-shrink-0 img-fluid rounded" src="/menu/{{id}}/image" alt="Imagen del plato" style="width: 10vw;"/>
+                                <img class="flex-shrink-0 img-fluid rounded" src="data:image/png;base64,{{dishImagePath}}" alt="{{name}}" style="width: 10vw;"/>
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
                                         <span>{{name}}</span>
@@ -49,13 +52,11 @@
                 </div>
                 {{/dish}}
             </div>
-            <button id="loadMoreBtn" class="btn btn-primary mt-5 d-block mx-auto">View More</button>
+            <button id="loadMoreDishes" class="btn btn-primary mt-5 d-block mx-auto">View More</button>
             <button class="btn btn-primary mt-5 d-block mx-auto" onclick="location.href='/menu/new-dish'">New dish</button>
         </div>
     </div>
 </div>
 <!-- Menu End -->
 
-<!-- Asegúrate de que la ruta al JS es correcta -->
-<script src="/js/dishes.js"></script>
 {{> fragments/footer}}
