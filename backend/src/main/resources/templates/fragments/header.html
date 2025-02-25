@@ -107,6 +107,22 @@
           </div>
         </div>
         <!-- End cart button -->
+        {{#isAdmin}}
+        <div class="dropdown">
+          <a href="#" class="btn btn-warning" id="adminPanelButton" data-bs-toggle="dropdown" aria-expanded="false" style="box-shadow:none; text-transform:none;">
+            <i class="fa fa-user-shield me-2"></i>Admin Panel
+          </a>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="adminPanelButton" style="right: 0; left: auto; width: max-content;">
+            <a class="dropdown-item" href="/admin-dashboard"><i class="fa fa-tachometer-alt me-2"></i> Dashboard</a>
+            <a class="dropdown-item" href="/admin/orders"><i class="fa fa-list-alt me-2"></i> Manage Orders</a>
+            <a class="dropdown-item" href="/admin/users"><i class="fa fa-users me-2"></i> Manage Users</a>
+            <a class="dropdown-item" href="/admin/menu"><i class="fa fa-utensils me-2"></i> Manage Menu</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item text-danger" href="/admin/settings"><i class="fa fa-cogs me-2"></i> Settings</a>
+          </div>
+        </div>
+        {{/isAdmin}}
+        <!-- End Admin Panel -->
         {{/isAuthenticated}}
       </div>
     </nav>

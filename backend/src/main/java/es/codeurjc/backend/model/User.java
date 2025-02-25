@@ -31,7 +31,7 @@ public class User {
     private String encodedPassword;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles;
+    private List<String> roles; //"USER", "ADMIN"
 
     public User() {}
 

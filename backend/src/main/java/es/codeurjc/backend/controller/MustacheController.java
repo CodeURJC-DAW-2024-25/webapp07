@@ -23,19 +23,25 @@ public class MustacheController {
     }
     @GetMapping("/aboutUs")
     public String showAboutUs(Model model) {
+        model.addAttribute("pageTitle", "About us");
         return "about-us";
     }
-    @GetMapping("/header")
-    public String showHeader(Model model) {
-        return "fragments/header";
+    @GetMapping("/faqs")
+    public String showFaqs(Model model) {
+        model.addAttribute("pageTitle", "Frecuently Asked Questions");
+        return "faqs";
     }
-    @GetMapping("/footer")
-    public String showFooter(Model model) {
-        return "fragments/footer";
-    }
-    @GetMapping("/header-admin")
-    public String showHeaderAdmin(Model model) {
-        return "fragments/header-admin";
-    }
+//    @GetMapping("/header")
+//    public String showHeader(Model model) {
+//        return "fragments/header";
+//    }
+//    @GetMapping("/footer")
+//    public String showFooter(Model model) {
+//        return "fragments/footer";
+//    }
+//    @GetMapping("/header-admin")
+//    public String showHeaderAdmin(Model model) {
+//        return "fragments/header-admin";
+//    }
 
 }
