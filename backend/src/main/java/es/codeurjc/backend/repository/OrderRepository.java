@@ -12,6 +12,4 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     // get orders from a specific user
     List<Order> findByUserId(Long userId);
 
-    // get orders according to the status ("Pending", "Accepted", "Cancelled")
-    List<Order> findByStatus(String status);
 }
