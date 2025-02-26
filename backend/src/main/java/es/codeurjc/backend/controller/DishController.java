@@ -38,12 +38,32 @@ public class DishController {
 
         List<Dish> dishes = filterDishes(name, ingredient, maxPrice);
 
+        Map<Long, List<Integer>> starMap = new HashMap<>();
+        Map<Long, List<Integer>> noStarMap = new HashMap<>();
+
         if (dishes.size() < 10){
             for (Dish dish : dishes) {
+                int rate =  (int) Math.ceil(dish.getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
+                dish.setRate(rate);
+                List<Integer> starList = new ArrayList<>(Collections.nCopies(rate, 0));
+                List<Integer> noStarList = new ArrayList<>(Collections.nCopies(5 - rate, 0));
+
+                starMap.put(dish.getId(), starList);
+                noStarMap.put(dish.getId(), noStarList);
+
+
                 dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
             }
         }else{
             for (int i = 0; i < 10; i++) {
+                int rate =  (int) Math.ceil(dishes.get(i).getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
+                dishes.get(i).setRate(rate);
+                List<Integer> starList = new ArrayList<>(Collections.nCopies(rate, 0));
+                List<Integer> noStarList = new ArrayList<>(Collections.nCopies(5 - rate, 0));
+
+                starMap.put(dishes.get(i).getId(), starList);
+                noStarMap.put(dishes.get(i).getId(), noStarList);
+
                 dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
             }
         }
@@ -96,9 +116,26 @@ public class DishController {
         if (dish.isPresent()) {
             dish.get().setDishImagePath(dish.get().blobToString(dish.get().getDishImagefile(), dish.get()));
 
+            int rate =  (int) Math.ceil(dish.get().getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
+
+            List<Integer> starList = new ArrayList<>();
+            List<Integer> noStarList = new ArrayList<>();
+
+            for (int i = 0; i < rate; i++){
+                starList.add(0);
+            }
+            for (int i =rate; i < 5; i++){
+                noStarList.add(0);
+            }
+
+            model.addAttribute("stars", starList);
+            model.addAttribute("noStars", noStarList);
+
+
             List<String> formattedIngredients = dish.get().getIngredients().stream()
                     .map(ing -> ing.substring(0, 1).toUpperCase() + ing.substring(1).toLowerCase())
                     .toList();
+
             model.addAttribute("ingredients", formattedIngredients);
 
             model.addAttribute("dish", dish.get());

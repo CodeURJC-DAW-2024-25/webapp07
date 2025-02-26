@@ -44,8 +44,13 @@ public class Dish {
 
     private boolean isAvailable;
 
+    @ElementCollection
+    private List<Integer> rates;
+
+    private int rate;
+
     public Dish(){}
-    public Dish(@NotNull String name, String description, int price, List<String> ingredients, boolean isVegan, String dishImagePath, boolean image, List<Allergens> allergens, boolean isAvailable) {
+    public Dish(@NotNull String name, String description, int price, List<String> ingredients, boolean isVegan, String dishImagePath, boolean image, List<Allergens> allergens, boolean isAvailable, List<Integer> rates, int rate) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -55,6 +60,8 @@ public class Dish {
         this.dishImagePath = dishImagePath;
         this.image = image;
         this.isAvailable = isAvailable;
+        this.rates = rates;
+        this.rate = rate;
     }
     // Getters and Setters
     public Long getId() {
@@ -112,6 +119,12 @@ public class Dish {
     public void setVegan(boolean vegan) {
         isVegan = vegan;
     }
+
+    public List<Integer> getRates(){ return rates;}
+
+    public int getRate(){ return rate;}
+
+    public void setRate(int rate){ rate = rate;}
 
     public String getDishImagePath() {
         return dishImagePath;

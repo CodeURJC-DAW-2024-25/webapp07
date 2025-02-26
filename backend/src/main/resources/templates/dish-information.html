@@ -27,11 +27,12 @@
                         <!-- Rating Display -->
                         <div class="rating-section mb-4">
                             <div class="star-rating">
+                                {{#stars}}
                                 <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
-                                <i class="fas fa-star text-warning"></i>
+                                {{/stars}}
+                                {{#noStars}}
                                 <i class="fas fa-star text-muted"></i>
+                                {{/noStars}}
                             </div>
                         </div>
 
