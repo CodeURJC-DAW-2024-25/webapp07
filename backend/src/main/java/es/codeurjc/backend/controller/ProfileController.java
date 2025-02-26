@@ -29,6 +29,7 @@ public class ProfileController {
 
         model.addAttribute("user", user);
         model.addAttribute("editMode", edit);
+
         model.addAttribute("pageTitle", "Profile");
 
         model.addAttribute("modalId", "confirmationModal");

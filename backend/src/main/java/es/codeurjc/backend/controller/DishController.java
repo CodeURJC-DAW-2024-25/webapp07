@@ -67,6 +67,9 @@ public class DishController {
         }
 
         model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
+
+        model.addAttribute("pageTitle", "Menu");
+
         return "menu";
     }
 
@@ -137,6 +140,8 @@ public class DishController {
             model.addAttribute("ingredients", formattedIngredients);
 
             model.addAttribute("dish", dish.get());
+
+            model.addAttribute("pageTitle", "Dish info");
             return "dish-information";
         } else {
             return "menu";
@@ -200,11 +205,13 @@ public class DishController {
         } else { // Modo creación
             dish = new Dish();
             model.addAttribute("allergens", Allergens.values());
+            model.addAttribute("pageTitle", "New dish");
             formAction = "/menu/admin/new-dish";
         }
 
         // Agregar al modelo
         model.addAttribute("formAction", formAction);
+        model.addAttribute("pageTitle", "Edit dish");
         return "dish-form";
     }
 
