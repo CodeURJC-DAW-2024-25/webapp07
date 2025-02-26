@@ -43,7 +43,7 @@
             <td>{{name}}</td>
             <td>${{price}}</td>
             <td>
-                <a href="/admin/dishes/edit/{{id}}" class="btn btn-warning">Edit</a>
+                <a href="/menu/{{id}}/edit-dish" class="btn btn-warning">Edit</a>
                 <form id="deleteForm{{id}}" action="/admin/dishes/delete/{{id}}" method="post" style="display:inline;">
                     <button type="button" class="btn btn-danger" onclick="openConfirmationModal('deleteForm{{id}}')">Delete</button>
                 </form>
