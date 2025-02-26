@@ -16,6 +16,17 @@
 <!-- Menu Start -->
 <div class="container-xxl py-5">
     <div class="container">
+        <div class="text-center mb-4">
+            <form action="/menu/sort" method="GET" id="sort-form">
+                <label for="sort-options" class="form-label">Ordenar por:</label>
+                <select id="sort-options" name="sortBy" class="form-select w-auto d-inline-block">
+                    <option value="default" {{#isDefault}}selected{{/isDefault}}>Seleccionar</option>
+                    <option value="price" {{#isPrice}}selected{{/isPrice}}>Precio</option>
+                    <option value="rate" {{#isRate}}selected{{/isRate}}>Valoración</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Ordenar</button>
+            </form>
+        </div>
         {{> fragments/filter}}
     </div>
         <div class="menu-items mt-5">
@@ -32,6 +43,7 @@
                                         <span class="text-primary">{{price}}$</span>
                                     </h5>
                                     <small class="fst-italic">{{description}}</small>
+                                    <h5><span>{{rate}}<i class="fas fa-star text-warning"></i></span></h5>
                                     <a class="btn btn-primary btn-sm m-2 p-1 w-10" href="/menu/{{id}}">
                                         <i class="fa fa-info"></i> More info
                                     </a>
@@ -51,7 +63,7 @@
             </div>
             <button id="loadMoreDishes" class="btn btn-primary mt-5 d-block mx-auto">View More</button>
                 {{#isAdmin}}
-                    <button class="btn btn-primary mt-5 d-block mx-auto" onclick="location.href='/menu/new-dish'">New dish</button>
+                    <button class="btn btn-primary mt-5 d-block mx-auto" onclick="location.href='/menu/admin/new-dish'">New dish</button>
                 {{/isAdmin}}
         </div>
     </div>

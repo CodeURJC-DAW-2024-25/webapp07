@@ -124,7 +124,7 @@ public class Dish {
 
     public int getRate(){ return rate;}
 
-    public void setRate(int rate){ rate = rate;}
+    public void setRate(int rate){ this.rate = rate;}
 
     public String getDishImagePath() {
         return dishImagePath;
