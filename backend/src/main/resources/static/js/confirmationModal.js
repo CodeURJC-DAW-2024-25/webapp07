@@ -1,26 +1,20 @@
-// confirmationModal.js
+let formToSubmit = null;
 
+function openConfirmationModal(formId) {
+    formToSubmit = document.getElementById(formId);
+    const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+    confirmationModal.show();
+}
 
-function initializeConfirmationModal(formId, saveButtonId, confirmSaveButtonId, modalId) {
-
-    const form = document.getElementById(formId);
-    const saveButton = document.getElementById(saveButtonId);
-    const confirmSaveButton = document.getElementById(confirmSaveButtonId);
-    const confirmationModal = new bootstrap.Modal(document.getElementById(modalId));
-
-
-    if (form && saveButton && confirmSaveButton && confirmationModal) {
-
-        saveButton.addEventListener('click', function (e) {
-            e.preventDefault();
-            confirmationModal.show();
-        });
-
-
-        confirmSaveButton.addEventListener('click', function () {
-            form.submit();
+document.addEventListener('DOMContentLoaded', function () {
+    const confirmButton = document.getElementById('confirmAction');
+    if (confirmButton) {
+        confirmButton.addEventListener('click', function () {
+            if (formToSubmit) {
+                formToSubmit.submit();
+            }
         });
     } else {
-        console.error('Not all the elements necessary for the confirmation mode were found.');
+        console.error('Confirm button not found in the confirmation modal.');
     }
-}
+});

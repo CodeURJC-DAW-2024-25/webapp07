@@ -33,6 +33,8 @@ public class ProfileController {
 
         model.addAttribute("modalId", "confirmationModal");
         model.addAttribute("confirmButtonId", "confirmSave");
+        model.addAttribute("modalMessage", "Are you sure you want to save these changes?");
+
 
         return "profile";
     }
