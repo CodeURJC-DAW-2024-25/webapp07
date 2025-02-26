@@ -46,15 +46,13 @@
             <td>{{#banned}}Banned{{/banned}}{{^banned}}Active{{/banned}}</td>
             <td>
                 {{^banned}}
-                <form action="/admin/users/ban/{{id}}" method="post">
-                    <button type="submit" class="btn btn-danger">Ban</button>
-                </form>
+                <form id="banForm{{id}}" action="/admin/users/ban/{{id}}" method="post">
+                    <button type="button" class="btn btn-danger" onclick="openConfirmationModal('banForm{{id}}')">Ban</button>                </form>
                 {{/banned}}
 
                 {{#banned}}
-                <form action="/admin/users/unban/{{id}}" method="post">
-                    <button type="submit" class="btn btn-success">Unban</button>
-                </form>
+                <form id="unbanForm{{id}}" action="/admin/users/unban/{{id}}" method="post">
+                    <button type="button" class="btn btn-success" onclick="openConfirmationModal('unbanForm{{id}}')">Unban</button>                </form>
                 {{/banned}}
             </td>
         </tr>
@@ -63,5 +61,14 @@
     </table>
     {{/hasUsers}}
 </div>
+
+{{> fragments/modal-confirmation}}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/confirmationModal.js"></script>
+<script>
+    initializeConfirmationModal('banForm', 'banButton', 'confirmAction', 'confirmationModal');
+</script>
+
 </body>
 </html>

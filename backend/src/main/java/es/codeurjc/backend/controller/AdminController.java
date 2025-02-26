@@ -33,6 +33,10 @@ public class AdminController {
         model.addAttribute("users", users);
         model.addAttribute("hasUsers", !users.isEmpty());
 
+        model.addAttribute("modalId", "confirmationModal");
+        model.addAttribute("confirmButtonId", "confirmAction");
+        model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
+
         return "admin/manage-users";
     }
 
