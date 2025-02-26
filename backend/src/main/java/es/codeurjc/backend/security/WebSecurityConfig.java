@@ -3,6 +3,7 @@ package es.codeurjc.backend.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -58,14 +59,17 @@ public class WebSecurityConfig {
 
                         // PRIVATE PAGES
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
-                        .requestMatchers("/menu/new-dish").hasAnyRole("ADMIN")
-                        .requestMatchers("/menu/{id}/edit-dish").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/menu/new-dish").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/menu/{id}/edit-dish").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/menu/new-dish/save").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/menu/{id}/edit-dish/save").hasAnyRole("ADMIN")
+                        .requestMatchers("/menu/{id}/remove-dish").hasAnyRole("ADMIN")
+
 
 
 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                 )
-
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .failureHandler(customFailureHandler)
@@ -76,8 +80,9 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/")
                         .permitAll());
 
+
+        // Disable CSRF at the moment
+        http.csrf(AbstractHttpConfigurer::disable);
         return http.build();
-
-
     }
 }

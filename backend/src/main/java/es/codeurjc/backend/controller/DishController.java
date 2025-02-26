@@ -4,6 +4,7 @@ import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.enums.Allergens;
 
 import es.codeurjc.backend.service.DishService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,12 +38,32 @@ public class DishController {
 
         List<Dish> dishes = filterDishes(name, ingredient, maxPrice);
 
+        Map<Long, List<Integer>> starMap = new HashMap<>();
+        Map<Long, List<Integer>> noStarMap = new HashMap<>();
+
         if (dishes.size() < 10){
             for (Dish dish : dishes) {
+                int rate =  (int) Math.ceil(dish.getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
+                dish.setRate(rate);
+                List<Integer> starList = new ArrayList<>(Collections.nCopies(rate, 0));
+                List<Integer> noStarList = new ArrayList<>(Collections.nCopies(5 - rate, 0));
+
+                starMap.put(dish.getId(), starList);
+                noStarMap.put(dish.getId(), noStarList);
+
+
                 dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
             }
         }else{
             for (int i = 0; i < 10; i++) {
+                int rate =  (int) Math.ceil(dishes.get(i).getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
+                dishes.get(i).setRate(rate);
+                List<Integer> starList = new ArrayList<>(Collections.nCopies(rate, 0));
+                List<Integer> noStarList = new ArrayList<>(Collections.nCopies(5 - rate, 0));
+
+                starMap.put(dishes.get(i).getId(), starList);
+                noStarMap.put(dishes.get(i).getId(), noStarList);
+
                 dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
             }
         }
@@ -93,6 +115,29 @@ public class DishController {
         Optional<Dish> dish = dishService.findById(id);
         if (dish.isPresent()) {
             dish.get().setDishImagePath(dish.get().blobToString(dish.get().getDishImagefile(), dish.get()));
+
+            int rate =  (int) Math.ceil(dish.get().getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
+
+            List<Integer> starList = new ArrayList<>();
+            List<Integer> noStarList = new ArrayList<>();
+
+            for (int i = 0; i < rate; i++){
+                starList.add(0);
+            }
+            for (int i =rate; i < 5; i++){
+                noStarList.add(0);
+            }
+
+            model.addAttribute("stars", starList);
+            model.addAttribute("noStars", noStarList);
+
+
+            List<String> formattedIngredients = dish.get().getIngredients().stream()
+                    .map(ing -> ing.substring(0, 1).toUpperCase() + ing.substring(1).toLowerCase())
+                    .toList();
+
+            model.addAttribute("ingredients", formattedIngredients);
+
             model.addAttribute("dish", dish.get());
             return "dish-information";
         } else {
@@ -129,7 +174,7 @@ public class DishController {
     }
 
     @GetMapping({"/menu/new-dish", "/menu/{id}/edit-dish"})
-    public String showDishForm(@PathVariable(required = false) Long id, Model model) throws SQLException {
+    public String showDishForm(@PathVariable(required = false) Long id, Model model, HttpServletRequest request) throws SQLException {
         Dish dish;
         String formAction;
 
@@ -140,13 +185,14 @@ public class DishController {
                 dish = dishOpt.get();
                 dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
 
-                List<Allergens> allergens = dish.getAllergens();
-                model.addAttribute("allergens", allergens);
-
                 formAction = "/menu/" + dish.getId() + "/edit-dish";
+
+                model.addAttribute("imageFile", dish.getDishImagefile());
 
                 String ingredientsFormatted = String.join(", ", dish.getIngredients());
                 model.addAttribute("ingredients", ingredientsFormatted);
+
+                model.addAttribute("allergens", Allergens.values());
 
                 model.addAttribute("dish", dish);
             } else {
@@ -161,14 +207,13 @@ public class DishController {
 
         // Agregar al modelo
         model.addAttribute("formAction", formAction);
-
         return "dish-form";
     }
 
 
-    @PostMapping({"/menu/new-dish", "/menu/{id}/edit-dish"})
-    public String editDishProcess(Model model, Dish dish, String ingredients, String action, MultipartFile imageField, @RequestParam List<Allergens> selectedAllergens, @RequestParam boolean vegan) throws IOException {
-        List<String> ingredientsList = Arrays.stream(ingredients.split(","))
+    @PostMapping({"/menu/new-dish/save", "/menu/{id}/edit-dish/save"})
+    public String editDishProcess(Model model, Dish dish, String ingredients, String action, @RequestParam MultipartFile imageField, @RequestParam List<Allergens> selectedAllergens, boolean vegan) throws IOException {
+        List<String> ingredientsList = Arrays.stream(ingredients.toLowerCase().split(","))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());

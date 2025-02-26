@@ -31,7 +31,7 @@
                     {{#dish}}
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">Edit Dish</h5>
                     {{/dish}}
-                        <form action="{{formAction}}" method="post" enctype="multipart/form-data">
+                        <form action="{{formAction}}/save" method="post" enctype="multipart/form-data" >
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <div class="form-floating">
@@ -54,11 +54,25 @@
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Ingresa los ingredientes separados por comas" name="ingredients" id="ingredients" style="height: 100px">{{#ingredients}}{{ingredients}}{{/ingredients}}</textarea>
-                                        <label for="ingredients">Dish Ingredients</label>
+                                        <textarea class="form-control" name="ingredients" id="ingredients" style="height: 100px">{{#ingredients}}{{ingredients}}{{/ingredients}}</textarea>
+                                        <label for="ingredients">Dish Ingredients (Ingresa los ingredientes separados por comas y en singular)</label>
                                     </div>
                                 </div>
                             </div>
+                            {{#dish}}
+                                <div class="col-12">
+                                    <h5 class="text-white">Actual Allergens:</h5>
+                                    <div class="allergens container">
+                                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                                            <div class="allergens text-white">
+                                                {{#dish.allergens}}
+                                                <img  style="max-width: 2vw" src="{{imageUrl}}" alt="{{name}}">
+                                                {{/dish.allergens}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/dish}}
                             <div class="col-12">
                                 <h5 class="text-white">Allergens:</h5>
                                 <div class="allergens container">
@@ -87,12 +101,12 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <input type="file" class="form-control" id="imageField" name="imageField" accept=".jpg, .jpeg">
-                                    <label for="imageField">Upload Dish Image</label>
-                                </div>
-                            </div>
+                          <div class="col-12">
+                              <div class="form-floating">
+                                  <input type="file" class="form-control" id="imageField" name="imageField" accept=".jpg, .jpeg" value="{{#dish}}{{imageFile}}{{/dish}}{{^dish}}{{/dish}}">
+                                  <label for="imageField">Upload Dish Image</label>
+                              </div>
+                          </div>
                             <div class="col-12">
                                     <button type="submit" class="btn btn-primary btn-sm m-2 p-2 " name="action" value="save" >Add to Menu</button>
                             </div>
