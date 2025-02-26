@@ -58,4 +58,8 @@ public class DishService {
     public List<Dish> findBymaxPrice(int maxPrice) {
         return dishRepository.findDishBymaxPrice(maxPrice);
     }
+
+    public List<Dish> searchDishes(String query) {
+        return dishRepository.findByNameContainingIgnoreCase(query);
+    }
 }

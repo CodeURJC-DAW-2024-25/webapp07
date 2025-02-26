@@ -1,4 +1,4 @@
-package es.codeurjc.backend.controller;
+package es.codeurjc.backend.controller.admin;
 
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.UserService;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin/users")
-public class AdminController {
+public class UsersController {
 
     @Autowired
     private UserService userService;

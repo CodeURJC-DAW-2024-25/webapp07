@@ -20,4 +20,6 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
 
     @Query("SELECT d From Dish d WHERE d.price <= :maxPrice")
     List<Dish> findDishBymaxPrice(int maxPrice);
+
+    List<Dish> findByNameContainingIgnoreCase(String name);
 }
