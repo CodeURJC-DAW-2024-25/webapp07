@@ -46,4 +46,16 @@ public class DishService {
     public Page<Dish> findAllDishes(PageRequest pageRequest) {
         return dishRepository.findAll(pageRequest);
     }
+
+    public List<Dish> findByName(String query) {
+        return dishRepository.findDishByName(query);
+    }
+
+    public List<Dish> findByIngredient(String ingredient) {
+        return dishRepository.findDishByIngredients(ingredient);
+    }
+
+    public List<Dish> findBymaxPrice(int maxPrice) {
+        return dishRepository.findDishBymaxPrice(maxPrice);
+    }
 }

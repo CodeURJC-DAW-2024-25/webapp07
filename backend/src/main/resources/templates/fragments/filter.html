@@ -1,0 +1,28 @@
+<div class="text-center mb-4">
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#filterContainer" aria-expanded="false" aria-controls="filterContainer">
+        Filtrar Platos
+    </button>
+</div>
+<div id="filterContainer" class="collapse col-lg-4 mx-auto container align-content-center">
+    <div class="p-4 border rounded bg-light">
+        <form action="/menu/filter" method="get">
+            <!-- Filter dishes by name-->
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre del Plato</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Ingresa el nombre">
+            </div>
+            <!-- Filter dishes by ingredient-->
+            <div class="mb-3">
+                <label for="ingredient" class="form-label">Ingrediente del Plato</label>
+                <input type="text" class="form-control" id="ingredient" name="ingredient" placeholder="Ingresa el ingrediente">
+            </div>
+            <!-- Filter dishes by price-->
+            <div class="mb-3">
+                <label for="maxPrice" class="form-label">Precio máximo del Plato</label>
+                <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="Ingresa el maxPrice" value=" ">
+            </div>
+            <button type="submit" class="btn btn-success w-100">Aplicar Filtros</button>
+        </form>
+    </div>
+</div>
+
