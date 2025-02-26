@@ -16,16 +16,8 @@
 <!-- Menu Start -->
 <div class="container-xxl py-5">
     <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
-            <h1 class="mb-5">Search for Your Favorite Dish</h1>
-        </div>
-        <div class="search-bar text-center wow fadeInUp" data-wow-delay="0.1s">
-            <div class="input-group" style="max-width: 800px; margin: 0 auto;">
-                <input type="text" class="form-control" id="searchInput" placeholder="Search for dishes...">
-                <span class="input-group-text"><i class="fa fa-search"></i></span>
-            </div>
-        </div>
+        {{> fragments/filter}}
+    </div>
         <div class="menu-items mt-5">
             <div class="row g-4" id="menuContainer" style="max-width: 800px; margin: 0 auto;">
                 {{#dish}}
@@ -63,7 +55,6 @@
                 {{/isAdmin}}
         </div>
     </div>
-</div>
 <!-- Menu End -->
 
 {{> fragments/footer}}
