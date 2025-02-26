@@ -43,9 +43,9 @@
                             <div class="col-md-6">
                                 <h5 class="text-white">Ingredients:</h5>
                                 <ul class="text-white">
-                                    {{#dish.ingredients}}
+                                    {{#ingredients}}
                                         <li>{{.}}</li>
-                                    {{/dish.ingredients}}
+                                    {{/ingredients}}
                                 </ul>
                             </div>
                             <div class="col-12">
@@ -56,10 +56,12 @@
                                     {{/dish.allergens}}
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <h5 class="text-white">Additional Notes:</h5>
-                                <p class="text-white">Please inform us of any dietary restrictions.</p>
-                            </div>
+                            {{#dish.isVegan}}
+                                <div class="col-12">
+                                    <h5 class="text-white">Additional Notes:</h5>
+                                        <img src="/img/allergen_symbols/vegan_symbol.png" alt="Vegan" class="img-thumbnail" style="width: 30px;">
+                                </div>
+                            {{/dish.isVegan}}
                             <div class="col-12">
                                 <div class="d-flex gap-2">
                                     <a href="/menu" class="btn btn-primary">Back menu</a>
