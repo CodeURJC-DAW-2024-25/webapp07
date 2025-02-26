@@ -54,16 +54,17 @@ public class WebSecurityConfig {
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/menu").permitAll()
                         .requestMatchers("/menu/filter").permitAll()
+                        .requestMatchers("/menu/sort").permitAll()
                         .requestMatchers("/menu/{id}").permitAll()
                         .requestMatchers("/api/menu").permitAll()
 
                         // PRIVATE PAGES
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
-                        .requestMatchers(HttpMethod.GET,"/menu/new-dish").hasAnyRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/menu/{id}/edit-dish").hasAnyRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/menu/new-dish/save").hasAnyRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/menu/{id}/edit-dish/save").hasAnyRole("ADMIN")
-                        .requestMatchers("/menu/{id}/remove-dish").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/menu/admin/new-dish").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/menu/{id}/admin/edit-dish").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/menu/admin/new-dish/save").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/menu/{id}/admin/edit-dish/save").hasAnyRole("ADMIN")
+                        .requestMatchers("/menu/{id}/admin/remove-dish").hasAnyRole("ADMIN")
 
 
 
