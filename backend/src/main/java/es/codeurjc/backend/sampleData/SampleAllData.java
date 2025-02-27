@@ -3,14 +3,18 @@ package es.codeurjc.backend.sampleData;
 import es.codeurjc.backend.enums.Allergens;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.model.User;
+import es.codeurjc.backend.model.Restaurant;
+import es.codeurjc.backend.model.Booking;
 import es.codeurjc.backend.repository.DishRepository;
 import es.codeurjc.backend.repository.UserRepository;
+import es.codeurjc.backend.repository.RestaurantRepository;
+import es.codeurjc.backend.repository.BookingRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,6 +33,13 @@ public class SampleAllData {
     @Autowired
     private DishRepository dishRepository;
 
+    @Autowired
+    private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private BookingRepository bookingRepository;
+
+
     /**
      * Initialization method that runs automatically after the bean is constructed.
      * It creates and stores sample users and dishes in the database.
@@ -44,6 +55,10 @@ public class SampleAllData {
         userRepository.save(new User("user", passwordEncoder.encode("pass"), false,"USER"));
         userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), false, "USER", "ADMIN"));
         userRepository.save(new User("banned", passwordEncoder.encode("pass"), true, "USER"));
+        User user1 = new User("johndoe", passwordEncoder.encode("password123"), "John", "Doe", LocalDate.of(1990, 5, 14), "612345678", "Calle Mayor, 5, Madrid", "johndoe@example.com", false, "USER");
+        User user2 = new User("janedoe", passwordEncoder.encode("securepass"), "Jane", "Doe", LocalDate.of(1985, 8, 23), "623456789", "Calle Alcalá, 20, Madrid", "janedoe@example.com", false, "USER");
+        userRepository.save(user1);
+        userRepository.save(user2);
 
         // Creating and storing sample dishes
 
@@ -211,6 +226,18 @@ public class SampleAllData {
         );
         empanadaGallega.setDishImagefile(empanadaGallega.URLtoBlob(empanadaGallega.getDishImagePath()));
         dishRepository.save(empanadaGallega);
+
+        // Creating sample restaurants
+        Restaurant restaurant1 = new Restaurant("Calle Gran Vía 10 Madrid");
+        Restaurant restaurant2 = new Restaurant("Calle Serrano 45 Madrid");
+        restaurantRepository.save(restaurant1);
+        restaurantRepository.save(restaurant2);
+
+        // Creating sample bookings
+        Booking booking1 = new Booking(restaurant1, user1, LocalDate.now().plusDays(2), "Lunch", 4);
+        Booking booking2 = new Booking(restaurant2,user2, LocalDate.now().plusDays(5), "Dinner", 2);
+        bookingRepository.save(booking1);
+        bookingRepository.save(booking2);
     }
 
 
