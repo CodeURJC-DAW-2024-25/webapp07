@@ -142,6 +142,11 @@ public class DishController {
             model.addAttribute("dish", dish.get());
 
             model.addAttribute("pageTitle", "Dish info");
+
+            model.addAttribute("modalId", "confirmationModal");
+            model.addAttribute("confirmButtonId", "confirmAction");
+            model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
+
             return "dish-information";
         } else {
             return "menu";
@@ -209,6 +214,9 @@ public class DishController {
             formAction = "/menu/admin/new-dish";
         }
 
+        model.addAttribute("modalId", "confirmationModal");
+        model.addAttribute("confirmButtonId", "confirmAction");
+        model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
         // Agregar al modelo
         model.addAttribute("formAction", formAction);
         model.addAttribute("pageTitle", "Edit dish");
