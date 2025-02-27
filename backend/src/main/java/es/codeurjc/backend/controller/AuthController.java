@@ -4,9 +4,6 @@ import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,32 +14,53 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Controller responsible for handling authentication-related operations such as login and user registration.
+ */
 @Controller
 public class AuthController {
 
     @Autowired
     private UserService userService;
 
+    /**
+     * Displays the login page and handles login errors.
+     *
+     * @param session The HTTP session to retrieve potential error messages.
+     * @param model   The model to pass attributes to the view.
+     * @param error   An optional parameter indicating a login error.
+     * @return The login view name.
+     */
     @GetMapping("/login")
     public String login(HttpSession session, Model model, @RequestParam(value = "error", required = false) String error) {
 
-        System.out.println("🔹 [LoginController] Contenido de la sesión: " + session.getAttribute("errorMessage"));
+        System.out.println("🔹 [LoginController] Session content: " + session.getAttribute("errorMessage"));
 
         String errorMessage = (String) session.getAttribute("errorMessage");
         if (errorMessage != null) {
             model.addAttribute("errorMessage", errorMessage);
             session.removeAttribute("errorMessage");
 
-
-            System.out.println("🔹 [LoginController] Mensaje recuperado de sesión: " + errorMessage);
+            System.out.println("🔹 [LoginController] Retrieved message from session: " + errorMessage);
         }
 
-        System.out.println("📌 [LoginController] Mensaje en LoginController: " + errorMessage);
+        System.out.println("📌 [LoginController] Message in LoginController: " + errorMessage);
         return "login";
     }
 
-
-
+    /**
+     * Handles user registration by validating input data, checking for duplicate users,
+     * and creating a new user account if valid.
+     *
+     * @param username        The username entered by the user.
+     * @param email           The email address entered by the user.
+     * @param password        The password entered by the user.
+     * @param passwordConfirm The password confirmation entered by the user.
+     * @param dateOfBirth     The date of birth entered by the user.
+     * @param model           The model to pass attributes to the view.
+     * @param session         The HTTP session to store messages for redirection.
+     * @return A redirect to the login page or home page depending on success or failure.
+     */
     @PostMapping("/register")
     public String registerUser(@RequestParam String username,
                                @RequestParam String email,
@@ -75,6 +93,7 @@ public class AuthController {
 
         System.out.println("✅ Data validated successfully, creating user...");
 
+        // Parse date of birth
         LocalDate dob;
         try {
             dob = LocalDate.parse(dateOfBirth);
@@ -84,6 +103,7 @@ public class AuthController {
             return "redirect:/login";
         }
 
+        // Create user instance
         User user = new User(username, password, "", "", dob, "", "", email, false, "USER");
 
         try {

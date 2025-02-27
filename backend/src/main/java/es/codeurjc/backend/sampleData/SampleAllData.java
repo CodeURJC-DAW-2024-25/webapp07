@@ -5,7 +5,6 @@ import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.repository.DishRepository;
 import es.codeurjc.backend.repository.UserRepository;
-import es.codeurjc.backend.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +14,9 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Service class that loads sample data into the database when the application starts.
+ */
 @Service
 public class SampleAllData {
 
@@ -27,17 +29,24 @@ public class SampleAllData {
     @Autowired
     private DishRepository dishRepository;
 
-
+    /**
+     * Initialization method that runs automatically after the bean is constructed.
+     * It creates and stores sample users and dishes in the database.
+     *
+     * @throws SQLException if an error occurs while interacting with the database.
+     */
     @PostConstruct
     public void init() throws SQLException {
 
 
-        // UserCreation
+        // Creating sample users
+
         userRepository.save(new User("user", passwordEncoder.encode("pass"), false,"USER"));
         userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), false, "USER", "ADMIN"));
         userRepository.save(new User("banned", passwordEncoder.encode("pass"), true, "USER"));
 
-        // Dish creation
+        // Creating and storing sample dishes
+
         Dish croquetasJamon = new Dish(
                 "Croquetas de jamón",
                 "Croquetas caseras de nuestra cocinera. Preparadas con el ingrediente secreto de la casa",

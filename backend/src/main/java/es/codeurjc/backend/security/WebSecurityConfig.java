@@ -12,43 +12,62 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Configuration class for security settings using Spring Security.
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
     @Autowired
-    RepositoryUserDetailsService userDetailsService;
+    private RepositoryUserDetailsService userDetailsService;
 
     @Autowired
     private CustomAuthenticationFailureHandler customFailureHandler;
 
+    /**
+     * Creates a password encoder bean using BCrypt.
+     *
+     * @return A {@link PasswordEncoder} instance.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Configures the authentication provider using a DAO-based approach.
+     *
+     * @return A {@link DaoAuthenticationProvider} instance.
+     */
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
-
         authProvider.setHideUserNotFoundExceptions(false);
-
         return authProvider;
     }
 
+    /**
+     * Configures security filters and access control for the application.
+     *
+     * @param http The {@link HttpSecurity} object for configuring security.
+     * @return A {@link SecurityFilterChain} instance.
+     * @throws Exception If an error occurs during configuration.
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+        // Set authentication provider
         http.authenticationProvider(authenticationProvider());
 
+        // Disable CSRF for now
         http.csrf(AbstractHttpConfigurer::disable);
 
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        // PUBLIC PAGES
+                        // Public resources
                         .requestMatchers("/css/**", "/img/**", "/images/**", "/js/**", "/lib/**", "/scss/**").permitAll()
                         .requestMatchers("/", "aboutUs", "faqs").permitAll()
                         .requestMatchers("/register").permitAll()
@@ -58,17 +77,15 @@ public class WebSecurityConfig {
                         .requestMatchers("/menu/{id}").permitAll()
                         .requestMatchers("/api/menu").permitAll()
 
-                        // PRIVATE PAGES
+                        // Private pages (authenticated users)
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
-                        .requestMatchers(HttpMethod.GET,"/menu/admin/new-dish").hasAnyRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/menu/{id}/admin/edit-dish").hasAnyRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/menu/admin/new-dish/save").hasAnyRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/menu/{id}/admin/edit-dish/save").hasAnyRole("ADMIN")
+
+                        // Admin-restricted pages
+                        .requestMatchers(HttpMethod.GET, "/menu/admin/new-dish").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/menu/{id}/admin/edit-dish").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/menu/admin/new-dish/save").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/menu/{id}/admin/edit-dish/save").hasAnyRole("ADMIN")
                         .requestMatchers("/menu/{id}/admin/remove-dish").hasAnyRole("ADMIN")
-
-
-
-
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                 )
                 .formLogin(formLogin -> formLogin
@@ -81,9 +98,6 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/")
                         .permitAll());
 
-
-        // Disable CSRF at the moment
-        http.csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
 }
