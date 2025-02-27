@@ -62,7 +62,9 @@
                                     <a href="/menu" class="btn btn-primary">Back menu</a>
                                     {{#isAdmin}}
                                         <a href="/menu/{{id}}/admin/edit-dish" class="btn btn-primary">Edit Dish</a>
-                                        <button class="btn btn-warning">Mark as Unavailable</button>
+                                        <form id="markUnavailableForm{{id}}" action="/menu/{{id}}/admin/mark-unavailable-dish" method="post">
+                                            <button type="button" class="btn btn-danger" onclick="openConfirmationModal('markUnavailableForm{{id}}')">Mark as Unavailable</button>
+                                        </form>
                                         <form id="deleteForm{{id}}" action="/menu/{{id}}/admin/remove-dish" method="post">
                                             <button type="button" class="btn btn-danger" onclick="openConfirmationModal('deleteForm{{id}}')">Delete Dish</button>
                                         </form>

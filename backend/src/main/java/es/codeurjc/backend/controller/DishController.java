@@ -181,6 +181,16 @@ public class DishController {
         return "redirect:/menu";
     }
 
+    @PostMapping("/menu/{id}/admin/mark-unavailable-dish")
+    public String markUnavailableDish(Model model,Dish dish, @PathVariable long id, RedirectAttributes redirectAttributes) {
+
+        dish.setAvailable(false);
+        dishService.save(dish);
+        redirectAttributes.addFlashAttribute("message", "Plato deshabilitado con éxito");
+
+        return "redirect:/menu";
+    }
+
     @GetMapping({"/menu/admin/new-dish", "/menu/{id}/admin/edit-dish"})
     public String showDishForm(@PathVariable(required = false) Long id, Model model, HttpServletRequest request) throws SQLException {
         Dish dish;
