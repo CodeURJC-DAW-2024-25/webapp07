@@ -56,7 +56,7 @@ public class BookingController {
     }
 
     // Mostrar la reserva activa del usuario
-    @GetMapping("/my-booking")
+    @GetMapping("/booking/my-booking")
     public String showUserBooking(Model model, @AuthenticationPrincipal User user) {
         Optional<Booking> booking = bookingService.findActiveBookingByUser(user);
         booking.ifPresent(value -> model.addAttribute("booking", value));
@@ -64,7 +64,7 @@ public class BookingController {
     }
 
     // Cancelar una reserva
-    @PostMapping("/cancel")
+    @PostMapping("/booking/cancel")
     public String cancelBooking(@AuthenticationPrincipal User user, RedirectAttributes redirectAttributes) {
         Optional<Booking> booking = bookingService.findActiveBookingByUser(user);
         if (booking.isPresent()) {
@@ -75,19 +75,20 @@ public class BookingController {
         }
         return "redirect:/profile";
     }
-    @GetMapping("/availability")
+    @GetMapping("/booking/availability")
     @ResponseBody
     public int getAvailableSeats(@RequestParam Long restaurantId,
                                  @RequestParam LocalDate date,
                                  @RequestParam String shift) {
-        // Obtener todas las reservas del restaurante en esa fecha y turno
+        // Get all bookings for the restaurant on the selected date and shift
         List<Booking> existingBookings = bookingService.findBookingsByRestaurantAndShift(restaurantId, date, shift);
 
-        // Sumar el total de personas ya reservadas
+        // Sum the total number of reserved seats
         int totalPeopleReserved = existingBookings.stream().mapToInt(Booking::getNumPeople).sum();
 
-        // Calcular asientos disponibles (máximo 40 por turno)
+        // Calculate available seats (max 40 per shift)
         return Math.max(40 - totalPeopleReserved, 0);
     }
+
 
 }
