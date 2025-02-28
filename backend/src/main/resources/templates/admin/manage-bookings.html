@@ -13,8 +13,10 @@
 <body>
 <a href="/" class="back-link"><i class='bi bi-arrow-left'></i></a>
 <a href="/" class="logo-link"><img class="show-logo" src="/img/logo.jpg" alt="Logo"/></a>
+
 <div class="container mt-5">
     <h2 class="text-center mb-4">Booking Management</h2>
+
     <div class="form-group mb-3">
         <form action="/admin/bookings" method="get">
             <input type="text" class="form-control" placeholder="Search booking..." id="search-booking" name="query">
@@ -22,11 +24,7 @@
         </form>
     </div>
 
-    {{^hasBookings}}
-    <p>No bookings found.</p>
-    {{/hasBookings}}
-
-    {{#hasBookings}}
+    {{#bookings}}
     <table class="table">
         <thead>
         <tr>
@@ -57,7 +55,12 @@
         {{/bookings}}
         </tbody>
     </table>
-    {{/hasBookings}}
+    {{/bookings}}
+
+    {{^bookings}}
+    <p>No bookings found.</p>
+    {{/bookings}}
+
 </div>
 
 {{> fragments/modal-confirmation}}
