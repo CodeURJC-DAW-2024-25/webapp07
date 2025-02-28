@@ -18,15 +18,17 @@ public class OrderController {
 
     @GetMapping("/{id}/summary")
     public String showOrderSummary(@PathVariable Long id, Model model) {
-        Optional<Order> orderOpt = orderService.getOrderById(id);
+        Optional<Order> orderOpt = orderService.getOrderById(id); //search in database.
 
-        if (orderOpt.isPresent()) {
+        if (orderOpt.isPresent()) { //verify the user autenticated is the owner of the order.
             Order order = orderOpt.get();
 
             double deliveryCost = 4.99;
             double totalPrice = order.getTotalPrice();
             double finalPrice = totalPrice + deliveryCost;
 
+
+            // transfer the data to the view
             model.addAttribute("id", order.getId());
             model.addAttribute("dishes", order.getDishes());
             model.addAttribute("totalPrice", totalPrice);
@@ -34,9 +36,9 @@ public class OrderController {
             model.addAttribute("finalPrice", finalPrice);
             model.addAttribute("address", order.getAddress());
 
-            return "order-summary";
+            return "order-summary"; // show mustache
         } else {
-            return "redirect:/orders";
+            return "redirect:/error 404";
         }
     }
 }
