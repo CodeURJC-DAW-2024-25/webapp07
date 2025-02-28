@@ -23,11 +23,7 @@ public class AdminBookingController {
     @GetMapping
     public String showAllBookings(Model model) {
         List<Booking> bookings = bookingService.getAllBookings();
-
-        // Definir hasBookings como true si la lista no está vacía
         model.addAttribute("bookings", bookings);
-        model.addAttribute("hasBookings", !bookings.isEmpty());
-
         return "manage-bookings";
     }
 
@@ -39,4 +35,5 @@ public class AdminBookingController {
         return "redirect:/admin/bookings";
     }
 }
+
 
