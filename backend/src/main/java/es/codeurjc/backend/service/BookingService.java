@@ -54,6 +54,10 @@ public class BookingService {
         Optional<Booking> booking = bookingRepository.findById(id);
         booking.ifPresent(bookingRepository::delete);
     }
+    public List<Booking> findBookingsByRestaurantAndShift(Long restaurantId, LocalDate date, String shift) {
+        return bookingRepository.findByRestaurantAndShiftAndDate(restaurantId, shift, date);
+    }
+
 
 }
 
