@@ -80,6 +80,11 @@ public class WebSecurityConfig {
                         // Private pages (authenticated users)
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
 
+                        // Private pages (authenticated users)
+                        .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
+                        .requestMatchers("/booking/**").hasRole("USER") // Solo usuarios registrados pueden acceder a reservas
+                        .requestMatchers("/admin/bookings/**").hasRole("ADMIN") //  Solo admins pueden gestionar reservas
+
                         // Admin-restricted pages
                         .requestMatchers(HttpMethod.GET, "/menu/admin/new-dish").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/menu/{id}/admin/edit-dish").hasAnyRole("ADMIN")
