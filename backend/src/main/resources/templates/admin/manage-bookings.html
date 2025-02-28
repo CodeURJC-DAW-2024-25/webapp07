@@ -24,7 +24,7 @@
         </form>
     </div>
 
-    {{#bookings}}
+    {{#hasBookings}}
     <table class="table">
         <thead>
         <tr>
@@ -55,7 +55,7 @@
         {{/bookings}}
         </tbody>
     </table>
-    {{/bookings}}
+    {{/hasBookings}}
 
     {{^bookings}}
     <p>No bookings found.</p>
