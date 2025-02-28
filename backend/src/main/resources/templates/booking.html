@@ -1,46 +1,79 @@
 {{> fragments/header}}
 
 {{> fragments/hero}}
-    <!-- Booking Form Start -->
-    <div class="container-xxl py-5">
-        <div class="row g-0 align-items-center">
-            <div class="col-md-6 bg-dark d-flex align-items-center">
-                <div class="p-5 text-white">
-                    <h3 class="text-center mb-4">Reserve your table</h3>
-                    <form action="/booking/new" method="post">
 
-                        <div class="mb-3">
-                            <label for="restaurant" class="form-label">Select Restaurant</label>
-                            <select id="restaurant" name="restaurantId" class="form-select" required>
-                                {{#restaurants}}
-                                <option value="{{id}}">{{location}}</option>
-                                {{/restaurants}}
-                            </select>
+<!-- Booking Form Start -->
+<div class="container-xxl py-5">
+    <div class="row g-0 align-items-center">
+        <!-- Left Side: Booking Form (Expanded to Include More Fields) -->
+        <div class="col-md-6 bg-dark d-flex align-items-center">
+            <div class="p-5 text-white w-100">
+                <h3 class="text-center mb-4">Reservation Information</h3>
+                <form action="/booking/new" method="post">
+
+                    <!-- Select Restaurant -->
+                    <div class="mb-3">
+                        <label for="restaurant" class="form-label">Select Restaurant</label>
+                        <select id="restaurant" name="restaurantId" class="form-select" required>
+                            {{#restaurants}}
+                            <option value="{{id}}">{{location}}</option>
+                            {{/restaurants}}
+                        </select>
+                    </div>
+
+                    <!-- Select Date -->
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Select Date</label>
+                        <input type="date" id="date" name="date" class="form-control" required>
+                    </div>
+
+                    <!-- Select Shift -->
+                    <div class="mb-3">
+                        <label class="form-label">Select Shift</label><br>
+                        <input type="radio" id="lunch" name="shift" value="Lunch" required>
+                        <label for="lunch">Lunch</label>
+                        <input type="radio" id="dinner" name="shift" value="Dinner" required>
+                        <label for="dinner">Dinner</label>
+                    </div>
+
+                    <!-- Number of People -->
+                    <div class="mb-3">
+                        <label for="numPeople" class="form-label">Number of People</label>
+                        <select id="numPeople" name="numPeople" class="form-select" required>
+                            <option selected>Select a restaurant and shift first</option>
+                        </select>
+                    </div>
+
+                    <!-- Additional Fields -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" id="firstName" name="firstName" class="form-control" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="date" class="form-label">Select Date</label>
-                            <input type="date" id="date" name="date" class="form-control" required>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" class="form-control" required>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Select Shift</label><br>
-                            <input type="radio" id="lunch" name="shift" value="Lunch" required>
-                            <label for="lunch">Lunch</label>
-                            <input type="radio" id="dinner" name="shift" value="Dinner" required>
-                            <label for="dinner">Dinner</label>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="numPeople" class="form-label">Number of People</label>
-                            <select id="numPeople" name="numPeople" class="form-select" required>
-                                <option selected>Select a restaurant and shift first</option>
-                            </select>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
-                    </form>
-                </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 mt-4">Confirm Booking</button>
+                </form>
             </div>
         </div>
-    </div>
 
+        <!-- Right Side: Logo -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <img src="/img/logo.jpg" alt="Restaurant Logo" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 60%;">
+        </div>
+    </div>
 </div>
 
 <!-- JavaScript to dynamically update the number of available seats -->
@@ -79,6 +112,7 @@
             }
         }
 
+        // Attach event listeners to update seats dynamically
         dateInput.addEventListener("change", updateAvailableSeats);
         shiftRadios.forEach(radio => radio.addEventListener("change", updateAvailableSeats));
         restaurantSelect.addEventListener("change", updateAvailableSeats);
