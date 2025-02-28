@@ -12,23 +12,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/bookings")
-@PreAuthorize("hasRole('ADMIN')")
+
 public class AdminBookingController {
 
     @Autowired
     private BookingService bookingService;
 
     // Mostrar todas las reservas activas
-    @GetMapping
+    @GetMapping("/admin/bookings")
     public String showAllBookings(Model model) {
         List<Booking> bookings = bookingService.getAllBookings();
         model.addAttribute("bookings", bookings);
-        return "manage-bookings";
+        model.addAttribute("modalId", "confirmationModal");
+        model.addAttribute("confirmButtonId", "confirmAction");
+        model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
+        model.addAttribute("hasBookings", !bookings.isEmpty());
+        return "admin/manage-bookings";
     }
 
     // Eliminar una reserva
-    @PostMapping("/{id}/delete")
+    @PostMapping("/admin/bookings/{id}/delete")
     public String deleteBooking(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         bookingService.cancelBookingById(id);
         redirectAttributes.addFlashAttribute("message", "Booking deleted successfully.");
