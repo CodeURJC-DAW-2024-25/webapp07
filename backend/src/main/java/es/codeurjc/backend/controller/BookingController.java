@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/booking")
 public class BookingController {
 
     @Autowired
@@ -26,15 +25,16 @@ public class BookingController {
     private RestaurantService restaurantService;
 
     // Mostrar formulario de reserva
-    @GetMapping("/new")
+    @GetMapping("/booking")
     public String showBookingForm(Model model) {
         List<Restaurant> restaurants = restaurantService.findAll();
+        model.addAttribute("pageTitle", "Booking");
         model.addAttribute("restaurants", restaurants);
-        return "booking-form";
+        return "booking";
     }
 
     // Procesar la reserva
-    @PostMapping("/new")
+    @PostMapping("/booking/new")
     public String processBooking(@RequestParam Long restaurantId,
                                  @RequestParam LocalDate date,
                                  @RequestParam String shift,
