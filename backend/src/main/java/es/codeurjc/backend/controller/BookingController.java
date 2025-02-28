@@ -75,4 +75,19 @@ public class BookingController {
         }
         return "redirect:/profile";
     }
+    @GetMapping("/availability")
+    @ResponseBody
+    public int getAvailableSeats(@RequestParam Long restaurantId,
+                                 @RequestParam LocalDate date,
+                                 @RequestParam String shift) {
+        // Obtener todas las reservas del restaurante en esa fecha y turno
+        List<Booking> existingBookings = bookingService.findBookingsByRestaurantAndShift(restaurantId, date, shift);
+
+        // Sumar el total de personas ya reservadas
+        int totalPeopleReserved = existingBookings.stream().mapToInt(Booking::getNumPeople).sum();
+
+        // Calcular asientos disponibles (máximo 40 por turno)
+        return Math.max(40 - totalPeopleReserved, 0);
+    }
+
 }
