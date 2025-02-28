@@ -41,4 +41,52 @@ public class OrderController {
             return "redirect:/error 404";
         }
     }
+
+    @GetMapping("/{id}/confirmation")
+    public String showOrderConfirmation(@PathVariable Long id, Model model) {
+        Optional<Order> orderOpt = orderService.getOrderById(id);
+
+        if (orderOpt.isPresent()) {
+            Order order = orderOpt.get();
+            model.addAttribute("order", order);
+            return "order-confirmation";
+        } else {
+            return "redirect:/error404";
+        }
+    }
+
+    @PostMapping("/{id}/pay")
+    public String payOrder(@PathVariable Long id, Model model) {
+        Optional<Order> orderOpt = orderService.getOrderById(id);
+
+        if (orderOpt.isPresent()) {
+            Order order = orderOpt.get();
+            orderService.updateOrderStatus(id, "Paid");
+
+            model.addAttribute("order", order);
+            return "redirect:/orders/" + id + "/success";
+        } else {
+            return "redirect:/error404";
+        }
+    }
+
+
+
+    @GetMapping("/{id}/success")
+    public String orderSuccess(@PathVariable Long id, Model model) {
+        Optional<Order> orderOpt = orderService.getOrderById(id);
+
+        if (orderOpt.isPresent()) {
+            Order order = orderOpt.get();
+            model.addAttribute("order", order);
+            return "order-success";
+        } else {
+            return "redirect:/error404";
+        }
+    }
+
+
+
+
+
 }

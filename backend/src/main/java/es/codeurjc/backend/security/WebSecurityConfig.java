@@ -50,8 +50,13 @@ public class WebSecurityConfig {
                         .requestMatchers("/menu/{id}").permitAll()
                         .requestMatchers("/api/menu").permitAll()
 
+
                         .requestMatchers("/orders/{id}/summary").authenticated()
-                        .requestMatchers("/orders/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/orders/{id}/confirmation").authenticated()
+                        .requestMatchers("/orders/{id}/pay").authenticated()
+                        .requestMatchers("/orders/{id}/success").authenticated()
+
+
 
                         // PRIVATE PAGES
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
