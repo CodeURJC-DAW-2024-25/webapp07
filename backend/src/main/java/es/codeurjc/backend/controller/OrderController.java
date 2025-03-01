@@ -1,12 +1,15 @@
 package es.codeurjc.backend.controller;
 
 import es.codeurjc.backend.model.Order;
+import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.OrderService;
+import es.codeurjc.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -15,6 +18,26 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/history")
+    public String showUserOrderHistory(Model model) {
+        Optional<User> userOpt = userService.getAuthenticatedUser();
+
+        if (userOpt.isPresent()) {
+            Long userId = userOpt.get().getId();
+
+            //search order for this user
+            List<Order> orders = orderService.getPaidOrdersByUserId(userId);
+            model.addAttribute("orders", orders);
+
+            return "user-order-history";
+        }
+
+        return "redirect:/login";
+    }
 
     @GetMapping("/{id}/summary")
     public String showOrderSummary(@PathVariable Long id, Model model) {

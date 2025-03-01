@@ -51,13 +51,8 @@ public class OrderService {
         }
     }
 
-    //delete an order by id
-    public void deleteOrder(Long id) {
-        try {
-            orderRepository.deleteById(id);
-        } catch (Exception e) {
-            System.err.println("Error deleting order: " + e.getMessage());
-            throw e;
-        }
+
+    public List<Order> getPaidOrdersByUserId(Long userId) {
+        return orderRepository.findByUserIdAndStatus(userId, "Paid");
     }
 }
