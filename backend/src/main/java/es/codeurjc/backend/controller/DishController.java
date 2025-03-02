@@ -142,6 +142,11 @@ public class DishController {
             model.addAttribute("dish", dish.get());
 
             model.addAttribute("pageTitle", "Dish info");
+
+            model.addAttribute("modalId", "confirmationModal");
+            model.addAttribute("confirmButtonId", "confirmAction");
+            model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
+
             return "dish-information";
         } else {
             return "menu";
@@ -173,6 +178,16 @@ public class DishController {
             dishService.deleteById(id);
             redirectAttributes.addFlashAttribute("message", "Plato eliminado con éxito");
         }
+        return "redirect:/menu";
+    }
+
+    @PostMapping("/menu/{id}/admin/mark-unavailable-dish")
+    public String markUnavailableDish(Model model,Dish dish, @PathVariable long id, RedirectAttributes redirectAttributes) {
+
+        dish.setAvailable(false);
+        dishService.save(dish);
+        redirectAttributes.addFlashAttribute("message", "Plato deshabilitado con éxito");
+
         return "redirect:/menu";
     }
 
@@ -209,6 +224,9 @@ public class DishController {
             formAction = "/menu/admin/new-dish";
         }
 
+        model.addAttribute("modalId", "confirmationModal");
+        model.addAttribute("confirmButtonId", "confirmAction");
+        model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
         // Agregar al modelo
         model.addAttribute("formAction", formAction);
         model.addAttribute("pageTitle", "Edit dish");

@@ -20,7 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
     @Autowired
-    private RepositoryUserDetailsService userDetailsService;
+    RepositoryUserDetailsService userDetailsService;
 
     @Autowired
     private CustomAuthenticationFailureHandler customFailureHandler;
@@ -43,9 +43,12 @@ public class WebSecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
+
         authProvider.setHideUserNotFoundExceptions(false);
+
         return authProvider;
     }
 
@@ -91,6 +94,11 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/menu/admin/new-dish/save").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/menu/{id}/admin/edit-dish/save").hasAnyRole("ADMIN")
                         .requestMatchers("/menu/{id}/admin/remove-dish").hasAnyRole("ADMIN")
+                        .requestMatchers("/menu/{id}/admin/mark-unavailable-dish").hasAnyRole("ADMIN")
+
+
+
+
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                 )
                 .formLogin(formLogin -> formLogin
@@ -103,6 +111,9 @@ public class WebSecurityConfig {
                         .logoutSuccessUrl("/")
                         .permitAll());
 
+
+        // Disable CSRF at the moment
+        http.csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
 }
