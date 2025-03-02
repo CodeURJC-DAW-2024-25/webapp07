@@ -3,6 +3,7 @@ package es.codeurjc.backend.controller;
 import es.codeurjc.backend.model.Booking;
 import es.codeurjc.backend.model.Restaurant;
 import es.codeurjc.backend.model.User;
+import es.codeurjc.backend.service.UserService;
 import es.codeurjc.backend.service.BookingService;
 import es.codeurjc.backend.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,21 @@ public class BookingController {
     @Autowired
     private RestaurantService restaurantService;
 
+    @Autowired
+    private UserService userService;
 
-    // Mostrar formulario de reserva
+
     @GetMapping("/booking")
-    public String showBookingForm(Model model, @AuthenticationPrincipal User user) {
+    public String showBookingForm(Model model, @AuthenticationPrincipal org.springframework.security.core.userdetails.User loggedUser) {
+        // Buscar el usuario real en la base de datos
+        Optional<User> userOpt = userService.findByUsername(loggedUser.getUsername());
+        if (userOpt.isEmpty()) {
+            model.addAttribute("error", "User not found.");
+            return "redirect:/";
+        }
+
+        User user = userOpt.get(); // Ahora tenemos el usuario real
+
         // Verificar si el usuario tiene una reserva activa
         Optional<Booking> activeBooking = bookingService.findActiveBookingByUser(user);
 
@@ -35,7 +47,7 @@ public class BookingController {
             // Redirigir a una nueva pantalla indicando que ya tiene una reserva activa
             model.addAttribute("pageTitle", "Existing Reservation");
             model.addAttribute("message", "You already have an active reservation. To make a new one, please cancel your existing booking in your profile.");
-            return "booking-existing"; // Nueva plantilla que informará al usuario
+            return "booking-existing";
         }
 
         List<Restaurant> restaurants = restaurantService.findAll();
@@ -45,36 +57,48 @@ public class BookingController {
     }
 
 
+
     // Procesar la reserva
     @PostMapping("/booking/new")
     public String processBooking(@RequestParam Long restaurantId,
                                  @RequestParam LocalDate date,
                                  @RequestParam String shift,
                                  @RequestParam int numPeople,
-                                 @AuthenticationPrincipal User user,
+                                 @AuthenticationPrincipal org.springframework.security.core.userdetails.User loggedUser,
                                  RedirectAttributes redirectAttributes) {
+
+        // Buscar el usuario real en la base de datos
+        Optional<User> userOpt = userService.findByUsername(loggedUser.getUsername());
+        if (userOpt.isEmpty()) {
+            redirectAttributes.addFlashAttribute("error", "User not found.");
+            return "redirect:/booking";
+        }
+
+        User user = userOpt.get(); // Obtener el usuario real desde la BD
 
         // Verificar si el usuario ya tiene una reserva activa
         Optional<Booking> activeBooking = bookingService.findActiveBookingByUser(user);
         if (activeBooking.isPresent()) {
             redirectAttributes.addFlashAttribute("error", "You already have an active reservation. Please cancel it first.");
-            return "redirect:/booking/confirmation-existing"; // Redirigir a una pantalla de error
+            return "booking-existing";
         }
 
+        // Verificar si el restaurante existe
         Optional<Restaurant> restaurant = restaurantService.findById(restaurantId);
         if (restaurant.isPresent()) {
             boolean success = bookingService.createBooking(restaurant.get(), user, date, shift, numPeople);
             if (success) {
-                redirectAttributes.addFlashAttribute("message", "Booking confirmed successfully.");
-                return "redirect:/booking/confirmation"; // Redirigir a la pantalla de confirmación
+                return "booking-confirmation";
             } else {
                 redirectAttributes.addFlashAttribute("error", "Could not make the reservation. Check availability.");
+                return "redirect:/booking";
             }
         } else {
             redirectAttributes.addFlashAttribute("error", "Selected restaurant not found.");
+            return "redirect:/booking";
         }
-        return "redirect:/booking";
     }
+
 
 
 

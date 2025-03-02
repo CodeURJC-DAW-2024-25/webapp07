@@ -18,12 +18,13 @@ public class BookingService {
 
     // Buscar la reserva activa de un usuario
     public Optional<Booking> findActiveBookingByUser(User user) {
-        return bookingRepository.findByUser(user);
+        return bookingRepository.findActiveBookingByUserId(user.getId());
     }
+
 
     // Crear una nueva reserva si hay disponibilidad
     public boolean createBooking(Restaurant restaurant, User user, LocalDate date, String shift, int numPeople) {
-        Optional<Booking> existingBooking = bookingRepository.findByUser(user);
+        Optional<Booking> existingBooking = bookingRepository.findActiveBookingByUserId(user.getId());
         if (existingBooking.isPresent()) {
             return false; // El usuario ya tiene una reserva activa
         }

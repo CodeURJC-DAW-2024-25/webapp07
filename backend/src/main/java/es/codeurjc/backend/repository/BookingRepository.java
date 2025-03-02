@@ -14,8 +14,9 @@ import java.util.Optional;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    // Buscar la reserva activa de un usuario
-    Optional<Booking> findByUser(User user);
+    @Query("SELECT b FROM Booking b WHERE b.user.id = :userId AND b.date >= CURRENT_DATE")
+    Optional<Booking> findActiveBookingByUserId(@Param("userId") Long userId);
+
 
     // Buscar reservas de un restaurante en un turno específico
     @Query("SELECT b FROM Booking b WHERE b.restaurant = :restaurant AND b.shift = :shift")
