@@ -15,6 +15,7 @@
                             <div class="mb-3">
                                 <label for="restaurant" class="form-label">Select Restaurant</label>
                                 <select id="restaurant" name="restaurantId" class="form-select" required>
+                                    <option value="" disabled selected>Choose one</option>
                                     {{#restaurants}}
                                     <option value="{{id}}">{{location}}</option>
                                     {{/restaurants}}
