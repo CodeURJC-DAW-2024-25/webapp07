@@ -12,15 +12,15 @@
                     <tr>
                         <h3 class="section-title ff-secondary text-start text-primary fw-normal">Username</h3>
                         <p class="mb-4">{{user.username}}</p>
+                    </tr>
                     <tr>
                         <h3 class="section-title ff-secondary text-start text-primary fw-normal">Name</h3>
                         <p class="mb-4">
                             {{#user.firstName}}{{user.firstName}}{{/user.firstName}}
-                            {{#user.lastName}}{{user.lastName}}{{/user.lastName}}
+                            {{#user.lastName}} {{user.lastName}}{{/user.lastName}}
                             {{^user.firstName}}{{^user.lastName}}No name available{{/user.lastName}}{{/user.firstName}}
                         </p>
                     </tr>
-
                     <tr>
                         <h3 class="section-title ff-secondary text-start text-primary fw-normal">Email</h3>
                         <p class="mb-4">
@@ -28,7 +28,6 @@
                             {{^user.email}}No email provided{{/user.email}}
                         </p>
                     </tr>
-
                     <tr>
                         <h3 class="section-title ff-secondary text-start text-primary fw-normal">Phone number</h3>
                         <p class="mb-4">
@@ -36,7 +35,6 @@
                             {{^user.phoneNumber}}No phone number available{{/user.phoneNumber}}
                         </p>
                     </tr>
-
                     <tr>
                         <h3 class="section-title ff-secondary text-start text-primary fw-normal">Address</h3>
                         <p class="mb-4">
@@ -45,6 +43,22 @@
                         </p>
                     </tr>
                 </table>
+
+                <!-- Active Booking Section -->
+                {{#booking}}
+                <div class="mt-4">
+                    <h3 class="section-title ff-secondary text-start text-primary fw-normal">Active Reservation</h3>
+                    <p class="mb-2"><strong>Restaurant:</strong> {{booking.restaurant.location}}</p>
+                    <p class="mb-2"><strong>Date:</strong> {{booking.date}}</p>
+                    <p class="mb-2"><strong>Shift:</strong> {{booking.shift}}</p>
+                    <p class="mb-2"><strong>Number of People:</strong> {{booking.numPeople}}</p>
+
+                    <!-- Cancel Booking Button -->
+                    <form action="/booking/cancel" method="post">
+                        <button type="submit" class="btn btn-danger py-2 px-4 mt-2">Cancel Booking</button>
+                    </form>
+                </div>
+                {{/booking}}
 
                 <div class="breadcrumb">
                     <a class="btn btn-primary py-3 px-5 mt-2" href="/profile?edit=true">Edit</a>
@@ -63,15 +77,15 @@
 
                     <div class="mb-3">
                         <label class="form-label">First Name</label>
-                        <input type="text" class="form-control" name="firstName" value="{{#user.firstName}}{{user.firstName}}{{/user.firstName}}" >
+                        <input type="text" class="form-control" name="firstName" value="{{#user.firstName}}{{user.firstName}}{{/user.firstName}}">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Last Name</label>
-                        <input type="text" class="form-control" name="lastName" value="{{#user.lastName}}{{user.lastName}}{{/user.lastName}}" >
+                        <input type="text" class="form-control" name="lastName" value="{{#user.lastName}}{{user.lastName}}{{/user.lastName}}">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" value="{{#user.email}}{{user.email}}{{/user.email}}" >
+                        <input type="email" class="form-control" name="email" value="{{#user.email}}{{user.email}}{{/user.email}}">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Phone Number</label>
@@ -90,9 +104,7 @@
     </div>
 </div>
 
-
 {{> fragments/modal-confirmation}}
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/confirmationModal.js"></script>
