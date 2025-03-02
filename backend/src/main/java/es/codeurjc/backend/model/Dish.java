@@ -161,9 +161,18 @@ public class Dish {
 
     public String blobToString(Blob imageFile, Dish dishE) throws SQLException {
         Blob blob = dishE.getDishImagefile();
-        byte[] bytes = blob.getBytes(1,(int) blob.length());
-        String dishImage = Base64.getEncoder().encodeToString(bytes);
-        return dishImage;
+
+        if (blob == null) {
+            return "";
+        }
+        try {
+            byte[] bytes = blob.getBytes(1, (int) blob.length());
+            return Base64.getEncoder().encodeToString(bytes);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
+
 
 }
