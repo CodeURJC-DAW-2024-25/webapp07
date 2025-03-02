@@ -22,6 +22,8 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
+
+
     @GetMapping("/history")
     public String showUserOrderHistory(Model model) {
         Optional<User> userOpt = userService.getAuthenticatedUser();
@@ -38,6 +40,32 @@ public class OrderController {
 
         return "redirect:/login";
     }
+
+    @GetMapping("/{id}/more-info")
+    public String showOrderMoreInfo(@PathVariable Long id, Model model) {
+        Optional<Order> orderOpt = orderService.getOrderById(id);
+
+        if (orderOpt.isPresent()) {
+            Order order = orderOpt.get();
+
+            double deliveryCost = 4.99;
+            double totalPrice = order.getTotalPrice();
+            double finalPrice = totalPrice + deliveryCost;
+
+            // Transferir datos a la vista
+            model.addAttribute("id", order.getId());
+            model.addAttribute("dishes", order.getDishes());
+            model.addAttribute("totalPrice", totalPrice);
+            model.addAttribute("deliveryCost", deliveryCost);
+            model.addAttribute("finalPrice", finalPrice);
+            model.addAttribute("address", order.getAddress());
+
+            return "order-more-info"; // Renderiza la nueva plantilla
+        } else {
+            return "redirect:/error404";
+        }
+    }
+
 
     @GetMapping("/{id}/summary")
     public String showOrderSummary(@PathVariable Long id, Model model) {

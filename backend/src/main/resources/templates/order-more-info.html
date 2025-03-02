@@ -1,0 +1,70 @@
+{{> fragments/header}}
+
+<div class="container-xxl bg-dark hero-header">
+  <div class="container text-center pt-5">
+    <h1 class="display-3 text-white animated slideInDown pt-4 pb-4">Order Details</h1>
+  </div>
+</div>
+
+<!-- Order Details Start -->
+<div class="container-xxl py-3">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+
+      <!-- Order's Card -->
+      <div class="text-sm-start rounded-4 card shadow-lg">
+        <div class="d-flex py-3 card-head bg-primary text-white justify-content-center align-items-center">
+          <span class="section-title ff-secondary text-center text-white fw-normal fs-3">Order Information</span>
+        </div>
+        <div class="card-body bg-light">
+
+          {{#dishes}}
+          <div class="d-flex align-items-center mb-3">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>{{name}}</span>
+                <span class="text-primary">€{{price}}</span>
+              </h5>
+              <small class="fst-italic">{{description}}</small>
+            </div>
+          </div>
+          {{/dishes}}
+
+          <div class="d-flex justify-content-between pt-3">
+            <h5 class="text-end">Subtotal</h5>
+            <h5 class="text-end">€{{totalPrice}}</h5>
+          </div>
+
+          <div class="d-flex justify-content-between">
+            <h5 class="text-end">Delivery</h5>
+            <h5 class="text-end">€4.99</h5>
+          </div>
+
+          <!-- Address Section -->
+          <div class="d-flex align-items-center mb-3">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Address</span>
+              </h5>
+              <small class="fst-italic">{{address}}</small>
+            </div>
+          </div>
+
+          <hr>
+          <div class="d-flex justify-content-between fw-bold mt-3">
+            <h5 class="text-end">Total</h5>
+            <h5 class="text-end">€{{finalPrice}}</h5>
+          </div>
+
+          <!-- Only Back Button -->
+          <div class="button-group d-flex justify-content-center mt-3">
+            <a href="/orders/history" class="btn btn-secondary mt-2">Back to Order History</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Order Details End -->
+
+{{> fragments/footer}}
