@@ -74,38 +74,19 @@
         <!-- Cart button -->
         <div class="dropdown">
           <a href="#" class="btn btn-link" id="cartButton" data-bs-toggle="dropdown" aria-expanded="false" style="box-shadow:none; text-transform:none;">
-            <i class="fa fa-shopping-cart me-2"></i>Cart
+            <i class="fa fa-shopping-cart me-2"></i>Cart <span id="cart-count" class="badge bg-primary">0</span>
           </a>
           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cartButton" style="right: 0; left: auto; width: max-content;">
-            <div id="cartSummary" class="p-3" style="overflow-y: auto;">
-              <!-- Producto 1 -->
-              <div class="card mb-3" style="width: 18rem;">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                  <h5 class="card-title mb-0">Pollo frito</h5>
-                  <div class="d-flex align-items-center">
-                    <i class="fa fa-minus text-primary px-3"></i>
-                    <span>2</span>
-                    <i class="fa fa-plus text-primary px-3"></i>
-                  </div>
-                </div>
-              </div>
-              <!-- Producto 2 -->
-              <div class="card" style="width: 18rem;">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                  <h5 class="card-title mb-0">Croqueta Voltereta</h5>
-                  <div class="d-flex align-items-center">
-                    <i class="fa fa-minus text-primary px-3"></i>
-                    <span>5</span>
-                    <i class="fa fa-plus text-primary px-3"></i>
-                  </div>
-                </div>
-              </div>
+            <div id="cartSummary" class="p-3" style="overflow-y: auto; max-height: 300px;">
+              <p class="text-center">Your cart is empty.</p>
             </div>
             <div class="d-flex justify-content-end px-2">
               <a href="../pickup-delivery-order.html" class="btn btn-primary">Order</a>
             </div>
           </div>
         </div>
+
+        <script src="/js/cart.js"></script>
         <!-- End cart button -->
         {{#isAdmin}}
         <div class="dropdown">
