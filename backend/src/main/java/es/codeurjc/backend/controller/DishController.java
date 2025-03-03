@@ -2,36 +2,44 @@ package es.codeurjc.backend.controller;
 
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.enums.Allergens;
-
 import es.codeurjc.backend.service.DishService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Controller for handling dish-related operations.
+ */
 @Controller
 public class DishController {
+
     @Autowired
     private DishService dishService;
 
+    /**
+     * Displays the menu with optional filtering.
+     *
+     * @param name Filter by dish name.
+     * @param ingredient Filter by ingredient.
+     * @param maxPrice Filter by maximum price.
+     * @param model Model to store attributes.
+     * @return The menu page.
+     * @throws SQLException If an SQL error occurs.
+     */
     @GetMapping({"/menu", "/menu/filter", "/menu/sort"})
     public String showMenu(@RequestParam(required = false) String name,
                            @RequestParam(required = false) String ingredient,
@@ -42,22 +50,32 @@ public class DishController {
         dishService.calculateRates(dishes);
         if (dishes.size() < 10){
             for (Dish dish : dishes) {
-            dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+                dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
             }
-        }else{
+        } else {
             for (int i = 0; i < 10; i++) {
-            dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
+                dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
             }
         }
 
         model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
-
         model.addAttribute("pageTitle", "Menu");
         model.addAttribute("menuActive", true);
 
         return "menu";
     }
 
+    /**
+     * Retrieves a paginated list of dishes in JSON format.
+     *
+     * @param name Filter by dish name.
+     * @param ingredient Filter by ingredient.
+     * @param maxPrice Filter by maximum price.
+     * @param page Page number.
+     * @param pageSize Number of items per page.
+     * @return List of filtered dishes.
+     * @throws SQLException If an SQL error occurs.
+     */
     @GetMapping("/api/menu")
     @ResponseBody
     public List<Dish> getDishes(@RequestParam(required = false) String name,
@@ -66,17 +84,16 @@ public class DishController {
                                 @RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "10") int pageSize) throws SQLException {
 
-        System.out.println("NAME: "+ name + "INGREDIENT: " + ingredient + "MAXPRICE: " + maxPrice);
+        System.out.println("NAME: "+ name + " INGREDIENT: " + ingredient + " MAXPRICE: " + maxPrice);
 
         List<Dish> filteredDishes = dishService.filterDishes(name, ingredient, maxPrice);
         filteredDishes = dishService.calculateRates(filteredDishes);
 
         for (Dish dish : filteredDishes) {
-            System.out.println("NOMBRE:" + dish.getName() + " PRECIO:" + dish.getPrice());
+            System.out.println("NAME: " + dish.getName() + " PRICE: " + dish.getPrice());
         }
 
-
-        // Paginar la lista filtrada manualmente
+        // Paginate the filtered list manually
         int fromIndex = page * pageSize;
         int toIndex = Math.min(fromIndex + pageSize, filteredDishes.size());
 
@@ -85,13 +102,20 @@ public class DishController {
                 filteredDishes.subList(fromIndex, toIndex);
 
         for (Dish dish : paginatedDishes) {
-            if (dish.getImage()){
+            if (dish.getImage()) {
                 dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
             }
         }
         return paginatedDishes;
     }
-
+    /**
+     * Displays detailed information about a specific dish.
+     *
+     * @param model Model to store attributes.
+     * @param id Dish ID.
+     * @return The dish information page.
+     * @throws SQLException If an SQL error occurs.
+     */
     @GetMapping("/menu/{id}")
     public String showDishInfo(Model model, @PathVariable long id) throws SQLException {
 
@@ -115,18 +139,14 @@ public class DishController {
             model.addAttribute("stars", starList);
             model.addAttribute("noStars", noStarList);
 
-
             List<String> formattedIngredients = dish.get().getIngredients().stream()
                     .map(ing -> ing.substring(0, 1).toUpperCase() + ing.substring(1).toLowerCase())
                     .toList();
 
             model.addAttribute("ingredients", formattedIngredients);
-
             model.addAttribute("dish", dish.get());
-
             model.addAttribute("pageTitle", "Dish info");
             model.addAttribute("menuActive", true);
-
             model.addAttribute("modalId", "confirmationModal");
             model.addAttribute("confirmButtonId", "confirmAction");
             model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
@@ -137,49 +157,75 @@ public class DishController {
         }
     }
 
+    /**
+     * Retrieves an image of a dish.
+     *
+     * @param id Dish ID.
+     * @return The image file as a response entity.
+     * @throws SQLException If an SQL error occurs.
+     */
     @GetMapping("/menu/{id}/image")
     public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
 
         Optional<Dish> op = dishService.findById(id);
-
         if (op.isPresent() && op.get().getDishImagefile() != null) {
-
             Blob image = op.get().getDishImagefile();
             Resource file = new InputStreamResource(image.getBinaryStream());
-
             return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
                     .contentLength(image.length()).body(file);
-
         } else {
             return ResponseEntity.notFound().build();
         }
     }
-
+    /**
+     * Removes a dish from the menu.
+     *
+     * @param model Model to store attributes.
+     * @param id Dish ID.
+     * @param redirectAttributes Redirect attributes for messages.
+     * @return Redirects to the menu page.
+     */
     @PostMapping("/menu/{id}/admin/remove-dish")
     public String removeDish(Model model, @PathVariable long id, RedirectAttributes redirectAttributes) {
         Optional<Dish> dish = dishService.findById(id);
         if (dish.isPresent()) {
             dishService.deleteById(id);
-            redirectAttributes.addFlashAttribute("message", "Plato eliminado con éxito");
+            redirectAttributes.addFlashAttribute("message", "Dish successfully removed");
         }
         return "redirect:/menu";
     }
 
+    /**
+     * Marks a dish as unavailable.
+     *
+     * @param model Model to store attributes.
+     * @param dish The dish to be marked as unavailable.
+     * @param id Dish ID.
+     * @param redirectAttributes Redirect attributes for messages.
+     * @return Redirects to the menu page.
+     */
     @PostMapping("/menu/{id}/admin/mark-unavailable-dish")
-    public String markUnavailableDish(Model model,Dish dish, @PathVariable long id, RedirectAttributes redirectAttributes) {
-
+    public String markUnavailableDish(Model model, Dish dish, @PathVariable long id, RedirectAttributes redirectAttributes) {
         dish.setAvailable(false);
         dishService.save(dish);
-        redirectAttributes.addFlashAttribute("message", "Plato deshabilitado con éxito");
-
+        redirectAttributes.addFlashAttribute("message", "Dish successfully disabled");
         return "redirect:/menu";
     }
 
+    /**
+     * Displays the form for adding or editing a dish.
+     *
+     * @param id Dish ID (optional, required for editing).
+     * @param model Model to store attributes.
+     * @param request HTTP request.
+     * @return The dish form page.
+     * @throws SQLException If an SQL error occurs.
+     */
     @GetMapping({"/menu/admin/new-dish", "/menu/{id}/admin/edit-dish"})
     public String showDishForm(@PathVariable(required = false) Long id, Model model, HttpServletRequest request) throws SQLException {
 
         String formAction;
-        if (id != null) { // Modo edición
+        if (id != null) { // Edit mode
             model.addAttribute("pageTitle", "Edit dish");
             model.addAttribute("menuActive", true);
             Optional<Dish> dishOpt = dishService.findById(id);
@@ -187,22 +233,16 @@ public class DishController {
                 Dish dish = new Dish();
                 dish = dishOpt.get();
                 dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
-
                 formAction = "/menu/" + dish.getId() + "/admin/edit-dish";
-
                 model.addAttribute("imageFile", dish.getDishImagefile());
-
                 String ingredientsFormatted = String.join(", ", dish.getIngredients());
                 model.addAttribute("ingredients", ingredientsFormatted);
-
                 model.addAttribute("allergens", Allergens.values());
-
                 model.addAttribute("dish", dish);
             } else {
-                // Si no se encuentra, redirige o maneja el error
                 return "redirect:/menu";
             }
-        } else { // Modo creación
+        } else { // Creation mode
             model.addAttribute("allergens", Allergens.values());
             model.addAttribute("pageTitle", "New dish");
             model.addAttribute("menuActive", true);
@@ -212,15 +252,24 @@ public class DishController {
         model.addAttribute("modalId", "confirmationModal");
         model.addAttribute("confirmButtonId", "confirmAction");
         model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
-        // Agregar al modelo
         model.addAttribute("formAction", formAction);
-
         model.addAttribute("pageTitle", "Dish form");
-
         return "dish-form";
     }
 
-
+    /**
+     * Processes the creation or edition of a dish.
+     *
+     * @param model Model to store attributes.
+     * @param dish The dish to be saved.
+     * @param ingredients Ingredients list as a string.
+     * @param action The action to perform.
+     * @param imageField Dish image (optional).
+     * @param selectedAllergens List of selected allergens (optional).
+     * @param vegan Indicates if the dish is vegan.
+     * @return Redirects to the menu or dish form.
+     * @throws IOException If an image processing error occurs.
+     */
     @PostMapping({"/menu/admin/new-dish/save", "/menu/{id}/admin/edit-dish/save"})
     public String editDishProcess(Model model, Dish dish, String ingredients, String action, @RequestParam(required = false) MultipartFile imageField, @RequestParam(required = false) List<Allergens> selectedAllergens, boolean vegan) throws IOException {
         List<String> ingredientsList = Arrays.stream(ingredients.toLowerCase().split(","))
@@ -228,7 +277,6 @@ public class DishController {
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
         dish.setIngredients(ingredientsList);
-
         dish.setAllergens(selectedAllergens);
         dish.setVegan(vegan);
 
@@ -238,7 +286,6 @@ public class DishController {
         }
 
         model.addAttribute("dishId", dish.getId());
-
         String formAction = (dish.getId() != null) ? "/menu/" + dish.getId() + "/admin/edit-dish" : "/menu/admin/new-dish";
         model.addAttribute("formAction", formAction);
 
@@ -250,7 +297,6 @@ public class DishController {
         model.addAttribute("modalId", "confirmationModal");
         model.addAttribute("confirmButtonId", "confirmAction");
         model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
-
         model.addAttribute("pageTitle", "Saved Changes");
         return "dish-form";
     }

@@ -1,5 +1,8 @@
 package es.codeurjc.backend.enums;
 
+/**
+ * Enum representing different types of allergens and their associated image URLs.
+ */
 public enum Allergens {
     ALTRAMUZ("/img/allergen_symbols/allergen_symbol_altramuz.png"),
     //APIO("../static/img/allergen_symbols/allergen_symbol_apio.png"),
@@ -11,7 +14,7 @@ public enum Allergens {
     MOLLUSKS("/img/allergen_symbols/allergen_symbol_mollusks.png"),
     MUSTARD("/img/allergen_symbols/allergen_symbol_mustard.png"),
     NUTS("/img/allergen_symbols/allergen_symbol_nuts.png"),
-    PEANUT(("/img/allergen_symbols/allergen_symbol_peanut.png")),
+    PEANUT("/img/allergen_symbols/allergen_symbol_peanut.png"),
     SESAME("/img/allergen_symbols/allergen_symbol_sesame.png"),
     SOYBEANS("/img/allergen_symbols/allergen_symbol_soybeans.png"),
     SULFITES("/img/allergen_symbols/allergen_symbol_sulfites.png"),
@@ -19,10 +22,20 @@ public enum Allergens {
 
     private String imageUrl;
 
+    /**
+     * Constructor to assign an image URL to the allergen.
+     *
+     * @param imageUrl The URL of the allergen's image representation.
+     */
     Allergens(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
+    /**
+     * Retrieves the image URL associated with the allergen.
+     *
+     * @return The image URL as a string.
+     */
     public String getImageUrl() {
         return imageUrl;
     }

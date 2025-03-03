@@ -1,6 +1,5 @@
 package es.codeurjc.backend.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import es.codeurjc.backend.enums.Allergens;
 import jakarta.persistence.*;
@@ -17,7 +16,9 @@ import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 
-
+/**
+ * Entity representing a Dish in the system.
+ */
 @Entity
 public class Dish {
     @Id
@@ -48,7 +49,14 @@ public class Dish {
 
     private int rate;
 
+    /**
+     * Default constructor.
+     */
     public Dish(){}
+
+    /**
+     * Constructor with parameters.
+     */
     public Dish(@NotNull String name, String description, int price, List<String> ingredients, boolean isVegan, String dishImagePath, boolean image, List<Allergens> allergens, boolean isAvailable, List<Integer> rates, int rate) {
         this.name = name;
         this.description = description;
@@ -62,6 +70,7 @@ public class Dish {
         this.rates = rates;
         this.rate = rate;
     }
+
     // Getters and Setters
     public Long getId() {
         return id;
@@ -149,6 +158,11 @@ public class Dish {
         this.dishImagefile = dishImagefile;
     }
 
+    /**
+     * Converts a URL to a Blob image.
+     * @param webURL The URL of the image.
+     * @return The corresponding Blob image.
+     */
     public Blob URLtoBlob(String webURL){
         try {
             URL url = new URL(webURL);
@@ -171,6 +185,13 @@ public class Dish {
         }
     }
 
+    /**
+     * Converts a Blob image to a Base64 encoded string.
+     * @param imageFile The Blob image.
+     * @param dishE The Dish object.
+     * @return Base64 encoded string of the image.
+     * @throws SQLException if an error occurs accessing the Blob.
+     */
     public String blobToString(Blob imageFile, Dish dishE) throws SQLException {
         Blob blob = dishE.getDishImagefile();
         byte[] bytes = blob.getBytes(1,(int) blob.length());
