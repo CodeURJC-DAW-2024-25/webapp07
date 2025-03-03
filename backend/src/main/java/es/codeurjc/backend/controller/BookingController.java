@@ -18,6 +18,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller for managing user bookings.
+ */
 @Controller
 public class BookingController {
 
@@ -30,6 +33,13 @@ public class BookingController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Displays the booking form.
+     *
+     * @param model The model to pass data to the view.
+     * @param loggedUser The authenticated user.
+     * @return The booking form page.
+     */
     @GetMapping("/booking")
     public String showBookingForm(Model model, @AuthenticationPrincipal UserDetails loggedUser) {
         Optional<User> userOpt = userService.findByUsername(loggedUser.getUsername());
@@ -38,8 +48,7 @@ public class BookingController {
             return "redirect:/";
         }
 
-        User user = userOpt.get(); // Obtener el usuario real desde la BD
-
+        User user = userOpt.get();
         Optional<Booking> activeBooking = bookingService.findActiveBookingByUser(user);
         if (activeBooking.isPresent()) {
             model.addAttribute("pageTitle", "Existing Reservation");
@@ -54,6 +63,17 @@ public class BookingController {
         return "booking";
     }
 
+    /**
+     * Processes a new booking request.
+     *
+     * @param restaurantId The ID of the restaurant.
+     * @param date The booking date.
+     * @param shift The selected shift (Lunch or Dinner).
+     * @param numPeople The number of people in the reservation.
+     * @param loggedUser The authenticated user.
+     * @param redirectAttributes Redirect attributes for displaying messages.
+     * @return Redirects to the booking confirmation or back to the form if an error occurs.
+     */
     @PostMapping("/booking/new")
     public String processBooking(@RequestParam Long restaurantId,
                                  @RequestParam LocalDate date,
@@ -62,60 +82,63 @@ public class BookingController {
                                  @AuthenticationPrincipal UserDetails loggedUser,
                                  RedirectAttributes redirectAttributes) {
 
-        System.out.println("🚀 Processing Booking...");
-        System.out.println("📌 Restaurant ID: " + restaurantId);
-        System.out.println("📌 Date: " + date);
-        System.out.println("📌 Shift: " + shift);
-        System.out.println("📌 Number of People: " + numPeople);
-
         Optional<User> userOpt = userService.findByUsername(loggedUser.getUsername());
         if (userOpt.isEmpty()) {
-            System.out.println("❌ Error: User not found.");
             redirectAttributes.addFlashAttribute("error", "User not found.");
             return "redirect:/booking";
         }
 
         User user = userOpt.get();
-
         Optional<Restaurant> restaurantOpt = restaurantService.findById(restaurantId);
         if (restaurantOpt.isEmpty()) {
-            System.out.println("❌ Error: Restaurant not found.");
             redirectAttributes.addFlashAttribute("error", "Selected restaurant not found.");
             return "redirect:/booking";
         }
 
         Restaurant restaurant = restaurantOpt.get();
-
-        System.out.println("🔎 Checking availability for " + restaurant.getLocation() + " on " + date + " at " + shift);
-
         boolean success = bookingService.createBooking(restaurant, user, date, shift, numPeople);
         if (success) {
-            System.out.println("✅ Booking successfully created!");
             return "booking-confirmation";
         } else {
-            System.out.println("❌ Error: No availability for this date and shift.");
             redirectAttributes.addFlashAttribute("error", "Could not make the reservation. Check availability.");
             return "redirect:/booking";
         }
     }
 
-
+    /**
+     * Displays the booking confirmation page.
+     *
+     * @param model The model to pass data to the view.
+     * @return The booking confirmation page.
+     */
     @GetMapping("/booking/confirmation")
     public String showConfirmationPage(Model model) {
         model.addAttribute("pageTitle", "Booking Confirmation");
         return "booking-confirmation";
     }
 
+    /**
+     * Displays the active booking of the user.
+     *
+     * @param model The model to pass data to the view.
+     * @param loggedUser The authenticated user.
+     * @return The profile booking page.
+     */
     @GetMapping("/booking/my-booking")
     public String showUserBooking(Model model, @AuthenticationPrincipal UserDetails loggedUser) {
         Optional<User> userOpt = userService.findByUsername(loggedUser.getUsername());
-        if (userOpt.isPresent()) {
-            Optional<Booking> booking = bookingService.findActiveBookingByUser(userOpt.get());
-            booking.ifPresent(value -> model.addAttribute("booking", value));
-        }
+        userOpt.flatMap(bookingService::findActiveBookingByUser)
+                .ifPresent(booking -> model.addAttribute("booking", booking));
         return "profile-booking";
     }
 
+    /**
+     * Cancels an active booking.
+     *
+     * @param loggedUser The authenticated user.
+     * @param redirectAttributes Redirect attributes for displaying messages.
+     * @return Redirects to the profile or booking cancellation page.
+     */
     @PostMapping("/booking/cancel")
     public String cancelBooking(@AuthenticationPrincipal UserDetails loggedUser, RedirectAttributes redirectAttributes) {
         Optional<User> userOpt = userService.findByUsername(loggedUser.getUsername());
@@ -130,20 +153,33 @@ public class BookingController {
         if (booking.isPresent()) {
             bookingService.cancelBooking(booking.get());
             redirectAttributes.addFlashAttribute("message", "Booking canceled successfully.");
-            return "redirect:/booking-cancelled"; // ✅ Redirige a la página correcta
+            return "redirect:/booking-cancelled";
         } else {
             redirectAttributes.addFlashAttribute("error", "No active booking found.");
             return "redirect:/profile";
         }
     }
 
+    /**
+     * Displays the booking cancellation confirmation page.
+     *
+     * @param model The model to pass data to the view.
+     * @return The booking cancellation confirmation page.
+     */
     @GetMapping("/booking-cancelled")
     public String showBookingCancelledPage(Model model) {
         model.addAttribute("pageTitle", "Booking Cancelled");
-        return "booking-cancelled"; // Debe coincidir con el nombre del archivo HTML
+        return "booking-cancelled";
     }
 
-
+    /**
+     * Retrieves available seats for a given restaurant, date, and shift.
+     *
+     * @param restaurantId The ID of the restaurant.
+     * @param date The date of the reservation.
+     * @param shift The shift (Lunch or Dinner).
+     * @return The number of available seats.
+     */
     @GetMapping("/booking/availability")
     @ResponseBody
     public int getAvailableSeats(@RequestParam Long restaurantId,
