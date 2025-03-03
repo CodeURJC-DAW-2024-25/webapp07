@@ -180,13 +180,12 @@ public class BookingController {
      * @param shift The shift (Lunch or Dinner).
      * @return The number of available seats.
      */
+    // BookingController.java
     @GetMapping("/booking/availability")
     @ResponseBody
     public int getAvailableSeats(@RequestParam Long restaurantId,
                                  @RequestParam LocalDate date,
                                  @RequestParam String shift) {
-        List<Booking> existingBookings = bookingService.findBookingsByRestaurantAndShift(restaurantId, date, shift);
-        int totalPeopleReserved = existingBookings.stream().mapToInt(Booking::getNumPeople).sum();
-        return Math.max(40 - totalPeopleReserved, 0);
+        return bookingService.getAvailableSeats(restaurantId, date, shift);
     }
 }
