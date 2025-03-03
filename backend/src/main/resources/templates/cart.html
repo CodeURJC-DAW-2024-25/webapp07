@@ -25,6 +25,10 @@
                             </h5>
                             <small class="fst-italic">{{description}}</small>
                         </div>
+                        <form action="/orders/cart/remove" method="post">
+                            <input type="hidden" name="dishId" value="{{id}}">
+                            <button type="submit" class="btn btn-danger btn-sm ms-3">Remove</button>
+                        </form>
                     </div>
                     {{/dishes}}
 

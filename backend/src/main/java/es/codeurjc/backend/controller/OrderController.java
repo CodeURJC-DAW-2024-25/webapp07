@@ -87,6 +87,21 @@ public class OrderController {
 
         return "redirect:/orders/cart";
     }
+    
+    @PostMapping("/cart/remove")
+    public String removeFromCart(@RequestParam Long dishId, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Order cart = orderService.findCartByUser(user.getId())
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
+
+        cart.getDishes().removeIf(dish -> dish.getId().equals(dishId));
+        orderService.saveOrder(cart);
+
+        return "redirect:/orders/cart";
+    }
+
 
 
 
