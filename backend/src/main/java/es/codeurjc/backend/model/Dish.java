@@ -16,7 +16,6 @@ import java.util.Base64;
 import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
-import es.codeurjc.backend.enums.Allergens;
 
 
 @Entity

@@ -10,10 +10,10 @@
                 <div class="col-md-6 align-items-center">
                     <div class="dish-image">
                         {{#dish.image}}
-                        <img src="data:image/png;base64,{{#dish.dishImagePath}}{{dish.dishImagePath}}{{/dish.dishImagePath}}" alt="{{dish.name}}" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
+                        <img src="data:image/png;base64,{{#dish.dishImagePath}}{{dish.dishImagePath}}{{/dish.dishImagePath}}" alt="{{dish.name}}"  class="img-fluid" style="height: 100vh; width: auto">
                         {{/dish.image}}
                         {{^dish.image}}
-                        <img  src="/img/logo.jpg" alt="Dish Image" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
+                        <img  src="/img/logo.jpg" alt="Dish Image"  class="img-fluid" style="height: 100vh; width: auto">
                         {{/dish.image}}
                     </div>
                 </div>

@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,9 +45,12 @@ public class DishService {
         if (name != null && !name.isEmpty()) {
             dishesByName.retainAll(dishesByIngredient);
             dishesByName.retainAll(dishesByPrice);
+            dishesByName.removeIf(dish -> !dish.isAvailable());
             return dishesByName;  // Final list
         } else {
             dishesByIngredient.retainAll(dishesByPrice);
+            dishesByIngredient.removeIf(dish -> !dish.isAvailable());
+
             return dishesByIngredient;  // Final list
         }
     }
