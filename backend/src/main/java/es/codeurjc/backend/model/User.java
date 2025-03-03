@@ -40,9 +40,6 @@ public class User {
     /** Email address of the user. */
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Dish> cart;
-
     /** Encrypted password of the user. */
     private String encodedPassword;
 
@@ -197,16 +194,6 @@ public class User {
     /** @param roles The roles to set. */
     public void setRoles(List<String> roles) {
         this.roles = roles;
-    }
-
-    /**@return The dishes saved by user **/
-    public List<Dish> getCart(){
-        return this.cart;
-    }
-
-    /** @param cart The dishes to set*/
-    public void setCart(List<Dish> cart){
-        this.cart = cart;
     }
 
     /** @return Whether the user is banned. */

@@ -83,12 +83,16 @@ public class WebSecurityConfig {
                         // Private pages (authenticated users)
 
                         .requestMatchers("/orders/{id}/summary").authenticated()
-                        .requestMatchers("/orders/add_dish").authenticated()
+                        .requestMatchers("/orders/pickup-delivery-order").authenticated()
                         .requestMatchers("/orders/{id}/confirmation").authenticated()
                         .requestMatchers("/orders/{id}/pay").authenticated()
                         .requestMatchers("/orders/{id}/success").authenticated()
                         .requestMatchers("/orders/history").authenticated()
                         .requestMatchers("orders/{id}/more-info").authenticated()
+
+
+
+
 
                         // PRIVATE PAGES
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()

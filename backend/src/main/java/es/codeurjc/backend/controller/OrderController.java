@@ -1,18 +1,14 @@
 package es.codeurjc.backend.controller;
 
 import es.codeurjc.backend.model.Order;
-import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.OrderService;
-import es.codeurjc.backend.service.DishService;
 import es.codeurjc.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,25 +21,14 @@ public class OrderController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private DishService dishService;
 
 
-    @PostMapping("/orders/add_dish")
-    public String showPickupOption(Long id, Model model, @AuthenticationPrincipal User user){
-        Optional<Dish> dish = dishService.findById(id);
-        List<Dish> cart = user.getCart();
 
-        if (dish.isPresent()) {
-            cart.add(dish.get());
-        } else {
-            throw new IllegalArgumentException("Dish not found for ID: " + id);
-        }
-        user.setCart(cart);
-        System.out.println(cart);
-        userService.updateUser(user);
+    @GetMapping("/orders/pickup-delivery-order")
+    public String showPickupOption(Model model){
 
-        return "redirect:/menu";
+
+        return "pickup-delivery-order";
     }
 
     @GetMapping("/history")
