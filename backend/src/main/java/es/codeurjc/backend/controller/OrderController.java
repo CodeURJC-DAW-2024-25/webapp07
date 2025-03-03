@@ -155,8 +155,7 @@ public class OrderController {
 
             double deliveryCost = 4.99;
             double totalPrice = order.getTotalPrice();
-            double finalPrice = totalPrice + deliveryCost;
-
+            double finalPrice = Math.round((totalPrice + deliveryCost) * 100.0) / 100.0;
 
             // transfer the data to the view
             model.addAttribute("id", order.getId());
