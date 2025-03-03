@@ -3,7 +3,6 @@ package es.codeurjc.backend.service;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.model.Order;
 import es.codeurjc.backend.model.User;
-import es.codeurjc.backend.repository.DishRepository;
 import es.codeurjc.backend.repository.OrderRepository;
 import es.codeurjc.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 @Service
 public class OrderService {
 
@@ -25,7 +21,7 @@ public class OrderService {
     private UserRepository userRepository;
 
     @Autowired
-    private DishRepository dishRepository;
+    private DishService dishService;
 
     // sava new order
     public void createOrder (Order order){
@@ -86,50 +82,23 @@ public class OrderService {
             throw e;
         }
     }
-    public void addDishToOrder(Long orderId, Dish dish, int quantity) {
+    public void addDishToOrder(Long orderId, Long dishId) {
         Optional<Order> orderOpt = orderRepository.findById(orderId);
-
         if (orderOpt.isPresent()) {
             Order order = orderOpt.get();
-            order.getDishQuantities().put(dish, order.getDishQuantities().getOrDefault(dish, 0) + quantity);
-            orderRepository.save(order);
-        } else {
-            throw new RuntimeException("Order not found");
-        }
-    }
-
-
-    public void updateDishQuantity(Long orderId, Dish dish, int quantity) {
-        Optional<Order> orderOpt = orderRepository.findById(orderId);
-
-        if (orderOpt.isPresent()) {
-            Order order = orderOpt.get();
-            if (quantity > 0) {
-                order.getDishQuantities().put(dish, quantity);
+            Optional<Dish> dishOpt = dishService.findById(dishId);
+            if (dishOpt.isPresent()) {
+                Dish dish = dishOpt.get();
+                order.getDishes().add(dish);
+                order.setTotalPrice(order.calculateTotalPrice());
+                orderRepository.save(order);
             } else {
-                order.getDishQuantities().remove(dish);
+                throw new RuntimeException("Dish not found");
             }
-            orderRepository.save(order);
         } else {
             throw new RuntimeException("Order not found");
         }
     }
-
-
-    public double calculateTotalPrice(Order order) {
-        return order.getDishQuantities().entrySet().stream()
-                .mapToDouble(entry -> entry.getKey().getPrice() * entry.getValue())
-                .sum();
-    }
-    public Order getOrCreateCart(User user) {
-        return findCartByUser(user.getId())
-                .orElseGet(() -> {
-                    Order newCart = new Order(List.of(), user, "", "Cart", 0.0);
-                    return orderRepository.save(newCart);
-                });
-    }
-
-
 
 
 

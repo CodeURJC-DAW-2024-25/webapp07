@@ -24,15 +24,8 @@
                             </h5>
                             <small class="fst-italic">{{description}}</small>
                         </div>
-                        <form action="/orders/cart/update" method="post" class="d-flex align-items-center ms-4">
-                            <input type="hidden" name="dishId" value="{{id}}">
-                            <input type="hidden" name="orderId" value="{{../id}}">
-                            <input type="number" name="quantity" value="{{quantities.[index]}}" min="1" class="form-control w-25">
-                            <button type="submit" class="btn btn-primary ms-2">Update</button>
-                        </form>
                     </div>
                     {{/dishes}}
-
 
                     <div class="d-flex justify-content-between pt-3">
                         <h5 class="text-end">Subtotal</h5>
@@ -42,7 +35,7 @@
                     <!-- Action Buttons -->
                     <div class="button-group justify-content-between d-flex mt-3">
                         <a href="/menu" class="btn btn-secondary mt-2">Back</a>
-                        <a href="/orders/cart/clear" class="btn btn-danger mt-2">Cancel Order</a>
+                        <a href="/menu" class="btn btn-danger mt-2">Cancel Order</a>
                         <a href="/orders/{{id}}/confirmation" class="btn btn-success mt-2">Order</a>
                     </div>
                 </div>
