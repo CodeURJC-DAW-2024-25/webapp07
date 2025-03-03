@@ -65,9 +65,6 @@ public class WebSecurityConfig {
         // Set authentication provider
         http.authenticationProvider(authenticationProvider());
 
-        // Disable CSRF for now
-        http.csrf(AbstractHttpConfigurer::disable);
-
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // Public resources
@@ -107,10 +104,7 @@ public class WebSecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .permitAll());
-
-
-        // Disable CSRF at the moment
-        http.csrf(AbstractHttpConfigurer::disable);
+        
         return http.build();
     }
 }
