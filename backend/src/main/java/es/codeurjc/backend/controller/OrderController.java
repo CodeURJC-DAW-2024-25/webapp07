@@ -38,7 +38,7 @@ public class OrderController {
         Order cart = orderService.findCartByUser(user.getId())
                 .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart",0.0));
 
-
+        model.addAttribute("pageTitle", "Cart");
 
         model.addAttribute("orders", cart);
         return "Cart";
