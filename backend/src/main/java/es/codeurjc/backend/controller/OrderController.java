@@ -41,7 +41,7 @@ public class OrderController {
         model.addAttribute("pageTitle", "Cart");
 
         model.addAttribute("orders", cart);
-        return "Cart";
+        return "cart";
     }
 
     @PostMapping("/cart/clear")
