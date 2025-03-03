@@ -29,13 +29,13 @@ public class Order {
 
     public Order() {}
 
-    public Order(List<Dish> dishes, User user, String address, String status) {
+    public Order(List<Dish> dishes, User user, String address, String status, Double totalprice) {
         this.dishes = dishes;
         this.user = user;
         this.orderDate = LocalDateTime.now();
         this.address = address;
         this.status = status;
-        this.totalPrice = dishes.stream().mapToDouble(Dish::getPrice).sum(); // calculate total price sum each dish price
+        this.totalPrice = totalprice; // calculate total price sum each dish price
     }
 
 

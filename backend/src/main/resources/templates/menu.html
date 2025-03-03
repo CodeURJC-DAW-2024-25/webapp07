@@ -48,9 +48,13 @@
                             </div>
                             <div class="d-flex align-items-center">
                                 {{#isAuthenticated}}
-                                <button class="btn btn-primary btn-sm m-2 p-2 add-to-cart" data-name="{{name}}" data-price="{{price}}">
-                                    <i class="fa fa-shopping-cart"></i> Add to Cart
-                                </button>
+                                <form action="/orders/cart/add" method="post">
+                                    <input type="hidden" name="dishId" value="{{id}}" />
+                                    <button class="btn btn-primary btn-sm m-2 p-2" type="submit">
+                                        <i class="fa fa-shopping-cart"></i> Add to Cart
+                                    </button>
+                                </form>
+
                                 {{/isAuthenticated}}
                             </div>
                         </div>

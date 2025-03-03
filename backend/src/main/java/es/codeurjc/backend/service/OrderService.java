@@ -1,10 +1,14 @@
 package es.codeurjc.backend.service;
 
+import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.model.Order;
+import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.repository.OrderRepository;
+import es.codeurjc.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -12,6 +16,12 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private DishService dishService;
 
     // sava new order
     public void createOrder (Order order){
@@ -55,4 +65,48 @@ public class OrderService {
     public List<Order> getPaidOrdersByUserId(Long userId) {
         return orderRepository.findByUserIdAndStatus(userId, "Paid");
     }
+
+    public Optional<Order> findCartByUser(Long userId) {
+        return orderRepository.findByUserIdAndStatus(userId, "Cart")
+                .stream()
+                .findFirst();
+    }
+
+
+
+    public void saveOrder(Order order) {
+        try {
+            orderRepository.save(order);
+        } catch (Exception e) {
+            System.err.println("Error saving order: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public void addDish(Long userId, Long dishId) {
+        // Buscar el usuario en la base de datos
+        Order cart = orderRepository.findByUserIdAndStatus(userId, "Cart")
+                .stream()
+                .findFirst()
+                .orElseGet(() -> {
+                    Order newCart = new Order(new ArrayList<>(), new User(userId), "", "Cart", 0.0);
+                    return orderRepository.save(newCart); // Guardar el carrito si no existe
+                });
+
+        // Buscar el plato en la base de datos
+        Dish dish = dishService.findById(dishId)
+                .orElseThrow(() -> new RuntimeException("Dish not found"));
+
+        // Agregar el plato al carrito
+        cart.addDish(dish);
+
+        // Guardar el carrito con el plato agregado
+        orderRepository.save(cart);
+    }
+
+
+
+
+
+
 }

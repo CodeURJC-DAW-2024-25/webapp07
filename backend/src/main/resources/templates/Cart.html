@@ -1,0 +1,53 @@
+{{> fragments/header}}
+
+<div class="container-xxl bg-dark hero-header">
+    <div class="container text-center pt-5">
+        <h1 class="display-3 text-white animated slideInDown pt-4 pb-4">Order Summary</h1>
+    </div>
+</div>
+
+<!-- Order Summary Start -->
+<div class="container-xxl py-3">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+
+            <!-- Order's Card -->
+            {{#orders}}
+            <div class="text-sm-start rounded-4 card shadow-lg">
+                <div class="d-flex py-3 card-head bg-primary text-white justify-content-center align-items-center">
+                    <span class="section-title ff-secondary text-center text-white fw-normal fs-3">Your order</span>
+                </div>
+                <div class="card-body bg-light">
+
+                    {{#dishes}}
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="w-100 d-flex flex-column text-start ps-4">
+                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                <span>{{name}}</span>
+                                <span class="text-primary">€{{price}}</span>
+                            </h5>
+                            <small class="fst-italic">{{description}}</small>
+                        </div>
+                    </div>
+                    {{/dishes}}
+
+                    <div class="d-flex justify-content-between pt-3">
+                        <h5 class="text-end">Subtotal</h5>
+                        <h5 class="text-end">€{{totalPrice}}</h5>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="button-group justify-content-between d-flex mt-3">
+                        <a href="/menu" class="btn btn-secondary mt-2">Back</a>
+                        <a href="/menu" class="btn btn-danger mt-2">Cancel Order</a>
+                        <a href="/orders/{{id}}/confirmation" class="btn btn-success mt-2">Order</a>
+                    </div>
+                </div>
+            </div>
+            {{/orders}}
+        </div>
+    </div>
+</div>
+<!-- Order Summary End -->
+
+{{> fragments/footer}}

@@ -8,10 +8,12 @@ import es.codeurjc.backend.service.OrderService;
 import es.codeurjc.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,12 +30,52 @@ public class OrderController {
     @Autowired
     private DishService dishService;
 
+    @GetMapping("/cart")
+    public String viewCart(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-    @PostMapping("/orders/add_dish")
-    public String showPickupOption(Long id, Model model, @AuthenticationPrincipal User user) {
-        Optional<Dish> dish = dishService.findById(id);
-        List<Dish> cart = user.getCart();
+        Order cart = orderService.findCartByUser(user.getId())
+                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart",0.0));
+
+
+
+        model.addAttribute("orders", cart);
+        return "Cart";
     }
+
+    @PostMapping("/cart/clear")
+    public String clearCart(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Order cart = orderService.findCartByUser(user.getId())
+                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart",0.0));
+
+        cart.getDishes().clear();
+        orderService.saveOrder(cart);
+
+        return "redirect:/orders/cart";
+    }
+
+
+    @PostMapping("/cart/add")
+    public String addToCart(@RequestParam Long dishId, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Order cart = orderService.findCartByUser(user.getId())
+                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart",0.0));
+
+        Dish dish = dishService.findById(dishId)
+                .orElseThrow(() -> new RuntimeException("Dish not found"));
+
+        cart.addDish(dish);
+        orderService.saveOrder(cart);
+
+        return "redirect:/orders/cart";
+    }
+
 
     @GetMapping("/orders/pickup-delivery-order")
     public String showPickupOption(Model model){

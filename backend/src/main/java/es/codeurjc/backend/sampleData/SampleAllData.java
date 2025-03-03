@@ -246,11 +246,11 @@ public class SampleAllData {
         bookingRepository.save(booking2);
 
         //order creation
-        Order order1 = new Order(Arrays.asList(croquetasJamon, tortillaEspanola), user1, "Calle A, 14", "Pending");
-        Order order2 = new Order(List.of(paellaMariscos, gazpacho), user1, "Calle B, 22", "Accepted");
-        Order order3 = new Order(List.of(pulpoGallega, croquetasJamon), user1, "Calle C, 35", "Pending");
-        Order order4 = new Order(List.of(tortillaEspanola, gazpacho), user1, "Calle D, 48", "Cancelled");
-        Order order5 = new Order(List.of(paellaMariscos, pulpoGallega), user1, "Calle E, 50", "Accepted");
+        Order order1 = new Order(Arrays.asList(croquetasJamon, tortillaEspanola), user1, "Calle A, 14", "Pending",20.0);
+        Order order2 = new Order(List.of(paellaMariscos, gazpacho), user1, "Calle B, 22", "Accepted",20.0);
+        Order order3 = new Order(List.of(pulpoGallega, croquetasJamon), user1, "Calle C, 35", "Pending",30.0);
+        Order order4 = new Order(List.of(tortillaEspanola, gazpacho), user1, "Calle D, 48", "Cancelled",34.0);
+        Order order5 = new Order(List.of(paellaMariscos, pulpoGallega), user1, "Calle E, 50", "Accepted",42.0);
 
         // save orders in database.
         orderRepository.save(order1);
