@@ -7,22 +7,57 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository interface for managing Booking entities.
+ */
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    // Buscar la reserva activa de un usuario
-    Optional<Booking> findByUser(User user);
+    /**
+     * Finds an active booking for a specific user.
+     *
+     * @param userId The ID of the user.
+     * @return An optional containing the active booking if found.
+     */
+    @Query("SELECT b FROM Booking b WHERE b.user.id = :userId AND b.date >= CURRENT_DATE")
+    Optional<Booking> findActiveBookingByUserId(@Param("userId") Long userId);
 
-    // Buscar reservas de un restaurante en un turno específico
-    @Query("SELECT b FROM Booking b WHERE b.restaurant = :restaurant AND b.shift = :shift")
-    List<Booking> findByRestaurantAndShift(@Param("restaurant") Restaurant restaurant, @Param("shift") String shift);
+    /**
+     * Retrieves all active bookings (future or current dates).
+     *
+     * @return A list of active bookings.
+     */
+    @Query("SELECT b FROM Booking b WHERE b.date >= CURRENT_DATE")
+    List<Booking> findActiveBookings();
+
+    /**
+     * Finds bookings for a specific restaurant, shift, and date.
+     *
+     * @param restaurant The restaurant entity.
+     * @param shift The shift (Lunch or Dinner).
+     * @param date The booking date.
+     * @return A list of matching bookings.
+     */
+    @Query("SELECT b FROM Booking b WHERE b.restaurant = :restaurant AND b.shift = :shift AND b.date = :date")
+    List<Booking> findByRestaurantAndShift(@Param("restaurant") Restaurant restaurant,
+                                           @Param("shift") String shift,
+                                           @Param("date") LocalDate date);
+
+    /**
+     * Finds bookings for a specific restaurant ID, shift, and date.
+     *
+     * @param restaurantId The ID of the restaurant.
+     * @param shift The shift (Lunch or Dinner).
+     * @param date The booking date.
+     * @return A list of matching bookings.
+     */
     @Query("SELECT b FROM Booking b WHERE b.restaurant.id = :restaurantId AND b.shift = :shift AND b.date = :date")
     List<Booking> findByRestaurantAndShiftAndDate(@Param("restaurantId") Long restaurantId,
                                                   @Param("shift") String shift,
                                                   @Param("date") LocalDate date);
-
 }
