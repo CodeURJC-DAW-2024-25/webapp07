@@ -17,6 +17,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query("SELECT b FROM Booking b WHERE b.user.id = :userId AND b.date >= CURRENT_DATE")
     Optional<Booking> findActiveBookingByUserId(@Param("userId") Long userId);
 
+    @Query("SELECT b FROM Booking b WHERE b.date >= CURRENT_DATE")
+    List<Booking> findActiveBookings();
 
     // Buscar reservas de un restaurante en un turno específico
     @Query("SELECT b FROM Booking b WHERE b.restaurant = :restaurant AND b.shift = :shift AND b.date = :date")

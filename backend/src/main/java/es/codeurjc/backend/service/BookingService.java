@@ -45,7 +45,7 @@ public class BookingService {
 
     // Obtener todas las reservas activas para el administrador
     public List<Booking> getAllBookings() {
-        return bookingRepository.findAll();
+        return bookingRepository.findActiveBookings(); // Ahora solo devuelve reservas activas
     }
     // Cancelar una reserva por ID
     public void cancelBookingById(Long id) {
