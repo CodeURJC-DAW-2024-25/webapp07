@@ -36,34 +36,18 @@ public class DishController {
     public String showMenu(@RequestParam(required = false) String name,
                            @RequestParam(required = false) String ingredient,
                            @RequestParam(required = false) Integer maxPrice,
-                           @RequestParam(defaultValue = "default") String sortBy, Model model) throws SQLException {
+                           Model model) throws SQLException {
 
-        List<Dish> dishes = filterDishes(name, ingredient, maxPrice);
-
+        List<Dish> dishes = dishService.filterDishes(name, ingredient, maxPrice);
+        dishService.calculateRates(dishes);
         if (dishes.size() < 10){
             for (Dish dish : dishes) {
-                int rate =  (int) Math.ceil(dish.getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
-                dish.setRate(rate);
-
-                dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+            dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
             }
         }else{
             for (int i = 0; i < 10; i++) {
-                int rate =  (int) Math.ceil(dishes.get(i).getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
-                dishes.get(i).setRate(rate);
-
-                dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
+            dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
             }
-        }
-
-        if ("price".equals(sortBy)) {
-            dishes.sort(Comparator.comparing(Dish::getPrice));
-            model.addAttribute("isPrice", true);
-        } else if ("rate".equals(sortBy)) {
-            dishes.sort(Comparator.comparing(Dish::getRate).reversed());
-            model.addAttribute("isRate", true);
-        } else {
-            model.addAttribute("isDefault", true);
         }
 
         model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
@@ -74,41 +58,36 @@ public class DishController {
         return "menu";
     }
 
-    private List<Dish> filterDishes(String name, String ingredient, Integer maxPrice) {
-
-        List<Dish> dishesByName =  (name != null  && !name.isEmpty())
-                ? dishService.findByName(name)
-                : dishService.findAll();
-
-        List<Dish> dishesByIngredient = (ingredient != null && !ingredient.isEmpty())
-                ? dishService.findByIngredient(ingredient)
-                : dishService.findAll();
-
-        List<Dish> dishesByPrice = (maxPrice != null)
-                ? dishService.findBymaxPrice(maxPrice)
-                : dishService.findAll();
-
-        // More than 1 filter
-        if (name != null && !name.isEmpty()) {
-            dishesByName.retainAll(dishesByIngredient);
-            dishesByName.retainAll(dishesByPrice);
-            return dishesByName;  // Final list
-        } else {
-            dishesByIngredient.retainAll(dishesByPrice);
-            return dishesByIngredient;  // Final list
-        }
-    }
-
     @GetMapping("/api/menu")
     @ResponseBody
-    public List<Dish> getDishes(@RequestParam(defaultValue = "0") int page,
+    public List<Dish> getDishes(@RequestParam(required = false) String name,
+                                @RequestParam(required = false) String ingredient,
+                                @RequestParam(required = false) Integer maxPrice,
+                                @RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "10") int pageSize) throws SQLException {
-        Page<Dish> menuPage = dishService.findAllDishes(PageRequest.of(page, pageSize));
-        for (Dish currentDish : menuPage.getContent()) {
-            currentDish.setDishImagePath(currentDish.blobToString(currentDish.getDishImagefile(), currentDish));
+
+        System.out.println("NAME: "+ name + "INGREDIENT: " + ingredient + "MAXPRICE: " + maxPrice);
+
+        List<Dish> filteredDishes = dishService.filterDishes(name, ingredient, maxPrice);
+        filteredDishes = dishService.calculateRates(filteredDishes);
+
+        for (Dish dish : filteredDishes) {
+            System.out.println("NOMBRE:" + dish.getName() + " PRECIO:" + dish.getPrice());
         }
 
-        return menuPage.getContent();
+
+        // Paginar la lista filtrada manualmente
+        int fromIndex = page * pageSize;
+        int toIndex = Math.min(fromIndex + pageSize, filteredDishes.size());
+
+        List<Dish> paginatedDishes = (fromIndex >= filteredDishes.size()) ?
+                List.of() :
+                filteredDishes.subList(fromIndex, toIndex);
+
+        for (Dish dish : paginatedDishes) {
+            dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+        }
+        return paginatedDishes;
     }
 
     @GetMapping("/menu/{id}")
