@@ -1,8 +1,11 @@
 package es.codeurjc.backend.model;
 
 import jakarta.persistence.*;
+
+import java.util.HashMap;
 import java.util.List;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Entity
 @Table(name = "orders")
@@ -15,6 +18,14 @@ public class Order {
 
     @ManyToMany
     private List<Dish> dishes;
+
+
+    @ElementCollection
+    @CollectionTable(name = "order_dish_quantities", joinColumns = @JoinColumn(name = "order_id"))
+    @MapKeyJoinColumn(name = "dish_id")
+    @Column(name = "quantity")
+    private Map<Dish, Integer> dishQuantities = new HashMap<>();
+
 
     @ManyToOne // one user can order several orders
     @JoinColumn(name = "user_id", nullable = false)
@@ -95,5 +106,12 @@ public class Order {
     }
     public double calculateTotalPrice() {
         return dishes.stream().mapToDouble(Dish::getPrice).sum();
+    }
+    public Map<Dish, Integer> getDishQuantities() {
+        return dishQuantities;
+    }
+
+    public void setDishQuantities(Map<Dish, Integer> dishQuantities) {
+        this.dishQuantities = dishQuantities;
     }
 }

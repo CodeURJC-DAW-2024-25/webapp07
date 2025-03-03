@@ -13,9 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/orders")
@@ -35,14 +33,27 @@ public class OrderController {
         User user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Order cart = orderService.findCartByUser(user.getId())
-                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart",0.0));
+        Order cart = orderService.getOrCreateCart(user);
 
+        // Desglosamos el mapa en listas separadas
+        List<Dish> dishList = new ArrayList<>();
+        List<Integer> quantityList = new ArrayList<>();
 
+        cart.getDishQuantities().forEach((dish, quantity) -> {
+            dishList.add(dish);
+            quantityList.add(quantity);
+        });
 
         model.addAttribute("orders", cart);
-        return "Cart";
+        model.addAttribute("dishes", dishList);
+        model.addAttribute("quantities", quantityList);
+
+        return "cart";
     }
+
+
+
+
 
     @PostMapping("/cart/clear")
     public String clearCart(@AuthenticationPrincipal UserDetails userDetails) {
@@ -76,6 +87,15 @@ public class OrderController {
         orderService.saveOrder(cart);
         orderService.saveOrder(cart);
 
+        return "redirect:/orders/cart";
+    }
+
+    @PostMapping("/cart/update")
+    public String updateCartQuantity(@RequestParam Long dishId, @RequestParam Long orderId, @RequestParam int quantity) {
+        Dish dish = dishService.findById(dishId)
+                .orElseThrow(() -> new RuntimeException("Dish not found"));
+
+        orderService.updateDishQuantity(orderId, dish, quantity);
         return "redirect:/orders/cart";
     }
 
