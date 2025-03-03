@@ -48,6 +48,7 @@ public class BookingController {
         }
 
         List<Restaurant> restaurants = restaurantService.findAll();
+        model.addAttribute("user", user);
         model.addAttribute("pageTitle", "Booking");
         model.addAttribute("restaurants", restaurants);
         return "booking";
