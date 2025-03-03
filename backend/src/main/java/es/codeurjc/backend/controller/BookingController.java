@@ -61,34 +61,43 @@ public class BookingController {
                                  @AuthenticationPrincipal UserDetails loggedUser,
                                  RedirectAttributes redirectAttributes) {
 
+        System.out.println("🚀 Processing Booking...");
+        System.out.println("📌 Restaurant ID: " + restaurantId);
+        System.out.println("📌 Date: " + date);
+        System.out.println("📌 Shift: " + shift);
+        System.out.println("📌 Number of People: " + numPeople);
+
         Optional<User> userOpt = userService.findByUsername(loggedUser.getUsername());
         if (userOpt.isEmpty()) {
+            System.out.println("❌ Error: User not found.");
             redirectAttributes.addFlashAttribute("error", "User not found.");
             return "redirect:/booking";
         }
 
         User user = userOpt.get();
 
-        Optional<Booking> activeBooking = bookingService.findActiveBookingByUser(user);
-        if (activeBooking.isPresent()) {
-            redirectAttributes.addFlashAttribute("error", "You already have an active reservation. Please cancel it first.");
-            return "booking-existing";
-        }
-
-        Optional<Restaurant> restaurant = restaurantService.findById(restaurantId);
-        if (restaurant.isPresent()) {
-            boolean success = bookingService.createBooking(restaurant.get(), user, date, shift, numPeople);
-            if (success) {
-                return "booking-confirmation";
-            } else {
-                redirectAttributes.addFlashAttribute("error", "Could not make the reservation. Check availability.");
-                return "redirect:/booking";
-            }
-        } else {
+        Optional<Restaurant> restaurantOpt = restaurantService.findById(restaurantId);
+        if (restaurantOpt.isEmpty()) {
+            System.out.println("❌ Error: Restaurant not found.");
             redirectAttributes.addFlashAttribute("error", "Selected restaurant not found.");
             return "redirect:/booking";
         }
+
+        Restaurant restaurant = restaurantOpt.get();
+
+        System.out.println("🔎 Checking availability for " + restaurant.getLocation() + " on " + date + " at " + shift);
+
+        boolean success = bookingService.createBooking(restaurant, user, date, shift, numPeople);
+        if (success) {
+            System.out.println("✅ Booking successfully created!");
+            return "booking-confirmation";
+        } else {
+            System.out.println("❌ Error: No availability for this date and shift.");
+            redirectAttributes.addFlashAttribute("error", "Could not make the reservation. Check availability.");
+            return "redirect:/booking";
+        }
     }
+
 
     @GetMapping("/booking/confirmation")
     public String showConfirmationPage(Model model) {
