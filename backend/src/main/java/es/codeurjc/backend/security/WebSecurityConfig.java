@@ -76,7 +76,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/booking/**").hasRole("USER") // Solo usuarios registrados pueden acceder a reservas
                         .requestMatchers("/admin/bookings/**").hasRole("ADMIN") //  Solo admins pueden gestionar reservas
                         .requestMatchers("/dashboard").hasRole("ADMIN")
-                        .requestMatchers("/restaurant-available").hasRole("ADMIN")
+                        .requestMatchers("/restaurant-availability").hasRole("ADMIN")
 
 
                         .requestMatchers(HttpMethod.GET, "/menu/admin/new-dish").hasAnyRole("ADMIN")
