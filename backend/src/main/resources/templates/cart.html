@@ -35,7 +35,9 @@
                     <!-- Action Buttons -->
                     <div class="button-group justify-content-between d-flex mt-3">
                         <a href="/menu" class="btn btn-secondary mt-2">Back</a>
-                        <a href="/menu" class="btn btn-danger mt-2">Cancel Order</a>
+                        <form action="/orders/cart/clear" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger mt-2">Clear Cart</button>
+                        </form>
                         <a href="/orders/{{id}}/summary" class="btn btn-success mt-2">Order</a>
                     </div>
                 </div>

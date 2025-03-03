@@ -91,6 +91,8 @@ public class WebSecurityConfig {
                         .requestMatchers("orders/{id}/more-info").authenticated()
                         .requestMatchers("/orders/update").authenticated()
                         .requestMatchers("/orders/**").authenticated()
+                        .requestMatchers("/cart/**").authenticated()
+
 
 
 
