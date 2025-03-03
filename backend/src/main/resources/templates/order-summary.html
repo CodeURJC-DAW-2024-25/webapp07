@@ -40,33 +40,49 @@
                         <h5 class="text-end">€4.99</h5>
                     </div>
 
-                    <!-- Address Section -->
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="w-100 d-flex flex-column text-start ps-4">
-                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                <span>Address</span>
-                            </h5>
-                            <small class="fst-italic">{{address}}</small>
+                    <!-- Order Update Form -->
+                    <form action="/orders/update" method="post">
+                        <input type="hidden" name="orderId" value="{{id}}">
+                        <input type="hidden" name="status" value="Confirmed">
+                        <input type="hidden" name="totalPrice" value="{{finalPrice}}">
+
+                        <!-- Address Section -->
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="w-100 d-flex flex-column text-start ps-4">
+                                <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                    <span>Address</span>
+                                </h5>
+
+                                {{#user.address}}
+                                <input type="text" name="address" class="form-control" value="{{user.address}}" required>
+                                {{/user.address}}
+
+                                {{^user.address}}
+                                <input type="text" name="address" class="form-control" placeholder="Enter your address" required>
+                                {{/user.address}}
+                            </div>
                         </div>
-                    </div>
 
-                    <hr>
-                    <div class="d-flex justify-content-between fw-bold mt-3">
-                        <h5 class="text-end">Total</h5>
-                        <h5 class="text-end">€{{finalPrice}}</h5>
-                    </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold mt-3">
+                            <h5 class="text-end">Total</h5>
+                            <h5 class="text-end">€{{finalPrice}}</h5>
+                        </div>
 
-                    <!-- Action Buttons -->
-                    <div class="button-group justify-content-between d-flex mt-3">
-                        <a href="/menu" class="btn btn-secondary mt-2">Back</a>
-                        <a href="/menu" class="btn btn-danger mt-2">Cancel Order</a>
-                        <a href="/orders/{{id}}/confirmation" class="btn btn-success mt-2">Pay</a>
-                    </div>
+                        <!-- Action Buttons -->
+                        <div class="button-group justify-content-between d-flex mt-3">
+                            <a href="/menu" class="btn btn-secondary mt-2">Back</a>
+                            <a href="/menu" class="btn btn-danger mt-2">Cancel Order</a>
+                            <button type="submit" class="btn btn-success mt-2">Pay</button>
+                        </div>
+                    </form>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
+
 <!-- Order Summary End -->
 
 {{> fragments/footer}}

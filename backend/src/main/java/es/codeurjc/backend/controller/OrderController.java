@@ -132,8 +132,11 @@ public class OrderController {
 
 
     @GetMapping("/{id}/summary")
-    public String showOrderSummary(@PathVariable Long id, Model model) {
-        Optional<Order> orderOpt = orderService.getOrderById(id); //search in database.
+    public String showOrderSummary(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Optional<Order> orderOpt = orderService.getOrderById(id);
+
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (orderOpt.isPresent()) { //verify the user autenticated is the owner of the order.
             Order order = orderOpt.get();
@@ -151,6 +154,7 @@ public class OrderController {
             model.addAttribute("finalPrice", finalPrice);
             model.addAttribute("address", order.getAddress());
 
+            model.addAttribute("user", user);
             return "order-summary"; // show mustache
         } else {
             return "redirect:/error 404";
@@ -201,6 +205,37 @@ public class OrderController {
     }
 
 
+    @PostMapping("/update")
+    public String updateOrder(@RequestParam Long orderId,
+                              @RequestParam(required = false) String address,
+                              @RequestParam(required = false) String status,
+                              @RequestParam(required = false) Double totalPrice,
+                              @AuthenticationPrincipal UserDetails userDetails) {
+
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Order order = orderService.getOrderById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        if (!order.getUser().equals(user)) {
+            throw new RuntimeException("Unauthorized: You can't update this order.");
+        }
+
+        if (address != null && !address.isBlank()) {
+            order.setAddress(address);
+        }
+        if (status != null && !status.isBlank()) {
+            order.setStatus(status);
+        }
+        if (totalPrice != null) {
+            order.setTotalPrice(totalPrice);
+        }
+
+        orderService.saveOrder(order);
+
+        return "redirect:/orders/"+ orderId +"/confirmation";
+    }
 
 
 
