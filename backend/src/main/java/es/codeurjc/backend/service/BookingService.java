@@ -18,17 +18,13 @@ public class BookingService {
 
     // Buscar la reserva activa de un usuario
     public Optional<Booking> findActiveBookingByUser(User user) {
-        return bookingRepository.findByUser(user);
+        return bookingRepository.findActiveBookingByUserId(user.getId());
     }
+
 
     // Crear una nueva reserva si hay disponibilidad
     public boolean createBooking(Restaurant restaurant, User user, LocalDate date, String shift, int numPeople) {
-        Optional<Booking> existingBooking = bookingRepository.findByUser(user);
-        if (existingBooking.isPresent()) {
-            return false; // El usuario ya tiene una reserva activa
-        }
-
-        List<Booking> existingBookings = bookingRepository.findByRestaurantAndShift(restaurant, shift);
+        List<Booking> existingBookings = bookingRepository.findByRestaurantAndShift(restaurant, shift, date);
         int totalPeople = existingBookings.stream().mapToInt(Booking::getNumPeople).sum();
 
         if (totalPeople + numPeople > 40) {
@@ -39,6 +35,8 @@ public class BookingService {
         bookingRepository.save(booking);
         return true;
     }
+
+
 
     // Cancelar una reserva
     public void cancelBooking(Booking booking) {

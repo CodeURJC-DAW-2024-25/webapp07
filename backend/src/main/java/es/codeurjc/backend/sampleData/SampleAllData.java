@@ -228,14 +228,14 @@ public class SampleAllData {
         dishRepository.save(empanadaGallega);
 
         // Creating sample restaurants
-        Restaurant restaurant1 = new Restaurant("Calle Gran Vía 10 Madrid");
-        Restaurant restaurant2 = new Restaurant("Calle Serrano 45 Madrid");
+        Restaurant restaurant1 = new Restaurant("Calle Gran Vía 10, Madrid");
+        Restaurant restaurant2 = new Restaurant("Calle Serrano 45, Madrid");
         restaurantRepository.save(restaurant1);
         restaurantRepository.save(restaurant2);
 
         // Creating sample bookings
-        Booking booking1 = new Booking(restaurant1, user1, LocalDate.now().plusDays(2), "Lunch", 4);
-        Booking booking2 = new Booking(restaurant2,user2, LocalDate.now().plusDays(5), "Dinner", 2);
+        Booking booking1 = new Booking(restaurant1, user1, LocalDate.of(2025, 3, 1), "Lunch", 40);
+        Booking booking2 = new Booking(restaurant1, user2, LocalDate.of(2025, 3, 1), "Dinner", 25);
         bookingRepository.save(booking1);
         bookingRepository.save(booking2);
     }
