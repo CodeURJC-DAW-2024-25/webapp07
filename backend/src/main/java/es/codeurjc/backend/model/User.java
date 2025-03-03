@@ -47,6 +47,10 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles;
 
+    /** Dish saved by user**/
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Dish> cart;
+
     /** Indicates whether the user is banned from the system. */
     private boolean banned;
 
@@ -204,5 +208,15 @@ public class User {
     /** @param banned The banned status to set. */
     public void setBanned(boolean banned) {
         this.banned = banned;
+    }
+
+    /**@return The dishes saved by user **/
+    public List<Dish> getCart(){
+        return this.cart;
+    }
+
+    /** @param cart The dishes to set*/
+    public void setCart(List<Dish> cart){
+        this.cart = cart;
     }
 }
