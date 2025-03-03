@@ -69,6 +69,7 @@ public class DishController {
         model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
 
         model.addAttribute("pageTitle", "Menu");
+        model.addAttribute("menuActive", true);
 
         return "menu";
     }
@@ -142,6 +143,7 @@ public class DishController {
             model.addAttribute("dish", dish.get());
 
             model.addAttribute("pageTitle", "Dish info");
+            model.addAttribute("menuActive", true);
 
             model.addAttribute("modalId", "confirmationModal");
             model.addAttribute("confirmButtonId", "confirmAction");
@@ -197,6 +199,8 @@ public class DishController {
         String formAction;
 
         if (id != null) { // Modo edición
+            model.addAttribute("pageTitle", "Edit dish");
+            model.addAttribute("menuActive", true);
             Optional<Dish> dishOpt = dishService.findById(id);
             if (dishOpt.isPresent()) {
 
@@ -221,6 +225,7 @@ public class DishController {
             dish = new Dish();
             model.addAttribute("allergens", Allergens.values());
             model.addAttribute("pageTitle", "New dish");
+            model.addAttribute("menuActive", true);
             formAction = "/menu/admin/new-dish";
         }
 
@@ -229,7 +234,7 @@ public class DishController {
         model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
         // Agregar al modelo
         model.addAttribute("formAction", formAction);
-        model.addAttribute("pageTitle", "Edit dish");
+
         return "dish-form";
     }
 
