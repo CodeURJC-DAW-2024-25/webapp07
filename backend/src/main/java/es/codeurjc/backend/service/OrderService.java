@@ -82,26 +82,22 @@ public class OrderService {
             throw e;
         }
     }
-
-    public void addDish(Long userId, Long dishId) {
-        // Buscar el usuario en la base de datos
-        Order cart = orderRepository.findByUserIdAndStatus(userId, "Cart")
-                .stream()
-                .findFirst()
-                .orElseGet(() -> {
-                    Order newCart = new Order(new ArrayList<>(), new User(userId), "", "Cart", 0.0);
-                    return orderRepository.save(newCart); // Guardar el carrito si no existe
-                });
-
-        // Buscar el plato en la base de datos
-        Dish dish = dishService.findById(dishId)
-                .orElseThrow(() -> new RuntimeException("Dish not found"));
-
-        // Agregar el plato al carrito
-        cart.addDish(dish);
-
-        // Guardar el carrito con el plato agregado
-        orderRepository.save(cart);
+    public void addDishToOrder(Long orderId, Long dishId) {
+        Optional<Order> orderOpt = orderRepository.findById(orderId);
+        if (orderOpt.isPresent()) {
+            Order order = orderOpt.get();
+            Optional<Dish> dishOpt = dishService.findById(dishId);
+            if (dishOpt.isPresent()) {
+                Dish dish = dishOpt.get();
+                order.getDishes().add(dish);
+                order.setTotalPrice(order.calculateTotalPrice());
+                orderRepository.save(order);
+            } else {
+                throw new RuntimeException("Dish not found");
+            }
+        } else {
+            throw new RuntimeException("Order not found");
+        }
     }
 
 

@@ -29,6 +29,8 @@ public class Order {
 
     public Order() {}
 
+
+
     public Order(List<Dish> dishes, User user, String address, String status, Double totalprice) {
         this.dishes = dishes;
         this.user = user;
@@ -88,5 +90,10 @@ public class Order {
         return totalPrice;
     }
 
-
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+    public double calculateTotalPrice() {
+        return dishes.stream().mapToDouble(Dish::getPrice).sum();
+    }
 }

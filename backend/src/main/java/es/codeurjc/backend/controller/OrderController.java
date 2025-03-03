@@ -70,7 +70,10 @@ public class OrderController {
         Dish dish = dishService.findById(dishId)
                 .orElseThrow(() -> new RuntimeException("Dish not found"));
 
-        cart.addDish(dish);
+        List<Dish> dishes = cart.getDishes();
+        dishes.add(dish);
+        cart.setDishes(dishes);
+        orderService.saveOrder(cart);
         orderService.saveOrder(cart);
 
         return "redirect:/orders/cart";
