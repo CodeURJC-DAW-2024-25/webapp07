@@ -108,6 +108,8 @@ public class OrderController {
             List<Order> orders = orderService.getPaidOrdersByUserId(userId);
             model.addAttribute("orders", orders);
 
+            model.addAttribute("pageTitle", "Order history");
+            
             return "user-order-history";
         }
 
@@ -131,6 +133,8 @@ public class OrderController {
             model.addAttribute("deliveryCost", deliveryCost);
             model.addAttribute("finalPrice", finalPrice);
             model.addAttribute("address", order.getAddress());
+
+            model.addAttribute("pageTitle", "Order information");
 
             return "order-more-info";
         } else {
@@ -162,6 +166,7 @@ public class OrderController {
             model.addAttribute("finalPrice", finalPrice);
             model.addAttribute("address", order.getAddress());
 
+            model.addAttribute("pageTitle", " Order summary" );
             model.addAttribute("user", user);
             return "order-summary"; // show mustache
         } else {
