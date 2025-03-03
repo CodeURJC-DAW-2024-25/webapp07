@@ -371,11 +371,16 @@ Next, a diagram will be included depicting the entities within the database, the
 
 #### Nicolás Hernández Tejero
 
-*  Developed screens for showTeams and showInfo, including a search bar with filters.
-*  Gathered and modified information from the user profiles.
-*  Implemented tournament functionality, including the creation of matches, deciding winners, and updating data accordingly.
-*  Designed statistical graphics to visualize data trends.
-*  Generated reports and match results calculated through reporting mechanisms.
+*  Implemented error handling across the application to improve reliability.
+*  Added Javadocs for better code documentation and maintainability.
+*  Developed reusable Navbar, Header, and Footer components for consistent UI.
+*  Created Admin Panel to manage users and dishes efficiently.
+*  Designed a confirmation modal for critical user actions.
+*  Implemented show and edit profile functionality.
+*  Added ban/unban functionality for user management.
+*  Secured authentication for all views, ensuring restricted access based on roles.
+*  Developed login and registration functionality for new users.
+*  Strengthened security in the login process to prevent unauthorized access.
 
 | #   |                                                               Commit                                                               |     | #   |                                                                                         File                                                                                          |
 | :-: |:----------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
