@@ -8,7 +8,7 @@
                 <div class="p-5 text-white">
                     <h3 class="text-center mb-4">Reserve your table</h3>
                     <form action="/booking/new" method="post">
-
+                        <input type="hidden" name="_csrf" value="{{token}}">
                         <div class="mb-3">
                             <label for="restaurant" class="form-label">Select Restaurant</label>
                             <select id="restaurant" name="restaurantId" class="form-select" required>

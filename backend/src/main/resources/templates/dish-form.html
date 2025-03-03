@@ -28,7 +28,8 @@
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">Edit Dish</h5>
                     {{/dish}}
                         <form id="{{#dish}}addMenu{{id}}{{/dish}}{{^dish}}addMenu{{/dish}}" action="{{formAction}}/save" method="post" enctype="multipart/form-data" style="display:inline;">
-                        <div class="row g-3">
+                            <input type="hidden" name="_csrf" value="{{token}}">
+                            <div class="row g-3">
                             <div class="col-md-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" name="name" id="name" value="{{#dish}}{{name}}{{/dish}}{{^dish}} {{/dish}}">
