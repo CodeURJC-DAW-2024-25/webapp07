@@ -95,8 +95,9 @@ public class DishController {
 
         Optional<Dish> dish = dishService.findById(id);
         if (dish.isPresent()) {
-            dish.get().setDishImagePath(dish.get().blobToString(dish.get().getDishImagefile(), dish.get()));
-
+            if (dish.get().getImage()) {
+                dish.get().setDishImagePath(dish.get().blobToString(dish.get().getDishImagefile(), dish.get()));
+            }
             int rate =  (int) Math.ceil(dish.get().getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
 
             List<Integer> starList = new ArrayList<>();
@@ -174,15 +175,14 @@ public class DishController {
 
     @GetMapping({"/menu/admin/new-dish", "/menu/{id}/admin/edit-dish"})
     public String showDishForm(@PathVariable(required = false) Long id, Model model, HttpServletRequest request) throws SQLException {
-        Dish dish;
-        String formAction;
 
+        String formAction;
         if (id != null) { // Modo edición
             model.addAttribute("pageTitle", "Edit dish");
             model.addAttribute("menuActive", true);
             Optional<Dish> dishOpt = dishService.findById(id);
             if (dishOpt.isPresent()) {
-
+                Dish dish = new Dish();
                 dish = dishOpt.get();
                 dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
 
@@ -201,7 +201,6 @@ public class DishController {
                 return "redirect:/menu";
             }
         } else { // Modo creación
-            dish = new Dish();
             model.addAttribute("allergens", Allergens.values());
             model.addAttribute("pageTitle", "New dish");
             model.addAttribute("menuActive", true);
@@ -214,12 +213,14 @@ public class DishController {
         // Agregar al modelo
         model.addAttribute("formAction", formAction);
 
+        model.addAttribute("pageTitle", "Dish form");
+
         return "dish-form";
     }
 
 
     @PostMapping({"/menu/admin/new-dish/save", "/menu/{id}/admin/edit-dish/save"})
-    public String editDishProcess(Model model, Dish dish, String ingredients, String action, @RequestParam MultipartFile imageField, @RequestParam List<Allergens> selectedAllergens, boolean vegan) throws IOException {
+    public String editDishProcess(Model model, Dish dish, String ingredients, String action, @RequestParam(required = false) MultipartFile imageField, @RequestParam(required = false) List<Allergens> selectedAllergens, boolean vegan) throws IOException {
         List<String> ingredientsList = Arrays.stream(ingredients.toLowerCase().split(","))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
@@ -229,17 +230,26 @@ public class DishController {
         dish.setAllergens(selectedAllergens);
         dish.setVegan(vegan);
 
-        if (!imageField.isEmpty()) {
+        if (imageField != null && !imageField.isEmpty()) {
             dish.setDishImagefile(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
             dish.setImage(true);
         }
 
         model.addAttribute("dishId", dish.getId());
 
+        String formAction = (dish.getId() != null) ? "/menu/" + dish.getId() + "/admin/edit-dish" : "/menu/admin/new-dish";
+        model.addAttribute("formAction", formAction);
+
         if ("save".equals(action)) {
             dishService.save(dish);
             return "redirect:/menu/" + dish.getId();
         }
+
+        model.addAttribute("modalId", "confirmationModal");
+        model.addAttribute("confirmButtonId", "confirmAction");
+        model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
+
+        model.addAttribute("pageTitle", "Saved Changes");
         return "dish-form";
     }
 }
