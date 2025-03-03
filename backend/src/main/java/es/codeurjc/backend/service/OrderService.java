@@ -8,9 +8,12 @@ import es.codeurjc.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+/**
+ * Service class for managing orders.
+ */
 @Service
 public class OrderService {
 
@@ -23,32 +26,55 @@ public class OrderService {
     @Autowired
     private DishService dishService;
 
-    // sava new order
-    public void createOrder (Order order){
-        try{
+    /**
+     * Saves a new order in the database.
+     *
+     * @param order The order to be saved.
+     */
+    public void createOrder(Order order) {
+        try {
             orderRepository.save(order);
-        }catch (Exception e){
-            System.err.println("Error saving order" + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error saving order: " + e.getMessage());
             throw e;
         }
     }
 
-    // get order by id
-    public Optional<Order> getOrderById (Long id){
+    /**
+     * Retrieves an order by its ID.
+     *
+     * @param id The ID of the order.
+     * @return An Optional containing the order if found.
+     */
+    public Optional<Order> getOrderById(Long id) {
         return orderRepository.findById(id);
     }
 
-    //get all orders
-    public List<Order> getAllOrders(){
+    /**
+     * Retrieves all orders from the database.
+     *
+     * @return A list of all orders.
+     */
+    public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
-    //get orders from a specific user
-    public List<Order> getOrdersByUserId(Long userId){
+    /**
+     * Retrieves all orders placed by a specific user.
+     *
+     * @param userId The ID of the user.
+     * @return A list of orders associated with the user.
+     */
+    public List<Order> getOrdersByUserId(Long userId) {
         return orderRepository.findByUserId(userId);
     }
 
-    //update order status.
+    /**
+     * Updates the status of an existing order.
+     *
+     * @param id        The ID of the order.
+     * @param newStatus The new status to be set (e.g., "Pending", "Paid", "Cancelled").
+     */
     public void updateOrderStatus(Long id, String newStatus) {
         Optional<Order> order = orderRepository.findById(id);
         if (order.isPresent()) {
@@ -56,24 +82,38 @@ public class OrderService {
             updatedOrder.setStatus(newStatus);
             orderRepository.save(updatedOrder);
         } else {
-            System.err.println("Order with id " + id + " not finded.");
-            throw new RuntimeException("Order not finded.");
+            System.err.println("Order with id " + id + " not found.");
+            throw new RuntimeException("Order not found.");
         }
     }
 
-
+    /**
+     * Retrieves all orders with a "Paid" status for a specific user.
+     *
+     * @param userId The ID of the user.
+     * @return A list of orders with status "Paid".
+     */
     public List<Order> getPaidOrdersByUserId(Long userId) {
         return orderRepository.findByUserIdAndStatus(userId, "Paid");
     }
 
+    /**
+     * Retrieves the cart (order with status "Cart") for a specific user.
+     *
+     * @param userId The ID of the user.
+     * @return An Optional containing the cart order if found.
+     */
     public Optional<Order> findCartByUser(Long userId) {
         return orderRepository.findByUserIdAndStatus(userId, "Cart")
                 .stream()
                 .findFirst();
     }
 
-
-
+    /**
+     * Saves an order in the database.
+     *
+     * @param order The order to be saved.
+     */
     public void saveOrder(Order order) {
         try {
             orderRepository.save(order);
@@ -82,6 +122,13 @@ public class OrderService {
             throw e;
         }
     }
+
+    /**
+     * Adds a dish to an existing order.
+     *
+     * @param orderId The ID of the order.
+     * @param dishId  The ID of the dish to be added.
+     */
     public void addDishToOrder(Long orderId, Long dishId) {
         Optional<Order> orderOpt = orderRepository.findById(orderId);
         if (orderOpt.isPresent()) {
@@ -99,10 +146,4 @@ public class OrderService {
             throw new RuntimeException("Order not found");
         }
     }
-
-
-
-
-
-
 }
