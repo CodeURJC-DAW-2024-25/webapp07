@@ -85,7 +85,9 @@ public class DishController {
                 filteredDishes.subList(fromIndex, toIndex);
 
         for (Dish dish : paginatedDishes) {
-            dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+            if (dish.getImage()){
+                dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+            }
         }
         return paginatedDishes;
     }

@@ -39,12 +39,21 @@ function loadFilteredDishes(filters, append = false) {
             if (data.length > 0) {
                 let newDishesHtml = "";
                 data.forEach(function (dish) {
+                    let dishImage = dish.dishImagePath
+                        ? `<img class="flex-shrink-0 img-fluid rounded shadow" 
+                            src="data:image/png;base64,${dish.dishImagePath}" 
+                            alt="${dish.name}" 
+                            style="width: 10vw; height: 15vh">`
+                        : `<img class="flex-shrink-0 img-fluid rounded shadow" 
+                            src="/img/logo.jpg" 
+                            alt="Dish Image" 
+                            style="width: 10vw; height: 15vh">`;
                     newDishesHtml += `
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center">
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <div class="d-flex">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="data:image/png;base64,${dish.dishImagePath}" alt="${dish.name}" style="width: 10vw; height: 15vh"/>
+                                        ${dishImage}
                                         <div class="w-100 d-flex flex-column text-start ps-4">
                                             <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                 <span>${dish.name}</span>
