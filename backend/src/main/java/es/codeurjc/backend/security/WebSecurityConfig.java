@@ -64,6 +64,7 @@ public class WebSecurityConfig {
 
         // Set authentication provider
         http.authenticationProvider(authenticationProvider());
+        //http.csrf(AbstractHttpConfigurer::disable);
 
         http
                 .authorizeHttpRequests(authorize -> authorize
@@ -95,16 +96,18 @@ public class WebSecurityConfig {
 
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                 )
+
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .failureHandler(customFailureHandler)
                         .defaultSuccessUrl("/")
                         .permitAll())
+
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .permitAll());
-        
+
         return http.build();
     }
 }
