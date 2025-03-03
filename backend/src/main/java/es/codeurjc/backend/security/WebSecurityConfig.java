@@ -100,12 +100,8 @@ public class WebSecurityConfig {
 
                         // Private pages (authenticated users)
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
-                        .requestMatchers("/booking/confirmation").authenticated() // Permitir acceso a la página de confirmación
-                        .requestMatchers("/booking-cancelled").authenticated() // Permitir acceso a la página de confirmación
-                        .requestMatchers("/booking/confirmation/existing").authenticated() // Permitir acceso a la página de confirmación
                         .requestMatchers("/booking/**").hasRole("USER") // Solo usuarios registrados pueden acceder a reservas
-                        .requestMatchers("/admin/bookings/**").hasRole("ADMIN") // Solo admins pueden gestionar reservas
-
+                        .requestMatchers("/admin/bookings/**").hasRole("ADMIN") //  Solo admins pueden gestionar reservas
 
                         // Admin-restricted pages
                         .requestMatchers(HttpMethod.GET, "/menu/admin/new-dish").hasAnyRole("ADMIN")

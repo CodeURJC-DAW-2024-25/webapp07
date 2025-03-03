@@ -36,18 +36,34 @@ public class DishController {
     public String showMenu(@RequestParam(required = false) String name,
                            @RequestParam(required = false) String ingredient,
                            @RequestParam(required = false) Integer maxPrice,
-                           Model model) throws SQLException {
+                           @RequestParam(defaultValue = "default") String sortBy, Model model) throws SQLException {
 
-        List<Dish> dishes = dishService.filterDishes(name, ingredient, maxPrice);
-        dishService.calculateRates(dishes);
+        List<Dish> dishes = filterDishes(name, ingredient, maxPrice);
+
         if (dishes.size() < 10){
             for (Dish dish : dishes) {
-            dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+                int rate =  (int) Math.ceil(dish.getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
+                dish.setRate(rate);
+
+                dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
             }
         }else{
             for (int i = 0; i < 10; i++) {
-            dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
+                int rate =  (int) Math.ceil(dishes.get(i).getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
+                dishes.get(i).setRate(rate);
+
+                dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
             }
+        }
+
+        if ("price".equals(sortBy)) {
+            dishes.sort(Comparator.comparing(Dish::getPrice));
+            model.addAttribute("isPrice", true);
+        } else if ("rate".equals(sortBy)) {
+            dishes.sort(Comparator.comparing(Dish::getRate).reversed());
+            model.addAttribute("isRate", true);
+        } else {
+            model.addAttribute("isDefault", true);
         }
 
         model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
@@ -58,38 +74,41 @@ public class DishController {
         return "menu";
     }
 
+    private List<Dish> filterDishes(String name, String ingredient, Integer maxPrice) {
+
+        List<Dish> dishesByName =  (name != null  && !name.isEmpty())
+                ? dishService.findByName(name)
+                : dishService.findAll();
+
+        List<Dish> dishesByIngredient = (ingredient != null && !ingredient.isEmpty())
+                ? dishService.findByIngredient(ingredient)
+                : dishService.findAll();
+
+        List<Dish> dishesByPrice = (maxPrice != null)
+                ? dishService.findBymaxPrice(maxPrice)
+                : dishService.findAll();
+
+        // More than 1 filter
+        if (name != null && !name.isEmpty()) {
+            dishesByName.retainAll(dishesByIngredient);
+            dishesByName.retainAll(dishesByPrice);
+            return dishesByName;  // Final list
+        } else {
+            dishesByIngredient.retainAll(dishesByPrice);
+            return dishesByIngredient;  // Final list
+        }
+    }
+
     @GetMapping("/api/menu")
     @ResponseBody
-    public List<Dish> getDishes(@RequestParam(required = false) String name,
-                                @RequestParam(required = false) String ingredient,
-                                @RequestParam(required = false) Integer maxPrice,
-                                @RequestParam(defaultValue = "0") int page,
+    public List<Dish> getDishes(@RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "10") int pageSize) throws SQLException {
-
-        System.out.println("NAME: "+ name + "INGREDIENT: " + ingredient + "MAXPRICE: " + maxPrice);
-
-        List<Dish> filteredDishes = dishService.filterDishes(name, ingredient, maxPrice);
-        filteredDishes = dishService.calculateRates(filteredDishes);
-
-        for (Dish dish : filteredDishes) {
-            System.out.println("NOMBRE:" + dish.getName() + " PRECIO:" + dish.getPrice());
+        Page<Dish> menuPage = dishService.findAllDishes(PageRequest.of(page, pageSize));
+        for (Dish currentDish : menuPage.getContent()) {
+            currentDish.setDishImagePath(currentDish.blobToString(currentDish.getDishImagefile(), currentDish));
         }
 
-
-        // Paginar la lista filtrada manualmente
-        int fromIndex = page * pageSize;
-        int toIndex = Math.min(fromIndex + pageSize, filteredDishes.size());
-
-        List<Dish> paginatedDishes = (fromIndex >= filteredDishes.size()) ?
-                List.of() :
-                filteredDishes.subList(fromIndex, toIndex);
-
-        for (Dish dish : paginatedDishes) {
-            if (dish.getImage()){
-                dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
-            }
-        }
-        return paginatedDishes;
+        return menuPage.getContent();
     }
 
     @GetMapping("/menu/{id}")
@@ -97,9 +116,8 @@ public class DishController {
 
         Optional<Dish> dish = dishService.findById(id);
         if (dish.isPresent()) {
-            if (dish.get().getImage()) {
-                dish.get().setDishImagePath(dish.get().blobToString(dish.get().getDishImagefile(), dish.get()));
-            }
+            dish.get().setDishImagePath(dish.get().blobToString(dish.get().getDishImagefile(), dish.get()));
+
             int rate =  (int) Math.ceil(dish.get().getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
 
             List<Integer> starList = new ArrayList<>();
@@ -177,14 +195,15 @@ public class DishController {
 
     @GetMapping({"/menu/admin/new-dish", "/menu/{id}/admin/edit-dish"})
     public String showDishForm(@PathVariable(required = false) Long id, Model model, HttpServletRequest request) throws SQLException {
-
+        Dish dish;
         String formAction;
+
         if (id != null) { // Modo edición
             model.addAttribute("pageTitle", "Edit dish");
             model.addAttribute("menuActive", true);
             Optional<Dish> dishOpt = dishService.findById(id);
             if (dishOpt.isPresent()) {
-                Dish dish = new Dish();
+
                 dish = dishOpt.get();
                 dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
 
@@ -203,6 +222,7 @@ public class DishController {
                 return "redirect:/menu";
             }
         } else { // Modo creación
+            dish = new Dish();
             model.addAttribute("allergens", Allergens.values());
             model.addAttribute("pageTitle", "New dish");
             model.addAttribute("menuActive", true);
@@ -215,14 +235,12 @@ public class DishController {
         // Agregar al modelo
         model.addAttribute("formAction", formAction);
 
-        model.addAttribute("pageTitle", "Dish form");
-
         return "dish-form";
     }
 
 
     @PostMapping({"/menu/admin/new-dish/save", "/menu/{id}/admin/edit-dish/save"})
-    public String editDishProcess(Model model, Dish dish, String ingredients, String action, @RequestParam(required = false) MultipartFile imageField, @RequestParam(required = false) List<Allergens> selectedAllergens, boolean vegan) throws IOException {
+    public String editDishProcess(Model model, Dish dish, String ingredients, String action, @RequestParam MultipartFile imageField, @RequestParam List<Allergens> selectedAllergens, boolean vegan) throws IOException {
         List<String> ingredientsList = Arrays.stream(ingredients.toLowerCase().split(","))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
@@ -232,26 +250,17 @@ public class DishController {
         dish.setAllergens(selectedAllergens);
         dish.setVegan(vegan);
 
-        if (imageField != null && !imageField.isEmpty()) {
+        if (!imageField.isEmpty()) {
             dish.setDishImagefile(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
             dish.setImage(true);
         }
 
         model.addAttribute("dishId", dish.getId());
 
-        String formAction = (dish.getId() != null) ? "/menu/" + dish.getId() + "/admin/edit-dish" : "/menu/admin/new-dish";
-        model.addAttribute("formAction", formAction);
-
         if ("save".equals(action)) {
             dishService.save(dish);
             return "redirect:/menu/" + dish.getId();
         }
-
-        model.addAttribute("modalId", "confirmationModal");
-        model.addAttribute("confirmButtonId", "confirmAction");
-        model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
-
-        model.addAttribute("pageTitle", "Saved Changes");
         return "dish-form";
     }
 }
