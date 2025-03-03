@@ -12,7 +12,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
     @ManyToMany
     private List<Dish> dishes;
 

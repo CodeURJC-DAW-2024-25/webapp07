@@ -67,10 +67,6 @@ public class SampleAllData {
         userRepository.save(user2);
 
         // Creating and storing sample dishes
-        //userCreation
-        userRepository.save(new User("user", passwordEncoder.encode("pass"), "USER"));
-        userRepository.save(new User("admin", passwordEncoder.encode("adminpass"), "USER", "ADMIN"));
-        User user1 = userRepository.save(new User("user1", passwordEncoder.encode("pass1"),"USER"));
 
         Dish croquetasJamon = new Dish(
                 "Croquetas de jamón",
