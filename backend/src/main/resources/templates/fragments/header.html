@@ -56,22 +56,24 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto py-0 pe-4">
-          <a href="/" class="nav-item nav-link active">Home</a>
-          <a href="/menu" class="nav-item nav-link">Menu</a>
-          <a href="restaurants" class="nav-item nav-link">Restaurants</a>
+          <a href="/" class="nav-item nav-link {{#homeActive}}active{{/homeActive}}">Home</a>
+          <a href="/menu" class="nav-item nav-link {{#menuActive}}active{{/menuActive}}">Menu</a>
+          <a href="/restaurants" class="nav-item nav-link {{#restaurantsActive}}active{{/restaurantsActive}}">Restaurants</a>
           <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">More</a>
+            <a href="#" class="nav-link dropdown-toggle {{#moreActive}}active{{/moreActive}}" data-bs-toggle="dropdown">More</a>
             <div class="dropdown-menu m-0">
-              <a href="/aboutUs" class="dropdown-item">About Us</a>
-              <a href="/faqs" class="dropdown-item">FAQs</a>
-              <a href="/contact" class="dropdown-item">Contact</a>
+              <a href="/aboutUs" class="dropdown-item {{#aboutUsActive}}text-primary{{/aboutUsActive}}">About Us</a>
+              <a href="/faqs" class="dropdown-item {{#faqsActive}}text-primary{{/faqsActive}}">FAQs</a>
+<!--              <a href="/contact" class="dropdown-item {{#contactActive}}active{{/contactActive}}">Contact</a>-->
             </div>
           </div>
         </div>
         <a href="/booking" class="btn btn-primary py-2 px-4 me-3">Book A Table</a>
-        <a href="/profile" class="me-2"><i class="fa fa-user me-2"></i>Account</a>
-        <!-- <a href=""><i class="fa fa-shopping-cart me-2"></i>Cart</a> -->
+        {{^isAuthenticated}}
+        <a href="/login" class="me-2"><i class="fa fa-user me-2"></i>Log in</a>
+        {{/isAuthenticated}}
         {{#isAuthenticated}}
+        <a href="/profile" class="me-2"><i class="fa fa-user me-2"></i>Account</a>
         <!-- Cart button -->
         <div class="dropdown">
           <a href="#" class="btn btn-link" id="cartButton" data-bs-toggle="dropdown" aria-expanded="false" style="box-shadow:none; text-transform:none;">

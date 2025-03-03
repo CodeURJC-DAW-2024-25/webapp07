@@ -26,6 +26,7 @@ public class MustacheController {
         boolean isAuthenticated = auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal());
 
         model.addAttribute("isAuthenticated", isAuthenticated);
+        model.addAttribute("homeActive", true);
         return "index";
     }
 
@@ -49,6 +50,8 @@ public class MustacheController {
     @GetMapping("/aboutUs")
     public String showAboutUs(Model model) {
         model.addAttribute("pageTitle", "About us");
+        model.addAttribute("moreActive", true);
+        model.addAttribute("aboutUsActive", true);
         return "about-us";
     }
 
@@ -61,6 +64,8 @@ public class MustacheController {
     @GetMapping("/faqs")
     public String showFaqs(Model model) {
         model.addAttribute("pageTitle", "Frequently Asked Questions");
+        model.addAttribute("moreActive", true);
+        model.addAttribute("faqsActive", true);
         return "faqs";
     }
 
