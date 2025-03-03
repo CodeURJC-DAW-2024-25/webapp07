@@ -43,7 +43,7 @@ public class OrderController {
             dishList.add(dish);
             quantityList.add(quantity);
         });
-
+        model.addAttribute("pageTitle", "Cart");
         model.addAttribute("orders", cart);
         model.addAttribute("dishes", dishList);
         model.addAttribute("quantities", quantityList);
