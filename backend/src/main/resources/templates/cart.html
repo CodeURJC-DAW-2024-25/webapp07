@@ -15,6 +15,7 @@
                 </div>
                 <div class="card-body bg-light">
 
+                    <!-- Si el pedido tiene platos -->
                     {{#dishes}}
                     <div class="d-flex align-items-center mb-3">
                         <div class="w-100 d-flex flex-column text-start ps-4">
@@ -27,6 +28,16 @@
                     </div>
                     {{/dishes}}
 
+                    <!-- Si el pedido NO tiene platos -->
+                    {{^dishes}}
+                    <div class="text-center">
+                        <h3 class="text-muted">Your cart is empty</h3>
+                        <a href="/menu" class="btn btn-primary mt-3">Go to Menu</a>
+                    </div>
+                    {{/dishes}}
+
+                    <!-- Mostrar solo si hay platos -->
+                    {{#dishes}}
                     <div class="d-flex justify-content-between pt-3">
                         <h5 class="text-end">Subtotal</h5>
                         <h5 class="text-end">&euro;{{totalPrice}}</h5>
@@ -40,7 +51,16 @@
                         </form>
                         <a href="/orders/{{id}}/summary" class="btn btn-success mt-2">Order</a>
                     </div>
+                    {{/dishes}}
+
                 </div>
+            </div>
+            {{/orders}}
+
+            {{^orders}}
+            <div class="text-center">
+                <h3 class="text-muted">Your cart is empty</h3>
+                <a href="/menu" class="btn btn-primary mt-3">Go to Menu</a>
             </div>
             {{/orders}}
         </div>
