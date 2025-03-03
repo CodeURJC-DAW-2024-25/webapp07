@@ -1,6 +1,5 @@
 {{> fragments/header}}
-<!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
-<!--<script src="/js/dishes.js"></script>-->
+
 <!--<script>-->
 <!--    // Esto evaluará a true si el usuario está autenticado, o false si no lo está-->
 <!--    let isAuthenticated = "{{#isAuthenticated}}true{{/isAuthenticated}}{{^isAuthenticated}}false{{/isAuthenticated}}";-->
@@ -12,17 +11,6 @@
 <!-- Menu Start -->
 <div class="container-xxl py-5">
     <div class="container">
-        <div class="text-center mb-4">
-            <form action="/menu/sort" method="GET" id="sort-form">
-                <label for="sort-options" class="form-label">Ordenar por:</label>
-                <select id="sort-options" name="sortBy" class="form-select w-auto d-inline-block">
-                    <option value="default" {{#isDefault}}selected{{/isDefault}}>Seleccionar</option>
-                    <option value="price" {{#isPrice}}selected{{/isPrice}}>Precio</option>
-                    <option value="rate" {{#isRate}}selected{{/isRate}}>Valoración</option>
-                </select>
-                <button type="submit" class="btn btn-primary">Ordenar</button>
-            </form>
-        </div>
         {{> fragments/filter}}
     </div>
         <div class="menu-items mt-5">
@@ -33,7 +21,12 @@
                     <div class="d-flex align-items-center">
                         <div class="w-100 d-flex flex-column text-start ps-4">
                             <div class="d-flex">
-                                <img class="flex-shrink-0 img-fluid rounded" src="data:image/png;base64,{{dishImagePath}}" alt="{{name}}" style="width: 10vw; height: 15vh"/>
+                                {{#dish.image}}
+                                <img src="data:image/png;base64,{{#dish.dishImagePath}}{{dish.dishImagePath}}{{/dish.dishImagePath}}" alt="{{dish.name}}" class="img-fluid rounded shadow" style="width: 15vw; height: 10vh">
+                                {{/dish.image}}
+                                {{^dish.image}}
+                                <img  src="/img/logo.jpg" alt="Dish Image" class="img-fluid rounded shadow" style="width: 10vw; height: 15vh">
+                                {{/dish.image}}
                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
                                         <span>{{name}}</span>
@@ -66,5 +59,6 @@
         </div>
     </div>
 <!-- Menu End -->
-
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="/js/dishes.js"></script>
 {{> fragments/footer}}
