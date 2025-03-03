@@ -28,6 +28,7 @@
   <!-- Customized Bootstrap Stylesheet -->
   <link href="/css/bootstrap.min.css" rel="stylesheet">
 
+
   <!-- Template Stylesheet -->
   <link href="/css/style.css" rel="stylesheet">
 </head>
@@ -46,7 +47,7 @@
   <!-- Navbar & Hero Start -->
   <div class="container-xxl position-relative p-0">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
-      <a href="#" class="navbar-brand p-0">
+      <a href="/" class="navbar-brand p-0">
         <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Voltereta Croqueta</h1>
         <!-- <img src="img/logo.png" alt="Logo"> -->
       </a>
@@ -55,22 +56,24 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto py-0 pe-4">
-          <a href="#" class="nav-item nav-link active">Home</a>
-          <a href="menu" class="nav-item nav-link">Menu</a>
-          <a href="restaurants" class="nav-item nav-link">Restaurants</a>
+          <a href="/" class="nav-item nav-link {{#homeActive}}active{{/homeActive}}">Home</a>
+          <a href="/menu" class="nav-item nav-link {{#menuActive}}active{{/menuActive}}">Menu</a>
+          <a href="/restaurants" class="nav-item nav-link {{#restaurantsActive}}active{{/restaurantsActive}}">Restaurants</a>
           <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">More</a>
+            <a href="#" class="nav-link dropdown-toggle {{#moreActive}}active{{/moreActive}}" data-bs-toggle="dropdown">More</a>
             <div class="dropdown-menu m-0">
-              <a href="aboutUs" class="dropdown-item">About Us</a>
-              <a href="faqs" class="dropdown-item">FAQs</a>
-              <a href="contact" class="dropdown-item">Contact</a>
+              <a href="/aboutUs" class="dropdown-item {{#aboutUsActive}}text-primary{{/aboutUsActive}}">About Us</a>
+              <a href="/faqs" class="dropdown-item {{#faqsActive}}text-primary{{/faqsActive}}">FAQs</a>
+<!--              <a href="/contact" class="dropdown-item {{#contactActive}}active{{/contactActive}}">Contact</a>-->
             </div>
           </div>
         </div>
-        <a href="booking" class="btn btn-primary py-2 px-4 me-3">Book A Table</a>
-        <a href="profile" class="me-2"><i class="fa fa-user me-2"></i>Account</a>
-        <!-- <a href=""><i class="fa fa-shopping-cart me-2"></i>Cart</a> -->
+        <a href="/booking" class="btn btn-primary py-2 px-4 me-3">Book A Table</a>
+        {{^isAuthenticated}}
+        <a href="/login" class="me-2"><i class="fa fa-user me-2"></i>Log in</a>
+        {{/isAuthenticated}}
         {{#isAuthenticated}}
+        <a href="/profile" class="me-2"><i class="fa fa-user me-2"></i>Account</a>
         <!-- Cart button -->
         <div class="dropdown">
           <a href="#" class="btn btn-link" id="cartButton" data-bs-toggle="dropdown" aria-expanded="false" style="box-shadow:none; text-transform:none;">
@@ -97,7 +100,7 @@
             <a class="dropdown-item" href="/admin-dashboard"><i class="fa fa-tachometer-alt me-2"></i> Dashboard</a>
             <a class="dropdown-item" href="/admin/orders"><i class="fa fa-list-alt me-2"></i> Manage Orders</a>
             <a class="dropdown-item" href="/admin/users"><i class="fa fa-users me-2"></i> Manage Users</a>
-            <a class="dropdown-item" href="/admin/menu"><i class="fa fa-utensils me-2"></i> Manage Menu</a>
+            <a class="dropdown-item" href="/admin/dishes"><i class="fa fa-utensils me-2"></i> Manage Menu</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item text-danger" href="/admin/settings"><i class="fa fa-cogs me-2"></i> Settings</a>
           </div>

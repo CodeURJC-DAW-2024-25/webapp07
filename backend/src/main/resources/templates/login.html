@@ -11,7 +11,7 @@
             <div class="col-12 text-center align-self-center py-5">
                 <div class="section text-center">
                     <h6 class="mb-0 pb-3 centered-text">
-                        <span class="fs-3 ml-4">Log In </span><span class="fs-3">Sign Up</span>
+                        <span class="fs-3 ml-2">Log In </span><span class="fs-3">Sign Up</span>
                     </h6>
                     <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
                     <label for="reg-log"></label>
@@ -22,6 +22,13 @@
                                 <div class="center-wrap">
                                     <div class="section text-center">
                                         <h4 class="mb-4 pb-3">Log In</h4>
+                                        <!-- Error -->
+                                        {{#errorMessage}}
+                                        <div class="alert alert-danger">
+                                            {{errorMessage}}
+                                        </div>
+                                        {{/errorMessage}}
+
                                         <form action="/login" method="post">
                                         <div class="form-group">
                                             <input type="text" class="form-style" placeholder="username" name="username" required>

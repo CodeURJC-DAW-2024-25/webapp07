@@ -11,12 +11,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Controller responsible for managing the user profile, including displaying and updating profile information.
+ */
 @Controller
 public class ProfileController {
 
     @Autowired
     private UserService userService;
 
+    /**
+     * Displays the user profile page.
+     *
+     * @param userDetails The authenticated user details.
+     * @param edit        A flag indicating whether the profile should be shown in edit mode.
+     * @param model       The model to pass attributes to the view.
+     * @return The profile view name.
+     */
     @GetMapping("/profile")
     public String showProfile(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -31,9 +42,26 @@ public class ProfileController {
         model.addAttribute("editMode", edit);
         model.addAttribute("pageTitle", "Profile");
 
+        // Attributes for confirmation modal
+        model.addAttribute("modalId", "confirmationModal");
+        model.addAttribute("confirmButtonId", "confirmSave");
+        model.addAttribute("modalMessage", "Are you sure you want to save these changes?");
+
         return "profile";
     }
 
+    /**
+     * Updates the user profile with the provided information.
+     *
+     * @param userDetails The authenticated user details.
+     * @param firstName   The updated first name.
+     * @param lastName    The updated last name.
+     * @param email       The updated email.
+     * @param phoneNumber The updated phone number.
+     * @param address     The updated address.
+     * @param model       The model to pass attributes to the view.
+     * @return A redirect to the profile page after updating.
+     */
     @PostMapping("/profile")
     public String updateProfile(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -48,6 +76,7 @@ public class ProfileController {
         User user = userService.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Update user details
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setEmail(email);
@@ -59,5 +88,3 @@ public class ProfileController {
         return "redirect:/profile";
     }
 }
-
-

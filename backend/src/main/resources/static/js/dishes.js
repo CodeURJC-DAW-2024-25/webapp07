@@ -43,7 +43,7 @@ $(document).ready(function() {
                     </div>
                 </div>`;
                     });
-                    console.log("dataLenght", data.length)
+                    console.log("dataLenght", data)
                     console.log("pageSize", pageSize)
                     console.log("page", page)
 
@@ -66,3 +66,4 @@ $(document).ready(function() {
         loadMoreDishes();
     });
 });
+

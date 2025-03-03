@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Admin Panel - Dishes</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="/img/favicon.png" rel="icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/admin-manage-users.css" rel="stylesheet">
+</head>
+<body>
+<a href="/" class="back-link"><i class='bi bi-arrow-left'></i></a>
+<a href="/" class="logo-link"><img class="show-logo" src="/img/logo.jpg" alt="Logo"/></a>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Dish Management</h2>
+    <div class="form-group mb-3">
+        <form action="/admin/dishes" method="get">
+            <input type="text" class="form-control" placeholder="Search dish..." id="search-dish" name="query">
+            <button type="submit" class="btn btn-primary mt-2">Search</button>
+        </form>
+    </div>
+
+    {{^hasDishes}}
+    <p>No dishes found.</p>
+    {{/hasDishes}}
+
+    {{#hasDishes}}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#dishes}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{name}}</td>
+            <td>${{price}}</td>
+            <td>
+                <a href="/menu/{{id}}/edit-dish" class="btn btn-warning">Edit</a>
+                <form id="deleteForm{{id}}" action="/admin/dishes/delete/{{id}}" method="post" style="display:inline;">
+                    <button type="button" class="btn btn-danger" onclick="openConfirmationModal('deleteForm{{id}}')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {{/dishes}}
+        </tbody>
+    </table>
+    {{/hasDishes}}
+</div>
+
+{{> fragments/modal-confirmation}}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/confirmationModal.js"></script>
+
+</body>
+</html>

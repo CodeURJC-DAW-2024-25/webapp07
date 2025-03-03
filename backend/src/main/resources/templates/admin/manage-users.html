@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Admin Panel - Users</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="/img/favicon.png" rel="icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/admin-manage-users.css" rel="stylesheet">
+</head>
+<body>
+<a href="/" class="back-link"><i class='bi bi-arrow-left'></i></a>
+<a href="/" class="logo-link"><img class="show-logo" src="/img/logo.jpg" alt="Logo"/></a>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">User Management</h2>
+    <div class="form-group mb-3">
+        <form action="/admin/users" method="get">
+            <input type="text" class="form-control" placeholder="Search user..." id="search-user" name="query">
+            <button type="submit" class="btn btn-primary mt-2">Search</button>
+        </form>
+    </div>
+
+    {{^hasUsers}}
+    <p>No users found.</p>
+    {{/hasUsers}}
+
+    {{#hasUsers}}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#users}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{#username}}{{username}}{{/username}}{{^username}}N/A{{/username}}</td>
+            <td>{{#email}}{{email}}{{/email}}{{^email}}N/A{{/email}}</td>
+            <td>{{#banned}}Banned{{/banned}}{{^banned}}Active{{/banned}}</td>
+            <td>
+                {{^banned}}
+                <form id="banForm{{id}}" action="/admin/users/ban/{{id}}" method="post">
+                    <button type="button" class="btn btn-danger" onclick="openConfirmationModal('banForm{{id}}')">Ban</button>                </form>
+                {{/banned}}
+
+                {{#banned}}
+                <form id="unbanForm{{id}}" action="/admin/users/unban/{{id}}" method="post">
+                    <button type="button" class="btn btn-success" onclick="openConfirmationModal('unbanForm{{id}}')">Unban</button>                </form>
+                {{/banned}}
+            </td>
+        </tr>
+        {{/users}}
+        </tbody>
+    </table>
+    {{/hasUsers}}
+</div>
+
+{{> fragments/modal-confirmation}}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/confirmationModal.js"></script>
+
+
+</body>
+</html>
