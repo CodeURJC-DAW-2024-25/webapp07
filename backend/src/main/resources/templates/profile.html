@@ -3,9 +3,9 @@
 
 <div class="container-xxl py-5">
     <div class="container">
-        <div class="row g-5 align-items-left">
-            <div class="ms-auto align-items-center">
-
+        <div class="row g-5 align-items-start">
+            <!-- Left Column: User Info and Buttons -->
+            <div class="col-lg-6">
                 <!-- View mode -->
                 {{^editMode}}
                 <table>
@@ -44,22 +44,6 @@
                     </tr>
                 </table>
 
-                <!-- Active Booking Section -->
-                {{#booking}}
-                <div class="p-4 border rounded shadow">
-                <h3 class="section-title ff-secondary text-start text-primary fw-normal">Active Reservation</h3>
-                    <p class="mb-2"><strong>Restaurant:</strong> {{booking.restaurant.location}}</p>
-                    <p class="mb-2"><strong>Date:</strong> {{booking.date}}</p>
-                    <p class="mb-2"><strong>Shift:</strong> {{booking.shift}}</p>
-                    <p class="mb-2"><strong>Number of People:</strong> {{booking.numPeople}}</p>
-
-                    <!-- Cancel Booking Button -->
-                    <form action="/booking/cancel" method="post">
-                        <button type="submit" class="btn btn-danger py-2 px-4 mt-2">Cancel Booking</button>
-                    </form>
-                </div>
-                {{/booking}}
-
                 <div class="breadcrumb">
                     <a class="btn btn-primary py-3 px-5 mt-2" href="/profile?edit=true">Edit</a>
                     <a class="btn btn-primary py-3 px-5 mt-2" href="/orders-list">My Orders</a>
@@ -74,7 +58,6 @@
                         <label class="form-label">Username</label>
                         <input type="text" class="form-control" value="{{user.username}}" disabled>
                     </div>
-
                     <div class="mb-3">
                         <label class="form-label">First Name</label>
                         <input type="text" class="form-control" name="firstName" value="{{#user.firstName}}{{user.firstName}}{{/user.firstName}}">
@@ -99,6 +82,24 @@
                     <a href="/profile" class="btn btn-secondary py-3 px-5 mt-2">Cancel</a>
                 </form>
                 {{/editMode}}
+            </div>
+
+            <!-- Right Column: Active Booking Section -->
+            <div class="col-lg-6">
+                {{#booking}}
+                <div class="p-4 border rounded shadow">
+                    <h3 class="section-title ff-secondary text-start text-primary fw-normal">Active Reservation</h3>
+                    <p class="mb-2"><strong>Restaurant:</strong> {{booking.restaurant.location}}</p>
+                    <p class="mb-2"><strong>Date:</strong> {{booking.date}}</p>
+                    <p class="mb-2"><strong>Shift:</strong> {{booking.shift}}</p>
+                    <p class="mb-2"><strong>Number of People:</strong> {{booking.numPeople}}</p>
+
+                    <!-- Cancel Booking Button -->
+                    <form action="/booking/cancel" method="post">
+                        <button type="submit" class="btn btn-danger py-2 px-4 mt-2">Cancel Booking</button>
+                    </form>
+                </div>
+                {{/booking}}
             </div>
         </div>
     </div>
