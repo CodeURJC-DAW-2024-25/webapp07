@@ -52,6 +52,7 @@ public class WebSecurityConfig {
 
 
                         .requestMatchers("/orders/{id}/summary").authenticated()
+                        .requestMatchers("/orders/pickup-delivery-order").authenticated()
                         .requestMatchers("/orders/{id}/confirmation").authenticated()
                         .requestMatchers("/orders/{id}/pay").authenticated()
                         .requestMatchers("/orders/{id}/success").authenticated()

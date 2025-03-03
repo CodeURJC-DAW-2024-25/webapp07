@@ -24,6 +24,13 @@ public class OrderController {
 
 
 
+    @GetMapping("/orders/pickup-delivery-order")
+    public String showPickupOption(Model model){
+
+
+        return "pickup-delivery-order";
+    }
+
     @GetMapping("/history")
     public String showUserOrderHistory(Model model) {
         Optional<User> userOpt = userService.getAuthenticatedUser();
