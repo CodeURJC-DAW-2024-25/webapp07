@@ -1,8 +1,11 @@
 package es.codeurjc.backend.model;
 
 import jakarta.persistence.*;
+
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 @Entity
 @Table(name = "orders")
@@ -96,4 +99,9 @@ public class Order {
     public double calculateTotalPrice() {
         return dishes.stream().mapToDouble(Dish::getPrice).sum();
     }
+    public String getFormattedOrderDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM - HH:mm", new Locale("es", "ES"));
+        return orderDate.format(formatter);
+    }
+
 }

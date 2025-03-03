@@ -16,7 +16,7 @@
         <div class="d-flex justify-content-between p-2 pb-2 card-head bg-secondary text-white">
           <span class="text-white">{{orderDate}}</span>
           <span>Order Number: {{id}}</span>
-          <span>Total: €{{totalPrice}}</span>
+          <span>Total: &euro;{{totalPrice}}</span>
         </div>
         <div class="card-body bg-light">
           {{#dishes}}
@@ -24,7 +24,7 @@
             <div class="w-100 d-flex flex-column text-start ps-4">
               <h5 class="d-flex justify-content-between border-bottom pb-2">
                 <span>{{name}}</span>
-                <span class="text-primary">€{{price}}</span>
+                <span class="text-primary">&euro;{{price}}</span>
               </h5>
               <small class="fst-italic">{{description}}</small>
             </div>
