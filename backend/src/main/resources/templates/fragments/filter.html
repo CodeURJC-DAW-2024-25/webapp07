@@ -6,6 +6,7 @@
 <div id="filterContainer" class="collapse col-lg-4 mx-auto container align-content-center">
     <div class="p-4 border rounded bg-light">
         <form action="/menu/filter" method="get">
+            <input type="hidden" name="_csrf" value="{{token}}">
             <!-- Filter dishes by name-->
             <div class="mb-3">
                 <label for="name" class="form-label">Nombre del Plato</label>

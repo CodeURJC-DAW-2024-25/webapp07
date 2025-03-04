@@ -461,3 +461,24 @@ Next, a diagram will be included depicting the entities within the database, the
 | 3º  |      [Update: Filter done](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/25236b83f1a2d05165be799cdb5f7f22afeebadb)      | | 3º |             [BookingService.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/service/BookingService.java)              |
 | 4º  |      [Fix: dish image format](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/d372ae74771132b8229c6ae4ca9578c0207842e2)      | | 4º |                           [Booking.html](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/resources/templates/booking.html)                           |
 | 5º  | [Fixed: AdminBookingController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/63e26cd149b99b2af1513426b6d9f234359752f9) | | 5º | [AdminBookingController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/admin/AdminBookingController.java) |
+
+
+ #### Juan Ramírez Blanco
+
+* Developed the **order system architecture**, ensuring a structured and scalable approach for managing orders.
+* Created the **Order Summary screen**, displaying a detailed breakdown of the user's order before payment.
+* Helped in the implementation of the **Add to Cart button**, allowing users to add items to their cart dynamically.
+* Implemented the **Pay button**, allowing users to securely process their payments.
+* Designed and developed the **order confirmation** and **success screens**, enhancing the user experience after a purchase.
+* Implemented **View Orders button**, enabling users to access their order history.
+* Created **Order History** section, displaying a comprehensive list of paid orders.
+* Developed the **class diagram and templates**, providing a structured foundation for order management and UI consistency.
+
+
+| #   |                                                              Commit                                                               |     | #   |                                                                                       File                                                                                       |
+| :-: |:---------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |        [Add: Order Controller.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/b8836003082903b60ddd5ce191acf4b6f3434d72)        | | 1º |                       [Controller.java]()                       |
+| 2º  |    [Add: add cart](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/14d1bda382c3e135ac5d422e036e32fe35a177b4)     | |2º |         [OrderController.java]()         |
+| 3º  |      [Add: user order history](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/870e86495948e0ee9fa24915fa667d7c8f96b4c5)      | | 3º |             [OrderController.java]()              |
+| 4º  |      [Fix: More Info Button in OrderSummary](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/14d1bda382c3e135ac5d422e036e32fe35a177b4)      | | 4º |                           [OrderController.java]()|
+| 5º  | [Add: Order summary pay button and confirm page](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/13fd26bae5554d4e254992baaa8c09c7766d5e58) | | 5º | [OrderController.java]() |

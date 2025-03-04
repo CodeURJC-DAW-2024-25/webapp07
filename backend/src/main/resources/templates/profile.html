@@ -100,6 +100,7 @@
 
                     <!-- Cancel Booking Button -->
                     <form action="/booking/cancel" method="post">
+                        <input type="hidden" name="_csrf" value="{{token}}">
                         <button type="submit" class="btn btn-danger py-2 px-4 mt-2">Cancel Booking</button>
                     </form>
                 </div>
