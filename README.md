@@ -371,7 +371,7 @@ This screen presents the reservation form, enabling users to select a restaurant
 ___
 ## Existing Reservation:
 This image shows the notification for users who already have an active reservation, preventing duplicate bookings and directing them to manage their reservation in the profile section.
-![*ExistingReservation.png*](readme-img/phase_02/ExistintgReservation.PNG)
+![*ExistingReservation.png*](readme-img/phase_02/ExistingReservation.PNG)
 
 
 
@@ -406,7 +406,7 @@ This panel serves as the main admin interface, allowing access to various manage
 ___
 ## Confirm Action Popup
 This modal appears when performing critical actions, such as deleting a reservation, requiring users to confirm before proceeding.
-![*ConfirmActionPopUp.png*](readme-img/phase_02/ConfirmActionPopUp.PNG)
+![*ConfirmActionPopUp.png*](readme-img/phase_02/ConfirmActionsPopUp.PNG)
 ___
 # :diamonds: New Flow Diagram:
 
