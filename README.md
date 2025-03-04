@@ -339,6 +339,74 @@ This image showcases the User Management Panel for Voltereta Croqueta, allowing 
 ![*Booking_management.png*](readme-img/phase_02/User_management.png)
 
 
+
+___
+## Admin Dish Info:
+This screen displays detailed information about a specific dish, including its name, description, price, ingredients, and allergens. Admins can edit, mark as unavailable, or delete the dish.
+![*AdminDishInfo.png*](readme-img/phase_02/AdminDishInfo.png)
+
+
+
+___
+## Admin Edit Dish:
+This image showcases the interface for editing dish details. Admins can modify the dish name, description, price, ingredients, and allergens before saving changes.
+![*Admin-EditDish.png*](readme-img/phase_02/Admin-EditDish.png)
+
+
+
+___
+## Admin New Dish:
+This screen provides a form for adding a new dish to the menu. Admins can input dish details, select allergens, dietary preferences, and upload an image.
+![*Admin-NewDish.png*](readme-img/phase_02/Admin-NewDish.png)
+
+
+
+___
+## Booking:
+This screen presents the reservation form, enabling users to select a restaurant, date, shift, and number of people, while providing personal details to confirm the booking.
+![*Booking.png*](readme-img/phase_02/Booking.png)
+
+
+
+___
+## Existing Reservation:
+This image shows the notification for users who already have an active reservation, preventing duplicate bookings and directing them to manage their reservation in the profile section.
+![*ExistingReservation.png*](readme-img/phase_02/ExistintgReservation.png)
+
+
+
+___
+## Booking Cancelled:
+This confirmation screen informs users that their reservation has been successfully cancelled, offering a direct link to rebook a table.
+![*BookingCancelled.png*](readme-img/phase_02/BookingCancelled.png)
+
+
+
+___
+## Profile:
+This screen displays user profile details, including personal information and an active reservation summary, with the option to cancel the booking directly from the page.
+![*Profile.png*](readme-img/phase_02/Profile.png)
+
+
+
+___
+## Restaurants:
+This page lists available restaurant locations, providing images and addresses, along with a search bar to filter by city or postal code.
+![*Restaurants.png*](readme-img/phase_02/Restaurants.png)
+
+
+
+___
+## Admin Dashboard:
+This panel serves as the main admin interface, allowing access to various management functionalities such as user administration, dish control, and booking supervision.
+![*AdminDashboard.png*](readme-img/phase_02/AdminDashboard.png)
+
+
+
+___
+## Confirm Action Popup
+This modal appears when performing critical actions, such as deleting a reservation, requiring users to confirm before proceeding.
+![*ConfirmActionPopUp.png*](readme-img/phase_02/ConfirmActionPopUp.png)
 ___
 # :diamonds: New Flow Diagram:
 
