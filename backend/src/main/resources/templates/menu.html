@@ -1,6 +1,5 @@
 {{> fragments/header}}
-<!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>-->
-<!--<script src="/js/dishes.js"></script>-->
+
 <!--<script>-->
 <!--    // Esto evaluará a true si el usuario está autenticado, o false si no lo está-->
 <!--    let isAuthenticated = "{{#isAuthenticated}}true{{/isAuthenticated}}{{^isAuthenticated}}false{{/isAuthenticated}}";-->
@@ -42,6 +41,7 @@
                             </div>
                             <div class="d-flex align-items-center">
                                 {{#isAuthenticated}}
+                                <input type="hidden" name="action" id="isAuthenticated" value="{{isAuthenticated}}">
                                 <form action="/orders/cart/add" method="post">
                                     <input type="hidden" name="dishId" value="{{id}}" />
                                     <button class="btn btn-primary btn-sm m-2 p-2" type="submit">

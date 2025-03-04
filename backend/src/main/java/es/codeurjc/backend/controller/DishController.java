@@ -15,7 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +41,11 @@ public class DishController {
                            @RequestParam(required = false) String ingredient,
                            @RequestParam(required = false) Integer maxPrice,
                            Model model) throws SQLException {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAuthenticated = auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal());
+
+        model.addAttribute("isAuthenticated", isAuthenticated);
 
         List<Dish> dishes = dishService.filterDishes(name, ingredient, maxPrice);
         dishService.calculateRates(dishes);
@@ -66,8 +73,11 @@ public class DishController {
                                 @RequestParam(required = false) String ingredient,
                                 @RequestParam(required = false) Integer maxPrice,
                                 @RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "10") int pageSize,
-                                @AuthenticationPrincipal User userDetails) throws SQLException {
+                                @RequestParam(defaultValue = "10") int pageSize) throws SQLException {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAuthenticated = auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal());
+
 
         System.out.println("NAME: "+ name + "INGREDIENT: " + ingredient + "MAXPRICE: " + maxPrice);
 
@@ -92,8 +102,6 @@ public class DishController {
                 dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
             }
         }
-
-        boolean isAuthenticated = (userDetails.getId() != null);
 
         // Crear respuesta en un mapa JSON
         Map<String, Object> response = new HashMap<>();
