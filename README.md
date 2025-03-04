@@ -314,7 +314,37 @@ The diagram is a flow chart showing user permissions and navigation steps within
 - Red arrows represent Admin functions, the green ones are for Registered User and the blue arrows are for every user. 
 
 ![*Flow Diagram*](readme-img/phase_01/flow_diagram.png)
+___
+# Phase 2
+___
+#  :computer: New Screens
+___
+## Booking management:
+This image shows the Booking Management Panel for Voltereta Croqueta, where admins can view and manage reservations. It includes a search bar, a reservation list with details (user, restaurant, shift, people, and date), and a delete button for easy management.
 
+![*Booking_management.png*](readme-img/phase_02/Booking_management.png)
+
+
+___
+
+## Dish management:
+This image displays the Dish Management Panel for Voltereta Croqueta, where admins can manage the restaurant's menu. It includes a search bar, a list of dishes with their prices, and edit/delete buttons for easy modifications.
+![*Booking_management.png*](readme-img/phase_02/Dish_management.png)
+
+
+
+___
+## User management:
+This image showcases the User Management Panel for Voltereta Croqueta, allowing admins to manage user accounts. It includes a search bar, a list of users with emails and statuses, and ban/unban buttons for controlling access.
+![*Booking_management.png*](readme-img/phase_02/User_management.png)
+
+
+___
+# :diamonds: New Flow Diagram:
+
+The diagram is a flow chart showing user permissions and navigation steps within a web interface. The diagram uses colored arrows to indicate the progression from one web page or state to another, based on user actions or permissions.
+
+![*New Flow Diagram*](readmeImg/diagramFinal.jpg)
 # :rocket: Execution Instructions
 
 ##  Steps
