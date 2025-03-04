@@ -75,11 +75,40 @@
         {{#isAuthenticated}}
         <a href="/profile" class="me-2"><i class="fa fa-user me-2"></i>Account</a>
         <!-- Cart button -->
-        <a href="/orders/cart" class="btn btn-primary btn-sm m-2 p-2">
-          <i class="fa fa-shopping-cart"></i>Cart
-        </a>
-
-        <script src="/js/cart.js"></script>
+        <div class="dropdown">
+          <a href="#" class="btn btn-link" id="cartButton" data-bs-toggle="dropdown" aria-expanded="false" style="box-shadow:none; text-transform:none;">
+            <i class="fa fa-shopping-cart me-2"></i>Cart
+          </a>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cartButton" style="right: 0; left: auto; width: max-content;">
+            <div id="cartSummary" class="p-3" style="overflow-y: auto;">
+              <!-- Producto 1 -->
+              <div class="card mb-3" style="width: 18rem;">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                  <h5 class="card-title mb-0">Pollo frito</h5>
+                  <div class="d-flex align-items-center">
+                    <i class="fa fa-minus text-primary px-3"></i>
+                    <span>2</span>
+                    <i class="fa fa-plus text-primary px-3"></i>
+                  </div>
+                </div>
+              </div>
+              <!-- Producto 2 -->
+              <div class="card" style="width: 18rem;">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                  <h5 class="card-title mb-0">Croqueta Voltereta</h5>
+                  <div class="d-flex align-items-center">
+                    <i class="fa fa-minus text-primary px-3"></i>
+                    <span>5</span>
+                    <i class="fa fa-plus text-primary px-3"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end px-2">
+              <a href="../pickup-delivery-order.html" class="btn btn-primary">Order</a>
+            </div>
+          </div>
+        </div>
         <!-- End cart button -->
         {{#isAdmin}}
         <div class="dropdown">
@@ -91,6 +120,7 @@
             <a class="dropdown-item" href="/admin/orders"><i class="fa fa-list-alt me-2"></i> Manage Orders</a>
             <a class="dropdown-item" href="/admin/users"><i class="fa fa-users me-2"></i> Manage Users</a>
             <a class="dropdown-item" href="/admin/dishes"><i class="fa fa-utensils me-2"></i> Manage Menu</a>
+            <a class="dropdown-item" href="/admin/bookings"><i class="fa fa-calendar-check me-2"></i> Manage Bookings</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item text-danger" href="/admin/settings"><i class="fa fa-cogs me-2"></i> Settings</a>
           </div>

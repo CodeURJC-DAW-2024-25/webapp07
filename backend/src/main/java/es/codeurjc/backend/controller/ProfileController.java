@@ -2,6 +2,8 @@ package es.codeurjc.backend.controller;
 
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.UserService;
+import es.codeurjc.backend.model.Booking;
+import es.codeurjc.backend.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.util.Optional;
 
 /**
  * Controller responsible for managing the user profile, including displaying and updating profile information.
@@ -19,6 +22,10 @@ public class ProfileController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BookingService bookingService;
+
 
     /**
      * Displays the user profile page.
@@ -38,6 +45,10 @@ public class ProfileController {
         User user = userService.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Buscar la reserva activa del usuario
+        Optional<Booking> activeBooking = bookingService.findActiveBookingByUser(user);
+        activeBooking.ifPresent(booking -> model.addAttribute("booking", booking));
+
         model.addAttribute("user", user);
         model.addAttribute("editMode", edit);
         model.addAttribute("pageTitle", "Profile");
@@ -49,6 +60,7 @@ public class ProfileController {
 
         return "profile";
     }
+
 
     /**
      * Updates the user profile with the provided information.
