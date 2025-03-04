@@ -442,3 +442,22 @@ Next, a diagram will be included depicting the entities within the database, the
 | 3º  |                                         [Add: BookingService](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/067a2e4ea70f90dffe4df3ff75e97248984cee65)                                         | | 3º |             [BookingService.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/service/BookingService.java)              |
 | 4º  |      [Update booking.html](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/71d3945bea29478148564cbba9eac86b47baeedc)      | | 4º |                           [Booking.html](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/resources/templates/booking.html)                           |
 | 5º  |                                    [Fixed: AdminBookingController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/63e26cd149b99b2af1513426b6d9f234359752f9)                                    | | 5º | [AdminBookingController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/admin/AdminBookingController.java) |
+
+#### Hugo Sánchez Torres
+
+*  Developed the application's **dish menu**.
+*  Implemented dynamic data loading based on **AJAX**, taking filter values into account.
+*  Developed the functionality to **edit**, **add**, and **delete** dishes.
+*  Implemented a **filter fragment** for the application's menu.
+*  Developed a **filter** for the dish menu, with the ability to filter by **name**, by an **ingredient**, or by **maximum price**.
+*  Mark **dishes as disabled**.
+*  Added **image implementation** using Blob.
+
+
+| #   |                                                              Commit                                                               |     | #   |                                                                                       File                                                                                       |
+| :-: |:---------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |        [Fix: Menu's Ajax](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/111fd36026297d408610741d3eeefc7ab3dfbf6a)        | | 1º |                       [dishes.js](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/model/Booking.java)                       |
+| 2º  |    [Fix: Add and edit dishes](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/d9e3df83d2eabe4f2987fade0d8bebde66bfe63d)     | |2º |         [BookingController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/BookingController.java)         |
+| 3º  |      [Update: Filter done](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/25236b83f1a2d05165be799cdb5f7f22afeebadb)      | | 3º |             [BookingService.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/service/BookingService.java)              |
+| 4º  |      [Fix: dish image format](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/d372ae74771132b8229c6ae4ca9578c0207842e2)      | | 4º |                           [Booking.html](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/resources/templates/booking.html)                           |
+| 5º  | [Fixed: AdminBookingController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/63e26cd149b99b2af1513426b6d9f234359752f9) | | 5º | [AdminBookingController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/admin/AdminBookingController.java) |
