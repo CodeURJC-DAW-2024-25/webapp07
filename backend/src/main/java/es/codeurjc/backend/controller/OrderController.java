@@ -47,8 +47,11 @@ public class OrderController {
         Order cart = orderService.findCartByUser(user.getId())
                 .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart",0.0));
 
+        boolean hasDishes = !cart.getDishes().isEmpty();
+
         model.addAttribute("pageTitle", "Cart");
 
+        model.addAttribute("hasDishes", hasDishes);
         model.addAttribute("orders", cart);
         return "cart";
     }
@@ -87,7 +90,7 @@ public class OrderController {
 
         return "redirect:/orders/cart";
     }
-    
+
     @PostMapping("/cart/remove")
     public String removeFromCart(@RequestParam Long dishId, @AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.findByUsername(userDetails.getUsername())
