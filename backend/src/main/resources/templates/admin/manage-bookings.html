@@ -19,6 +19,7 @@
 
     <div class="form-group mb-3">
         <form action="/admin/bookings" method="get">
+            <input type="hidden" name="_csrf" value="{{token}}">
             <input type="text" class="form-control" placeholder="Search booking..." id="search-booking" name="query">
             <button type="submit" class="btn btn-primary mt-2">Search</button>
         </form>

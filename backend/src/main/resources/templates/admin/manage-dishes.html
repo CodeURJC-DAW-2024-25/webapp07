@@ -17,6 +17,7 @@
     <h2 class="text-center mb-4">Dish Management</h2>
     <div class="form-group mb-3">
         <form action="/admin/dishes" method="get">
+            <input type="hidden" name="_csrf" value="{{token}}">
             <input type="text" class="form-control" placeholder="Search dish..." id="search-dish" name="query">
             <button type="submit" class="btn btn-primary mt-2">Search</button>
         </form>

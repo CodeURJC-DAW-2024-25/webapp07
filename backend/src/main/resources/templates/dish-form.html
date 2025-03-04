@@ -28,6 +28,7 @@
                 <h5 class="section-title ff-secondary text-start text-primary fw-normal">Edit Dish</h5>
                 {{/dish}}
                 <form id="{{#dish}}addMenuDish{{/dish}}{{^dish}}addMenuNewDish{{/dish}}" action="{{formAction}}/save" method="post" enctype="multipart/form-data" style="display:inline;">
+                    <input type="hidden" name="_csrf" value="{{token}}">
                     <input type="hidden" name="action" value="save">
                     <div class="row g-3">
                         <div class="col-md-12">

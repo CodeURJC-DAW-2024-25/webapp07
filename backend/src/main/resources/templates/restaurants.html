@@ -7,6 +7,7 @@
                 <h1 class="display-3 text-white animated slideInLeft">Our Restaurants</h1>
                 <p class="text-white animated slideInLeft mb-4 pb-2">Explore our locations and visit us today</p>
                 <form method="get" action="/restaurants" accept-charset="UTF-8">
+                    <input type="hidden" name="_csrf" value="{{token}}">
                     <input type="text" name="query" class="form-control py-3 animated slideInLeft" placeholder="Enter address, city, or postal code">
                     <button type="submit" class="btn btn-primary py-3 px-4 mt-2">Search</button>
                 </form>
