@@ -32,7 +32,7 @@
                     <div class="row g-3">
                         <div class="col-md-12">
                             <div class="form-floating">
-                                <input type="text" class="form-control" name="name" id="name" value="{{#dish}}{{name}}{{/dish}}{{^dish}} {{/dish}}">
+                                <input type="text" class="form-control" name="name" id="name" value="{{#dish}}{{name}}{{/dish}}{{^dish}} {{/dish}}" required>
                                 <label for="name">Dish Name</label>
                             </div>
                         </div>
@@ -44,14 +44,14 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="price" name="price" value="{{#dish}}{{price}}{{/dish}}{{^dish}} {{/dish}}" placeholder="Dish Price">
+                                <input type="text" class="form-control" id="price" name="price" value="{{#dish}}{{price}}{{/dish}}{{^dish}} {{/dish}}" placeholder="Dish Price" required>
                                 <label for="price">Dish Price</label>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-floating">
                                 <div class="form-floating">
-                                    <textarea class="form-control" name="ingredients" id="ingredients" style="height: 100px">{{#ingredients}}{{ingredients}}{{/ingredients}}</textarea>
+                                    <textarea class="form-control" name="ingredients" id="ingredients" style="height: 100px" required>{{#ingredients}}{{ingredients}}{{/ingredients}}</textarea>
                                     <label for="ingredients">Dish Ingredients (Ingresa los ingredientes separados por comas y en singular)</label>
                                 </div>
                             </div>
