@@ -2,7 +2,7 @@ package es.codeurjc.backend.enums;
 
 public enum Allergens {
     ALTRAMUZ("/img/allergen_symbols/allergen_symbol_altramuz.png"),
-    APIO("../static/img/allergen_symbols/allergen_symbol_apio.png"),
+    //APIO("../static/img/allergen_symbols/allergen_symbol_apio.png"),
     GLUTEN("/img/allergen_symbols/allergen_symbol_gluten.png"),
     CRUSTACEAN("/img/allergen_symbols/allergen_symbol_crustacean.png"),
     DAIRY("/img/allergen_symbols/allergen_symbol_dairy.png"),
@@ -15,7 +15,7 @@ public enum Allergens {
     SESAME("/img/allergen_symbols/allergen_symbol_sesame.png"),
     SOYBEANS("/img/allergen_symbols/allergen_symbol_soybeans.png"),
     SULFITES("/img/allergen_symbols/allergen_symbol_sulfites.png"),
-    NONE("");
+    NONE("/img/allergen_symbols/img.png");
 
     private String imageUrl;
 

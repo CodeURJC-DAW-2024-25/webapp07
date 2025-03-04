@@ -3,81 +3,86 @@
 {{> fragments/hero}}
 
 
-    <!-- Dish Information Start -->
+<!-- Dish Information Start -->
 
-        <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="row g-0">
-                <div class="col-md-6">
-                    <div class="dish-image">
-                        <img src="data:image/png;base64,{{dish.dishImagePath}}" alt="{{dish.name}}" class="img-fluid" style="height: 100vh; width: auto">
+<div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="row g-0">
+        <div class="col-md-6 align-items-center">
+            <div class="dish-image">
+                {{#dish.image}}
+                <img src="data:image/png;base64,{{#dish.dishImagePath}}{{dish.dishImagePath}}{{/dish.dishImagePath}}" alt="{{dish.name}}"  class="img-fluid" style="height: 100vh; width: auto">
+                {{/dish.image}}
+                {{^dish.image}}
+                <img  src="/img/logo.jpg" alt="Dish Image"  class="img-fluid" style="height: 100vh; width: auto">
+                {{/dish.image}}
+            </div>
+        </div>
+        <div class="col-md-6 bg-dark d-flex align-items-center">
+            <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
+                <h5 class="section-title ff-secondary text-start text-primary fw-normal">Dish Details</h5>
+                <h1 class="text-white mb-4">{{dish.name}}</h1>
+                <p class="text-white mb-4">{{dish.description}}</p>
+
+                <!-- Rating Display -->
+                <div class="rating-section mb-4">
+                    <div class="star-rating">
+                        {{#stars}}
+                        <i class="fas fa-star text-warning"></i>
+                        {{/stars}}
+                        {{#noStars}}
+                        <i class="fas fa-star text-muted"></i>
+                        {{/noStars}}
                     </div>
                 </div>
-                <div class="col-md-6 bg-dark d-flex align-items-center">
-                    <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Dish Details</h5>
-                        <h1 class="text-white mb-4">{{dish.name}}</h1>
-                        <p class="text-white mb-4">{{dish.description}}</p>
 
-                        <!-- Rating Display -->
-                        <div class="rating-section mb-4">
-                            <div class="star-rating">
-                                {{#stars}}
-                                <i class="fas fa-star text-warning"></i>
-                                {{/stars}}
-                                {{#noStars}}
-                                <i class="fas fa-star text-muted"></i>
-                                {{/noStars}}
-                            </div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <h5 class="text-white">Price:</h5>
+                        <p class="text-white">${{dish.price}}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="text-white">Ingredients:</h5>
+                        <ul class="text-white">
+                            {{#ingredients}}
+                            <li>{{.}}</li>
+                            {{/ingredients}}
+                        </ul>
+                    </div>
+                    <div class="col-12">
+                        <h5 class="text-white">Allergens:</h5>
+                        <div class="allergens text-white">
+                            {{#dish.allergens}}
+                            <img  style="max-width: 2vw" src="{{imageUrl}}" alt="{{name}}">
+                            {{/dish.allergens}}
                         </div>
-
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <h5 class="text-white">Price:</h5>
-                                <p class="text-white">${{dish.price}}</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h5 class="text-white">Ingredients:</h5>
-                                <ul class="text-white">
-                                    {{#ingredients}}
-                                        <li>{{.}}</li>
-                                    {{/ingredients}}
-                                </ul>
-                            </div>
-                            <div class="col-12">
-                                <h5 class="text-white">Allergens:</h5>
-                                <div class="allergens text-white">
-                                    {{#dish.allergens}}
-                                        <img  style="max-width: 2vw" src="{{imageUrl}}" alt="{{name}}">
-                                    {{/dish.allergens}}
-                                </div>
-                            </div>
-                            {{#dish.isVegan}}
-                                <div class="col-12">
-                                    <h5 class="text-white">Additional Notes:</h5>
-                                        <img src="/img/allergen_symbols/vegan_symbol.png" alt="Vegan" class="img-thumbnail" style="width: 30px;">
-                                </div>
-                            {{/dish.isVegan}}
-                            <div class="col-12">
-                                <div class="d-flex gap-2">
-                                    <a href="/menu" class="btn btn-primary">Back menu</a>
-                                    {{#isAdmin}}
-                                        <a href="/menu/{{id}}/admin/edit-dish" class="btn btn-primary">Edit Dish</a>
-                                        <form id="markUnavailableForm{{id}}" action="/menu/{{id}}/admin/mark-unavailable-dish" method="post">
-                                            <button type="button" class="btn btn-danger" onclick="openConfirmationModal('markUnavailableForm{{id}}')">Mark as Unavailable</button>
-                                        </form>
-                                        <form id="deleteForm{{id}}" action="/menu/{{id}}/admin/remove-dish" method="post">
-                                            <button type="button" class="btn btn-danger" onclick="openConfirmationModal('deleteForm{{id}}')">Delete Dish</button>
-                                        </form>
-                                    {{/isAdmin}}
-                                </div>
-                            </div>
+                    </div>
+                    {{#dish.isVegan}}
+                    <div class="col-12">
+                        <h5 class="text-white">Additional Notes:</h5>
+                        <img src="/img/allergen_symbols/vegan_symbol.png" alt="Vegan" class="img-thumbnail" style="width: 30px;">
+                    </div>
+                    {{/dish.isVegan}}
+                    <div class="col-12">
+                        <div class="d-flex gap-2">
+                            <a href="/menu" class="btn btn-primary">Back menu</a>
+                            {{#isAdmin}}
+                            <a href="/menu/{{id}}/admin/edit-dish" class="btn btn-primary">Edit Dish</a>
+                            <form id="markUnavailableForm{{id}}" action="/menu/{{id}}/admin/mark-unavailable-dish" method="post">
+                                <button type="button" class="btn btn-danger" onclick="openConfirmationModal('markUnavailableForm{{id}}')">Mark as Unavailable</button>
+                            </form>
+                            <form id="deleteForm{{id}}" action="/menu/{{id}}/admin/remove-dish" method="post">
+                                <button type="button" class="btn btn-danger" onclick="openConfirmationModal('deleteForm{{id}}')">Delete Dish</button>
+                            </form>
+                            {{/isAdmin}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-    <!-- Dish Information End -->
+<!-- Dish Information End -->
 {{> fragments/modal-confirmation}}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -85,4 +90,3 @@
 
 
 {{> fragments/footer}}
-
