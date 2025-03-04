@@ -79,16 +79,6 @@ public class DishController {
             }
         }
 
-        if ("price".equals(sortBy)) {
-            dishes.sort(Comparator.comparing(Dish::getPrice));
-            model.addAttribute("isPrice", true);
-        } else if ("rate".equals(sortBy)) {
-            dishes.sort(Comparator.comparing(Dish::getRate).reversed());
-            model.addAttribute("isRate", true);
-        } else {
-            model.addAttribute("isDefault", true);
-        }
-
         model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
 
         model.addAttribute("pageTitle", "Menu");
