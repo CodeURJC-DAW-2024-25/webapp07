@@ -47,13 +47,17 @@
                 <div class="breadcrumb">
                     <a class="btn btn-primary py-3 px-5 mt-2" href="/profile?edit=true">Edit</a>
                     <a class="btn btn-primary py-3 px-5 mt-2" href="/orders-list">My Orders</a>
-                    <a class="btn btn-danger py-3 px-5 mt-2" href="/logout">Logout</a>
+                    <form id="logoutForm" action="/logout" method="post">
+                        <input type="hidden" name="_csrf" value="{{token}}">
+                        <button type="submit" class="btn btn-danger py-3 px-5 mt-2">Logout</button>
+                    </form>
                 </div>
                 {{/editMode}}
 
                 <!-- Edit mode -->
                 {{#editMode}}
                 <form id="profileForm" action="/profile" method="post">
+                    <input type="hidden" name="_csrf" value="{{token}}">
                     <div class="mb-3">
                         <label class="form-label">Username</label>
                         <input type="text" class="form-control" value="{{user.username}}" disabled>

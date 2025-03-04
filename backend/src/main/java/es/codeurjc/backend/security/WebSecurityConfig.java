@@ -64,35 +64,22 @@ public class WebSecurityConfig {
 
         // Set authentication provider
         http.authenticationProvider(authenticationProvider());
-
-        // Disable CSRF for now
-        http.csrf(AbstractHttpConfigurer::disable);
+        //http.csrf(AbstractHttpConfigurer::disable);
 
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        // Public resources
-                        .requestMatchers("/css/**", "/img/**", "/images/**", "/js/**", "/lib/**", "/scss/**").permitAll()
-                        .requestMatchers("/", "/aboutUs", "/faqs", "/error-page").permitAll()
-                        .requestMatchers("/register").permitAll()
-                        .requestMatchers("/menu").permitAll()
-                        .requestMatchers("/menu/filter").permitAll()
-                        .requestMatchers("/menu/sort").permitAll()
-                        .requestMatchers("/menu/{id}").permitAll()
-                        .requestMatchers("/api/menu").permitAll()
 
                         // Private pages (authenticated users)
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
-
-                        // Private pages (authenticated users)
-                        .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
-                        .requestMatchers("/booking/confirmation").authenticated() // Permitir acceso a la página de confirmación
-                        .requestMatchers("/booking-cancelled").authenticated() // Permitir acceso a la página de confirmación
-                        .requestMatchers("/booking/confirmation/existing").authenticated() // Permitir acceso a la página de confirmación
                         .requestMatchers("/booking/**").hasRole("USER") // Solo usuarios registrados pueden acceder a reservas
-                        .requestMatchers("/admin/bookings/**").hasRole("ADMIN") // Solo admins pueden gestionar reservas
-
+                        .requestMatchers("/booking-cancelled").hasRole("USER")// Permitir acceso a la página de confirmación
 
                         // Admin-restricted pages
+                        .requestMatchers("/admin/bookings/**").hasRole("ADMIN") // Solo admins pueden gestionar reservas
+                        .requestMatchers("/dashboard").hasRole("ADMIN")
+                        .requestMatchers("/restaurant-availability").hasRole("ADMIN")
+
+
                         .requestMatchers(HttpMethod.GET, "/menu/admin/new-dish").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/menu/{id}/admin/edit-dish").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/menu/admin/new-dish/save").hasAnyRole("ADMIN")
@@ -100,24 +87,23 @@ public class WebSecurityConfig {
                         .requestMatchers("/menu/{id}/admin/remove-dish").hasAnyRole("ADMIN")
                         .requestMatchers("/menu/{id}/admin/mark-unavailable-dish").hasAnyRole("ADMIN")
 
-
-
-
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // Public resources
+                        .requestMatchers("/**").permitAll()
                 )
+
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .failureHandler(customFailureHandler)
                         .defaultSuccessUrl("/")
                         .permitAll())
+
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .permitAll());
 
-
-        // Disable CSRF at the moment
-        http.csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
 }

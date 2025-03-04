@@ -47,11 +47,13 @@
             <td>
                 {{^banned}}
                 <form id="banForm{{id}}" action="/admin/users/ban/{{id}}" method="post">
+                    <input type="hidden" name="_csrf" value="{{token}}">
                     <button type="button" class="btn btn-danger" onclick="openConfirmationModal('banForm{{id}}')">Ban</button>                </form>
                 {{/banned}}
 
                 {{#banned}}
                 <form id="unbanForm{{id}}" action="/admin/users/unban/{{id}}" method="post">
+                    <input type="hidden" name="_csrf" value="{{token}}">
                     <button type="button" class="btn btn-success" onclick="openConfirmationModal('unbanForm{{id}}')">Unban</button>                </form>
                 {{/banned}}
             </td>
