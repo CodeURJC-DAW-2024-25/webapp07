@@ -480,5 +480,5 @@ Next, a diagram will be included depicting the entities within the database, the
 | 1º  |        [Add: Order Controller.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/b8836003082903b60ddd5ce191acf4b6f3434d72)        | | 1º |                       [Controller.java]()                       |
 | 2º  |    [Add: add cart](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/14d1bda382c3e135ac5d422e036e32fe35a177b4)     | |2º |         [OrderController.java]()         |
 | 3º  |      [Add: user order history](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/870e86495948e0ee9fa24915fa667d7c8f96b4c5)      | | 3º |             [OrderController.java]()              |
-| 4º  |      [Fix: More Info Button in OrderSummary](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/14d1bda382c3e135ac5d422e036e32fe35a177b4)      | | 4º |                           [OrderController.java                           |
-| 5º  | [Add: Order summary pay button and confirm page](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/13fd26bae5554d4e254992baaa8c09c7766d5e58) | | 5º | [OrderController.java()]() |
+| 4º  |      [Fix: More Info Button in OrderSummary](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/14d1bda382c3e135ac5d422e036e32fe35a177b4)      | | 4º |                           [OrderController.java]()|
+| 5º  | [Add: Order summary pay button and confirm page](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/13fd26bae5554d4e254992baaa8c09c7766d5e58) | | 5º | [OrderController.java]() |
