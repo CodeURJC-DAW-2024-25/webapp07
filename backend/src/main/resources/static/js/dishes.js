@@ -30,7 +30,11 @@ function loadFilteredDishes(filters, append = false) {
         method: "GET",
         dataType: "json",
         data: filters,
-        success: function (data) {
+        xhrFields: { withCredentials: true },
+        success: function (response) {
+            let isAuthenticated = response.isAuthenticated; // <-- Nuevo dato
+            let data = response.dishes; // <-- Lista de platos
+
             if (!append) {
                 $("#menuContainer").empty(); // Limpiamos la lista si no es "Load More"
                 currentPage = 0; // Reiniciamos la página en nueva búsqueda
@@ -48,6 +52,16 @@ function loadFilteredDishes(filters, append = false) {
                             src="/img/logo.jpg" 
                             alt="Dish Image" 
                             style="width: 10vw; height: 15vh">`;
+
+                    let authButton = isAuthenticated
+                        ? `<form action="/orders/cart/add" method="post">
+                                <input type="hidden" name="dishId" value="${dish.id}" />
+                                <button class="btn btn-primary btn-sm m-2 p-2" type="submit">
+                                    <i class="fa fa-shopping-cart"></i> Add to Cart
+                                </button>
+                           </form>`
+                        : "";
+
                     newDishesHtml += `
                         <div class="col-lg-12">
                             <div class="d-flex align-items-center">
@@ -65,6 +79,9 @@ function loadFilteredDishes(filters, append = false) {
                                                 <i class="fa fa-info"></i> More info
                                             </a>
                                         </div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        ${authButton}
                                     </div>
                                 </div>
                             </div>

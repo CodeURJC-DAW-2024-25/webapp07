@@ -34,15 +34,8 @@ public class DishService {
         }
     }*/
 
-    /**
-     * Filters dishes based on name, ingredient, and maximum price.
-     *
-     * @param name the name of the dish (optional)
-     * @param ingredient an ingredient present in the dish (optional)
-     * @param maxPrice the maximum price of the dish (optional)
-     * @return a filtered list of dishes
-     */
     public List<Dish> filterDishes(String name, String ingredient, Integer maxPrice) {
+
         List<Dish> dishesByName =  (name != null  && !name.isEmpty())
                 ? dishRepository.findDishByName(name)
                 : dishRepository.findAll();
@@ -69,11 +62,6 @@ public class DishService {
         }
     }
 
-    /**
-     * Retrieves all dishes from the repository.
-     *
-     * @return a list of all dishes
-     */
     public List<Dish> findAll() {
         return dishRepository.findAll();
     }
@@ -116,6 +104,7 @@ public class DishService {
         return dishRepository.findAll(pageRequest);
     }
 
+    public Page<Dish> findAllDishesByFilter(PageRequest pageRequest) {
     /**
      * Retrieves a paginated list of dishes with filters.
      *
@@ -123,6 +112,9 @@ public class DishService {
      * @return a page of dishes with filters applied
      */
     public Page<Dish> findAllDishesByFilter(PageRequest pageRequest) {
+        return dishRepository.findAll(pageRequest);
+    }
+
         return dishRepository.findAll(pageRequest);
     }
 

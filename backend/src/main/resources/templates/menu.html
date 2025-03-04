@@ -41,9 +41,13 @@
                             </div>
                             <div class="d-flex align-items-center">
                                 {{#isAuthenticated}}
-                                    <button class="btn btn-primary btn-sm m-2 p-2">
+                                <input type="hidden" name="action" id="isAuthenticated" value="{{isAuthenticated}}">
+                                <form action="/orders/cart/add" method="post">
+                                    <input type="hidden" name="dishId" value="{{id}}" />
+                                    <button class="btn btn-primary btn-sm m-2 p-2" type="submit">
                                         <i class="fa fa-shopping-cart"></i> Add to Cart
-                                   </button>
+                                    </button>
+                                </form>
                                 {{/isAuthenticated}}
                             </div>
                         </div>
@@ -51,6 +55,7 @@
                 </div>
                 {{/isAvailable}}
                 {{/dish}}
+                <script src="/js/cart.js"></script>
             </div>
             <button id="loadMoreDishes" class="btn btn-primary mt-5 d-block mx-auto">View More</button>
                 {{#isAdmin}}

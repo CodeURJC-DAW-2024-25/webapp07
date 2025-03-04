@@ -3,117 +3,117 @@
 {{> fragments/hero}}
 
 
-    <!-- Navbar & Hero End -->
+<!-- Navbar & Hero End -->
 {{#isAdmin}}
-    <!-- Add Dish Form Start -->
-    <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="row g-0 align-items-center">
-            <div class="col-md-6">
-                <div class="dish-image text-center">
-                    {{#dish.image}}
-                        <img src="data:image/png;base64,{{dish.dishImagePath}}" alt="{{dish.name}}" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
-                    {{/dish.image}}
-                    {{^dish.image}}
-                        <img  src="/img/logo.jpg" alt="Dish Image" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
-                    {{/dish.image}}
+<!-- Add Dish Form Start -->
+<div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="row g-0 align-items-center">
+        <div class="col-md-6">
+            <div class="dish-image text-center">
+                {{#dish.image}}
+                <img src="data:image/png;base64,{{#dish.dishImagePath}}{{dish.dishImagePath}}{{/dish.dishImagePath}}" alt="{{dish.name}}" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
+                {{/dish.image}}
+                {{^dish.image}}
+                <img  src="/img/logo.jpg" alt="Dish Image" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; max-width: 80%;">
+                {{/dish.image}}
 
-                </div>
             </div>
-            <div class="col-md-6 bg-dark d-flex align-items-center">
-                <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
-                    {{^dish}}
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Add New Dish</h5>
-                    {{/dish}}
-                    {{#dish}}
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Edit Dish</h5>
-                    {{/dish}}
-                        <form id="{{#dish}}addMenu{{id}}{{/dish}}{{^dish}}addMenu{{/dish}}" action="{{formAction}}/save" method="post" enctype="multipart/form-data" style="display:inline;">
-                            <input type="hidden" name="_csrf" value="{{token}}">
-                            <div class="row g-3">
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" name="name" id="name" value="{{#dish}}{{name}}{{/dish}}{{^dish}} {{/dish}}">
-                                    <label for="name">Dish Name</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Description" name="description" id="description" value="{{#dish}}{{description}}{{/dish}}{{^dish}} {{/dish}}" style="height: 100px"></textarea>
-                                    <label for="description">Dish Description</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="price" name="price" value="{{#dish}}{{price}}{{/dish}}{{^dish}} {{/dish}}" placeholder="Dish Price">
-                                    <label for="price">Dish Price</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-floating">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" name="ingredients" id="ingredients" style="height: 100px">{{#ingredients}}{{ingredients}}{{/ingredients}}</textarea>
-                                        <label for="ingredients">Dish Ingredients (Ingresa los ingredientes separados por comas y en singular)</label>
-                                    </div>
-                                </div>
-                            </div>
-                            {{#dish}}
-                                <div class="col-12">
-                                    <h5 class="text-white">Actual Allergens:</h5>
-                                    <div class="allergens container">
-                                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-                                            <div class="allergens text-white">
-                                                {{#dish.allergens}}
-                                                <img  style="max-width: 2vw" src="{{imageUrl}}" alt="{{name}}">
-                                                {{/dish.allergens}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {{/dish}}
-                            <div class="col-12">
-                                <h5 class="text-white">Allergens:</h5>
-                                <div class="allergens container">
-                                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-                                        {{#allergens}}
-                                        <div class="col">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="selectedAllergens" id="{{name}}" value="{{name}}">
-                                                <label class="form-check-label text-white" for="{{name}}">
-                                                    <img src="{{imageUrl}}" alt="{{name}}" class="img-thumbnail" style="width: 30px;">
-                                                    {{name}}
-                                                </label>
-                                            </div>
-                                        </div>
-                                        {{/allergens}}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <h5 class="text-white">Dietary Preferences:</h5>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="vegan" id="vegan" value="true">
-                                    <label class="form-check-label text-white" for="vegan">
-                                        <img src="/img/allergen_symbols/vegan_symbol.png" alt="Vegan" class="img-thumbnail" style="width: 30px;">
-                                        Vegan Option
-                                    </label>
-                                </div>
-                            </div>
-                          <div class="col-12">
-                              <div class="form-floating">
-                                  <input type="file" class="form-control" id="imageField" name="imageField" accept=".jpg, .jpeg" value="{{#dish}}{{imageFile}}{{/dish}}{{^dish}}{{/dish}}">
-                                  <label for="imageField">Upload Dish Image</label>
-                              </div>
-                          </div>
-                            <div class="col-12">
-                                <button type="button" class="btn btn-primary btn-sm m-2 p-2" onclick="openConfirmationModal('{{#dish}}addMenu{{id}}{{/dish}}{{^dish}}addMenu{{/dish}}')">Add to Menu</button>
+        </div>
+        <div class="col-md-6 bg-dark d-flex align-items-center">
+            <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
+                {{^dish}}
+                <h5 class="section-title ff-secondary text-start text-primary fw-normal">Add New Dish</h5>
+                {{/dish}}
+                {{#dish}}
+                <h5 class="section-title ff-secondary text-start text-primary fw-normal">Edit Dish</h5>
+                {{/dish}}
+                <form id="{{#dish}}addMenuDish{{/dish}}{{^dish}}addMenuNewDish{{/dish}}" action="{{formAction}}/save" method="post" enctype="multipart/form-data" style="display:inline;">
+                    <input type="hidden" name="action" value="save">
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" name="name" id="name" value="{{#dish}}{{name}}{{/dish}}{{^dish}} {{/dish}}" required>
+                                <label for="name">Dish Name</label>
                             </div>
                         </div>
-                    </form>
-                </div>
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Description" name="description" id="description" value="{{#dish}}{{description}}{{/dish}}{{^dish}} {{/dish}}" style="height: 100px"></textarea>
+                                <label for="description">Dish Description</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="price" name="price" value="{{#dish}}{{price}}{{/dish}}{{^dish}} {{/dish}}" placeholder="Dish Price" required>
+                                <label for="price">Dish Price</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <div class="form-floating">
+                                    <textarea class="form-control" name="ingredients" id="ingredients" style="height: 100px" required>{{#ingredients}}{{ingredients}}{{/ingredients}}</textarea>
+                                    <label for="ingredients">Dish Ingredients (Ingresa los ingredientes separados por comas y en singular)</label>
+                                </div>
+                            </div>
+                        </div>
+                        {{#dish}}
+                        <div class="col-12">
+                            <h5 class="text-white">Actual Allergens:</h5>
+                            <div class="allergens container">
+                                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                                    <div class="allergens text-white">
+                                        {{#dish.allergens}}
+                                        <img  style="max-width: 2vw" src="{{imageUrl}}" alt="{{name}}">
+                                        {{/dish.allergens}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/dish}}
+                        <div class="col-12">
+                            <h5 class="text-white">Allergens:</h5>
+                            <div class="allergens container">
+                                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                                    {{#allergens}}
+                                    <div class="col">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="selectedAllergens" id="{{name}}" value="{{name}}">
+                                            <label class="form-check-label text-white" for="{{name}}">
+                                                <img src="{{imageUrl}}" alt="{{name}}" class="img-thumbnail" style="width: 30px;">
+                                                {{name}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {{/allergens}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <h5 class="text-white">Dietary Preferences:</h5>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="vegan" id="vegan" value="true">
+                                <label class="form-check-label text-white" for="vegan">
+                                    <img src="/img/allergen_symbols/vegan_symbol.png" alt="Vegan" class="img-thumbnail" style="width: 30px;">
+                                    Vegan Option
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-floating">
+                                <input type="file" class="form-control" id="imageField" name="imageField" accept=".jpg, .jpeg" value="{{#dish.imageFile}}{{imageFile}}{{/dish.imageFile}}{{^dish.imageFile}}{{/dish.imageFile}}">
+                                <label for="imageField">Upload Dish Image</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="button" class="btn btn-primary btn-sm m-2 p-2" onclick="openConfirmationModal('{{#dish}}addMenuDish{{/dish}}{{^dish}}addMenuNewDish{{/dish}}')">Add to Menu</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <!-- Add Dish Form End -->
+</div>
+<!-- Add Dish Form End -->
 {{/isAdmin}}
 {{> fragments/modal-confirmation}}
 

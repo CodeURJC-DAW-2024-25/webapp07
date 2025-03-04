@@ -1,8 +1,5 @@
 package es.codeurjc.backend.enums;
 
-/**
- * Enum representing different types of allergens and their associated image URLs.
- */
 public enum Allergens {
     ALTRAMUZ("/img/allergen_symbols/allergen_symbol_altramuz.png"),
     //APIO("../static/img/allergen_symbols/allergen_symbol_apio.png"),
@@ -18,7 +15,7 @@ public enum Allergens {
     SESAME("/img/allergen_symbols/allergen_symbol_sesame.png"),
     SOYBEANS("/img/allergen_symbols/allergen_symbol_soybeans.png"),
     SULFITES("/img/allergen_symbols/allergen_symbol_sulfites.png"),
-    NONE("/img/allergen_symbols/none-icon-23.jpg");
+    NONE("/img/allergen_symbols/img.png");
 
     private String imageUrl;
 
