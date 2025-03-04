@@ -233,13 +233,19 @@ public class DishController {
                 Dish dish = new Dish();
                 dish = dishOpt.get();
                 dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+
                 formAction = "/menu/" + dish.getId() + "/admin/edit-dish";
+
                 model.addAttribute("imageFile", dish.getDishImagefile());
+
                 String ingredientsFormatted = String.join(", ", dish.getIngredients());
                 model.addAttribute("ingredients", ingredientsFormatted);
+
                 model.addAttribute("allergens", Allergens.values());
+
                 model.addAttribute("dish", dish);
             } else {
+                // Si no se encuentra, redirige o maneja el error
                 return "redirect:/menu";
             }
         } else { // Creation mode
@@ -252,6 +258,7 @@ public class DishController {
         model.addAttribute("modalId", "confirmationModal");
         model.addAttribute("confirmButtonId", "confirmAction");
         model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
+        // Agregar al modelo
         model.addAttribute("formAction", formAction);
         model.addAttribute("pageTitle", "Dish form");
         return "dish-form";
@@ -277,6 +284,7 @@ public class DishController {
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
         dish.setIngredients(ingredientsList);
+
         dish.setAllergens(selectedAllergens);
         dish.setVegan(vegan);
 

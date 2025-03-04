@@ -81,16 +81,30 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/menu").permitAll()
 
                         // Private pages (authenticated users)
+
+                        .requestMatchers("/orders/{id}/summary").authenticated()
+                        .requestMatchers("/orders/add_dish").authenticated()
+                        .requestMatchers("/orders/{id}/confirmation").authenticated()
+                        .requestMatchers("/orders/{id}/pay").authenticated()
+                        .requestMatchers("/orders/{id}/success").authenticated()
+                        .requestMatchers("/orders/history").authenticated()
+                        .requestMatchers("orders/{id}/more-info").authenticated()
+                        .requestMatchers("/orders/update").authenticated()
+                        .requestMatchers("/orders/**").authenticated()
+                        .requestMatchers("/cart/**").authenticated()
+
+
+
+
+
+
+                        // PRIVATE PAGES
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
 
                         // Private pages (authenticated users)
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
-                        .requestMatchers("/booking/confirmation").authenticated() // Permitir acceso a la página de confirmación
-                        .requestMatchers("/booking-cancelled").authenticated() // Permitir acceso a la página de confirmación
-                        .requestMatchers("/booking/confirmation/existing").authenticated() // Permitir acceso a la página de confirmación
                         .requestMatchers("/booking/**").hasRole("USER") // Solo usuarios registrados pueden acceder a reservas
-                        .requestMatchers("/admin/bookings/**").hasRole("ADMIN") // Solo admins pueden gestionar reservas
-
+                        .requestMatchers("/admin/bookings/**").hasRole("ADMIN") //  Solo admins pueden gestionar reservas
 
                         // Admin-restricted pages
                         .requestMatchers(HttpMethod.GET, "/menu/admin/new-dish").hasAnyRole("ADMIN")
@@ -119,5 +133,7 @@ public class WebSecurityConfig {
         // Disable CSRF at the moment
         http.csrf(AbstractHttpConfigurer::disable);
         return http.build();
+
+
     }
 }
