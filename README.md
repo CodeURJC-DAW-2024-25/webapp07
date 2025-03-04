@@ -391,3 +391,24 @@ Next, a diagram will be included depicting the entities within the database, the
 | 4º  |          [feat(admin): Add ban and unban functionality for users](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/58c1220ee0c621537c56745e2500d2ef526d8153)           | | 4º |               [CustomAuthenticationFailureHandler.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/security/CustomAuthenticationFailureHandler.java)                |
 | 5º  |                   [feat: add reusable confirmation modal](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/f2a56d57152ea931495cdb001b4f8dce7a57ac29)                   | | 5º |                                   [UserService.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/service/UserService.java)                                   |
 
+  #### Víctor Muñoz Regalón
+
+*  Developed the **booking system** for users, allowing them to make, view, and cancel reservations.
+*  Ensured that users can only have one **active reservation** at a time to prevent duplicate bookings.
+*  Implemented **real-time availability checks** for restaurant reservations based on date, shift, and capacity.
+*  Created the **booking confirmation** and **cancellation views**, improving user experience.
+*  Developed the **admin panel for booking management**, allowing administrators to view and delete the active reservations.
+*  Integrated **AJAX-based** dynamic seat availability updates when users select a restaurant and shift, allowing real-time updates without reloading the page.
+*  Implemented **flash messages** for errors and confirmations in booking actions.
+*  Developed the **profile page integration** to display the user’s current reservation with a cancel button.
+*  Designed and implemented the **database structure for bookings**, linking users and restaurants.
+*  Ensured that users can only make reservations for **available seats** to prevent overbooking.
+
+
+| #   |                                                                                                  Commit                                                                                                  |     | #   |                                                                                       File                                                                                       |
+| :-: |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |                                         [Update: Booking.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/08e53c5923bbea164a9f8a31493fe47e90a3e925)                                         | | 1º |                     [Booking.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/model/Booking.java)                      |
+| 2º  |                                        [Add: BookingController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/5815625ddf1b64f270058b67f1ff7e89034ccb4b)                                        | |2º |         [BookingController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/BookingController.java)         |
+| 3º  |                                         [Add: BookingService](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/067a2e4ea70f90dffe4df3ff75e97248984cee65)                                          | | 3º |             [BookingService.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/service/BookingService.java)              |
+| 4º  | [Update: Booking fixed all bugs](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/37126ed0c5f9ba1ce36c67971ae5494738d8b2c2#diff-0922ce0f9fb55ef359fcae0164107727dded9e619dc808df6e977bbda177ce2b) | | 4º | [BookingRepository.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/repository/BookingRepository.java)  |
+| 5º  |                                    [Fixed: AdminBookingController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/63e26cd149b99b2af1513426b6d9f234359752f9)                                     | | 5º | [AdminBookingController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/admin/AdminBookingController.java) |
