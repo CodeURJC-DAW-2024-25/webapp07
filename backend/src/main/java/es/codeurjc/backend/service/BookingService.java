@@ -92,4 +92,11 @@ public class BookingService {
     public List<Booking> findBookingsByRestaurantAndShift(Long restaurantId, LocalDate date, String shift) {
         return bookingRepository.findByRestaurantAndShiftAndDate(restaurantId, shift, date);
     }
+
+    // BookingService.java
+    public int getAvailableSeats(Long restaurantId, LocalDate date, String shift) {
+        List<Booking> existingBookings = bookingRepository.findByRestaurantAndShiftAndDate(restaurantId, shift, date);
+        int totalPeopleReserved = existingBookings.stream().mapToInt(Booking::getNumPeople).sum();
+        return Math.max(40 - totalPeopleReserved, 0);
+    }
 }

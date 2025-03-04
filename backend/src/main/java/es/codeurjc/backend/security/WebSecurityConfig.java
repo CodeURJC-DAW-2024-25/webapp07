@@ -75,9 +75,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/booking-cancelled").hasRole("USER")// Permitir acceso a la página de confirmación
 
                         // Admin-restricted pages
-                        .requestMatchers("/admin/bookings/**").hasRole("ADMIN") // Solo admins pueden gestionar reservas
-                        .requestMatchers("/dashboard").hasRole("ADMIN")
-                        .requestMatchers("/restaurant-availability").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
 
 
                         .requestMatchers(HttpMethod.GET, "/menu/admin/new-dish").hasAnyRole("ADMIN")
@@ -87,7 +85,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/menu/{id}/admin/remove-dish").hasAnyRole("ADMIN")
                         .requestMatchers("/menu/{id}/admin/mark-unavailable-dish").hasAnyRole("ADMIN")
 
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
 
                         // Public resources
                         .requestMatchers("/**").permitAll()

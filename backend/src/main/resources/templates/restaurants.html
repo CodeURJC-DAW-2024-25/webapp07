@@ -1,37 +1,39 @@
-<{{> fragments/header}}
+{{> fragments/header}}
 
-        <div class="container-xxl py-5 bg-dark hero-header mb-5">
-            <div class="container my-5 py-5">
-                <div class="row align-items-center g-5">
-                    <div class="col-lg-6 text-center text-lg-start">
-                        <h1 class="display-3 text-white animated slideInLeft">Our Restaurants</h1>
-                        <p class="text-white animated slideInLeft mb-4 pb-2">Explore our locations and visit us today</p>
-                        <input type="text" class="form-control py-sm-3 px-sm-5 me-3 animated slideInLeft" placeholder="Enter address, city, or postal code">
-                        <button class="btn btn-primary py-sm-3 px-sm-5" onclick="useLocation()">
-                            <i class="fa fa-map-marker-alt"></i> Use My Location
-                        </button>
-                        <div class="text-center">
-                            <h2 class="section-title ff-secondary text-start text-primary fw-normal mb-4" style="font-size: 1.5rem; margin-top: 20px;">Most popular restaurants</h2>
-                            <div class="d-flex justify-content-center">
-                                <a href="restaurant-information.html" >
-                                <img src="img/restaurants/restaurante1.jpg" alt="Restaurante 1" class="img-thumbnail mx-2 restaurant-img" style="width: 30%; animation:none;">
-                                <img src="img/restaurants/restaurante2.jpg" alt="Restaurante 2" class="img-thumbnail mx-2 restaurant-img" style="width: 30%; animation:none;">
-                                <img src="img/restaurants/restaurante3.jpg" alt="Restaurante 3" class="img-thumbnail mx-2 restaurant-img" style="width: 30%; animation:none;">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- Google Maps Image -->
-                    <div class="col-lg-6 text-center text-lg-end">
-                        <img src="https://media.wired.com/photos/59269cd37034dc5f91bec0f1/master/w_2240,c_limit/GoogleMapTA.jpg" alt="Google Maps" style="width: 100%; max-width: 3
-                        00px; margin-left:10 px; animation: none; border: 2px solid #fff; border-radius: 10px; margin-left: 0;">
-                    </div>
-                </div>
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container my-5 py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 text-center text-lg-start">
+                <h1 class="display-3 text-white animated slideInLeft">Our Restaurants</h1>
+                <p class="text-white animated slideInLeft mb-4 pb-2">Explore our locations and visit us today</p>
+                <form method="get" action="/restaurants" accept-charset="UTF-8">
+                    <input type="text" name="query" class="form-control py-3 animated slideInLeft" placeholder="Enter address, city, or postal code">
+                    <button type="submit" class="btn btn-primary py-3 px-4 mt-2">Search</button>
+                </form>
+            </div>
+            <div class="col-lg-6 text-center text-lg-end">
+                <img src="https://media.wired.com/photos/59269cd37034dc5f91bec0f1/master/w_2240,c_limit/GoogleMapTA.jpg" alt="Google Maps" style="width: 100%; max-width: 300px; margin-left:10 px; animation: none; border: 2px solid #fff; border-radius: 10px; margin-left: 0;">
             </div>
         </div>
     </div>
-    <!-- Restaurants End -->
+</div>
+
+<div class="container">
+    <h2 class="section-title ff-secondary text-start text-primary fw-normal mb-4">All Restaurants</h2>
+    <div class="row">
+        {{#restaurants}}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card">
+                <img src="/img/restaurants/restaurante{{id}}.jpg" class="card-img-top" alt="{{location}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{location}}</h5>
+                    <p class="card-text">Visit us at our {{location}} location.</p>
+<!--                    <a href="restaurant-information.html?id={{id}}" class="btn btn-primary">More Info</a>-->
+                </div>
+            </div>
+        </div>
+        {{/restaurants}}
+    </div>
+</div>
 
 {{> fragments/footer}}
