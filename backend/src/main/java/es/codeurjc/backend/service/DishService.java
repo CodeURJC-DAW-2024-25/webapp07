@@ -104,19 +104,17 @@ public class DishService {
         return dishRepository.findAll(pageRequest);
     }
 
-    public Page<Dish> findAllDishesByFilter(PageRequest pageRequest) {
     /**
      * Retrieves a paginated list of dishes with filters.
      *
      * @param pageRequest the pagination request
      * @return a page of dishes with filters applied
      */
+
     public Page<Dish> findAllDishesByFilter(PageRequest pageRequest) {
         return dishRepository.findAll(pageRequest);
     }
 
-        return dishRepository.findAll(pageRequest);
-    }
 
 //    public List<Dish> findByName(String query) {
 //        return dishRepository.findDishByName(query);
