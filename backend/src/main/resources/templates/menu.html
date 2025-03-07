@@ -42,13 +42,17 @@
                             <div class="d-flex align-items-center">
                                 {{#isAuthenticated}}
                                 <input type="hidden" name="action" id="isAuthenticated" value="{{isAuthenticated}}">
-                                <form action="/orders/cart/add" method="post">
+                                <form id="addToCartForm-{{id}}" action="/orders/cart/add" method="post" class="addToCartForm">
                                     <input type="hidden" name="_csrf" value="{{token}}">
                                     <input type="hidden" name="dishId" value="{{id}}" />
-                                    <button class="btn btn-primary btn-sm m-2 p-2" type="submit">
-                                        <i class="fa fa-shopping-cart"></i> Add to Cart
+                                    <button type="button" class="btn btn-primary btn-sm m-2 p-2 addToCartButton" data-id="{{id}}">
+                                        <i class="fa fa-shopping-cart"></i> Add To Cart
                                     </button>
                                 </form>
+                                <div id="cartMessage-{{id}}" class="alert alert-success d-none mt-2" role="alert">
+                                    Added successfully✔️
+                                </div>
+
                                 {{/isAuthenticated}}
                             </div>
                         </div>
@@ -67,4 +71,5 @@
 <!-- Menu End -->
 <!--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="/js/dishes.js"></script>-->
+<script src="/js/cart.js"></script>
 {{> fragments/footer}}
