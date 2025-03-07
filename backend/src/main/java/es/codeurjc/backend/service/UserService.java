@@ -3,6 +3,10 @@ package es.codeurjc.backend.service;
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +31,19 @@ public class UserService {
      * @param user The user to register.
      * @throws RuntimeException if an error occurs during saving.
      */
+    public Optional<User> getAuthenticatedUser() {
+        // obtain user from securityContextHolder
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            String username = ((UserDetails) authentication.getPrincipal()).getUsername();
+            return userRepository.findByUsername(username);
+        }
+
+        return Optional.empty();
+    }
+
+
     public void registerUser(User user) {
         try {
             user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));

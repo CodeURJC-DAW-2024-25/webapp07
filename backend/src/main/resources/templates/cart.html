@@ -1,0 +1,76 @@
+{{> fragments/header}}
+
+{{> fragments/hero}}
+
+<!-- Order Summary Start -->
+<div class="container-xxl py-3">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+
+            <!-- Order's Card -->
+            {{#orders}}
+            <div class="text-sm-start rounded-4 card shadow-lg">
+                <div class="d-flex py-3 card-head bg-primary text-white justify-content-center align-items-center">
+                    <span class="section-title ff-secondary text-center text-white fw-normal fs-3">Your order</span>
+                </div>
+                <div class="card-body bg-light">
+
+                    <!-- Si el pedido tiene platos -->
+                    {{#hasDishes}}
+                    {{#dishes}}
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="w-100 d-flex flex-column text-start ps-4">
+                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                <span>{{name}}</span>
+                                <span class="text-primary">&euro;{{price}}</span>
+                            </h5>
+                            <small class="fst-italic">{{description}}</small>
+                        </div>
+                        <form action="/orders/cart/remove" method="post">
+                            <input type="hidden" name="_csrf" value="{{token}}">
+                            <input type="hidden" name="dishId" value="{{id}}">
+                            <button type="submit" class="btn btn-danger btn-sm ms-3">Remove</button>
+                        </form>
+                    </div>
+                    {{/dishes}}
+
+                    <div class="d-flex justify-content-between pt-3">
+                        <h5 class="text-end">Subtotal</h5>
+                        <h5 class="text-end">&euro;{{totalPrice}}</h5>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="button-group justify-content-between d-flex mt-3">
+                        <a href="/menu" class="btn btn-secondary mt-2">Back</a>
+                        <form action="/orders/cart/clear" method="post" class="d-inline">
+                            <input type="hidden" name="_csrf" value="{{token}}">
+                            <button type="submit" class="btn btn-danger mt-2">Clear Cart</button>
+                        </form>
+                        <a href="/orders/{{id}}/summary" class="btn btn-success mt-2">Order</a>
+                    </div>
+                    {{/hasDishes}}
+
+                    <!-- Si el pedido NO tiene platos -->
+                    {{^hasDishes}}
+                    <div class="text-center">
+                        <h3 class="text-muted">Your cart is empty</h3>
+                        <a href="/menu" class="btn btn-primary mt-3">Go to Menu</a>
+                    </div>
+                    {{/hasDishes}}
+
+                </div>
+            </div>
+            {{/orders}}
+
+            {{^orders}}
+            <div class="text-center">
+                <h3 class="text-muted">Your cart is empty</h3>
+                <a href="/menu" class="btn btn-primary mt-3">Go to Menu</a>
+            </div>
+            {{/orders}}
+        </div>
+    </div>
+</div>
+<!-- Order Summary End -->
+
+{{> fragments/footer}}

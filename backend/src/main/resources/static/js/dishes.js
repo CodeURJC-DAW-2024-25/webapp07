@@ -55,6 +55,7 @@ function loadFilteredDishes(filters, append = false) {
 
                     let authButton = isAuthenticated
                         ? `<form action="/orders/cart/add" method="post">
+                                <!--<input type="hidden" name="_csrf" value="${token}">-->
                                 <input type="hidden" name="dishId" value="${dish.id}" />
                                 <button class="btn btn-primary btn-sm m-2 p-2" type="submit">
                                     <i class="fa fa-shopping-cart"></i> Add to Cart

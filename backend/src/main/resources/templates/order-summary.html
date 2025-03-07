@@ -1,98 +1,85 @@
 {{> fragments/header}}
 
-        <div class="container-xxl bg-dark hero-header">
-            <div class="container text-center pt-5">
-                <h1 class="display-3 text-white animated slideInDown pt-4 pb-4">Order Summary</h1>
-            </div>
-        </div>
-    </div>
+{{> fragments/hero}}
 
-    <!-- Navbar & Hero End -->
+<!-- Order Summary Start -->
+<div class="container-xxl py-3">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
 
-    <!-- Order Summary Start -->
-    <div class="container-xxl py-3">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                
-                <!-- Order's Card -->
-                <div class="text-sm-start rounded-4 card shadow-lg">
-                    <div class="d-flex py-3 card-head bg-primary text-white justify-content-center align-items-center">
-                        <span class="section-title ff-secondary text-center text-white fw-normal fs-3">Your order</span>                        
+            <!-- Order's Card -->
+            <div class="text-sm-start rounded-4 card shadow-lg">
+                <div class="d-flex py-3 card-head bg-primary text-white justify-content-center align-items-center">
+                    <span class="section-title ff-secondary text-center text-white fw-normal fs-3">Your order</span>
+                </div>
+                <div class="card-body bg-light">
+
+                    {{#dishes}}
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="w-100 d-flex flex-column text-start ps-4">
+                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                <span>{{name}}</span>
+                                <span class="text-primary">&euro;{{price}}</span>
+                            </h5>
+                            <small class="fst-italic">{{description}}</small>
+                        </div>
                     </div>
-                    <div class="card-body bg-light">
-                        <!-- Product 1 -->
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                    <span>2x Fried Chicken</span>
-                                    <span class="text-primary">2 x 8.99 = €17.98</span>
-                                </h5>
-                                <small class="fst-italic">Just chicken</small>
-                            </div>
-                        </div>
+                    {{/dishes}}
 
-                        <!-- Product 2 -->
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                    <span>3x Croquetas Voltereta</span>
-                                    <span class="text-primary">3 x 5.49 = €16.47</span>
-                                </h5>
-                                <small class="fst-italic">Delicious jam and cheese croquettes</small>
-                            </div>
-                        </div>
+                    <div class="d-flex justify-content-between pt-3">
+                        <h5 class="text-end">Subtotal</h5>
+                        <h5 class="text-end">&euro;{{totalPrice}}</h5>
+                    </div>
 
-                        <!-- Product 3 -->
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                    <span>1x Orange Juice</span>
-                                    <span class="text-primary">€2.49</span>
-                                </h5>
-                                <small class="fst-italic">Orange</small>
-                            </div>
-                        </div>
+                    <div class="d-flex justify-content-between">
+                        <h5 class="text-end">Delivery</h5>
+                        <h5 class="text-end">&euro;4.99</h5>
+                    </div>
 
-                        <div class="d-flex justify-content-between pt-3">
-                            <h5 class="text-end">Subtotal</h5>
-                            <h5 class="text-end">€36.94</h5>
-                        </div>
+                    <!-- Order Update Form -->
+                    <form action="/orders/update" method="post">
+                        <input type="hidden" name="_csrf" value="{{token}}">
+                        <input type="hidden" name="orderId" value="{{id}}">
+                        <input type="hidden" name="status" value="Confirmed">
+                        <input type="hidden" name="totalPrice" value="{{finalPrice}}">
 
-                        <!-- <div class="d-flex justify-content-between">
-                            <h5 class="text-end">Pick-up</h5>
-                            <h5 class="text-end">Free</h5>
-                        </div> -->
-
-                        <div class="d-flex justify-content-between">
-                            <h5 class="text-end">Delivery</h5>
-                            <h5 class="text-end">€4.99</h5>
-                        </div>
-                        <!-- Address Section User home or restaurant selected-->
+                        <!-- Address Section -->
                         <div class="d-flex align-items-center mb-3">
                             <div class="w-100 d-flex flex-column text-start ps-4">
                                 <h5 class="d-flex justify-content-between border-bottom pb-2">
                                     <span>Address</span>
                                 </h5>
-                                <small class="fst-italic">Voltereta Lane 5 14ºB, Croquetópolis, Spain</small>
+
+                                {{#user.address}}
+                                <input type="text" name="address" class="form-control" value="{{user.address}}" required>
+                                {{/user.address}}
+
+                                {{^user.address}}
+                                <input type="text" name="address" class="form-control" placeholder="Enter your address" required>
+                                {{/user.address}}
                             </div>
                         </div>
+
                         <hr>
                         <div class="d-flex justify-content-between fw-bold mt-3">
                             <h5 class="text-end">Total</h5>
-                            <h5 class="text-end">€41.93</h5>
+                            <h5 class="text-end">&euro;{{finalPrice}}</h5>
                         </div>
 
                         <!-- Action Buttons -->
                         <div class="button-group justify-content-between d-flex mt-3">
-                            <a href="menu.html" class="btn btn-secondary mt-2">Back</a>
-                            <a href="menu.html" class="btn btn-danger mt-2">Cancel Order</a>
-                            <a href="order-confimation.html" class="btn btn-success mt-2">Pay</a>
+                            <a href="/menu" class="btn btn-secondary mt-2">Back</a>
+                            <a href="/menu" class="btn btn-danger mt-2">Cancel Order</a>
+                            <button type="submit" class="btn btn-success mt-2">Pay</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
+
         </div>
     </div>
-    <!-- Order Summary End -->
+</div>
+
+<!-- Order Summary End -->
 
 {{> fragments/footer}}

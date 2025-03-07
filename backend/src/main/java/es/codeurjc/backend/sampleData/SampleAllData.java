@@ -2,6 +2,7 @@ package es.codeurjc.backend.sampleData;
 
 import es.codeurjc.backend.enums.Allergens;
 import es.codeurjc.backend.model.Dish;
+import es.codeurjc.backend.model.Order;
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.model.Restaurant;
 import es.codeurjc.backend.model.Booking;
@@ -9,6 +10,8 @@ import es.codeurjc.backend.repository.DishRepository;
 import es.codeurjc.backend.repository.UserRepository;
 import es.codeurjc.backend.repository.RestaurantRepository;
 import es.codeurjc.backend.repository.BookingRepository;
+import es.codeurjc.backend.repository.OrderRepository;
+import es.codeurjc.backend.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +26,9 @@ import java.util.List;
  */
 @Service
 public class SampleAllData {
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -57,17 +63,8 @@ public class SampleAllData {
         userRepository.save(new User("banned", passwordEncoder.encode("pass"), true, "USER"));
         User user1 = new User("johndoe", passwordEncoder.encode("password123"), "John", "Doe", LocalDate.of(1990, 5, 14), "612345678", "Calle Mayor, 5, Madrid", "johndoe@example.com", false, "USER");
         User user2 = new User("janedoe", passwordEncoder.encode("securepass"), "Jane", "Doe", LocalDate.of(1985, 8, 23), "623456789", "Calle Alcalá, 20, Madrid", "janedoe@example.com", false, "USER");
-        User user3 = new User("alicewonder", passwordEncoder.encode("alicepass"), "Alice", "Wonderland", LocalDate.of(1992, 3, 25), "634567890", "Gran Vía, 10, Madrid", "alicewonder@example.com", false, "USER");
-        User user4 = new User("bobbuilder", passwordEncoder.encode("bobsecure"), "Bob", "Builder", LocalDate.of(1988, 7, 19), "645678901", "Paseo de la Castellana, 50, Madrid", "bobbuilder@example.com", false, "USER");
-        User user5 = new User("charliebrown", passwordEncoder.encode("charlie123"), "Charlie", "Brown", LocalDate.of(1995, 12, 5), "656789012", "Avenida América, 15, Madrid", "charliebrown@example.com", false, "USER");
-        User user6 = new User("dianaprince", passwordEncoder.encode("wonderwoman"), "Diana", "Prince", LocalDate.of(1987, 4, 7), "667890123", "Calle Serrano, 33, Madrid", "dianaprince@example.com", false, "USER");
         userRepository.save(user1);
         userRepository.save(user2);
-        userRepository.save(user3);
-        userRepository.save(user4);
-        userRepository.save(user5);
-        userRepository.save(user6);
-
 
         // Creating and storing sample dishes
 
@@ -237,26 +234,32 @@ public class SampleAllData {
         dishRepository.save(empanadaGallega);
 
         // Creating sample restaurants
-        Restaurant restaurant1 = new Restaurant("Calle Gran Vía 10, Madrid");
-        Restaurant restaurant2 = new Restaurant("Calle Serrano 45, Madrid");
+        Restaurant restaurant1 = new Restaurant("Calle Gran Vía 10 Madrid");
+        Restaurant restaurant2 = new Restaurant("Calle Serrano 45 Madrid");
         restaurantRepository.save(restaurant1);
         restaurantRepository.save(restaurant2);
 
         // Creating sample bookings
-        Booking booking1 = new Booking(restaurant1, user1, LocalDate.of(2025, 3, 26), "Lunch", 40);
-        Booking booking2 = new Booking(restaurant1, user2, LocalDate.of(2025, 3, 1), "Dinner", 25);
-        Booking booking3 = new Booking(restaurant1, user3, LocalDate.of(2025, 3, 5), "Lunch", 12);
-        Booking booking4 = new Booking(restaurant2, user4, LocalDate.of(2025, 3, 10), "Dinner", 20);
-        Booking booking5 = new Booking(restaurant1, user5, LocalDate.of(2025, 3, 15), "Lunch", 5);
-        Booking booking6 = new Booking(restaurant2, user6, LocalDate.of(2025, 3, 20), "Dinner", 30);
-        bookingRepository.save(booking3);
-        bookingRepository.save(booking4);
-        bookingRepository.save(booking5);
-        bookingRepository.save(booking6);
+        Booking booking1 = new Booking(restaurant1, user1, LocalDate.now().plusDays(2), "Lunch", 4);
+        Booking booking2 = new Booking(restaurant2,user2, LocalDate.now().plusDays(5), "Dinner", 2);
         bookingRepository.save(booking1);
         bookingRepository.save(booking2);
+
+        //order creation
+        Order order1 = new Order(Arrays.asList(croquetasJamon, tortillaEspanola), user1, "Calle A, 14", "Pending",20.0);
+        Order order2 = new Order(List.of(paellaMariscos, gazpacho), user1, "Calle B, 22", "Accepted",20.0);
+        Order order3 = new Order(List.of(pulpoGallega, croquetasJamon), user1, "Calle C, 35", "Pending",30.0);
+        Order order4 = new Order(List.of(tortillaEspanola, gazpacho), user1, "Calle D, 48", "Cancelled",34.0);
+        Order order5 = new Order(List.of(paellaMariscos, pulpoGallega), user1, "Calle E, 50", "Accepted",42.0);
+
+        // save orders in database.
+        orderRepository.save(order1);
+        orderRepository.save(order2);
+        orderRepository.save(order3);
+        orderRepository.save(order4);
+        orderRepository.save(order5);
+
     }
 
 
 }
-

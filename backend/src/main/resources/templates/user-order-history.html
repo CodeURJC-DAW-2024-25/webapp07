@@ -1,0 +1,42 @@
+{{> fragments/header}}
+
+{{> fragments/hero}}
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Last orders</h5>
+
+            {{#orders}}
+            <div class="text-sm-start rounded-4 card">
+                <div class="d-flex justify-content-between p-2 pb-2 card-head bg-secondary text-white">
+                    <span class="text-white">{{orderDate}}</span>
+                    <span>Order Number: {{id}}</span>
+                    <span>Total: &euro;{{totalPrice}}</span>
+                </div>
+                <div class="card-body bg-light">
+                    {{#dishes}}
+                    <div class="d-flex align-items-center">
+                        <div class="w-100 d-flex flex-column text-start ps-4">
+                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                <span>{{name}}</span>
+                                <span class="text-primary">&euro;{{price}}</span>
+                            </h5>
+                            <small class="fst-italic">{{description}}</small>
+                        </div>
+                    </div>
+                    {{/dishes}}
+
+                    <span class="button-group justify-content-between d-flex">
+                        <a href="/orders/{{id}}/more-info" class="btn btn-primary mt-4">More info</a>
+                    </span>
+                </div>
+            </div>
+            {{/orders}}
+
+            <a href="/menu" class="btn btn-primary mt-4">Back to Menu</a>
+        </div>
+    </div>
+</div>
+
+{{> fragments/footer}}

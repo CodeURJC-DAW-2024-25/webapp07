@@ -1,136 +1,136 @@
 {{> fragments/header}}
 
-        <div class="container-xxl bg-dark hero-header">
-            <div class="container text-center pt-5">
-                <h1 class="display-3 text-white animated slideInDown pt-4 pb-4">Order Manager</h1>
+<div class="container-xxl bg-dark hero-header">
+    <div class="container text-center pt-5">
+        <h1 class="display-3 text-white animated slideInDown pt-4 pb-4">Order Manager</h1>
+    </div>
+</div>
+</div>
+
+<!-- Navbar & Hero End -->
+
+
+<!-- Orders-->
+<div class="container-xxl py-5" style="max-width: 50%;">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Order List</h5>
+            <div class="text-center" style="font-family: 'Heebo', sans-serif;">
+                <a style="font-family: 'Nunito', sans-serif;">Orders in progress: 6 </a><br>
+                <a style="font-family: 'Nunito', sans-serif;">Orders limit at a time: 10 </a>
+            </div>
+            <!-- 1 Order's Card -->
+            <div class="text-sm-start rounded-4 card">
+                <div class="d-flex justify-content-between p-2 pb-2 card-head bg-secondary text-white">
+                    <span class="text-white">February 4th</span>
+                    <span>Order Number: 01233245454</span>
+                    <span>Total: $345</span>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="d-flex align-items-center">
+                        <div class="w-100 d-flex flex-column text-start ps-4">
+                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                <span>2x Chicken Burger</span>
+                                <span class="text-primary">$230</span>
+                            </h5>
+                            <small class="fst-italic">Extra cheese, no onions</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="w-100 d-flex flex-column text-start ps-4">
+                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                <span>1x Fries</span>
+                                <span class="text-primary">$115</span>
+                            </h5>
+                            <small class="fst-italic">With extra ketchup</small>
+                        </div>
+                    </div>
+                    <span class="button-group justify-content-between d-flex">
+            <a href="order-summary.html" class="btn btn-primary mt-4">More info</a>
+            <a href="admin-actions-confirmed.html" class="btn btn-secondary mt-4" onmouseover="this.style.backgroundColor='red'" onmouseout="this.style.backgroundColor=''">Cancel</a>
+            <a href="admin-actions-confirmed.html" class="btn btn-secondary mt-4" onmouseover="this.style.backgroundColor='green'" onmouseout="this.style.backgroundColor=''">Accept</a>
+        </span>
+                </div>
+            </div>
+
+            <!-- 2 Order's Card -->
+            <div class="text-sm-start rounded-4 card mt-4">
+                <div class="d-flex justify-content-between p-2 pb-2 card-head bg-secondary text-white">
+                    <span class="text-white">February 5th</span>
+                    <span>Order Number: 0987654321</span>
+                    <span>Total: $210</span>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="d-flex align-items-center">
+                        <div class="w-100 d-flex flex-column text-start ps-4">
+                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                <span>1x Pepperoni Pizza</span>
+                                <span class="text-primary">$120</span>
+                            </h5>
+                            <small class="fst-italic">Extra spicy</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="w-100 d-flex flex-column text-start ps-4">
+                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                <span>2x Cola</span>
+                                <span class="text-primary">$90</span>
+                            </h5>
+                            <small class="fst-italic">With ice</small>
+                        </div>
+                    </div>
+                    <span class="button-group justify-content-between d-flex">
+            <a href="order-summary.html" class="btn btn-primary mt-4">More info</a>
+            <a href="admin-actions-confirmed.html" class="btn btn-secondary mt-4" onmouseover="this.style.backgroundColor='red'" onmouseout="this.style.backgroundColor=''">Cancel</a>
+            <a href="admin-actions-confirmed.html" class="btn btn-secondary mt-4" onmouseover="this.style.backgroundColor='green'" onmouseout="this.style.backgroundColor=''">Accept</a>
+        </span>
+                </div>
+            </div>
+
+            <!-- 3 Order's Card -->
+            <div class="text-sm-start rounded-4 card mt-4">
+                <div class="d-flex justify-content-between p-2 pb-2 card-head bg-secondary text-white">
+                    <span class="text-white">February 6th</span>
+                    <span>Order Number: 0246871359</span>
+                    <span>Total: $180</span>
+                </div>
+                <div class="card-body bg-light">
+                    <div class="d-flex align-items-center">
+                        <div class="w-100 d-flex flex-column text-start ps-4">
+                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                <span>3x Veggie Tacos</span>
+                                <span class="text-primary">$150</span>
+                            </h5>
+                            <small class="fst-italic">With guacamole</small>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="w-100 d-flex flex-column text-start ps-4">
+                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                <span>1x Lemonade</span>
+                                <span class="text-primary">$30</span>
+                            </h5>
+                            <small class="fst-italic">No sugar</small>
+                        </div>
+                    </div>
+                    <span class="button-group justify-content-between d-flex">
+            <a href="order-summary.html" class="btn btn-primary mt-4">More info</a>
+            <a href="admin-actions-confirmed.html" class="btn btn-secondary mt-4" onmouseover="this.style.backgroundColor='red'" onmouseout="this.style.backgroundColor=''">Cancel</a>
+            <a href="admin-actions-confirmed.html" class="btn btn-secondary mt-4" onmouseover="this.style.backgroundColor='green'" onmouseout="this.style.backgroundColor=''">Accept</a>
+        </span>
+                </div>
             </div>
         </div>
-    </div>
-
-    <!-- Navbar & Hero End -->
-
-
-    <!-- Orders-->
-    <div class="container-xxl py-5" style="max-width: 50%;">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h5 class="section-title ff-secondary text-center text-primary fw-normal">Order List</h5>
-                <div class="text-center" style="font-family: 'Heebo', sans-serif;">
-                    <a style="font-family: 'Nunito', sans-serif;">Orders in progress: 6 </a><br>
-                    <a style="font-family: 'Nunito', sans-serif;">Orders limit at a time: 10 </a>
-                </div>
-                <!-- 1 Order's Card -->
-                <div class="text-sm-start rounded-4 card">
-                    <div class="d-flex justify-content-between p-2 pb-2 card-head bg-secondary text-white">
-                        <span class="text-white">February 4th</span>
-                        <span>Order Number: 01233245454</span>
-                        <span>Total: $345</span>
-                    </div>
-                    <div class="card-body bg-light">
-                        <div class="d-flex align-items-center">
-                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                    <span>2x Chicken Burger</span>
-                                    <span class="text-primary">$230</span>
-                                </h5>
-                                <small class="fst-italic">Extra cheese, no onions</small>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                    <span>1x Fries</span>
-                                    <span class="text-primary">$115</span>
-                                </h5>
-                                <small class="fst-italic">With extra ketchup</small>
-                            </div>
-                        </div>
-                        <span class="button-group justify-content-between d-flex">
-            <a href="order-summary.html" class="btn btn-primary mt-4">More info</a>
-            <a href="admin-actions-confirmed.html" class="btn btn-secondary mt-4" onmouseover="this.style.backgroundColor='red'" onmouseout="this.style.backgroundColor=''">Cancel</a>
-            <a href="admin-actions-confirmed.html" class="btn btn-secondary mt-4" onmouseover="this.style.backgroundColor='green'" onmouseout="this.style.backgroundColor=''">Accept</a>
-        </span>
-                    </div>
-                </div>
-
-                <!-- 2 Order's Card -->
-                <div class="text-sm-start rounded-4 card mt-4">
-                    <div class="d-flex justify-content-between p-2 pb-2 card-head bg-secondary text-white">
-                        <span class="text-white">February 5th</span>
-                        <span>Order Number: 0987654321</span>
-                        <span>Total: $210</span>
-                    </div>
-                    <div class="card-body bg-light">
-                        <div class="d-flex align-items-center">
-                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                    <span>1x Pepperoni Pizza</span>
-                                    <span class="text-primary">$120</span>
-                                </h5>
-                                <small class="fst-italic">Extra spicy</small>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                    <span>2x Cola</span>
-                                    <span class="text-primary">$90</span>
-                                </h5>
-                                <small class="fst-italic">With ice</small>
-                            </div>
-                        </div>
-                        <span class="button-group justify-content-between d-flex">
-            <a href="order-summary.html" class="btn btn-primary mt-4">More info</a>
-            <a href="admin-actions-confirmed.html" class="btn btn-secondary mt-4" onmouseover="this.style.backgroundColor='red'" onmouseout="this.style.backgroundColor=''">Cancel</a>
-            <a href="admin-actions-confirmed.html" class="btn btn-secondary mt-4" onmouseover="this.style.backgroundColor='green'" onmouseout="this.style.backgroundColor=''">Accept</a>
-        </span>
-                    </div>
-                </div>
-
-                <!-- 3 Order's Card -->
-                <div class="text-sm-start rounded-4 card mt-4">
-                    <div class="d-flex justify-content-between p-2 pb-2 card-head bg-secondary text-white">
-                        <span class="text-white">February 6th</span>
-                        <span>Order Number: 0246871359</span>
-                        <span>Total: $180</span>
-                    </div>
-                    <div class="card-body bg-light">
-                        <div class="d-flex align-items-center">
-                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                    <span>3x Veggie Tacos</span>
-                                    <span class="text-primary">$150</span>
-                                </h5>
-                                <small class="fst-italic">With guacamole</small>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center">
-                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                    <span>1x Lemonade</span>
-                                    <span class="text-primary">$30</span>
-                                </h5>
-                                <small class="fst-italic">No sugar</small>
-                            </div>
-                        </div>
-                        <span class="button-group justify-content-between d-flex">
-            <a href="order-summary.html" class="btn btn-primary mt-4">More info</a>
-            <a href="admin-actions-confirmed.html" class="btn btn-secondary mt-4" onmouseover="this.style.backgroundColor='red'" onmouseout="this.style.backgroundColor=''">Cancel</a>
-            <a href="admin-actions-confirmed.html" class="btn btn-secondary mt-4" onmouseover="this.style.backgroundColor='green'" onmouseout="this.style.backgroundColor=''">Accept</a>
-        </span>
-                    </div>
-                </div>
-                </div>
-            <div class="d-flex justify-content-center">
-                <a href="index.html" class="btn btn-secondary r-3 mt-4">View more</a>
-            </div>
-
-            </div>
-            <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
-
-            </div>
+        <div class="d-flex justify-content-center">
+            <a href="index.html" class="btn btn-secondary r-3 mt-4">View more</a>
         </div>
+
     </div>
-    <!-- Menu End -->
+    <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
+
+    </div>
+</div>
+</div>
+<!-- Menu End -->
 
 {{> fragments/footer}}
