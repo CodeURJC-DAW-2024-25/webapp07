@@ -1,0 +1,20 @@
+{{> fragments/header}}
+
+<div class="container-xxl py-5">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <h1 class="display-1 text-success"><i class="fa fa-check-circle"></i></h1>
+                <h1 class="mb-4">Payment Successful</h1>
+                <p class="mb-4">
+                    Thank you for your payment! Your order <strong>#{{order.id}}</strong> has been successfully paid.
+                    We appreciate your business and look forward to serving you.
+                </p>
+
+                <a href="/orders/history" class="btn btn-primary py-3 px-5">Back to Orders</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{> fragments/footer}}
