@@ -60,9 +60,16 @@
                     </div>
                     {{/dish.isVegan}}
                     <div class="col-12">
+                        {{#mensaje}}
+                        <div class="alert alert-success text-center" role="alert">
+                            <span>{{mensaje}}</span>
+                        </div>
+                        {{/mensaje}}
                         <div class="d-flex gap-2">
                             <a href="/menu" class="btn btn-primary">Back menu</a>
-                            {{> fragments/modal-rating}}
+                            {{#isAuthenticated}}
+                                {{> fragments/modal-rating}}
+                            {{/isAuthenticated}}
                             {{#isAdmin}}
                             <a href="/menu/{{id}}/admin/edit-dish" class="btn btn-primary">Edit Dish</a>
                             <form id="markUnavailableForm{{id}}" action="/menu/{{id}}/admin/mark-unavailable-dish" method="post">
