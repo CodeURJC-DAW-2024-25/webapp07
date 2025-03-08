@@ -161,6 +161,21 @@ public class OrderService {
         }
     }
 
+    public void updateOrder(Long orderId, String address, String status, Double totalPrice) {
+        Optional<Order> orderOpt = orderRepository.findById(orderId);
+
+        if (orderOpt.isPresent()) {
+            Order order = orderOpt.get();
+            order.setAddress(address);
+            order.setStatus(status);
+            order.setTotalPrice(totalPrice);
+            orderRepository.save(order);
+        } else {
+            throw new RuntimeException("Order not found with ID: " + orderId);
+        }
+    }
+
+
 
 
 }

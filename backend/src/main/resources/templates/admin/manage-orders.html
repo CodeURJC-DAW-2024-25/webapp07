@@ -43,14 +43,14 @@
       <td>{{status}}</td>
       <td>${{totalPrice}}</td>
       <td>
-        <button class="btn btn-warning btn-sm">Edit</button>
-
+        <a href="/admin/orders/{{id}}/edit" class="btn btn-warning btn-sm">Edit</a>
         <form id="deleteForm{{id}}" action="/admin/orders/delete" method="post" style="display:inline;">
           <input type="hidden" name="orderId" value="{{id}}">
           <input type="hidden" name="_csrf" value="{{token}}">
           <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('{{id}}')">Delete</button>
         </form>
       </td>
+
     </tr>
     {{/orders}}
     </tbody>

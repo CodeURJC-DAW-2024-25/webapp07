@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Edit Order</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="/img/favicon.png" rel="icon">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Edit Order #{{order.id}}</h2>
+
+    <form action="/admin/orders/update" method="post">
+        <input type="hidden" name="orderId" value="{{order.id}}">
+        <input type="hidden" name="_csrf" value="{{token}}">
+
+        <!-- Address -->
+        <div class="mb-3">
+            <label class="form-label">Address</label>
+            <input type="text" class="form-control" name="address" value="{{order.address}}" required>
+        </div>
+
+        <!-- Status -->
+        <div class="mb-3">
+            <label class="form-label">Status</label>
+            <select class="form-control" name="status" required>
+                <option value="Pending" {{#order.pending}}selected{{/order.pending}}>Pending</option>
+                <option value="Paid" {{#order.paid}}selected{{/order.paid}}>Paid</option>
+                <option value="Cancelled" {{#order.cancelled}}selected{{/order.cancelled}}>Cancelled</option>
+            </select>
+        </div>
+
+        <!-- Total Price -->
+        <div class="mb-3">
+            <label class="form-label">Total Price</label>
+            <input type="number" step="0.01" class="form-control" name="totalPrice" value="{{order.totalPrice}}" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="/admin/orders" class="btn btn-secondary">Cancel</a>
+    </form>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
