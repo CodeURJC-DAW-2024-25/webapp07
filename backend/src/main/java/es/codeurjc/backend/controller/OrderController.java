@@ -20,9 +20,8 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.*;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,11 +47,18 @@ public class OrderController {
                 .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart",0.0));
 
         boolean hasDishes = !cart.getDishes().isEmpty();
+        double totalPrice = cart.getDishes().stream()
+                .mapToDouble(Dish::getPrice)
+                .sum();
+
+        cart.setTotalPrice(totalPrice);
+        orderService.saveOrder(cart);
 
         model.addAttribute("pageTitle", "Cart");
 
         model.addAttribute("hasDishes", hasDishes);
         model.addAttribute("orders", cart);
+        model.addAttribute("totalPrice", totalPrice);
         return "cart";
     }
 
@@ -72,23 +78,26 @@ public class OrderController {
 
 
     @PostMapping("/cart/add")
-    public String addToCart(@RequestParam Long dishId, @AuthenticationPrincipal UserDetails userDetails) {
+    @ResponseBody
+    public Map<String, Object> addToCart(@RequestParam Long dishId, @AuthenticationPrincipal UserDetails userDetails) {
+        Map<String, Object> response = new HashMap<>();
+
         User user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Order cart = orderService.findCartByUser(user.getId())
-                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart",0.0));
+                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart", 0.0));
 
         Dish dish = dishService.findById(dishId)
                 .orElseThrow(() -> new RuntimeException("Dish not found"));
 
-        List<Dish> dishes = cart.getDishes();
-        dishes.add(dish);
-        cart.setDishes(dishes);
-        orderService.saveOrder(cart);
+        cart.getDishes().add(dish);
         orderService.saveOrder(cart);
 
-        return "redirect:/orders/cart";
+        response.put("success", true);
+        response.put("message", "Dish added to cart");
+
+        return response;
     }
 
     @PostMapping("/cart/remove")

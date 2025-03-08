@@ -146,4 +146,36 @@ public class OrderService {
             throw new RuntimeException("Order not found");
         }
     }
+
+    /**
+     * Deletes an order by its ID.
+     *
+     * @param id The ID of the order to delete.
+     */
+    public void deleteOrderById(Long id) {
+        Optional<Order> orderOpt = orderRepository.findById(id);
+        if (orderOpt.isPresent()) {
+            orderRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Order with ID " + id + " not found.");
+        }
+    }
+
+    public void updateOrder(Long orderId, String address, String status, Double totalPrice) {
+        Optional<Order> orderOpt = orderRepository.findById(orderId);
+
+        if (orderOpt.isPresent()) {
+            Order order = orderOpt.get();
+            order.setAddress(address);
+            order.setStatus(status);
+            order.setTotalPrice(totalPrice);
+            orderRepository.save(order);
+        } else {
+            throw new RuntimeException("Order not found with ID: " + orderId);
+        }
+    }
+
+
+
+
 }
