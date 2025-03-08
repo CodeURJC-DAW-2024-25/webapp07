@@ -348,4 +348,21 @@ public class DishController {
         model.addAttribute("pageTitle", "Saved Changes");
         return "dish-form";
     }
+
+    @PostMapping("/menu/{id}/save-dish-rate")
+    public String saveDishRate(@RequestParam("rating") int rating, @PathVariable(required = false) Long id, RedirectAttributes redirectAttributes) {
+        Optional<Dish> dish =dishService.findById(id);
+        System.out.println("Calificación recibida para " + dish.get().getName() + " : " + rating);
+
+
+
+        List<Integer> listRates = dish.get().getRates();
+        listRates.add(rating);
+        dish.get().setRates(listRates);
+        dishService.save(dish.get());
+
+
+        redirectAttributes.addFlashAttribute("mensaje", "¡Gracias por tu valoración de " + rating + " estrellas!");
+        return "redirect:/menu"; // Redirige a la página principal o donde quieras
+    }
 }

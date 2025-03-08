@@ -1,7 +1,8 @@
 {{> fragments/header}}
 
 {{> fragments/hero}}
-
+<link rel="stylesheet" href="../static/css/rates-modal.css">
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 <!-- Dish Information Start -->
 
@@ -65,6 +66,90 @@
                     <div class="col-12">
                         <div class="d-flex gap-2">
                             <a href="/menu" class="btn btn-primary">Back menu</a>
+
+                            <!-- Botón para abrir el modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">
+                                Rate dish
+                            </button>
+
+                            <!-- Modal -->
+                            <!-- Modal -->
+                            <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalLabel">Valora este contenido</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <p>Selecciona tu calificación:</p>
+
+                                            <div id="star-container">
+                                                <i class="fas fa-star star text-muted" data-value="1"></i>
+                                                <i class="fas fa-star star text-muted" data-value="2"></i>
+                                                <i class="fas fa-star star text-muted" data-value="3"></i>
+                                                <i class="fas fa-star star text-muted" data-value="4"></i>
+                                                <i class="fas fa-star star text-muted" data-value="5"></i>
+                                            </div>
+
+                                            <p id="rating-text" class="mt-2">Selecciona una calificación</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!-- Formulario que envía la calificación a Spring -->
+                                            <form action="/menu/{{id}}/save-dish-rate" method="post">
+                                                <input type="hidden" name="_csrf" value="{{token}}">
+                                                <input type="hidden" name="rating" id="rating-input">
+                                                <button id="confirm-rating" type="submit" class="btn btn-success" disabled>Confirmar</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bootstrap JS -->
+                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+                            <script>
+                                let stars = document.querySelectorAll(".star");
+                                let rating = 0;
+                                let confirmButton = document.getElementById("confirm-rating");
+                                let ratingInput = document.getElementById("rating-input");
+
+                                stars.forEach(star => {
+                                    // Efecto hover (previsualización)
+                                    star.addEventListener("mouseover", function() {
+                                        let value = this.getAttribute("data-value");
+                                        highlightStars(value);
+                                    });
+
+                                    // Volver a la selección fija si el usuario no hace clic
+                                    star.addEventListener("mouseout", function() {
+                                        highlightStars(rating);
+                                    });
+
+                                    // Seleccionar calificación al hacer clic
+                                    star.addEventListener("click", function() {
+                                        rating = this.getAttribute("data-value");
+                                        ratingInput.value = rating; // Guardar la calificación en el input oculto
+                                        document.getElementById("rating-text").innerText = `Calificación: ${rating} estrellas`;
+                                        confirmButton.disabled = false; // Habilitar botón de confirmar
+                                    });
+                                });
+
+                                // Función para iluminar estrellas
+                                function highlightStars(limit) {
+                                    stars.forEach(star => {
+                                        let value = star.getAttribute("data-value");
+                                        if (value <= limit) {
+                                            star.classList.remove("text-muted");
+                                            star.classList.add("text-warning");
+                                        } else {
+                                            star.classList.remove("text-warning");
+                                            star.classList.add("text-muted");
+                                        }
+                                    });
+                                }
+                            </script>
+
                             {{#isAdmin}}
                             <a href="/menu/{{id}}/admin/edit-dish" class="btn btn-primary">Edit Dish</a>
                             <form id="markUnavailableForm{{id}}" action="/menu/{{id}}/admin/mark-unavailable-dish" method="post">

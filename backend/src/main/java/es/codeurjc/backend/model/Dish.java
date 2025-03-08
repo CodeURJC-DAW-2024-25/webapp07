@@ -130,6 +130,8 @@ public class Dish {
 
     public List<Integer> getRates(){ return rates;}
 
+    public void setRates(List<Integer> rates){ this.rates = rates;}
+
     public int getRate(){ return rate;}
 
     public void setRate(int rate){ this.rate = rate;}
