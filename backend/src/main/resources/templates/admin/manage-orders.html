@@ -31,6 +31,7 @@
       <th>Address</th>
       <th>Status</th>
       <th>Total Price</th>
+      <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -41,6 +42,15 @@
       <td>{{address}}</td>
       <td>{{status}}</td>
       <td>${{totalPrice}}</td>
+      <td>
+        <button class="btn btn-warning btn-sm">Edit</button>
+
+        <form id="deleteForm{{id}}" action="/admin/orders/delete" method="post" style="display:inline;">
+          <input type="hidden" name="orderId" value="{{id}}">
+          <input type="hidden" name="_csrf" value="{{token}}">
+          <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('{{id}}')">Delete</button>
+        </form>
+      </td>
     </tr>
     {{/orders}}
     </tbody>
@@ -49,6 +59,12 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+<script> //delete confirmation
+  function confirmDelete(orderId) {
+    if (confirm("Are you sure you want to delete this order?")) {
+      document.getElementById("deleteForm" + orderId).submit();
+    }
+  }
+</script>
 </body>
 </html>

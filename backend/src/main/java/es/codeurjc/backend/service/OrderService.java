@@ -146,4 +146,21 @@ public class OrderService {
             throw new RuntimeException("Order not found");
         }
     }
+
+    /**
+     * Deletes an order by its ID.
+     *
+     * @param id The ID of the order to delete.
+     */
+    public void deleteOrderById(Long id) {
+        Optional<Order> orderOpt = orderRepository.findById(id);
+        if (orderOpt.isPresent()) {
+            orderRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Order with ID " + id + " not found.");
+        }
+    }
+
+
+
 }
