@@ -531,22 +531,25 @@ Next, a diagram will be included depicting the entities within the database, the
 | 5º  | [Update: Dish rates](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/213b71e6f6c8cd462cdfcc412b66c5b87d29b7c2) | | 5º | [DishController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/DishController.java) |
 
 
- #### Juan Ramírez Blanco
+# Juan Ramírez Blanco
 
-* Developed the **order system architecture**, ensuring a structured and scalable approach for managing orders.
-* Created the **Order Summary screen**, displaying a detailed breakdown of the user's order before payment.
-* Helped in the implementation of the **Add to Cart button**, allowing users to add items to their cart dynamically.
-* Implemented the **Pay button**, allowing users to securely process their payments.
-* Designed and developed the **order confirmation** and **success screens**, enhancing the user experience after a purchase.
-* Implemented **View Orders button**, enabling users to access their order history.
-* Created **Order History** section, displaying a comprehensive list of paid orders.
-* Developed the **class diagram and templates**, providing a structured foundation for order management and UI consistency.
+- **Order System Architecture**: Developed a structured and scalable approach for managing orders.
+- **Order Summary Screen**: Created a detailed breakdown of the user's order before payment.
+- **Add to Cart Button**: Helped implement functionality allowing users to dynamically add items to their cart.
+- **Pay Button**: Implemented secure payment processing functionality.
+- **Order Confirmation & Success Screens**: Designed and developed screens to enhance the user experience after a purchase.
+- **View Orders Button**: Enabled users to access their order history.
+- **Order History Section**: Created a comprehensive list of paid orders.
+- **Order Admin Structure**: Created the structure to efficiently manage and oversee orders.
+- **Modify Order & Delete Order Buttons**: Developed functionality for administrators to update or remove orders as needed.
+- **Class Diagram & Templates**: Developed structured foundations for order management and UI consistency.
+
 
 
 | #   |                                                              Commit                                                               |     | #   |                                                                                       File                                                                                       |
 | :-: |:---------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| 1º  |        [Add: Order Controller.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/b8836003082903b60ddd5ce191acf4b6f3434d72)        | | 1º |                       [Controller.java]()                       |
-| 2º  |    [Add: add cart](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/14d1bda382c3e135ac5d422e036e32fe35a177b4)     | |2º |         [OrderController.java]()         |
-| 3º  |      [Add: user order history](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/870e86495948e0ee9fa24915fa667d7c8f96b4c5)      | | 3º |             [OrderController.java]()              |
-| 4º  |      [Fix: More Info Button in OrderSummary](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/14d1bda382c3e135ac5d422e036e32fe35a177b4)      | | 4º |                           [OrderController.java]()|
-| 5º  | [Add: Order summary pay button and confirm page](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/13fd26bae5554d4e254992baaa8c09c7766d5e58) | | 5º | [OrderController.java]() |
+| 1º  |        [Add: Order Admin List.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/5b9a7283492a51205e0d29c8bfff1933f81a36c0)        | | 1º |                       [Controller.java](backend/src/main/java/es/codeurjc/backend/controller/admin/AdminOrderController.java)                       |
+| 2º  |    [Add: Add to Cart Button](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/8fafbd621aa924abb45f0488d89161a4e0d5e441)     | |2º |         [OrderController.java](backend/src/main/resources/static/js/cart.js)         |
+| 3º  |      [Add: Delete order as Admin](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/870e86495948e0ee9fa24915fa667d7c8f96b4c5)      | | 3º |             [OrderController.java](backend/src/main/java/es/codeurjc/backend/controller/admin/AdminOrderController.java)              |
+| 4º  |      [Add: Edit Order as Admin](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/2739e781cd88f934494391a0299913992ee7ac31)      | | 4º |                           [OrderController.java](backend/src/main/java/es/codeurjc/backend/controller/admin/AdminOrderController.java)|
+| 5º  | [Add: Order summary pay button and confirm page](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/13fd26bae5554d4e254992baaa8c09c7766d5e58) | | 5º | [OrderController.java](backend/src/main/java/es/codeurjc/backend/controller/OrderController.java) |
