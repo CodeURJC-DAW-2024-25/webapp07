@@ -3,22 +3,16 @@ package es.codeurjc.backend.controller;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.enums.Allergens;
 
-import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.DishService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -316,29 +310,36 @@ public class DishController {
      * @throws IOException If an image processing error occurs.
      */
     @PostMapping({"/menu/admin/new-dish/save", "/menu/{id}/admin/edit-dish/save"})
-    public String editDishProcess(Model model, Dish dish, String ingredients, String action, @RequestParam(required = false) MultipartFile imageField, @RequestParam(required = false) List<Allergens> selectedAllergens, boolean vegan) throws IOException {
+    public String editDishProcess(Model model, Optional<Dish> dish, String ingredients, String action, @RequestParam(required = false) MultipartFile imageField, @RequestParam(required = false) List<Allergens> selectedAllergens, boolean vegan) throws IOException {
+        if (dish.isPresent()){
+            dish = dishService.findById(dish.get().getId());
+        }
+
         List<String> ingredientsList = Arrays.stream(ingredients.toLowerCase().split(","))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
-        dish.setIngredients(ingredientsList);
+        dish.get().setIngredients(ingredientsList);
 
-        dish.setAllergens(selectedAllergens);
-        dish.setVegan(vegan);
+        dish.get().setAllergens(selectedAllergens);
+        dish.get().setVegan(vegan);
 
         if (imageField != null && !imageField.isEmpty()) {
-            dish.setDishImagefile(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
-            dish.setImage(true);
+            dish.get().setDishImagefile(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
+            dish.get().setImage(true);
+        } else if (dish.get().getImage()){
+            dish.get().setDishImagefile(dish.get().getDishImagefile());
+            dish.get().setImage(true);
         }
 
-        model.addAttribute("dishId", dish.getId());
+        model.addAttribute("dishId", dish.get().getId());
 
-        String formAction = (dish.getId() != null) ? "/menu/" + dish.getId() + "/admin/edit-dish" : "/menu/admin/new-dish";
+        String formAction = (dish.get().getId() != null) ? "/menu/" + dish.get().getId() + "/admin/edit-dish" : "/menu/admin/new-dish";
         model.addAttribute("formAction", formAction);
 
         if ("save".equals(action)) {
-            dishService.save(dish);
-            return "redirect:/menu/" + dish.getId();
+            dishService.save(dish.orElse(null));
+            return "redirect:/menu/" + dish.get().getId();
         }
 
         model.addAttribute("modalId", "confirmationModal");
