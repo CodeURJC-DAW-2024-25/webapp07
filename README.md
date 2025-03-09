@@ -412,7 +412,7 @@ ___
 
 The diagram is a flow chart showing user permissions and navigation steps within a web interface. The diagram uses colored arrows to indicate the progression from one web page or state to another, based on user actions or permissions.
 
-![*New Flow Diagram*](readmeImg/diagramFinal.jpg)
+![*New Flow Diagram*](readmeImg/Flow Diagram - Phase 2.png)
 # :rocket: Execution Instructions
 
 ##  Steps
