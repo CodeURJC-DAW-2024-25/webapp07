@@ -32,8 +32,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
      *
      * @return A list of active bookings.
      */
-    @Query("SELECT b FROM Booking b WHERE b.date >= CURRENT_DATE")
+    @Query("SELECT b FROM Booking b WHERE b.date >= CURRENT_DATE ORDER BY b.date ASC")
     List<Booking> findActiveBookings();
+
 
     /**
      * Finds bookings for a specific restaurant, shift, and date.
@@ -60,4 +61,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByRestaurantAndShiftAndDate(@Param("restaurantId") Long restaurantId,
                                                   @Param("shift") String shift,
                                                   @Param("date") LocalDate date);
+
+    @Query("SELECT b FROM Booking b WHERE b.user.username LIKE %:query% OR b.user.email LIKE %:query% OR b.user.phoneNumber LIKE %:query% AND b.date >= CURRENT_DATE")
+    List<Booking> findByUser_UsernameContainingOrUser_EmailContainingOrUser_PhoneNumberContaining(@Param("query") String username, @Param("query") String email, @Param("query") String phoneNumber);
+
 }

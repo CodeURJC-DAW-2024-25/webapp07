@@ -26,15 +26,26 @@ public class AdminBookingController {
      * @return The template for managing bookings.
      */
     @GetMapping("/admin/bookings")
-    public String showAllBookings(Model model) {
-        List<Booking> bookings = bookingService.getAllBookings();
+    public String showAllBookings(Model model, @RequestParam(required = false) String query) {
+        List<Booking> bookings;
+
+        if (query != null && !query.isEmpty()) {
+            bookings = bookingService.searchBookings(query);
+        } else {
+            bookings = bookingService.getAllBookings();
+        }
+
         model.addAttribute("bookings", bookings);
+        model.addAttribute("hasBookings", !bookings.isEmpty());
+
+        // Modal configuration for confirmation dialogs
         model.addAttribute("modalId", "confirmationModal");
         model.addAttribute("confirmButtonId", "confirmAction");
         model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
-        model.addAttribute("hasBookings", !bookings.isEmpty());
+
         return "admin/manage-bookings";
     }
+
 
     /**
      * Deletes a booking by its ID.

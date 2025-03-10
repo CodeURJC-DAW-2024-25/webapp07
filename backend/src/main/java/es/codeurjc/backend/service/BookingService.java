@@ -99,4 +99,8 @@ public class BookingService {
         int totalPeopleReserved = existingBookings.stream().mapToInt(Booking::getNumPeople).sum();
         return Math.max(40 - totalPeopleReserved, 0);
     }
+    public List<Booking> searchBookings(String query) {
+        return bookingRepository.findByUser_UsernameContainingOrUser_EmailContainingOrUser_PhoneNumberContaining(query, query, query);
+    }
+
 }

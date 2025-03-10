@@ -14,13 +14,13 @@
 <a href="/" class="back-link"><i class='bi bi-arrow-left'></i></a>
 <a href="/" class="logo-link"><img class="show-logo" src="/img/logo.jpg" alt="Logo"/></a>
 
-<div class="container mt-5">
+<div class="container mt-">
     <h2 class="text-center mb-4">Booking Management</h2>
 
     <div class="form-group mb-3">
         <form action="/admin/bookings" method="get">
             <input type="hidden" name="_csrf" value="{{token}}">
-            <input type="text" class="form-control" placeholder="Search booking..." id="search-booking" name="query">
+            <input type="text" class="form-control" placeholder="Search by username, email or mobile phone..." id="search-booking" name="query">
             <button type="submit" class="btn btn-primary mt-2">Search</button>
         </form>
     </div>
@@ -31,6 +31,8 @@
         <tr>
             <th>ID</th>
             <th>User</th>
+            <th>Phone</th>
+            <th>Email</th>
             <th>Restaurant</th>
             <th>Shift</th>
             <th>People</th>
@@ -43,6 +45,8 @@
         <tr>
             <td>{{id}}</td>
             <td>{{user.username}}</td>
+            <td>{{user.phoneNumber}}</td>
+            <td>{{user.email}}</td>
             <td>{{restaurant.location}}</td>
             <td>{{shift}}</td>
             <td>{{numPeople}}</td>
