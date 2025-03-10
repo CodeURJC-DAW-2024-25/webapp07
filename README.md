@@ -347,7 +347,7 @@ This image showcases the User Management Panel for Voltereta Croqueta, allowing 
 ___
 ## Admin Dish Info:
 This screen displays detailed information about a specific dish, including its name, description, price, ingredients, and allergens. Admins can edit, mark as unavailable, or delete the dish.
-![*AdminDishInfo.png*](readme-img/phase_02/AdminDishInfo.PNG)
+![*AdminDishInfo.png*](readme-img/phase_02/Admin-DishInfo.PNG)
 
 
 
@@ -401,27 +401,27 @@ This page lists available restaurant locations, providing images and addresses, 
 ___
 ## Order Summary:
 This image shows the Order Summary page of "Voltereta Croqueta". It displays the items in the user's order, including the dish name, description, and price. Below, it calculates the subtotal, delivery fee, and the total cost. There is a field to enter the delivery address and buttons to go back, cancel the order, or proceed with payment. The footer contains contact details, opening hours, and restaurant locations.
-![*orderSummary.png*](readme-img\phase_02\order-summary.png)
+![*orderSummary.png*](readme-img/phase_02/order-summary.png)
 
 ___
 ## Order Confirm:
 This image shows the Order Confirmation page of "Voltereta Croqueta". It thanks the user for their order and informs them that Order #6 is ready for payment. A "Confirm Payment" button allows the user to finalize the transaction. The footer contains links to company information, contact details, opening hours, and restaurant locations.
-![*order-confirm.png*](readme-img\phase_02\order-confirm.png)
+![*order-confirm.png*](readme-img/phase_02/order-confirm.png)
 
 ___
 ## Order History:
 The "Order History" page of Voltereta Croqueta allows users to review their past purchases, including order details, total cost, and item descriptions, providing a clear record of their dining history.
-![*orderHistory.png*](readme-img\phase_02\order-history.png)
+![*orderHistory.png*](readme-img/phase_02/order-history.png)
 
 ___
 ## Order Managment:
 The "Order Management" page of Voltereta Croqueta provides administrators with a centralized interface to track, update, and manage customer orders, including status changes, price details, and user information.
-![*orderHistory.png*](readme-img\phase_02\order-managment.png)
+![*orderHistory.png*](readme-img/phase_02/order-manager.png)
 
 ___
 ## Payment successful:
 This image shows the Payment Successful page of "Voltereta Croqueta". It confirms that Order #6 has been successfully paid and thanks the user for their payment. A "Back to Orders" button allows the user to return to their order history. The footer contains company information, contact details, opening hours, and restaurant locations.
-![*orderSummary.png*](readme-img\phase_02\payment-seccuessfull.png)
+![*orderSummary.png*](readme-img/phase_02/payment-seccuessfull.png)
 
 
 
@@ -442,7 +442,7 @@ ___
 
 The diagram is a flow chart showing user permissions and navigation steps within a web interface. The diagram uses colored arrows to indicate the progression from one web page or state to another, based on user actions or permissions.
 
-![*New Flow Diagram*](readmeImg/FlowDiagram-Phase2.png)
+![*New Flow Diagram*](readme-img/FlowDiagram-Phase2.png)
 # :rocket: Execution Instructions
 
 ##  Steps
@@ -486,11 +486,10 @@ The diagram is a flow chart showing user permissions and navigation steps within
 
 Next, a diagram will be included depicting the entities within the database, their respective fields, and the relationships among them.
 
-
-![*Database*](readmeImg/bbdd_diagram.png)
+![*Database*](readme-img/bbdd_diagram.png)
 
 # :art: Class diagram and templates
-![*templateDiagram*](readmeImg/classDiagram.PNG)
+![*templateDiagram*](readme-img/classDiagram.png)
 ---
 # :raised_hand: Participation
 
