@@ -18,22 +18,14 @@ import java.util.Optional;
 public class DishService {
     @Autowired
     private DishRepository dishRepository;
-
-    /*
-     * This method was previously used to create a new dish or update an existing one.
-     * It is currently commented out.
+    /**
+     * Filters dishes based on the provided name, ingredient, and maximum price.
+     *
+     * @param name The name of the dish to filter by (optional).
+     * @param ingredient The ingredient to filter dishes by (optional).
+     * @param maxPrice The maximum price to filter dishes by (optional).
+     * @return A list of dishes that match the provided filters and are available.
      */
-    /*public void newDish(String name, String description, int price, String ingredients, boolean isVegan){
-        Dish dish = dishRepository.findTournamentByName(name);
-        if (dish!=null){
-            dish.setDescription(description);
-            dish.setPrice(price);
-            dishRepository.save(dish);
-        }else {
-            dishRepository.save(new Dish(name, description, price, ingredients, isVegan, null));
-        }
-    }*/
-
     public List<Dish> filterDishes(String name, String ingredient, Integer maxPrice) {
 
         List<Dish> dishesByName =  (name != null  && !name.isEmpty())
@@ -61,7 +53,11 @@ public class DishService {
             return dishesByIngredient;  // Final list
         }
     }
-
+    /**
+     * Retrieves all dishes from the repository.
+     *
+     * @return A list of all dishes.
+     */
     public List<Dish> findAll() {
         return dishRepository.findAll();
     }
@@ -114,20 +110,6 @@ public class DishService {
     public Page<Dish> findAllDishesByFilter(PageRequest pageRequest) {
         return dishRepository.findAll(pageRequest);
     }
-
-
-//    public List<Dish> findByName(String query) {
-//        return dishRepository.findDishByName(query);
-//    }
-
-//    public List<Dish> findByIngredient(String ingredient) {
-//        return dishRepository.findDishByIngredients(ingredient);
-//    }
-
-//    public List<Dish> findBymaxPrice(int maxPrice) {
-//        return dishRepository.findDishBymaxPrice(maxPrice);
-//    }
-
     /**
      * Searches for dishes by name, ignoring case.
      *

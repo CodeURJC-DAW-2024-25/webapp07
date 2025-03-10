@@ -51,11 +51,10 @@ public class DishesController {
 
         return "admin/manage-dishes";
     }
-
     /**
-     * Deletes a dish from the system.
+     * Marks a dish as unavailable.
      *
-     * @param id The ID of the dish to be deleted.
+     * @param id The ID of the dish to be marked as unavailable.
      * @return Redirects to the dish management page.
      */
     @PostMapping("/mark-unavailable-dish/{id}")
@@ -65,6 +64,12 @@ public class DishesController {
         dishService.save(dish.get());
         return "redirect:/admin/dishes";
     }
+    /**
+     * Marks a dish as available.
+     *
+     * @param id The ID of the dish to be marked as available.
+     * @return Redirects to the dish management page.
+     */
     @PostMapping("/mark-available-dish/{id}")
     public String markAvailable(@PathVariable Long id) {
         Optional<Dish> dish =  dishService.findById(id);

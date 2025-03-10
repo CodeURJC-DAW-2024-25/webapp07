@@ -37,7 +37,13 @@ public class OrderController {
 
     @Autowired
     private DishService dishService;
-
+    /**
+     * Displays the user's cart.
+     *
+     * @param model The model to pass attributes to the view.
+     * @param userDetails The details of the authenticated user.
+     * @return The view name for the cart page.
+     */
     @GetMapping("/cart")
     public String viewCart(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.findByUsername(userDetails.getUsername())
@@ -62,6 +68,12 @@ public class OrderController {
         return "cart";
     }
 
+    /**
+     * Clears the user's cart.
+     *
+     * @param userDetails The details of the authenticated user.
+     * @return Redirects to the cart page.
+     */
     @PostMapping("/cart/clear")
     public String clearCart(@AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.findByUsername(userDetails.getUsername())
@@ -76,7 +88,13 @@ public class OrderController {
         return "redirect:/orders/cart";
     }
 
-
+    /**
+     * Adds a dish to the user's cart.
+     *
+     * @param dishId The ID of the dish to be added to the cart.
+     * @param userDetails The details of the authenticated user.
+     * @return A map containing the success status and a message.
+     */
     @PostMapping("/cart/add")
     @ResponseBody
     public Map<String, Object> addToCart(@RequestParam Long dishId, @AuthenticationPrincipal UserDetails userDetails) {
@@ -100,6 +118,13 @@ public class OrderController {
         return response;
     }
 
+    /**
+     * Removes a dish from the user's cart.
+     *
+     * @param dishId The ID of the dish to be removed from the cart.
+     * @param userDetails The details of the authenticated user.
+     * @return Redirects to the cart page.
+     */
     @PostMapping("/cart/remove")
     public String removeFromCart(@RequestParam Long dishId, @AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.findByUsername(userDetails.getUsername())
@@ -114,9 +139,12 @@ public class OrderController {
         return "redirect:/orders/cart";
     }
 
-
-
-
+    /**
+     * Displays the pickup and delivery options page.
+     *
+     * @param model The model to pass attributes to the view.
+     * @return The view name for the pickup and delivery options page.
+     */
     @GetMapping("/orders/pickup-delivery-order")
     public String showPickupOption(Model model){
 
@@ -124,6 +152,12 @@ public class OrderController {
         return "pickup-delivery-order";
     }
 
+    /**
+     * Displays the order history for the authenticated user.
+     *
+     * @param model The model to pass attributes to the view.
+     * @return The view name for the user order history page, or redirects to the login page if the user is not authenticated.
+     */
     @GetMapping("/history")
     public String showUserOrderHistory(Model model) {
         Optional<User> userOpt = userService.getAuthenticatedUser();
@@ -143,6 +177,13 @@ public class OrderController {
         return "redirect:/login";
     }
 
+    /**
+     * Displays detailed information about a specific order.
+     *
+     * @param id The ID of the order to display more information about.
+     * @param model The model to pass attributes to the view.
+     * @return The view name for the order information page, or redirects to the error page if the order is not found.
+     */
     @GetMapping("/{id}/more-info")
     public String showOrderMoreInfo(@PathVariable Long id, Model model) {
         Optional<Order> orderOpt = orderService.getOrderById(id);
@@ -169,7 +210,14 @@ public class OrderController {
         }
     }
 
-
+    /**
+     * Displays the summary of a specific order.
+     *
+     * @param id The ID of the order to display the summary for.
+     * @param model The model to pass attributes to the view.
+     * @param userDetails The details of the authenticated user.
+     * @return The view name for the order summary page, or redirects to the error page if the order is not found.
+     */
     @GetMapping("/{id}/summary")
     public String showOrderSummary(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Optional<Order> orderOpt = orderService.getOrderById(id);
@@ -200,6 +248,13 @@ public class OrderController {
         }
     }
 
+    /**
+     * Displays the confirmation page for a specific order.
+     *
+     * @param id The ID of the order to display the confirmation for.
+     * @param model The model to pass attributes to the view.
+     * @return The view name for the order confirmation page, or redirects to the error page if the order is not found.
+     */
     @GetMapping("/{id}/confirmation")
     public String showOrderConfirmation(@PathVariable Long id, Model model) {
         Optional<Order> orderOpt = orderService.getOrderById(id);
@@ -213,6 +268,13 @@ public class OrderController {
         }
     }
 
+    /**
+     * Processes the payment for a specific order.
+     *
+     * @param id The ID of the order to be paid.
+     * @param model The model to pass attributes to the view.
+     * @return Redirects to the success page for the order if payment is successful, or redirects to the error page if the order is not found.
+     */
     @PostMapping("/{id}/pay")
     public String payOrder(@PathVariable Long id, Model model) {
         Optional<Order> orderOpt = orderService.getOrderById(id);
@@ -228,8 +290,13 @@ public class OrderController {
         }
     }
 
-
-
+    /**
+     * Displays the success page for a specific order.
+     *
+     * @param id The ID of the order to display the success page for.
+     * @param model The model to pass attributes to the view.
+     * @return The view name for the order success page, or redirects to the error page if the order is not found.
+     */
     @GetMapping("/{id}/success")
     public String orderSuccess(@PathVariable Long id, Model model) {
         Optional<Order> orderOpt = orderService.getOrderById(id);
@@ -243,7 +310,17 @@ public class OrderController {
         }
     }
 
-
+    /**
+     * Updates the details of a specific order.
+     *
+     * @param orderId The ID of the order to be updated.
+     * @param address The new address for the order (optional).
+     * @param status The new status for the order (optional).
+     * @param totalPrice The new total price for the order (optional).
+     * @param userDetails The details of the authenticated user.
+     * @return Redirects to the confirmation page for the updated order.
+     * @throws RuntimeException If the user or order is not found, or if the user is unauthorized to update the order.
+     */
     @PostMapping("/update")
     public String updateOrder(@RequestParam Long orderId,
                               @RequestParam(required = false) String address,
@@ -276,6 +353,13 @@ public class OrderController {
         return "redirect:/orders/"+ orderId +"/confirmation";
     }
 
+    /**
+     * Generates and downloads a PDF invoice for a specific order.
+     *
+     * @param id The ID of the order to generate the invoice for.
+     * @param response The HTTP response to write the PDF to.
+     * @throws IOException If an input or output exception occurs.
+     */
     @GetMapping("/{id}/invoice")
     public void downloadInvoice(@PathVariable Long id, HttpServletResponse response) throws IOException {
         Optional<Order> orderOpt = orderService.getOrderById(id);

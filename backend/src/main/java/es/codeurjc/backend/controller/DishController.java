@@ -72,12 +72,9 @@ public class DishController {
                 dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
             }
         }
-
         model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
-
         model.addAttribute("pageTitle", "Menu");
         model.addAttribute("menuActive", true);
-
         return "menu";
     }
 
@@ -103,7 +100,6 @@ public class DishController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean isAuthenticated = auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal());
 
-
         System.out.println("NAME: "+ name + "INGREDIENT: " + ingredient + "MAXPRICE: " + maxPrice);
 
         List<Dish> filteredDishes = dishService.filterDishes(name, ingredient, maxPrice);
@@ -113,8 +109,6 @@ public class DishController {
             System.out.println("NOMBRE:" + dish.getName() + " PRECIO:" + dish.getPrice());
         }
 
-
-        // Paginar la lista filtrada manualmente
         int fromIndex = page * pageSize;
         int toIndex = Math.min(fromIndex + pageSize, filteredDishes.size());
 
@@ -159,22 +153,17 @@ public class DishController {
             model.addAttribute("stars", starList);
             model.addAttribute("noStars", noStarList);
 
-
             List<String> formattedIngredients = dish.get().getIngredients().stream()
                     .map(ing -> ing.substring(0, 1).toUpperCase() + ing.substring(1).toLowerCase())
                     .toList();
 
             model.addAttribute("ingredients", formattedIngredients);
-
             model.addAttribute("dish", dish.get());
-
             model.addAttribute("pageTitle", "Dish info");
             model.addAttribute("menuActive", true);
-
             model.addAttribute("modalId", "confirmationModal");
             model.addAttribute("confirmButtonId", "confirmAction");
             model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
-
             return "dish-information";
         } else {
             return "menu";
@@ -238,7 +227,6 @@ public class DishController {
         dish.setAvailable(false);
         dishService.save(dish);
         redirectAttributes.addFlashAttribute("message", "Plato deshabilitado con éxito");
-
         return "redirect:/menu";
     }
 
@@ -349,7 +337,14 @@ public class DishController {
         model.addAttribute("pageTitle", "Saved Changes");
         return "dish-form";
     }
-
+    /**
+     * Saves the rating for a dish.
+     *
+     * @param rating The rating to be saved for the dish.
+     * @param id The ID of the dish to be rated (optional).
+     * @param redirectAttributes Attributes for flash messages to be passed to the view.
+     * @return Redirects to the menu page of the rated dish.
+     */
     @PostMapping("/menu/{id}/save-dish-rate")
     public String saveDishRate(@RequestParam("rating") int rating, @PathVariable(required = false) Long id, RedirectAttributes redirectAttributes) {
         Optional<Dish> dish =dishService.findById(id);
