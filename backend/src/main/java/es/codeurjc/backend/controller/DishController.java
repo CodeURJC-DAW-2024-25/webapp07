@@ -297,11 +297,8 @@ public class DishController {
      * @return Redirects to the menu or dish form.
      * @throws IOException If an image processing error occurs.
      */
-    @PostMapping({"/menu/admin/new-dish/save", "/menu/{id}/admin/edit-dish/save"})
-    public String editDishProcess(Model model, Optional<Dish> dish, String ingredients, String action, @RequestParam(required = false) MultipartFile imageField, @RequestParam(required = false) List<Allergens> selectedAllergens, boolean vegan) throws IOException {
-        if (dish.isPresent()){
-            dish = dishService.findById(dish.get().getId());
-        }
+    @PostMapping({"/menu/admin/new-dish/save"})
+    public String addDishProcess(Model model, Optional<Dish> dish, String ingredients, String action, @RequestParam(required = false) MultipartFile imageField, @RequestParam(required = false) List<Allergens> selectedAllergens, boolean vegan) throws IOException {
 
         List<String> ingredientsList = Arrays.stream(ingredients.toLowerCase().split(","))
                 .map(String::trim)
@@ -315,10 +312,60 @@ public class DishController {
         if (imageField != null && !imageField.isEmpty()) {
             dish.get().setDishImagefile(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
             dish.get().setImage(true);
-        } else if (dish.get().getImage()){
-            dish.get().setDishImagefile(dish.get().getDishImagefile());
+        }
+
+        model.addAttribute("dishId", dish.get().getId());
+
+        String formAction = (dish.get().getId() != null) ? "/menu/" + dish.get().getId() + "/admin/edit-dish" : "/menu/admin/new-dish";
+        model.addAttribute("formAction", formAction);
+
+        if ("save".equals(action)) {
+            dishService.save(dish.orElse(null));
+            return "redirect:/menu/" + dish.get().getId();
+        }
+
+        model.addAttribute("modalId", "confirmationModal");
+        model.addAttribute("confirmButtonId", "confirmAction");
+        model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
+
+        model.addAttribute("pageTitle", "Saved Changes");
+        return "dish-form";
+    }
+    @PostMapping({ "/menu/{id}/admin/edit-dish/save"})
+    public String editDishProcess(Model model, Optional<Dish> dish, String ingredients, String action, @RequestParam(required = false) MultipartFile imageField, @RequestParam(required = false) List<Allergens> selectedAllergens, boolean vegan) throws IOException {
+
+        Optional<Dish> originDish = dishService.findById(dish.get().getId());
+
+        List<String> ingredientsList = Arrays.stream(ingredients.toLowerCase().split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
+        dish.get().setIngredients(ingredientsList);
+
+        if (selectedAllergens != null){
+            dish.get().setAllergens(selectedAllergens);
+        } else {
+            dish.get().setAllergens(originDish.get().getAllergens());
+        }
+
+        if (vegan == originDish.get().isVegan()){
+            dish.get().setVegan(vegan);
+        } else {
+            dish.get().setAllergens(originDish.get().getAllergens());
+        }
+
+
+
+        if (imageField != null && !imageField.isEmpty()) {
+            dish.get().setDishImagefile(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
+            dish.get().setImage(true);
+        } else {
+            dish.get().setDishImagefile(originDish.get().getDishImagefile());
             dish.get().setImage(true);
         }
+
+        dish.get().setRates(originDish.get().getRates());
+        dish.get().setAvailable(originDish.get().isAvailable());
 
         model.addAttribute("dishId", dish.get().getId());
 
