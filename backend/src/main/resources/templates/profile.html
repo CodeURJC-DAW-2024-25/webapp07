@@ -45,11 +45,11 @@
                 </table>
 
                 <div class="breadcrumb">
-                    <a class="btn btn-primary py-3 px-5 mt-2" href="/profile?edit=true">Edit</a>
-                    <a class="btn btn-primary py-3 px-5 mt-2" href="/orders/history">My Orders</a>
+                    <a class="btn btn-primary py-3 px-4 mt-2 me-2" href="/profile?edit=true">Edit</a>
+                    <a class="btn btn-primary py-3 px-4 mt-2 me-2" href="/orders/history">My Orders</a>
                     <form id="logoutForm" action="/logout" method="post">
                         <input type="hidden" name="_csrf" value="{{token}}">
-                        <button type="submit" class="btn btn-danger py-3 px-5 mt-2">Logout</button>
+                        <button type="submit" class="btn btn-danger py-3 px-4 mt-2">Logout</button>
                     </form>
                 </div>
                 {{/editMode}}
