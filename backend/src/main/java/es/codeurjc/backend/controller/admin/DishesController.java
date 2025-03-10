@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Controller for managing dishes in the admin panel.
@@ -57,9 +58,18 @@ public class DishesController {
      * @param id The ID of the dish to be deleted.
      * @return Redirects to the dish management page.
      */
-    @PostMapping("/delete/{id}")
-    public String deleteDish(@PathVariable Long id) {
-        dishService.deleteById(id);
+    @PostMapping("/mark-unavailable-dish/{id}")
+    public String markUnavailable(@PathVariable Long id) {
+        Optional<Dish> dish =  dishService.findById(id);
+        dish.get().setAvailable(false);
+        dishService.save(dish.get());
+        return "redirect:/admin/dishes";
+    }
+    @PostMapping("/mark-available-dish/{id}")
+    public String markAvailable(@PathVariable Long id) {
+        Optional<Dish> dish =  dishService.findById(id);
+        dish.get().setAvailable(true);
+        dishService.save(dish.get());
         return "redirect:/admin/dishes";
     }
 }

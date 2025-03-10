@@ -76,10 +76,7 @@
                                 <input type="hidden" name="_csrf" value="{{token}}">
                                 <button type="button" class="btn btn-danger" onclick="openConfirmationModal('markUnavailableForm{{id}}')">Mark as Unavailable</button>
                             </form>
-                            <form id="deleteForm{{id}}" action="/menu/{{id}}/admin/remove-dish" method="post">
-                                <input type="hidden" name="_csrf" value="{{token}}">
-                                <button type="button" class="btn btn-danger" onclick="openConfirmationModal('deleteForm{{id}}')">Delete Dish</button>
-                            </form>
+
                             {{/isAdmin}}
                         </div>
                     </div>

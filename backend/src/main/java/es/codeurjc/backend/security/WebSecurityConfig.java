@@ -77,7 +77,6 @@ public class WebSecurityConfig {
                         // Admin-restricted pages
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
-
                         .requestMatchers(HttpMethod.GET, "/menu/admin/new-dish").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/menu/{id}/admin/edit-dish").hasAnyRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/menu/admin/new-dish/save").hasAnyRole("ADMIN")
