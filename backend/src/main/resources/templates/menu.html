@@ -37,7 +37,7 @@
                                 <form id="addToCartForm-{{id}}" action="/orders/cart/add" method="post" class="addToCartForm">
                                     <input type="hidden" name="_csrf" value="{{token}}">
                                     <input type="hidden" name="dishId" value="{{id}}" />
-                                    <button type="button" class="btn btn-primary btn-sm m-2 p-2 addToCartButton" data-id="{{id}}">
+                                    <button type="button" class="btn btn-primary btn-sm m-2 p-2" data-id="{{id}}">
                                         <i class="fa fa-shopping-cart"></i> Add To Cart
                                     </button>
                                 </form>

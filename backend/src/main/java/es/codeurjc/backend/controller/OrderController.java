@@ -135,7 +135,14 @@ public class OrderController {
         Order cart = orderService.findCartByUser(user.getId())
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
 
-        cart.getDishes().removeIf(dish -> dish.getId().equals(dishId));
+        List<Dish> dishes = cart.getDishes();
+        for (int i = 0; i < dishes.size(); i++) {
+            if (dishes.get(i).getId().equals(dishId)) {
+                dishes.remove(i);
+                break;
+            }
+        }
+        
         orderService.saveOrder(cart);
 
         return "redirect:/orders/cart";
