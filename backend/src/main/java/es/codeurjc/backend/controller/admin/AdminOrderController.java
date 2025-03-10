@@ -26,6 +26,11 @@ public class AdminOrderController {
         List<Order> orders = orderService.getAllOrders();
         model.addAttribute("orders", orders);
         model.addAttribute("hasOrders", !orders.isEmpty());
+
+        model.addAttribute("modalId", "confirmationModal");
+        model.addAttribute("confirmButtonId", "confirmAction");
+        model.addAttribute("modalMessage", "Are you sure you want to proceed with this action?");
+
         return "admin/manage-orders";
     }
 
