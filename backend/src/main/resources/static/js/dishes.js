@@ -61,7 +61,7 @@ $(document).ready(function () {
                                     </button>
                                </form>
                                <div id="cartMessage-${dish.id}" class="alert alert-success d-none mt-2" role="alert">
-                                    Added successfully✔
+                                    Added successfully
                                </div>`
                             : "";
 
