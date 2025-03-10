@@ -1,5 +1,7 @@
 package es.codeurjc.backend.controller;
 
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
 import es.codeurjc.backend.model.Dish;
@@ -381,20 +383,46 @@ public class OrderController {
         PdfWriter writer = new PdfWriter(response.getOutputStream());
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc);
+        document.setMargins(20, 20, 20, 20);
+
+        // "Voltereta Croqueta"
+        Paragraph header = new Paragraph("Voltereta Croqueta")
+                .setTextAlignment(TextAlignment.CENTER)
+                .setBackgroundColor(new DeviceRgb(15, 23, 43))
+                .setFontColor(new DeviceRgb(254, 161, 22))
+                .setFontSize(32)
+                .setBold()
+                .setMarginTop(0)
+                .setMarginLeft(0)
+                .setMarginRight(0)
+                .setMarginBottom(20);
+        document.add(header);
+        document.add(new Paragraph(" ").setFontSize(8)); // Space
 
         // Agregar título
-        Paragraph title = new Paragraph("Invoice #" + order.getId())
+        Paragraph title = new Paragraph("Order Nº: " + order.getId())
                 .setTextAlignment(TextAlignment.CENTER)
                 .setBold()
                 .setFontSize(20);
         document.add(title);
         document.add(new Paragraph(" ").setFontSize(8)); // Espacio
 
-        // Agregar dirección
-        document.add(new Paragraph("Address: " + order.getAddress())
-                .setFontSize(12)
-                .setTextAlignment(TextAlignment.LEFT));
-        document.add(new Paragraph(" ").setFontSize(8)); // Espacio
+        // Add user information table
+        String userName = order.getUser().getUsername();
+        Optional<User> userOpt = userService.findByUsername(userName);
+        User user = userOpt.get();
+        Table userTable = new Table(new float[]{2, 4})
+                .useAllAvailableWidth()
+                .setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+        userTable.addCell(new Cell().add(new Paragraph("Name:").setBold()));
+        userTable.addCell(new Cell().add(new Paragraph(user.getFirstName() + " " + user.getLastName())));
+
+        userTable.addCell(new Cell().add(new Paragraph("Address:").setBold()));
+        userTable.addCell(new Cell().add(new Paragraph(order.getAddress())));
+
+        document.add(userTable);
+        document.add(new Paragraph(" ").setFontSize(8)); // Space
 
         // Tabla de pedidos
         Table table = new Table(new float[]{4, 2})
@@ -432,9 +460,15 @@ public class OrderController {
 
         document.add(summaryTable);
 
+        //footer
+        Paragraph footer = new Paragraph("© 2025 Voltereta Croqueta. All rights reserved.\nCalle Gran Vía 10 Madrid\nVoltereta Croqueta")
+                .setTextAlignment(TextAlignment.JUSTIFIED)
+                .setFontSize(10);
+        document.add(new Paragraph(" ").setFontSize(8)); // Space
+        document.add(footer);
+
         // Cerrar documento
         document.close();
+
     }
-
-
 }
