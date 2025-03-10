@@ -412,7 +412,7 @@ ___
 
 The diagram is a flow chart showing user permissions and navigation steps within a web interface. The diagram uses colored arrows to indicate the progression from one web page or state to another, based on user actions or permissions.
 
-![*New Flow Diagram*](readmeImg/FlowDiagram-Phase2.PNG)
+![*New Flow Diagram*](readmeImg/FlowDiagram-Phase2.png)
 # :rocket: Execution Instructions
 
 ##  Steps
@@ -457,10 +457,10 @@ The diagram is a flow chart showing user permissions and navigation steps within
 Next, a diagram will be included depicting the entities within the database, their respective fields, and the relationships among them.
 
 
-![*Database*](readmeImg/database.jpg)
+![*Database*](readmeImg/bbdd_diagram.jpg)
 
 # :art: Class diagram and templates
-![*templateDiagram*](readmeImg/templateDiagram.JPG)
+![*templateDiagram*](readmeImg/classDiagram.PNG)
 ---
 # :raised_hand: Participation
 
