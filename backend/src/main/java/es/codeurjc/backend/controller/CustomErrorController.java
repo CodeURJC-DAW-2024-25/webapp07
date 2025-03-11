@@ -7,9 +7,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * Custom error controller to handle different HTTP error statuses.
+ * Displays user-friendly error messages based on the error code.
+ */
 @Controller
 public class CustomErrorController implements ErrorController {
 
+    /**
+     * Handles errors and displays an appropriate error page.
+     * Supports specific handling for 404 (Not Found) and 403 (Forbidden) errors.
+     *
+     * @param request The HTTP request containing error details.
+     * @param model   The model to pass attributes to the view.
+     * @return The view name for the error page.
+     */
     @GetMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);

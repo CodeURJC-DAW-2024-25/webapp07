@@ -12,12 +12,23 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ * Controller for handling restaurant-related operations.
+ * Provides functionality to list and search for restaurants.
+ */
 @Controller
 public class RestaurantController {
 
     @Autowired
     private RestaurantService restaurantService;
 
+    /**
+     * Displays a list of restaurants, optionally filtered by a search query.
+     *
+     * @param query The optional search query to filter restaurants by location.
+     * @param model The model to pass attributes to the view.
+     * @return The view name for displaying the restaurant list.
+     */
     @GetMapping("/restaurants")
     public String showRestaurants(@RequestParam(value = "query", required = false) String query, Model model) {
         if (query != null && !query.isEmpty()) {
