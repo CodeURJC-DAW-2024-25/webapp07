@@ -582,3 +582,29 @@ Next, a diagram will be included depicting the entities within the database, the
 | 3º  |      [Add: Delete order as Admin](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/870e86495948e0ee9fa24915fa667d7c8f96b4c5)      | | 3º |             [AdminOrderController.java](backend/src/main/java/es/codeurjc/backend/controller/admin/AdminOrderController.java)              |
 | 4º  |      [Add: Edit Order as Admin](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/2739e781cd88f934494391a0299913992ee7ac31)      | | 4º |                           [AdminOrderController.java](backend/src/main/java/es/codeurjc/backend/controller/admin/AdminOrderController.java)|
 | 5º  | [Add: Order summary pay button and confirm page](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/13fd26bae5554d4e254992baaa8c09c7766d5e58) | | 5º | [OrderController.java](backend/src/main/java/es/codeurjc/backend/controller/OrderController.java) |
+
+#### Jesús López Esquinas
+
+* Constantly reviewed the application's status across all its sections.
+* Fixed various types of issues throughout the application (styling, naming, links & functions).
+* Added the HTTPS protocol with its respective certificate.
+* Implemented the anti-CSRF verification system and introduced token renewal in all necessary places.
+* Fixed the CustomErrorController system.
+* Added differentiation between different types of errors (this change is reflected on the error page).
+* Improved web security for proper flow and permission handling.
+* Implemented the Restaurant Availability system (both page and controller).
+* Added RestaurantController
+* Redesigned the restaurant page and added a search system.
+* Created the administrator Dashboard system, which includes the chart and future charts to be developed.
+* Enhanced user data privacy by preventing others from accessing confidential information.
+* Fixed the GET and POST system for all Order-related methods to ensure proper functionality.
+
+
+| #  |                                                                     Commit                                                                     |     | #   |                                                                                              File                                                                                               |
+|:--:|:----------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º |        [Update: User Orders Privacy](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/0ac0319842995b913ca48f7de54a9bc66182ae4a)         | | 5º |                  [OrderController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/OrderController.java)                   |
+| 2º |       [Add: Dashboard page and logic](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/d398d23a916d417556f4676ef194ccb54fea0c61)        | | 1º |           [DashboardController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/admin/DashboardController.java)            |
+| 3º |       [Update: CustomErrorController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/64354bdf7d231bad0f47fd80da72736bf01711a3)        | |2º |            [CustomErrorController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/CustomErrorController.java)             
+| 4º |   [Add: RestaurantAvailabilityController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/1cc77b0ac47a49e832ba47552ad28fc255bf0f35)    | | 3º | [RestaurantAvailabilityController](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/admin/RestaurantAvailabilityController.java) |
+| 5º | [Add: RestaurantController + findByLocation](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/d1826816b8be1dbb1598680f48a8a0d9e0e3db5f) | | 4º |             [RestaurantController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/RestaurantController.java)              |
+
