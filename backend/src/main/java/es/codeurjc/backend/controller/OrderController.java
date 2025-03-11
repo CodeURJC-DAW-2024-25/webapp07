@@ -12,6 +12,7 @@ import es.codeurjc.backend.service.OrderService;
 import es.codeurjc.backend.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.*;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.io.IOException;
 import java.util.*;
 import java.io.IOException;
@@ -194,29 +197,33 @@ public class OrderController {
      * @return The view name for the order information page, or redirects to the error page if the order is not found.
      */
     @GetMapping("/{id}/more-info")
-    public String showOrderMoreInfo(@PathVariable Long id, Model model) {
-        Optional<Order> orderOpt = orderService.getOrderById(id);
+    public String showOrderMoreInfo(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Order order = orderService.getOrderById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        if (orderOpt.isPresent()) {
-            Order order = orderOpt.get();
-
-            double deliveryCost = 4.99;
-            double totalPrice = order.getTotalPrice();
-            double finalPrice = totalPrice + deliveryCost;
-
-            model.addAttribute("id", order.getId());
-            model.addAttribute("dishes", order.getDishes());
-            model.addAttribute("totalPrice", totalPrice);
-            model.addAttribute("deliveryCost", deliveryCost);
-            model.addAttribute("finalPrice", finalPrice);
-            model.addAttribute("address", order.getAddress());
-
-            model.addAttribute("pageTitle", "Order information");
-
-            return "order-more-info";
-        } else {
-            return "redirect:/error404";
+        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
+
+        if (!"Paid".equals(order.getStatus())) {
+            return "redirect:/orders/" + id + "/summary";
+        }
+
+        double deliveryCost = 4.99;
+        double totalPrice = order.getTotalPrice();
+        double finalPrice = Math.round((totalPrice + deliveryCost) * 100.0) / 100.0;
+
+        model.addAttribute("id", order.getId());
+        model.addAttribute("dishes", order.getDishes());
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("deliveryCost", deliveryCost);
+        model.addAttribute("finalPrice", finalPrice);
+        model.addAttribute("address", order.getAddress());
+
+        model.addAttribute("pageTitle", "Order information");
+
+        return "order-more-info";
+
     }
 
     /**
@@ -229,32 +236,35 @@ public class OrderController {
      */
     @GetMapping("/{id}/summary")
     public String showOrderSummary(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        Optional<Order> orderOpt = orderService.getOrderById(id);
+        Order order = orderService.getOrderById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        if ("Paid".equals(order.getStatus())) {
+            return "redirect:/orders/" + id + "/more-info";
+        }
 
         User user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (orderOpt.isPresent()) {
-            Order order = orderOpt.get();
+        double deliveryCost = 4.99;
+        double totalPrice = order.getTotalPrice();
+        double finalPrice = Math.round((totalPrice + deliveryCost) * 100.0) / 100.0;
 
-            double deliveryCost = 4.99;
-            double totalPrice = order.getTotalPrice();
-            double finalPrice = Math.round((totalPrice + deliveryCost) * 100.0) / 100.0;
+        // transfer the data to the view
+        model.addAttribute("id", order.getId());
+        model.addAttribute("dishes", order.getDishes());
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("deliveryCost", deliveryCost);
+        model.addAttribute("finalPrice", finalPrice);
+        model.addAttribute("address", order.getAddress());
 
-            // transfer the data to the view
-            model.addAttribute("id", order.getId());
-            model.addAttribute("dishes", order.getDishes());
-            model.addAttribute("totalPrice", totalPrice);
-            model.addAttribute("deliveryCost", deliveryCost);
-            model.addAttribute("finalPrice", finalPrice);
-            model.addAttribute("address", order.getAddress());
-
-            model.addAttribute("pageTitle", " Order summary" );
-            model.addAttribute("user", user);
-            return "order-summary"; // show mustache
-        } else {
-            return "redirect:/error 404";
-        }
+        model.addAttribute("pageTitle", " Order summary" );
+        model.addAttribute("user", user);
+        return "order-summary"; // show mustache
     }
 
     /**
@@ -265,15 +275,41 @@ public class OrderController {
      * @return The view name for the order confirmation page, or redirects to the error page if the order is not found.
      */
     @GetMapping("/{id}/confirmation")
-    public String showOrderConfirmation(@PathVariable Long id, Model model) {
+    public String showOrderConfirmation(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Optional<Order> orderOpt = orderService.getOrderById(id);
 
+        Order order = orderService.getOrderById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        if ("Paid".equals(order.getStatus())) {
+            return "redirect:/orders/" + id + "/more-info";
+        }
+
         if (orderOpt.isPresent()) {
-            Order order = orderOpt.get();
             model.addAttribute("order", order);
             return "order-confirmation";
         } else {
-            return "redirect:/error404";
+            return "redirect:/error";
+        }
+    }
+
+    @GetMapping("/{id}/pay")
+    public String showPayPage(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Order order = orderService.getOrderById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
+        if ("Paid".equals(order.getStatus())) {
+            return "redirect:/orders/" + id + "/more-info";
+        } else {
+            return "redirect:/orders/" + id + "/summary";
         }
     }
 
@@ -295,7 +331,7 @@ public class OrderController {
             model.addAttribute("order", order);
             return "redirect:/orders/" + id + "/success";
         } else {
-            return "redirect:/error404";
+            return "redirect:/error";
         }
     }
 
@@ -307,15 +343,21 @@ public class OrderController {
      * @return The view name for the order success page, or redirects to the error page if the order is not found.
      */
     @GetMapping("/{id}/success")
-    public String orderSuccess(@PathVariable Long id, Model model) {
+    public String orderSuccess(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Optional<Order> orderOpt = orderService.getOrderById(id);
 
+        Order order = orderService.getOrderById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         if (orderOpt.isPresent()) {
-            Order order = orderOpt.get();
             model.addAttribute("order", order);
             return "order-success";
         } else {
-            return "redirect:/error404";
+            return "redirect:/error";
         }
     }
 
@@ -370,7 +412,7 @@ public class OrderController {
      * @throws IOException If an input or output exception occurs.
      */
     @GetMapping("/{id}/invoice")
-    public void downloadInvoice(@PathVariable Long id, HttpServletResponse response) throws IOException {
+    public void downloadInvoice(@PathVariable Long id, HttpServletResponse response, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
         Optional<Order> orderOpt = orderService.getOrderById(id);
 
         if (orderOpt.isEmpty()) {
@@ -379,6 +421,12 @@ public class OrderController {
         }
 
         Order order = orderOpt.get();
+
+        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "You are not authorized to view this invoice");
+            return;
+        }
+
         double deliveryCost = 4.99;
         double finalPrice = order.getTotalPrice() + deliveryCost;
 
