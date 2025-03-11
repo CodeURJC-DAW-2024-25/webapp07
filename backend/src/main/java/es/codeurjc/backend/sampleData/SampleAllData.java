@@ -80,7 +80,7 @@ public class SampleAllData {
                 "Croquetas de jamón",
                 "Croquetas caseras de nuestra cocinera. Preparadas con el ingrediente secreto de la casa",
                 8,
-                Arrays.asList("Leche", "harina", "pan rallado", "jamón", "huevo"),
+                Arrays.asList("leche", "harina", "pan rallado", "jamón", "huevo"),
                 true,
                 "https://th.bing.com/th/id/OIP.hVsuwAU-55Z_Qk649qroVAHaE4?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.GLUTEN, Allergens.EGGS, Allergens.DAIRY, Allergens.ALTRAMUZ),true, List.of(3, 2, 2, 2, 1, 2, 2, 2, 4, 1), 0
@@ -92,7 +92,7 @@ public class SampleAllData {
                 "Tortilla Española",
                 "Tortilla de patatas tradicional con cebolla caramelizada",
                 6,
-                Arrays.asList("Patatas", "huevos", "cebolla", "aceite de oliva", "sal"),
+                Arrays.asList("patata", "huevo", "cebolla", "aceite de oliva", "sal"),
                 true,
                 "https://th.bing.com/th/id/OIP.m6-FnJ8zbiBuhoqBAsQZbwAAAA?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.EGGS),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
@@ -104,7 +104,7 @@ public class SampleAllData {
                 "Paella de Mariscos",
                 "Paella tradicional con una mezcla de mariscos frescos",
                 15,
-                Arrays.asList("Arroz", "mariscos", "caldo de pescado", "azafrán", "pimientos"),
+                Arrays.asList("arroz", "marisco", "caldo de pescado", "azafrán", "pimiento"),
                 false,
                 "https://recetinas.com/wp-content/uploads/2022/06/paella-de-marisco.jpg",true,
                 List.of(Allergens.FISH),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
@@ -116,7 +116,7 @@ public class SampleAllData {
                 "Gazpacho",
                 "Sopa fría de tomate y vegetales frescos",
                 5,
-                Arrays.asList("Tomates", "pepino", "pimiento", "ajo", "aceite de oliva", "vinagre"),
+                Arrays.asList("tomate", "pepino", "pimiento", "ajo", "aceite de oliva", "vinagre"),
                 true,
                 "https://animalgourmet.com/wp-content/uploads/2023/05/Gazpacho3-scaled.jpeg",true,
                 List.of(Allergens.NONE),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
@@ -128,7 +128,7 @@ public class SampleAllData {
                 "Pulpo a la Gallega",
                 "Pulpo cocido con pimentón y aceite de oliva",
                 12,
-                Arrays.asList("Pulpo", "patatas", "pimentón", "aceite de oliva", "sal"),
+                Arrays.asList("Pulpo", "patata", "pimentón", "aceite de oliva", "sal"),
                 false,
                 "https://th.bing.com/th/id/OIP.DV3DDF4KJ4pofQ061akwwgHaE7?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.FISH),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
@@ -140,7 +140,7 @@ public class SampleAllData {
                 "Ensalada Mixta",
                 "Ensalada fresca con una variedad de vegetales",
                 7,
-                Arrays.asList("Lechuga", "tomate", "cebolla", "aceitunas", "atún", "huevo"),
+                Arrays.asList("lechuga", "tomate", "cebolla", "aceituna", "atún", "huevo"),
                 true,
                 "https://th.bing.com/th/id/R.fb84e8df3891046bc50627f9147d7a73?rik=LMk7IexCc%2bZ3UQ&pid=ImgRaw&r=0",true,
                 List.of(Allergens.FISH, Allergens.EGGS),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
@@ -152,7 +152,7 @@ public class SampleAllData {
                 "Calamares Fritos",
                 "Calamares rebozados y fritos, servidos con limón",
                 10,
-                Arrays.asList("Calamares", "harina", "aceite de oliva", "limón", "sal"),
+                Arrays.asList("calamar", "harina", "aceite de oliva", "limón", "sal"),
                 false,
                 "https://content-cocina.lecturas.com/medio/2022/05/15/calamares_12ab6b0e_1200x1200.jpg",true,
                 List.of(Allergens.FISH, Allergens.GLUTEN),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
@@ -164,7 +164,7 @@ public class SampleAllData {
                 "Albóndigas",
                 "Albóndigas de carne en salsa de tomate",
                 9,
-                Arrays.asList("Carne picada", "pan rallado", "huevo", "tomate", "cebolla", "ajo"),
+                Arrays.asList("carne picada", "pan rallado", "huevo", "tomate", "cebolla", "ajo"),
                 false,
                 "https://th.bing.com/th/id/OIP.ybJY43zS0AwqOuguVREnQgHaE8?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.GLUTEN, Allergens.EGGS),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
@@ -176,7 +176,7 @@ public class SampleAllData {
                 "Pimientos de Padrón",
                 "Pimientos fritos con sal gruesa",
                 5,
-                Arrays.asList("Pimientos de Padrón", "aceite de oliva", "sal"),
+                Arrays.asList("pimiento de padrón", "aceite de oliva", "sal"),
                 true,
                 "https://th.bing.com/th/id/R.d0cc3cbb524003be3398c5cca6cde047?rik=cSfcMlUmM2XdUg&pid=ImgRaw&r=0",true,
                 List.of(Allergens.NONE),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
@@ -188,7 +188,7 @@ public class SampleAllData {
                 "Chorizo a la Sidra",
                 "Chorizo cocido en sidra asturiana",
                 8,
-                Arrays.asList("Chorizo", "sidra", "laurel"),
+                Arrays.asList("chorizo", "sidra", "laurel"),
                 false,
                 "https://th.bing.com/th/id/R.d3ed939910203c3ab7657b0290070db0?rik=YXRr8oRIRWSpAA&pid=ImgRaw&r=0",true,
                 List.of(Allergens.NONE),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
@@ -200,7 +200,7 @@ public class SampleAllData {
                 "Patatas Bravas",
                 "Patatas fritas con salsa brava picante",
                 6,
-                Arrays.asList("Patatas", "tomate", "pimentón", "ajo", "aceite de oliva"),
+                Arrays.asList("patata", "tomate", "pimentón", "ajo", "aceite de oliva"),
                 true,
                 "https://th.bing.com/th/id/OIP.2c6Gy8jW9Vp8qzdqiln8WwHaE8?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.NONE),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
@@ -212,7 +212,7 @@ public class SampleAllData {
                 "Fabada Asturiana",
                 "Guiso de fabes con chorizo y morcilla",
                 14,
-                Arrays.asList("Fabes", "chorizo", "morcilla", "panceta", "laurel"),
+                Arrays.asList("fabes", "chorizo", "morcilla", "panceta", "laurel"),
                 false,
                 "https://th.bing.com/th/id/OIP.zizD368b0P6bLEnUtGYY6gHaFj?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.NONE),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
@@ -224,7 +224,7 @@ public class SampleAllData {
                 "Bacalao a la Vizcaína",
                 "Bacalao en salsa de pimientos y tomate",
                 13,
-                Arrays.asList("Bacalao", "pimientos", "tomate", "cebolla", "ajo"),
+                Arrays.asList("bacalao", "pimiento", "tomate", "cebolla", "ajo"),
                 false,
                 "https://th.bing.com/th/id/OIP.zajHKCzQXbM5TJcuYvTFeAHaFj?rs=1&pid=ImgDetMain",true,
                 List.of(Allergens.FISH),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
@@ -234,7 +234,7 @@ public class SampleAllData {
 
         Dish empanadaGallega = new Dish(
                 "Empanada Gallega","Empanada rellena de atún y pimientos",7,
-                Arrays.asList("Harina", "atún", "pimientos", "cebolla", "tomate"),
+                Arrays.asList("harina", "atún", "pimiento", "cebolla", "tomate"),
                 true,"https://th.bing.com/th/id/R.252c45b238d61ac2e6910011a51299b2?rik=IE7cr2Mv4SpotQ&riu=http%3a%2f%2fwww.galiciatips.com%2fnl%2ffiles%2f2019%2f12%2fempanada-tonijn.jpg&ehk=Mm7LyQByYU785%2bHZ1TZefcy8h5rxV3O1fO7S60r%2bn34%3d&risl=&pid=ImgRaw&r=0", true,
                 List.of(Allergens.FISH),true, List.of(3, 4, 5, 3, 1, 3, 2, 4, 4, 5), 0
         );

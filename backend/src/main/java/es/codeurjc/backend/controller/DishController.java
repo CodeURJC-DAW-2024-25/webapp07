@@ -222,10 +222,10 @@ public class DishController {
      * @return Redirects to the menu page.
      */
     @PostMapping("/menu/{id}/admin/mark-unavailable-dish")
-    public String markUnavailableDish(Model model,Dish dish, @PathVariable long id, RedirectAttributes redirectAttributes) {
-
-        dish.setAvailable(false);
-        dishService.save(dish);
+    public String markUnavailableDish(Model model, @PathVariable long id, RedirectAttributes redirectAttributes) {
+        Optional<Dish> dish = dishService.findById(id);
+        dish.get().setAvailable(false);
+        dishService.save(dish.get());
         redirectAttributes.addFlashAttribute("message", "Plato deshabilitado con éxito");
         return "redirect:/menu";
     }
