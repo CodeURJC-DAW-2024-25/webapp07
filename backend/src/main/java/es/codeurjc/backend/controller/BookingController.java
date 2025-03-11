@@ -127,10 +127,16 @@ public class BookingController {
     @GetMapping("/booking/my-booking")
     public String showUserBooking(Model model, @AuthenticationPrincipal UserDetails loggedUser) {
         Optional<User> userOpt = userService.findByUsername(loggedUser.getUsername());
-        userOpt.flatMap(bookingService::findActiveBookingByUser)
-                .ifPresent(booking -> model.addAttribute("booking", booking));
-        return "profile-booking";
+        if (userOpt.isPresent()) {
+            Optional<Booking> bookingOpt = bookingService.findActiveBookingByUser(userOpt.get());
+            if (bookingOpt.isPresent()) {
+                model.addAttribute("booking", bookingOpt.get());
+                return "redirect:/profile";
+            }
+        }
+        return "redirect:/booking";
     }
+
 
     /**
      * Cancels an active booking.
