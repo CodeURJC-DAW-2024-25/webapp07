@@ -112,6 +112,23 @@ public class UserRestController {
 
         return ResponseEntity.ok(userMapper.toDto(user));
     }
+    @Operation(summary = "Delete a user", description = "Permanently deletes a user by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        Optional<User> user = userService.findById(id);
+
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @Operation(summary = "Ban a user", description = "Marks a user as banned in the system")
     @ApiResponses({
