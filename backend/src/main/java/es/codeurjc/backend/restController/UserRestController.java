@@ -1,57 +1,94 @@
 package es.codeurjc.backend.restController;
 
-package es.codeurjc.backend.rest;
-
 import es.codeurjc.backend.dto.UserDTO;
+import es.codeurjc.backend.mapper.UserMapper;
+import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.Collection;
-
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserRestController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final UserMapper userMapper;
 
-    @GetMapping
-    public Collection<UserDTO> getAllUsers() {
-        return userService.getAllUsers();
+    public UserRestController(UserService userService, UserMapper userMapper) {
+        this.userService = userService;
+        this.userMapper = userMapper;
     }
 
+    // Get all users
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> users = userService.getAllUsers()
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+        return ResponseEntity.ok(users);
+    }
+
+    // Get user by ID
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-        UserDTO user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
+        return userService.findById(id)
+                .map(userMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        UserDTO created = userService.createUser(userDTO);
+    // Register a new user
+    @PostMapping("/register")
+    public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO) {
+        User user = userMapper.toEntity(userDTO);
+        userService.registerUser(user);
 
-        URI location = fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(created.getId())
-                .toUri();
-
-        return ResponseEntity.created(location).body(created);
+        URI location = URI.create("/api/users/" + user.getId());
+        return ResponseEntity.created(location).body(userMapper.toDto(user));
     }
 
+    // Update user
     @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO updatedUser) {
-        UserDTO user = userService.updateUser(id, updatedUser);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
+        Optional<User> existingUser = userService.findById(id);
+
+        if (existingUser.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        User user = userMapper.toEntity(userDTO);
+        user.setId(id);
+        userService.updateUser(user);
+
+        return ResponseEntity.ok(userMapper.toDto(user));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<UserDTO> deleteUser(@PathVariable Long id) {
-        UserDTO deleted = userService.deleteUser(id);
-        return ResponseEntity.ok(deleted);
+    // Ban user
+    @PatchMapping("/{id}/ban")
+    public ResponseEntity<Void> banUser(@PathVariable Long id) {
+        userService.banUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // Unban user
+    @PatchMapping("/{id}/unban")
+    public ResponseEntity<Void> unbanUser(@PathVariable Long id) {
+        userService.unbanUser(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // Search users by username or email
+    @GetMapping("/search")
+    public ResponseEntity<List<UserDTO>> searchUsers(@RequestParam String query) {
+        List<UserDTO> users = userService.searchUsers(query)
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+        return ResponseEntity.ok(users);
     }
 }
