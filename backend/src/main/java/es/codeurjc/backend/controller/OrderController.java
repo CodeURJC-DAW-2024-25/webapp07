@@ -4,6 +4,9 @@ import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import es.codeurjc.backend.dto.DishDTO;
+import es.codeurjc.backend.dto.OrderDTO;
+import es.codeurjc.backend.mapper.OrderMapper;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.model.Order;
 import es.codeurjc.backend.model.User;
@@ -13,6 +16,7 @@ import es.codeurjc.backend.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -29,9 +33,10 @@ import java.util.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/orders")
+@RestController
+@RequestMapping("/api/v1/orders")
 public class OrderController {
 
     @Autowired
@@ -42,36 +47,25 @@ public class OrderController {
 
     @Autowired
     private DishService dishService;
-    /**
-     * Displays the user's cart.
-     *
-     * @param model The model to pass attributes to the view.
-     * @param userDetails The details of the authenticated user.
-     * @return The view name for the cart page.
-     */
+
+
     @GetMapping("/cart")
-    public String viewCart(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<OrderDTO> getCart(@AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         Order cart = orderService.findCartByUser(user.getId())
-                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart",0.0));
+                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart", 0.0));
 
-        boolean hasDishes = !cart.getDishes().isEmpty();
-        double totalPrice = cart.getDishes().stream()
-                .mapToDouble(Dish::getPrice)
-                .sum();
-
+        double totalPrice = cart.getDishes().stream().mapToDouble(Dish::getPrice).sum();
         cart.setTotalPrice(totalPrice);
         orderService.saveOrder(cart);
 
-        model.addAttribute("pageTitle", "Cart");
-
-        model.addAttribute("hasDishes", hasDishes);
-        model.addAttribute("orders", cart);
-        model.addAttribute("totalPrice", totalPrice);
-        return "cart";
+        OrderDTO orderDTO = OrderMapper.toDto(cart);
+        return ResponseEntity.ok(orderDTO);
     }
+
+
 
     /**
      * Clears the user's cart.
@@ -79,76 +73,77 @@ public class OrderController {
      * @param userDetails The details of the authenticated user.
      * @return Redirects to the cart page.
      */
-    @PostMapping("/cart/clear")
-    public String clearCart(@AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        Order cart = orderService.findCartByUser(user.getId())
-                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart",0.0));
-
-        cart.getDishes().clear();
-        orderService.saveOrder(cart);
-
-        return "redirect:/orders/cart";
-    }
-
-    /**
-     * Adds a dish to the user's cart.
-     *
-     * @param dishId The ID of the dish to be added to the cart.
-     * @param userDetails The details of the authenticated user.
-     * @return A map containing the success status and a message.
-     */
-    @PostMapping("/cart/add")
-    @ResponseBody
-    public Map<String, Object> addToCart(@RequestParam Long dishId, @AuthenticationPrincipal UserDetails userDetails) {
-        Map<String, Object> response = new HashMap<>();
+    @DeleteMapping("/cart/clear")
+    public ResponseEntity<?> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated.");
+        }
 
         User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         Order cart = orderService.findCartByUser(user.getId())
                 .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart", 0.0));
 
-        Dish dish = dishService.findById(dishId)
-                .orElseThrow(() -> new RuntimeException("Dish not found"));
+        cart.getDishes().clear();
+        orderService.saveOrder(cart);
+
+        return ResponseEntity.ok("Cart cleared successfully");
+    }
+
+
+    /**
+     * Adds a dish to the user's cart.
+     *
+     * @param dishDTO The ID of the dish to be added to the cart.
+     * @param userDetails The details of the authenticated user.
+     * @return A map containing the success status and a message.
+     */
+    @PostMapping("/cart/add")
+    public ResponseEntity<?> addToCart(@RequestBody DishDTO dishDTO, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated.");
+        }
+
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        Order cart = orderService.findCartByUser(user.getId())
+                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart", 0.0));
+
+        Dish dish = dishService.findById(dishDTO.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Dish not found"));
 
         cart.getDishes().add(dish);
         orderService.saveOrder(cart);
 
-        response.put("success", true);
-        response.put("message", "Dish added to cart");
-
-        return response;
+        return ResponseEntity.ok("Dish added to cart");
     }
+
 
     /**
      * Removes a dish from the user's cart.
      *
-     * @param dishId The ID of the dish to be removed from the cart.
+     * @param dishDTO The ID of the dish to be removed from the cart.
      * @param userDetails The details of the authenticated user.
      * @return Redirects to the cart page.
      */
-    @PostMapping("/cart/remove")
-    public String removeFromCart(@RequestParam Long dishId, @AuthenticationPrincipal UserDetails userDetails) {
+    @DeleteMapping("/cart/remove")
+    public ResponseEntity<?> removeFromCart(@RequestBody DishDTO dishDTO, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated.");
+        }
+
         User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         Order cart = orderService.findCartByUser(user.getId())
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cart not found"));
 
-        List<Dish> dishes = cart.getDishes();
-        for (int i = 0; i < dishes.size(); i++) {
-            if (dishes.get(i).getId().equals(dishId)) {
-                dishes.remove(i);
-                break;
-            }
-        }
-        
+        cart.getDishes().removeIf(dish -> dish.getId().equals(dishDTO.getId()));
         orderService.saveOrder(cart);
 
-        return "redirect:/orders/cart";
+        return ResponseEntity.ok("Dish removed from cart");
     }
 
     /**
@@ -167,27 +162,27 @@ public class OrderController {
     /**
      * Displays the order history for the authenticated user.
      *
-     * @param model The model to pass attributes to the view.
+     * @param userDetails The model to pass attributes to the view.
      * @return The view name for the user order history page, or redirects to the login page if the user is not authenticated.
      */
     @GetMapping("/history")
-    public String showUserOrderHistory(Model model) {
-        Optional<User> userOpt = userService.getAuthenticatedUser();
-
-        if (userOpt.isPresent()) {
-            Long userId = userOpt.get().getId();
-
-            //search order for this user
-            List<Order> orders = orderService.getPaidOrdersByUserId(userId);
-            model.addAttribute("orders", orders);
-
-            model.addAttribute("pageTitle", "Order history");
-
-            return "user-order-history";
+    public ResponseEntity<?> getUserOrderHistory(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated.");
         }
 
-        return "redirect:/login";
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        List<Order> orders = orderService.getPaidOrdersByUserId(user.getId());
+
+        List<OrderDTO> orderDTOs = orders.stream()
+                .map(OrderMapper::toDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(orderDTOs);
     }
+
 
     /**
      * Displays detailed information about a specific order.
