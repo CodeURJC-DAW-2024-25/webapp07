@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Tag(name = "Users", description = "User management REST API")
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 public class UserRestController {
 
     private final UserService userService;
@@ -60,6 +60,21 @@ public class UserRestController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Get the authenticated user", description = "Returns the currently logged-in user")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Authenticated user retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserDTO.class))),
+            @ApiResponse(responseCode = "401", description = "User not authenticated")
+    })
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getAuthenticatedUser() {
+        return userService.getAuthenticatedUser()
+                .map(userMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(401).build());
+    }
+
     @Operation(summary = "Register a new user", description = "Creates a new user and returns the created user with ID")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "User created successfully",
@@ -72,7 +87,7 @@ public class UserRestController {
         User user = userMapper.toEntity(userDTO);
         userService.registerUser(user);
 
-        URI location = URI.create("/api/users/" + user.getId());
+        URI location = URI.create("/api/v1/users/" + user.getId());
         return ResponseEntity.created(location).body(userMapper.toDto(user));
     }
 
