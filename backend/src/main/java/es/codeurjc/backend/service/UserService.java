@@ -137,4 +137,28 @@ public class UserService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+
+    /**
+     * Finds a user by their ID.
+     *
+     * @param id The ID of the user.
+     * @return An {@link Optional} containing the user if found, otherwise empty.
+     */
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    /**
+     * Deletes a user by ID.
+     *
+     * @param id The ID of the user to delete.
+     * @throws IllegalArgumentException if the user does not exist.
+     */
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new IllegalArgumentException("User not found with ID: " + id);
+        }
+        userRepository.deleteById(id);
+    }
+
 }
