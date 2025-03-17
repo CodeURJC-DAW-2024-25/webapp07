@@ -1,5 +1,7 @@
 package es.codeurjc.backend.security;
 
+import es.codeurjc.backend.security.jwt.JwtRequestFilter;
+import es.codeurjc.backend.security.jwt.UnauthorizedHandlerJwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +31,12 @@ public class WebSecurityConfig {
 
     @Autowired
     private CustomAuthenticationFailureHandler customFailureHandler;
+
+    @Autowired
+    private UnauthorizedHandlerJwt unauthorizedHandlerJwt;
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
 
     /**
      * Creates a password encoder bean using BCrypt.
