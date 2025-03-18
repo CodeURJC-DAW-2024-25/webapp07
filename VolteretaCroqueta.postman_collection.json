@@ -70,7 +70,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"john_doe\",\r\n  \"email\": \"john@example.com\",\r\n  \"password\": \"secure123\"\r\n}\r\n",
+							"raw": "{\r\n  \"username\": \"john_doe\",\r\n  \"email\": \"john@example.com\",\r\n  \"password\": \"secure123\",\r\n  \"dateOfBirth\": \"1990-05-10\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -78,13 +78,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/users/register",
+							"raw": "{{base_url}}/users/new",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"users",
-								"register"
+								"new"
 							]
 						}
 					},
@@ -289,6 +289,42 @@
 								"logout"
 							]
 						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "UserCart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/orders/cart",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								"cart"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dishes",
+			"item": [
+				{
+					"name": "menu",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
