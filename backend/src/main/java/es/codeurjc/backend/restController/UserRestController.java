@@ -78,21 +78,37 @@ public class UserRestController {
                 .orElseGet(() -> ResponseEntity.status(401).build());
     }
 
-    @Operation(summary = "Register a new user", description = "Creates a new user and returns the created user with ID")
+    @Operation(summary = "Create a new user", description = "Registers a new user and returns the created resource URI.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "User created successfully",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = UserDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request body")
     })
-    @PostMapping("/register")
-    public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO) {
-        User user = userMapper.toEntity(userDTO);
-        userService.registerUser(user);
+    @PostMapping("/new")
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        System.out.println("✅ createUser method invoked");
 
-        URI location = URI.create("/api/v1/users/" + user.getId());
-        return ResponseEntity.created(location).body(userMapper.toDto(user));
+        try {
+            String dateOfBirth = userDTO.dateOfBirth() != null ? userDTO.dateOfBirth().toString() : null;
+
+            Long userId = userService.registerUser(
+                    userDTO.username(),
+                    userDTO.email(),
+                    userDTO.password(),
+                    dateOfBirth
+            );
+
+            URI location = URI.create("/api/v1/users/" + userId);
+            return ResponseEntity.created(location).body(userDTO);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
+
 
     @Operation(summary = "Update user information", description = "Updates the details of an existing user")
     @ApiResponses({

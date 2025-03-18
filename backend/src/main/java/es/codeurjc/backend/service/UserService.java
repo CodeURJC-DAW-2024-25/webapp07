@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,15 +46,39 @@ public class UserService {
     }
 
 
-    public void registerUser(User user) {
+    public Long registerUser(String username, String email, String password, String dateOfBirth) {
+        if (existsByUsername(username)) {
+            throw new IllegalArgumentException("Username is already taken.");
+        }
+
+        if (existsByEmail(email)) {
+            throw new IllegalArgumentException("Email is already in use.");
+        }
+
+        LocalDate dob;
         try {
-            user.setEncodedPassword(passwordEncoder.encode(user.getEncodedPassword()));
+            dob = LocalDate.parse(dateOfBirth);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Invalid date format. Please use yyyy-MM-dd.");
+        }
+
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setEncodedPassword(passwordEncoder.encode(password));
+        user.setDateOfBirth(dob);
+        user.setRoles(List.of("USER"));
+
+        try {
             userRepository.save(user);
+            System.out.println("✅ User '" + username + "' registered successfully");
+            return user.getId();
+
         } catch (Exception e) {
-            System.err.println("Error saving user: " + e.getMessage());
-            throw e;
+            throw new RuntimeException("Error saving user: " + e.getMessage());
         }
     }
+
 
     /**
      * Finds a user by their username.

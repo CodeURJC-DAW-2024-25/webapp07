@@ -17,5 +17,6 @@ public record UserDTO(
         String address,
         String email,
         List<String> roles,
-        boolean banned
+        boolean banned,
+        String password
 ) {}
