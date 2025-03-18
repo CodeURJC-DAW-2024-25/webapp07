@@ -28,7 +28,7 @@ public class UserRestController {
     @Autowired
     private UserMapper userMapper;
 
-    @Operation(summary = "Get all users", description = "Returns a list of all registered users")
+    @Operation(summary = "Get all users", description = "Returns a list of all registered users.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Users retrieved successfully",
                     content = @Content(mediaType = "application/json",
@@ -36,19 +36,14 @@ public class UserRestController {
     })
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        System.out.println("🔍 Usuarios de la BD antes del mapeo: " + users);
-
-        List<UserDTO> usersDTO = users.stream()
+        List<UserDTO> usersDTO = userService.getAllUsers()
+                .stream()
                 .map(userMapper::toDto)
                 .toList();
-
-        System.out.println("🔍 Usuarios después del mapeo a DTO: " + usersDTO);
         return ResponseEntity.ok(usersDTO);
     }
 
-
-    @Operation(summary = "Get a user by ID", description = "Fetches a user by their unique identifier")
+    @Operation(summary = "Get a user by ID", description = "Fetches a user by their unique identifier.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User found",
                     content = @Content(mediaType = "application/json",
@@ -63,7 +58,7 @@ public class UserRestController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @Operation(summary = "Get the authenticated user", description = "Returns the currently logged-in user")
+    @Operation(summary = "Get the authenticated user", description = "Returns the currently logged-in user.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Authenticated user retrieved successfully",
                     content = @Content(mediaType = "application/json",
@@ -78,23 +73,38 @@ public class UserRestController {
                 .orElseGet(() -> ResponseEntity.status(401).build());
     }
 
-    @Operation(summary = "Register a new user", description = "Creates a new user and returns the created user with ID")
+    @Operation(summary = "Create a new user", description = "Registers a new user and returns the created resource URI.")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "User created successfully",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = UserDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request body")
     })
-    @PostMapping("/register")
-    public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDTO) {
-        User user = userMapper.toEntity(userDTO);
-        userService.registerUser(user);
+    @PostMapping("/new")
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+        System.out.println("✅ createUser method invoked");
 
-        URI location = URI.create("/api/v1/users/" + user.getId());
-        return ResponseEntity.created(location).body(userMapper.toDto(user));
+        try {
+            String dateOfBirth = userDTO.dateOfBirth() != null ? userDTO.dateOfBirth().toString() : null;
+
+            Long userId = userService.registerUser(
+                    userDTO.username(),
+                    userDTO.email(),
+                    userDTO.password(),
+                    dateOfBirth
+            );
+
+            URI location = URI.create("/api/v1/users/" + userId);
+            return ResponseEntity.created(location).body(userDTO);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
-    @Operation(summary = "Update user information", description = "Updates the details of an existing user")
+    @Operation(summary = "Update user information", description = "Updates the details of an existing user.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User updated successfully",
                     content = @Content(mediaType = "application/json",
@@ -115,25 +125,22 @@ public class UserRestController {
 
         return ResponseEntity.ok(userMapper.toDto(user));
     }
-    @Operation(summary = "Delete a user", description = "Permanently deletes a user by ID")
+
+    @Operation(summary = "Delete a user", description = "Permanently deletes a user by ID.")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "User deleted successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        Optional<User> user = userService.findById(id);
-
-        if (user.isEmpty()) {
+        if (userService.findById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
 
-
-    @Operation(summary = "Ban a user", description = "Marks a user as banned in the system")
+    @Operation(summary = "Ban a user", description = "Marks a user as banned in the system.")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "User banned successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
@@ -144,7 +151,7 @@ public class UserRestController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Unban a user", description = "Removes the banned status from a user")
+    @Operation(summary = "Unban a user", description = "Removes the banned status from a user.")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "User unbanned successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
@@ -155,7 +162,7 @@ public class UserRestController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Search users", description = "Searches users by username or email")
+    @Operation(summary = "Search users", description = "Searches users by username or email.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Search results returned",
                     content = @Content(mediaType = "application/json",
