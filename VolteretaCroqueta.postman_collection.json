@@ -8,21 +8,61 @@
 	},
 	"item": [
 		{
-			"name": "User",
+			"name": "Users",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "All users",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "Auth",
-			"item": [
+				},
+				{
+					"name": "Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Register",
 					"request": {
@@ -38,15 +78,11 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/v1/users/register",
-							"protocol": "https",
+							"raw": "{{base_url}}/users/register",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8443",
 							"path": [
-								"api",
-								"v1",
 								"users",
 								"register"
 							]
@@ -54,6 +90,118 @@
 					},
 					"response": []
 				},
+				{
+					"name": "{{id}}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"username\": \"user\",\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"dateOfBirth\": \"1990-05-15\",\r\n    \"phoneNumber\": \"+34 612345678\",\r\n    \"address\": \"123 Main Street, Madrid, Spain\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"roles\": [\r\n        \"USER\"\r\n    ],\r\n    \"banned\": false\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}/ban",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/4/banned",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"4",
+								"banned"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}/unban",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/4/unbanned",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"4",
+								"unbanned"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "found",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users/found?query=john",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"found"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "john"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
 				{
 					"name": "login User",
 					"request": {
@@ -69,15 +217,38 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/v1/auth/login",
-							"protocol": "https",
+							"raw": "{{base_url}}/auth/login",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8443",
 							"path": [
-								"api",
-								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login Admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"username\":\"admin\",\"password\":\"adminpass\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
 								"auth",
 								"login"
 							]
@@ -91,15 +262,11 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/v1/auth/refresh",
-							"protocol": "https",
+							"raw": "{{base_url}}/auth/refresh",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8443",
 							"path": [
-								"api",
-								"v1",
 								"auth",
 								"refresh"
 							]
@@ -113,15 +280,11 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/v1/auth/logout",
-							"protocol": "https",
+							"raw": "{{base_url}}/auth/logout",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "8443",
 							"path": [
-								"api",
-								"v1",
 								"auth",
 								"logout"
 							]
