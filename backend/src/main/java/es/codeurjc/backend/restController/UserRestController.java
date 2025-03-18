@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,7 +79,8 @@ public class UserRestController {
             @ApiResponse(responseCode = "201", description = "User created successfully",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = UserDTO.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid request body")
+            @ApiResponse(responseCode = "400", description = "Invalid request body"),
+            @ApiResponse(responseCode = "409", description = "Username or email already in use")
     })
     @PostMapping("/new")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
@@ -97,8 +99,10 @@ public class UserRestController {
             URI location = URI.create("/api/v1/users/" + userId);
             return ResponseEntity.created(location).body(userDTO);
 
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.badRequest().body(null);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(409).body(null);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
