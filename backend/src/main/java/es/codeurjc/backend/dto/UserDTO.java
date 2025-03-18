@@ -1,21 +1,21 @@
 package es.codeurjc.backend.dto;
 
-import lombok.Data;
-
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
-public class UserDTO {
-    private Long id;
-    private String username;
-    private String firstName;
-    private String lastName;
-    private LocalDate dateOfBirth;
-    private String phoneNumber;
-    private String address;
-    private String email;
-    private List<String> roles;
-    private boolean banned;
-}
-
+/**
+ * Data Transfer Object (DTO) for User entity.
+ * Immutable record to ensure a clean API response.
+ */
+public record UserDTO(
+        Long id,
+        String username,
+        String firstName,
+        String lastName,
+        LocalDate dateOfBirth,
+        String phoneNumber,
+        String address,
+        String email,
+        List<String> roles,
+        boolean banned
+) {}

@@ -36,12 +36,17 @@ public class UserRestController {
     })
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> users = userService.getAllUsers()
-                .stream()
+        List<User> users = userService.getAllUsers();
+        System.out.println("🔍 Usuarios de la BD antes del mapeo: " + users);
+
+        List<UserDTO> usersDTO = users.stream()
                 .map(userMapper::toDto)
                 .toList();
-        return ResponseEntity.ok(users);
+
+        System.out.println("🔍 Usuarios después del mapeo a DTO: " + usersDTO);
+        return ResponseEntity.ok(usersDTO);
     }
+
 
     @Operation(summary = "Get a user by ID", description = "Fetches a user by their unique identifier")
     @ApiResponses({
