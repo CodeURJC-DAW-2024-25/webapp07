@@ -45,7 +45,20 @@ public class UserService {
         return Optional.empty();
     }
 
-
+    /**
+     * Registers a new user in the system after validating the input data.
+     * This method checks for duplicate usernames and emails, validates the date format,
+     * encrypts the password, assigns a default role, and persists the user in the database.
+     *
+     * @param username    The desired username for the new user. Must be unique.
+     * @param email       The email address of the user. Must be unique.
+     * @param password    The raw password provided by the user. It will be encrypted before saving.
+     * @param dateOfBirth The date of birth in "yyyy-MM-dd" format.
+     * @return The ID of the newly created user.
+     * @throws IllegalArgumentException If the username or email is already taken,
+     *                                  if the date format is invalid, or if any input is incorrect.
+     * @throws RuntimeException         If an error occurs while saving the user to the database.
+     */
     public Long registerUser(String username, String email, String password, String dateOfBirth) {
         if (existsByUsername(username)) {
             throw new IllegalArgumentException("Username is already taken.");
