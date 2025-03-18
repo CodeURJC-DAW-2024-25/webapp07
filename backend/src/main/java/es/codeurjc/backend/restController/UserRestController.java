@@ -138,7 +138,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "204", description = "User banned successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    @PatchMapping("/{id}/ban")
+    @PatchMapping("/{id}/banned")
     public ResponseEntity<Void> banUser(@PathVariable Long id) {
         userService.banUser(id);
         return ResponseEntity.noContent().build();
@@ -149,7 +149,7 @@ public class UserRestController {
             @ApiResponse(responseCode = "204", description = "User unbanned successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    @PatchMapping("/{id}/unban")
+    @PatchMapping("/{id}/unbanned")
     public ResponseEntity<Void> unbanUser(@PathVariable Long id) {
         userService.unbanUser(id);
         return ResponseEntity.noContent().build();
