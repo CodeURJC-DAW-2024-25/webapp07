@@ -161,7 +161,7 @@ public class UserRestController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = UserDTO.class)))
     })
-    @GetMapping("/search")
+    @GetMapping("/found")
     public ResponseEntity<List<UserDTO>> searchUsers(@RequestParam String query) {
         List<UserDTO> users = userService.searchUsers(query)
                 .stream()
