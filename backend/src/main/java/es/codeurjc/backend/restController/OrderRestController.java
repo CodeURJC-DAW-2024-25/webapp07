@@ -12,6 +12,7 @@ import es.codeurjc.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,6 @@ public class OrderRestController {
     private OrderMapper orderMapper;
 
 
-
     @GetMapping
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
         List<OrderDTO> ordersDTO = orderService.getAllOrders()
@@ -54,6 +54,31 @@ public class OrderRestController {
                 .map(orderMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrderById(@PathVariable Long id) {
+        Optional<Order> orderOpt = orderService.getOrderById(id);
+        if (orderOpt.isPresent()) {
+            orderService.deleteOrderById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateOrder(@PathVariable Long id, @RequestBody OrderDTO orderDTO) {
+        Optional<Order> existingOrder = orderService.getOrderById(id);
+
+        if (existingOrder.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+
+        orderService.updateOrder(id, orderDTO.address(), orderDTO.status(), orderDTO.totalPrice());
+
+        return ResponseEntity.noContent().build();
     }
 
 
