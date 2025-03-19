@@ -110,6 +110,7 @@ public class WebSecurityConfig {
 
 
 
+
                         // PUBLIC ENDPOINTS
                         .anyRequest().permitAll()
                 );
