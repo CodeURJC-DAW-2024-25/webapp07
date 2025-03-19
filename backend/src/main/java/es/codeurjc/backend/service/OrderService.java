@@ -79,7 +79,7 @@ public class OrderService {
         Optional<Order> order = orderRepository.findById(id);
         if (order.isPresent()) {
             Order updatedOrder = order.get();
-            updatedOrder.setStatus(newStatus.trim());
+            updatedOrder.setStatus(newStatus);
             orderRepository.save(updatedOrder);
         } else {
             System.err.println("Order with id " + id + " not found.");

@@ -89,10 +89,12 @@ public class OrderRestController {
             return ResponseEntity.notFound().build();
         }
 
-        orderService.updateOrderStatus(id, newStatus);
+        orderService.updateOrderStatus(id, newStatus.trim());
 
         return ResponseEntity.noContent().build();
     }
+
+
 
 
 }
