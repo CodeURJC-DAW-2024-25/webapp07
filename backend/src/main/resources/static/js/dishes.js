@@ -33,7 +33,7 @@ $(document).ready(function () {
             success: function (response) {
                 let isAuthenticated = response.isAuthenticated;
                 let data = response.dishes;
-
+                console.log("AUTH: "+ isAuthenticated);
                 if (!append) {
                     $("#menuContainer").empty();
                     currentPage = 0;
