@@ -1,14 +1,24 @@
 package es.codeurjc.backend.service;
 
+import es.codeurjc.backend.dto.DishDTO;
+import es.codeurjc.backend.mapper.DishMapper;
 import es.codeurjc.backend.model.Dish;
+import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.repository.DishRepository;
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -18,6 +28,19 @@ import java.util.Optional;
 public class DishService {
     @Autowired
     private DishRepository dishRepository;
+    @Autowired
+    private ConversionService conversionService;
+    @Autowired
+    private DishMapper dishMapper;
+
+    public List<Dish> processDishes( List<Dish> dishes) throws SQLException {
+        for (Dish dish : dishes) {
+            int rate = (int) Math.ceil(dish.getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
+            dish.setRate(rate);
+            dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+        }
+        return dishes;
+    };
     /**
      * Filters dishes based on the provided name, ingredient, and maximum price.
      *
@@ -86,8 +109,11 @@ public class DishService {
      *
      * @param id the ID of the dish to delete
      */
-    public void deleteById(long id) {
+    public DishDTO deleteById(long id) {
+        Optional<Dish> dish = dishRepository.findById(id);
         dishRepository.deleteById(id);
+        DishDTO dishDTO = dish.map(dishMapper::toDto).orElse(null);
+        return dishDTO;
     }
 
     /**
@@ -133,5 +159,62 @@ public class DishService {
             save(dish);
         }
         return dishes;
+    }
+
+    public void disableById(Long id) {
+        Dish dish = dishRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Dish not found"));
+        dish.setAvailable(false);
+        dishRepository.save(dish);
+    }
+
+    public void enableById(Long id) {
+        Dish dish = dishRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Dish not found"));
+        dish.setAvailable(true);
+        dishRepository.save(dish);
+    }
+
+    public void createDishImage(long id, InputStream inputStream, long size) {
+        Dish dish = dishRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Dish not found"));
+        dish.setDishImagefile(BlobProxy.generateProxy(inputStream, size));
+        dish.setImage(true);
+        dishRepository.save(dish);
+    }
+
+    public Resource getDishImage(long id) throws SQLException {
+        Dish dish = dishRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Dish not found"));
+
+        if (dish.getImage()) {
+            return new InputStreamResource(dish.getDishImagefile().getBinaryStream());
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    public void replaceDishImage(long id, InputStream inputStream, long size) {
+        Dish dish = dishRepository.findById(id).orElseThrow();
+
+        if (!dish.getImage()) {
+            throw new NoSuchElementException();
+        }
+
+        dish.setDishImagefile(BlobProxy.generateProxy(inputStream, size));
+
+        dishRepository.save(dish);
+    }
+
+    public DishDTO createDish(DishDTO dishDTO) {
+        if(dishDTO.id() != null) {
+            throw new IllegalArgumentException();
+        }
+
+        Dish dish = dishMapper.toEntity(dishDTO);
+
+        dishRepository.save(dish);
+
+        return dishMapper.toDto(dish);
     }
 }
