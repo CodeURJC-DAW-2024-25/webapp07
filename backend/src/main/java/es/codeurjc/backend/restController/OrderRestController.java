@@ -81,6 +81,19 @@ public class OrderRestController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Void> updateOrderStatus(@PathVariable Long id, @RequestBody String newStatus) {
+        Optional<Order> existingOrder = orderService.getOrderById(id);
+
+        if (existingOrder.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        orderService.updateOrderStatus(id, newStatus);
+
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
 

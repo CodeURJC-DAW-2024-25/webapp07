@@ -101,6 +101,8 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/orders/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/*/status").hasRole("ADMIN")
+
 
 
 
