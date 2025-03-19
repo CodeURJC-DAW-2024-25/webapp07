@@ -18,9 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -93,6 +91,47 @@ public class OrderRestController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/cart/add")
+    @ResponseBody
+    public Map<String, Object> addToCart(@RequestBody Map<String, Long> request, @AuthenticationPrincipal UserDetails userDetails) {
+        Map<String, Object> response = new HashMap<>();
+
+
+        if (!request.containsKey("dishId")) {
+            throw new RuntimeException("Missing 'dishId' in request body");
+        }
+
+        Long dishId = request.get("dishId");
+
+
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+
+        Order cart = orderService.findCartByUser(user.getId())
+                .orElseGet(() -> {
+                    Order newCart = new Order(new ArrayList<>(), user, "", "Cart", 0.0);
+                    orderService.saveOrder(newCart);
+                    return newCart;
+                });
+
+
+        Dish dish = dishService.findById(dishId)
+                .orElseThrow(() -> new RuntimeException("Dish not found"));
+
+
+        cart.getDishes().add(dish);
+        orderService.saveOrder(cart);
+
+
+        response.put("success", true);
+        response.put("message", "Dish added to cart");
+        response.put("cartId", cart.getId());
+
+        return response;
+    }
+
 
 
 
