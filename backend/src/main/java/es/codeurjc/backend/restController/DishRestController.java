@@ -28,7 +28,7 @@ import java.util.Optional;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
-@Tag(name = "Users", description = "User management REST API")
+@Tag(name = "Dishes", description = "Dish management REST API")
 @RestController
 @RequestMapping("/api/v1/menu")
 public class DishRestController {
@@ -57,7 +57,8 @@ public class DishRestController {
             @ApiResponse(responseCode = "200", description = "Dish found",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = DishDTO.class))),
-            @ApiResponse(responseCode = "404", description = "User not found")
+            @ApiResponse(responseCode = "404", description = "Dish not found"),
+            @ApiResponse(responseCode = "500", description = "PAPA FRITASAJCNALNDLKASMDKSAMDLKMASDKLAMLDAS")
     })
     @GetMapping("/{id}")
     public ResponseEntity<DishDTO> getDish(@PathVariable long id) {
