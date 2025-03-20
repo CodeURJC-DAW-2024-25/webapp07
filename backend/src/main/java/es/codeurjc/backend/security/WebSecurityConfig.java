@@ -99,17 +99,14 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/menu/**").hasRole("ADMIN")
 
 
-                        //order admin
+                        //orderAdmin
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/admin/{id}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/orders/admin/{id}").hasRole("ADMIN")
 
-
-                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").hasAnyRole("USER", "ADMIN")
-
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/*/status").hasRole("ADMIN")
-
-
+                        //orderAuthenticated
+                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/*/status").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/v1/orders/cart/add").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/cart").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/history").authenticated()

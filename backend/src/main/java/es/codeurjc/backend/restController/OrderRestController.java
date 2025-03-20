@@ -68,13 +68,6 @@ public class OrderRestController {
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<OrderDTO> getOrdersById(@PathVariable Long id) {
-        return orderService.getOrderById(id)
-                .map(orderMapper::toDto)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
 
     @PutMapping("/admin/{id}")
     public ResponseEntity<Map<String, String>> updateOrder(
@@ -95,6 +88,31 @@ public class OrderRestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Collections.singletonMap("error", "Error updating order."));
         }
+    }
+
+
+
+
+    //USER
+
+
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOrderById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        Optional<Order> orderOpt = orderService.getOrderById(id);
+
+        if (orderOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "Order not found"));
+        }
+
+        Order order = orderOpt.get();
+
+        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", "Access denied"));
+        }
+
+        return ResponseEntity.ok(order);
     }
 
 
