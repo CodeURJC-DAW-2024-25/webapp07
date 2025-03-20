@@ -175,6 +175,27 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
+    @PatchMapping("/cart/clear")
+    public ResponseEntity<Map<String, Object>> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
+        Map<String, Object> response = new HashMap<>();
+
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Order cart = orderService.findCartByUser(user.getId())
+                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart", 0.0));
+
+        cart.getDishes().clear();
+        cart.setTotalPrice(0.0);
+        orderService.saveOrder(cart);
+
+        response.put("success", true);
+        response.put("message", "Cart cleared successfully");
+
+        return ResponseEntity.ok(response);
+    }
+
+
 
 
 

@@ -106,6 +106,8 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/orders/cart/add").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/cart").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/history").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/cart/clear").authenticated()
+
 
 
 
