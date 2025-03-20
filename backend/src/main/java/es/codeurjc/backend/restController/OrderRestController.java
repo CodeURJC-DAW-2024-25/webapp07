@@ -157,6 +157,25 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/history")
+    public ResponseEntity<Map<String, Object>> getUserOrderHistory(@AuthenticationPrincipal UserDetails userDetails) {
+        Map<String, Object> response = new HashMap<>();
+
+
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+
+        List<Order> orders = orderService.getPaidOrdersByUserId(user.getId());
+
+        response.put("success", true);
+        response.put("message", "Order history retrieved successfully");
+        response.put("orders", orders);
+
+        return ResponseEntity.ok(response);
+    }
+
+
 
 
 
