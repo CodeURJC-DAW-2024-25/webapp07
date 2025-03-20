@@ -1,0 +1,23 @@
+services:
+  db:
+    image: mysql:8.0.36
+    restart: on-failure
+    environment:
+      - MYSQL_ROOT_PASSWORD=webapp07
+      - MYSQL_DATABASE=volteretaCroqueta
+
+  web:
+    image: hugost010/webapp07:latest
+    restart: on-failure
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    ports:
+      - 8443:8443
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/volteretaCroqueta
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=webapp07
+    depends_on:
+      - db
+
