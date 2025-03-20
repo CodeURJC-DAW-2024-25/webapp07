@@ -196,7 +196,7 @@ public class OrderRestController {
 
 
 
-    @PostMapping("/cart/clear")
+    @PutMapping("/cart/clear")
     public ResponseEntity<Map<String, Object>> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();
 
