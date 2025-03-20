@@ -349,17 +349,42 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}/invoice-data")
+    @ResponseBody
+    public Map<String, Object> getInvoiceData(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        Order order = orderService.getOrderById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+
+        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to view this invoice");
+        }
+
+        User user = userService.findByUsername(order.getUser().getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        double deliveryCost = 4.99;
+        double finalPrice = order.getTotalPrice() + deliveryCost;
 
 
+        Map<String, Object> invoiceData = new HashMap<>();
+        invoiceData.put("orderId", order.getId());
+        invoiceData.put("userName", user.getFirstName() + " " + user.getLastName());
+        invoiceData.put("userAddress", order.getAddress());
+        invoiceData.put("subtotal", order.getTotalPrice());
+        invoiceData.put("deliveryCost", deliveryCost);
+        invoiceData.put("totalPrice", finalPrice);
 
+        List<Map<String, Object>> dishesList = new ArrayList<>();
+        for (Dish dish : order.getDishes()) {
+            Map<String, Object> dishData = new HashMap<>();
+            dishData.put("name", dish.getName());
+            dishData.put("price", dish.getPrice());
+            dishesList.add(dishData);
+        }
+        invoiceData.put("dishes", dishesList);
 
-
-
-
-
-
-
-
+        return invoiceData;
+    }
 
 
 }
