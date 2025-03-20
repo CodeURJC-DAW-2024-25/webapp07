@@ -37,14 +37,20 @@ public class OrderRestController {
     private OrderMapper orderMapper;
 
 
-    @GetMapping
-    public ResponseEntity<List<OrderDTO>> getAllOrders() {
-        List<OrderDTO> ordersDTO = orderService.getAllOrders()
-                .stream()
-                .map(orderMapper::toDto)
-                .toList();
-        return ResponseEntity.ok(ordersDTO);
+    @GetMapping("/admin")
+    public ResponseEntity<Map<String, Object>> getAllOrders() {
+        List<Order> orders = orderService.getAllOrders();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("orders", orders);
+        response.put("hasOrders", !orders.isEmpty());
+        response.put("modalId", "confirmationModal");
+        response.put("confirmButtonId", "confirmAction");
+        response.put("modalMessage", "Are you sure you want to proceed with this action?");
+
+        return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> getOrdersById(@PathVariable Long id) {
@@ -228,6 +234,50 @@ public class OrderRestController {
         response.put("message", "Dish removed from cart");
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/{id}/summary")
+    public ResponseEntity<Map<String, Object>> getOrderSummary(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        Order order = orderService.getOrderById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+
+        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to view this order.");
+        }
+
+        if ("Paid".equals(order.getStatus())) {
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header("Location", "/api/v1/orders/" + id + "/more-info")
+                    .build();
+        }
+
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        double deliveryCost = 4.99;
+        double totalPrice = order.getTotalPrice();
+        double finalPrice = Math.round((totalPrice + deliveryCost) * 100.0) / 100.0;
+
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", order.getId());
+        response.put("dishes", order.getDishes());
+        response.put("totalPrice", totalPrice);
+        response.put("deliveryCost", deliveryCost);
+        response.put("finalPrice", finalPrice);
+        response.put("address", order.getAddress());
+        response.put("user", Map.of(
+                "id", user.getId(),
+                "username", user.getUsername(),
+                "firstName", user.getFirstName(),
+                "lastName", user.getLastName()
+        ));
+
+        return ResponseEntity.ok(response);
+    }
+
 
 
 
