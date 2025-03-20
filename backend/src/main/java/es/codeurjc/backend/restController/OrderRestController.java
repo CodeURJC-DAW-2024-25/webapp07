@@ -195,6 +195,42 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/cart/remove")
+    public ResponseEntity<Map<String, Object>> removeFromCart(@RequestBody Map<String, Long> request,
+                                                              @AuthenticationPrincipal UserDetails userDetails) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (!request.containsKey("dishId")) {
+            response.put("success", false);
+            response.put("message", "Missing 'dishId' in request body");
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        Long dishId = request.get("dishId");
+
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Order cart = orderService.findCartByUser(user.getId())
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
+
+        boolean removed = cart.getDishes().removeIf(dish -> dish.getId().equals(dishId));
+
+        if (!removed) {
+            response.put("success", false);
+            response.put("message", "Dish not found in cart");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        }
+
+        orderService.saveOrder(cart);
+
+        response.put("success", true);
+        response.put("message", "Dish removed from cart");
+        return ResponseEntity.ok(response);
+    }
+
+
+
 
 
 
