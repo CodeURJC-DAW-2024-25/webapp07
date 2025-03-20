@@ -161,9 +161,9 @@ public class DishRestController {
     public ResponseEntity<Object> createDishImage(@PathVariable long id, @RequestParam MultipartFile imageFile)
             throws IOException {
 
-        dishService.createDishImage(id, imageFile.getInputStream(), imageFile.getSize());
-
         URI location = fromCurrentRequest().build().toUri();
+
+        dishService.createDishImage(id, location, imageFile.getInputStream(), imageFile.getSize());
 
         return ResponseEntity.created(location).build();
     }

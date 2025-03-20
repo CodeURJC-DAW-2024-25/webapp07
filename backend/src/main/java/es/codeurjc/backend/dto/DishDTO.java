@@ -17,7 +17,7 @@ public record DishDTO(
         @JsonIgnore
         Blob dishImagefile,
         boolean image,
-        String dishImagePat,
+        String dishImagePath,
         boolean isAvailable,
         List<Integer> rates,
         int rate

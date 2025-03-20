@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -196,9 +197,10 @@ public class DishService {
      * @param size The size of the image data in bytes.
      * @throws IllegalArgumentException If no dish is found with the given ID.
      */
-    public void createDishImage(long id, InputStream inputStream, long size) {
+    public void createDishImage(long id, URI location, InputStream inputStream, long size) {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Dish not found"));
+        dish.setDishImagePath(location.toString());
         dish.setDishImagefile(BlobProxy.generateProxy(inputStream, size));
         dish.setImage(true);
         dishRepository.save(dish);
