@@ -216,7 +216,7 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/cart/remove")
+    @DeleteMapping("/cart/remove")
     public ResponseEntity<Map<String, Object>> removeFromCart(@RequestBody Map<String, Long> request,
                                                               @AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();
