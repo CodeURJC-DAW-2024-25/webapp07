@@ -175,7 +175,7 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/cart/clear")
+    @PostMapping("/cart/clear")
     public ResponseEntity<Map<String, Object>> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();
 
@@ -194,6 +194,7 @@ public class OrderRestController {
 
         return ResponseEntity.ok(response);
     }
+
 
 
 
