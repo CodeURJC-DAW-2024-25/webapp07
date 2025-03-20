@@ -312,6 +312,44 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
+    @PatchMapping("/{id}/update")
+    public ResponseEntity<Map<String, Object>> updateOrder(@PathVariable Long id,@RequestBody Map<String, Object> updates,@AuthenticationPrincipal UserDetails userDetails) {
+
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+
+        Order order = orderService.getOrderById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+
+        if (!order.getUser().equals(user)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized: You can't update this order.");
+        }
+
+        if (updates.containsKey("address") && updates.get("address") instanceof String address) {
+            order.setAddress(address);
+        }
+        if (updates.containsKey("status") && updates.get("status") instanceof String status) {
+            order.setStatus(status);
+        }
+        if (updates.containsKey("totalPrice") && updates.get("totalPrice") instanceof Number totalPrice) {
+            order.setTotalPrice(totalPrice.doubleValue());
+        }
+
+        orderService.saveOrder(order);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "Order updated successfully");
+        response.put("orderId", order.getId());
+        response.put("status", order.getStatus());
+        response.put("address", order.getAddress());
+        response.put("totalPrice", order.getTotalPrice());
+
+        return ResponseEntity.ok(response);
+    }
+
+
 
 
 
