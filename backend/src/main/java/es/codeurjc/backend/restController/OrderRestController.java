@@ -76,22 +76,27 @@ public class OrderRestController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/admin/{id}")
+    public ResponseEntity<Map<String, String>> updateOrder(
+            @PathVariable Long id,
+            @RequestBody Map<String, Object> updates) {
 
+        try {
+            String status = (String) updates.getOrDefault("status", "Pending");
+            String address = (String) updates.get("address");
+            Double totalPrice = ((Number) updates.get("totalPrice")).doubleValue();
 
+            orderService.updateOrder(id, address, status, totalPrice);
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateOrder(@PathVariable Long id, @RequestBody OrderDTO orderDTO) {
-        Optional<Order> existingOrder = orderService.getOrderById(id);
-
-        if (existingOrder.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Order updated successfully!");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("error", "Error updating order."));
         }
-
-
-        orderService.updateOrder(id, orderDTO.address(), orderDTO.status(), orderDTO.totalPrice());
-
-        return ResponseEntity.noContent().build();
     }
+
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<Void> updateOrderStatus(@PathVariable Long id, @RequestBody String newStatus) {

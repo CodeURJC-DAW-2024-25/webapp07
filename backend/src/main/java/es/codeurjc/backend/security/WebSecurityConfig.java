@@ -102,11 +102,11 @@ public class WebSecurityConfig {
                         //order admin
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/admin/{id}").hasRole("ADMIN")
-
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/admin/{id}").hasRole("ADMIN")
 
 
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/**").hasRole("ADMIN")
+
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/*/status").hasRole("ADMIN")
 
 
