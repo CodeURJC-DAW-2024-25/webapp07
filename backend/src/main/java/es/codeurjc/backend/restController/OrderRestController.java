@@ -37,6 +37,8 @@ public class OrderRestController {
     private OrderMapper orderMapper;
 
 
+    //ADMIN
+
     @GetMapping("/admin")
     public ResponseEntity<Map<String, Object>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
@@ -51,6 +53,20 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<Map<String, String>> deleteOrder(@PathVariable Long id) {
+        Map<String, String> response = new HashMap<>();
+
+        try {
+            orderService.deleteOrderById(id);
+            response.put("message", "Order deleted successfully!");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("error", "Error deleting order.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> getOrdersById(@PathVariable Long id) {
@@ -60,16 +76,8 @@ public class OrderRestController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrderById(@PathVariable Long id) {
-        Optional<Order> orderOpt = orderService.getOrderById(id);
-        if (orderOpt.isPresent()) {
-            orderService.deleteOrderById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateOrder(@PathVariable Long id, @RequestBody OrderDTO orderDTO) {
