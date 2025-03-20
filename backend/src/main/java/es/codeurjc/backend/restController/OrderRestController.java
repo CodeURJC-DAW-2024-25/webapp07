@@ -104,10 +104,8 @@ public class OrderRestController {
 
         Long dishId = request.get("dishId");
 
-
         User user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
 
         Order cart = orderService.findCartByUser(user.getId())
                 .orElseGet(() -> {
@@ -116,14 +114,11 @@ public class OrderRestController {
                     return newCart;
                 });
 
-
         Dish dish = dishService.findById(dishId)
                 .orElseThrow(() -> new RuntimeException("Dish not found"));
 
-
         cart.getDishes().add(dish);
         orderService.saveOrder(cart);
-
 
         response.put("success", true);
         response.put("message", "Dish added to cart");
@@ -131,6 +126,38 @@ public class OrderRestController {
 
         return response;
     }
+
+    @GetMapping("/cart")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> viewCart(@AuthenticationPrincipal UserDetails userDetails) {
+        Map<String, Object> response = new HashMap<>();
+
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Order cart = orderService.findCartByUser(user.getId())
+                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart", 0.0));
+
+        boolean hasDishes = !cart.getDishes().isEmpty();
+
+        double totalPrice = cart.getDishes().stream()
+                .mapToDouble(Dish::getPrice)
+                .sum();
+
+        cart.setTotalPrice(totalPrice);
+        orderService.saveOrder(cart);
+
+        response.put("success", true);
+        response.put("message", "Cart retrieved successfully");
+        response.put("cartId", cart.getId());
+        response.put("hasDishes", hasDishes);
+        response.put("totalPrice", totalPrice);
+        response.put("dishes", cart.getDishes());
+
+        return ResponseEntity.ok(response);
+    }
+
+
 
 
 

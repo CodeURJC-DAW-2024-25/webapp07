@@ -76,6 +76,7 @@ public class WebSecurityConfig {
         http.authenticationProvider(authenticationProvider());
 
         http
+                    
                 .securityMatcher("/api/**")
                 .exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
 
@@ -98,17 +99,12 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/menu/**").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/orders/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/*/status").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/orders/cart/add").authenticated()
-
-
-
-
-
-
+                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/cart").authenticated()
 
 
 
