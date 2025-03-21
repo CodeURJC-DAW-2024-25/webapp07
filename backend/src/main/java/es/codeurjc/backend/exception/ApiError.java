@@ -7,14 +7,13 @@ public class ApiError {
     private String error;
     private String message;
     private String path;
-    private LocalDateTime timestamp;
+    private LocalDateTime timestamp = LocalDateTime.now();
 
     public ApiError(int status, String error, String message, String path) {
         this.status = status;
         this.error = error;
         this.message = message;
         this.path = path;
-        this.timestamp = LocalDateTime.now();
     }
 
     public int getStatus() { return status; }
@@ -23,4 +22,3 @@ public class ApiError {
     public String getPath() { return path; }
     public LocalDateTime getTimestamp() { return timestamp; }
 }
-
