@@ -114,7 +114,7 @@ public class RestExceptionHandler {
         error.put("message", "Something went wrong. Contact support.");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
-    
+
     private ResponseEntity<ApiError> buildError(HttpStatus status, String error, String message, HttpServletRequest request) {
         ApiError apiError = new ApiError(
                 status.value(),
