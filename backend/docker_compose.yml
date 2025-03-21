@@ -10,7 +10,7 @@ services:
     image: hugost010/webapp07:latest
     restart: on-failure
     build:
-      context: ../
+      context: ..
       dockerfile: docker/Dockerfile
     ports:
       - 8443:8443

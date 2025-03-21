@@ -2,8 +2,11 @@ package es.codeurjc.backend.controller;
 
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.DeviceRgb;
-import com.itextpdf.layout.property.HorizontalAlignment;
-import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.properties.HorizontalAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.kernel.pdf.*;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.*;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.model.Order;
 import es.codeurjc.backend.model.User;
@@ -18,9 +21,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.itextpdf.kernel.pdf.*;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.*;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -446,7 +446,7 @@ public class OrderController {
                 .setBackgroundColor(new DeviceRgb(15, 23, 43))
                 .setFontColor(new DeviceRgb(254, 161, 22))
                 .setFontSize(32)
-                .setBold()
+                .simulateBold()
                 .setMarginTop(0)
                 .setMarginLeft(0)
                 .setMarginRight(0)
@@ -457,7 +457,7 @@ public class OrderController {
         // Agregar título
         Paragraph title = new Paragraph("Order Nº: " + order.getId())
                 .setTextAlignment(TextAlignment.CENTER)
-                .setBold()
+                .simulateBold()
                 .setFontSize(20);
         document.add(title);
         document.add(new Paragraph(" ").setFontSize(8)); // Espacio
@@ -470,10 +470,10 @@ public class OrderController {
                 .useAllAvailableWidth()
                 .setHorizontalAlignment(HorizontalAlignment.CENTER);
 
-        userTable.addCell(new Cell().add(new Paragraph("Name:").setBold()));
+        userTable.addCell(new Cell().add(new Paragraph("Name:").simulateBold()));
         userTable.addCell(new Cell().add(new Paragraph(user.getFirstName() + " " + user.getLastName())));
 
-        userTable.addCell(new Cell().add(new Paragraph("Address:").setBold()));
+        userTable.addCell(new Cell().add(new Paragraph("Address:").simulateBold()));
         userTable.addCell(new Cell().add(new Paragraph(order.getAddress())));
 
         document.add(userTable);
@@ -484,8 +484,8 @@ public class OrderController {
                 .useAllAvailableWidth()
                 .setHorizontalAlignment(HorizontalAlignment.CENTER);
 
-        table.addHeaderCell(new Cell().add(new Paragraph("Dish").setBold()));
-        table.addHeaderCell(new Cell().add(new Paragraph("Price (€)").setBold()));
+        table.addHeaderCell(new Cell().add(new Paragraph("Dish").simulateBold()));
+        table.addHeaderCell(new Cell().add(new Paragraph("Price (€)").simulateBold()));
 
         for (Dish dish : order.getDishes()) {
             table.addCell(new Cell().add(new Paragraph(dish.getName())));
@@ -509,8 +509,8 @@ public class OrderController {
         summaryTable.addCell(new Cell().add(new Paragraph("€4.99"))
                 .setTextAlignment(TextAlignment.RIGHT));
 
-        summaryTable.addCell(new Cell().add(new Paragraph("Total:").setBold()));
-        summaryTable.addCell(new Cell().add(new Paragraph("€" + String.format("%.2f", finalPrice)).setBold())
+        summaryTable.addCell(new Cell().add(new Paragraph("Total:").simulateBold()));
+        summaryTable.addCell(new Cell().add(new Paragraph("€" + String.format("%.2f", finalPrice)).simulateBold())
                 .setTextAlignment(TextAlignment.RIGHT));
 
         document.add(summaryTable);
