@@ -1,6 +1,7 @@
 package es.codeurjc.backend.restController;
 
 import es.codeurjc.backend.dto.UserDTO;
+import es.codeurjc.backend.exception.custom.ResourceNotFoundException;
 import es.codeurjc.backend.mapper.UserMapper;
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.UserService;
@@ -56,7 +57,8 @@ public class UserRestController {
         return userService.findById(id)
                 .map(userMapper::toDto)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
+
     }
 
     @Operation(summary = "Get the authenticated user", description = "Returns the currently logged-in user.")
