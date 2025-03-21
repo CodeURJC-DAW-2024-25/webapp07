@@ -36,6 +36,7 @@ public class Dish {
 
     private boolean isVegan;
     @Lob
+    @JsonIgnore
     private Blob dishImagefile;
 
     private boolean image;

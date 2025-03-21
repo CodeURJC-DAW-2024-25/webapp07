@@ -1,9 +1,7 @@
 package es.codeurjc.backend.restController;
 import es.codeurjc.backend.dto.DishDTO;
-import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.mapper.DishMapper;
 import es.codeurjc.backend.model.Dish;
-import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.DishService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,7 +14,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
