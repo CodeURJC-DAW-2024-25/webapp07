@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy the project files into the working directory
 COPY ../backend/pom.xml ./pom.xml
-COPY ./backend/src ./src
+COPY ../backend/src ./src
 
 # Build the project and package the application
 
