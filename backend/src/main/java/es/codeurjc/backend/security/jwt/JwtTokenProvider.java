@@ -36,7 +36,7 @@ public class JwtTokenProvider {
         var cookies = request.getCookies();
         if (cookies == null) {
 
-            return null; 
+            return null;
         }
 
         for (Cookie cookie : cookies) {
