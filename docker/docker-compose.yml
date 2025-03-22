@@ -17,8 +17,8 @@ services:
     container_name: volteretacroqueta-app
     restart: always
     build:
-      context: ..
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: docker/Dockerfile
     ports:
       - 8443:8443
     environment:
