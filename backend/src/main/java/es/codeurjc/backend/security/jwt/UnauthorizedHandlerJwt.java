@@ -19,8 +19,18 @@ public class UnauthorizedHandlerJwt implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException {
-        logger.info("Unauthorized error: {}", authException.getMessage());
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
 
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "message: %s, path: %s".formatted(authException.getMessage(), request.getServletPath()));
+        String json = """
+            {
+                "status": 401,
+                "error": "Unauthorized",
+                "message": "%s",
+                "path": "%s"
+            }
+            """.formatted(authException.getMessage(), request.getServletPath());
+
+        response.getWriter().write(json);
     }
 }

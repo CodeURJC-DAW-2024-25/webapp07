@@ -1,6 +1,7 @@
 package es.codeurjc.backend.restController;
 
 import es.codeurjc.backend.dto.UserDTO;
+import es.codeurjc.backend.exception.custom.ResourceNotFoundException;
 import es.codeurjc.backend.mapper.UserMapper;
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.UserService;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +58,8 @@ public class UserRestController {
         return userService.findById(id)
                 .map(userMapper::toDto)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
+
     }
 
     @Operation(summary = "Get the authenticated user", description = "Returns the currently logged-in user.")
@@ -83,30 +86,22 @@ public class UserRestController {
             @ApiResponse(responseCode = "409", description = "Username or email already in use")
     })
     @PostMapping("/new")
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) {
         System.out.println("✅ createUser method invoked");
 
-        try {
-            String dateOfBirth = userDTO.dateOfBirth() != null ? userDTO.dateOfBirth().toString() : null;
+        String dateOfBirth = userDTO.dateOfBirth() != null ? userDTO.dateOfBirth().toString() : null;
 
-            Long userId = userService.registerUser(
-                    userDTO.username(),
-                    userDTO.email(),
-                    userDTO.password(),
-                    dateOfBirth
-            );
+        Long userId = userService.registerUser(
+                userDTO.username(),
+                userDTO.email(),
+                userDTO.password(),
+                dateOfBirth
+        );
 
-            URI location = URI.create("/api/v1/users/" + userId);
-            return ResponseEntity.created(location).body(userDTO);
-
-        } catch (DateTimeParseException e) {
-            return ResponseEntity.badRequest().body(null);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(409).body(null);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+        URI location = URI.create("/api/v1/users/" + userId);
+        return ResponseEntity.created(location).body(userDTO);
     }
+
 
     @Operation(summary = "Update user information", description = "Updates the details of an existing user.")
     @ApiResponses({

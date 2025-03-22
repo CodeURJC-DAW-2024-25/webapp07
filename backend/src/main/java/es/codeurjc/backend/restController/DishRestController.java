@@ -1,9 +1,7 @@
 package es.codeurjc.backend.restController;
 import es.codeurjc.backend.dto.DishDTO;
-import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.mapper.DishMapper;
 import es.codeurjc.backend.model.Dish;
-import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.DishService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,12 +9,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -91,9 +89,8 @@ public class DishRestController {
             @ApiResponse(responseCode = "404", description = "Dish not found")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<DishDTO> updateDish(@PathVariable Long id, @RequestBody DishDTO dishDTO) {
+    public ResponseEntity<DishDTO> updateDish(@PathVariable Long id, @Valid @RequestBody DishDTO dishDTO) {
         Optional<Dish> existingDish = dishService.findById(id);
-
         if (existingDish.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -139,13 +136,10 @@ public class DishRestController {
                             schema = @Schema(example = "{\"message\": \"Internal server error\"}")))
     })
     @PostMapping("/")
-    public ResponseEntity<DishDTO> createDish(@RequestBody DishDTO dishDTO) {
-
+    public ResponseEntity<DishDTO> createDish(@Valid @RequestBody DishDTO dishDTO) {
         dishDTO = dishService.createDish(dishDTO);
-
         URI location = fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dishDTO.id()).toUri();
-
         return ResponseEntity.created(location).body(dishDTO);
     }
 

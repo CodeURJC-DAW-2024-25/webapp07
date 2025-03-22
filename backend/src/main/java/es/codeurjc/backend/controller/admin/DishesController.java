@@ -59,9 +59,7 @@ public class DishesController {
      */
     @PostMapping("/mark-unavailable-dish/{id}")
     public String markUnavailable(@PathVariable Long id) {
-        Optional<Dish> dish =  dishService.findById(id);
-        dish.get().setAvailable(false);
-        dishService.save(dish.get());
+        dishService.disableById(id);
         return "redirect:/admin/dishes";
     }
     /**
@@ -72,9 +70,7 @@ public class DishesController {
      */
     @PostMapping("/mark-available-dish/{id}")
     public String markAvailable(@PathVariable Long id) {
-        Optional<Dish> dish =  dishService.findById(id);
-        dish.get().setAvailable(true);
-        dishService.save(dish.get());
+        dishService.enableById(id);
         return "redirect:/admin/dishes";
     }
 }

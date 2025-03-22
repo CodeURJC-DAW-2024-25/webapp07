@@ -46,6 +46,16 @@ ___
     - [**:file_folder:Diagram with the database entities**](#file_folder-Diagram-with-the-database-entities)
     - [**:art:Class diagram and templates**](#art-Class-diagram-and-templates)
     - [**:raised_hand: Participation**](#raised_hand-Participation)
+  - [**Phase 3**](#phase-3)
+  - [**:globe_with_meridians:API REST documentation**](#globe_with_meridians-API-REST-documentation)
+  - [**:art:Class diagram and templates 2**](#art-Class-diagram-and-templates-2)
+  - [**:feet:Instructions for Running the Dockerized Application**](#feet-Instructions-for-Running-the-Dockerized-Application)
+  - [**:paperclip: Documentation for Building the Docker Image**](#paperclip-Documentation-for-Building-the-Docker-Image)
+  - [**:dash: Deployment on Virtual Machine**](#dash-Deployment-on-Virtual-Machine)
+  - [**:dash: Deployed application URL**](#dash-Deployed-application-URL)
+  - [**:bust_in_silhouette: User Examples**](#bust_in_silhouette-User-Examples)
+  - [**:raised_hand: Participation**](#raised_hand-Participation-phase-3)
+
 
 # Phase 0
 ___
@@ -608,3 +618,186 @@ Next, a diagram will be included depicting the entities within the database, the
 | 4º |   [Add: RestaurantAvailabilityController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/1cc77b0ac47a49e832ba47552ad28fc255bf0f35)    | | 3º | [RestaurantAvailabilityController](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/admin/RestaurantAvailabilityController.java) |
 | 5º | [Add: RestaurantController + findByLocation](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/d1826816b8be1dbb1598680f48a8a0d9e0e3db5f) | | 4º |             [RestaurantController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/RestaurantController.java)              |
 
+___
+# Phase 3
+___
+# :globe_with_meridians: API REST documentation
+
+The REST API documentation is automatically generated and can be accessed in the following formats:
+
+### Link .yaml
+
+[api-docs.yaml](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/backend/api-docs/api-docs.yaml)
+
+
+### Link .html
+
+[api-docs.html](https://raw.githack.com/CodeURJC-DAW-2023-24/webapp16/main/backend/api-docs/api-docs.html)
+
+To generate or update this documentation, follow these commands:
+
+1. Change to the directory containing the `pom.xml` file:
+   ```shell
+   cd backend
+
+2. Then, use the command to generate or update the documentation:
+   ```shell
+   mvn verify
+
+---
+# :art: Class diagram and templates 2
+
+![*templateDiagram*](readmeImg/diagramaClass2.png)
+
+---
+
+
+# :feet: Instructions for Running the Dockerized Application
+
+To run the application using the docker-compose.yml file, follow these instructions:
+
+### Requirements:
+- Docker installed on the host machine
+- Docker Compose installed on the host machine
+
+### Steps:
+1. Clone the repository of the application using Git:
+   ```bash
+    git clone https://github.com/CodeURJC-DAW-2023-24/webapp16
+   ```
+2. Navigate to the directory where the docker-compose.yml file is located.
+3. Open a terminal or command prompt.
+4. Run the following command to start the application:
+
+   ```bash
+    docker-compose up 
+   ```
+   This command will start the application.
+
+
+5. Wait for the application to be fully deployed.
+
+### Accessing the Application:
+Once the application is ready to be used, you can access it through a web browser using the following URL:
+
+  ```plaintext
+   http://localhost:8443
+   ```
+
+---
+# :paperclip: Documentation for Building the Docker Image
+
+To build the dockerized image of the application, follow these instructions:
+
+### Requirements:
+- Docker installed on the host machine
+
+### Steps:
+1. Clone the repository of the application using Git:
+
+   ```bash
+    git clone https://github.com/CodeURJC-DAW-2024-25/webapp07
+   ```
+2. Navigate to the docker directory of the application.
+3. Open a terminal or command prompt.
+4. Execute the following command to build docker image and push it to your repository to publish the image:
+
+  ```bash
+    ./create_image.ps1 
+   ```
+:exclamation: :exclamation: You will have to modify the username to your docker username to run it. This script will publish the docker image.
+
+5. Wait for the docker image to be built.
+
+---
+
+# :dash: Deployment on Virtual Machine
+## Requirements
+* Operating system: Ubuntu 22.04
+* Provided Private Key : 'prAppWeb16.key'
+* Active internet connection to Eduroam
+
+## Steps
+
+1. **Ssh connection**
+
+   Connect to the virtual machine using SSH with the provided private key.
+
+    ``` bash 
+    ssh -i prAppWeb16.key vmuser@10.100.139.173
+    ``` 
+2. **Docker and Docker Compose Installation**
+
+   Install Docker and Docker Compose on the virtual machine following the official instructions:
+
+- Docker: [Installation instructions for Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+- Docker Compose: [Installation instructions](https://docs.docker.com/compose/install/)
+
+3. **Repository Cloning**
+
+   Clone the application repository using Git.
+
+   ```bash
+   git clone https://github.com/CodeURJC-DAW-2024-25/webapp07
+   ```
+
+4. **Application Execution**
+
+   Run the application using the `docker-compose.yml` file. Add the `-d` option to run in the background.
+
+   ```bash
+   cd webapp07/docker
+   sudo docker compose up -d
+   ```
+
+5. **Accessing the Application**
+
+   Once the application is running, you can access it from a web browser using the virtual machine's IP address and port 8443.
+
+   ```plaintext
+   https://10.100.139.173:8443
+   ```
+
+
+These steps will guide you through the process of deploying the application on the provided virtual machine. Make sure to follow each step carefully to ensure a successful deployment.
+
+
+---
+
+# :dash: Deployed application URL
+The application can be accessed at the following URL:
+   ```plaintext
+   https://10.100.139.173:8443
+   ```
+## :bust_in_silhouette: User Examples
+Below are the credentials for example users, including an administrator user, to test the application:
+
+
+| User Type     | :construction_worker: Username | :lock: Password |
+|---------------|--------------------------------|-----------------|
+| Administrator | admin                          | adminpass       |
+
+
+---
+# :raised_hand: Participation phase 3
+
+---
+
+#### Nicolás Hernández Tejero
+
+*  OpenAPI Integration for REST Documentation: I integrated springdoc-openapi into the project to automatically generate interactive Swagger UI documentation for all REST endpoints, improving both developer experience and API discoverability.
+*  Comprehensive DTO Annotations: I fully annotated the UserDTO, DishDTO, and OrderDTO classes using @Schema, providing clear descriptions, examples, and field-level documentation for Swagger.
+*  I implemented a centralized RestExceptionHandler using @RestControllerAdvice to handle various exceptions globally, returning clean and consistent JSON responses for errors like validation, type mismatch, bad credentials, and not found resources.
+*  Security Filter Chain for REST: I configured the SecurityFilterChain for /api/** routes to: Support JWT authentication, define fine-grained access rules for public, user, and admin routes, disable CSRF, form login, and basic auth for stateless API behavior
+*  Introduction of Sample Data via Postman: I introduced sample data into our application using Postman. This involved creating a collection of requests, each with its own set of parameters, headers, and body data.
+*  REST Controller Refactoring and Annotation: I reviewed and updated the UserRestController, DishRestController, and OrderRestController, ensuring proper usage of @Operation, @ApiResponses, and appropriate HTTP status codes
+*  Thorough Error Testing: I manually tested scenarios such as invalid user IDs, malformed JSON, unauthorized access, missing parameters, and non-existent endpoints to verify proper error propagation and consistent response formatting.
+* User Management API (UserRestController): Implemented endpoints for fetching all users and specific users by ID, creating new users, updating, banning/unbanning, and deleting users, searching users by query, and fetching the authenticated user (/me).
+
+| #   |                                                               Commit                                                               |     | #   |                                                                                         File                                                                                          |
+| :-: |:----------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |         [Complete: dockerizar app](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/f3573a8db146fc319af367bc9a6cb735960e45fd)          | | 1º |             [Dockerfile](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/docker/Dockerfile)              |
+| 2º  |         [Add: docker Compose](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/f3573a8db146fc319af367bc9a6cb735960e45fd)         | |2º |            [BlobConverter.java](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/backend/src/main/java/es/codeurjc/backend/utils/BlobConverter.java)             |
+| 3º  | [Add: Rest Search get](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/435c4307cbf54e304d61856e75b83fc5c0b4a3ab)  | | 3º | [PlayerRestController.java](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/backend/src/main/java/es/codeurjc/backend/RESTController/PlayerRestController.java)  |
+| 4º  | [Refactor: Add ReportWebController and StatisticsWebController](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/90641b8f2706538faefda665151c28915bc51671) | | 4º |            [TournamentRestController.java](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/backend/src/main/java/es/codeurjc/backend/RESTController/TournamentRestController.java)             |
+| 5º  |        [Add: REST player DELETE PUT POST](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/bed54deb0428fabb9c2e9f6388a1f204393c4292)        | | 5º | [TeamRestController.java](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/backend/src/main/java/es/codeurjc/backend/RESTController/TeamRestController.java) |
