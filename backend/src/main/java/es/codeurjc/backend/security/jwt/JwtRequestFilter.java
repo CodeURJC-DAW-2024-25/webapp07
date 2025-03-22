@@ -35,7 +35,27 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         try {
-            var claims = jwtTokenProvider.validateToken(request, true);
+            String token = null;
+            try {
+                token = jwtTokenProvider.tokenStringFromHeaders(request);
+            } catch (IllegalArgumentException ex) {
+                log.warn("No token found in Authorization header, trying cookies...");
+            }
+
+            if (token == null) {
+                try {
+                    token = jwtTokenProvider.tokenStringFromCookies(request);
+                } catch (IllegalArgumentException ex) {
+                    log.warn("No token found in cookies either.");
+                }
+            }
+
+            if (token == null) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            var claims = jwtTokenProvider.validateToken(token);
             var userDetails = userDetailsService.loadUserByUsername(claims.getSubject());
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -44,10 +64,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception ex) {
-            //Avoid logging when no token is found
-            if(!ex.getMessage().equals("No access token cookie found in request")) {
-                log.error("Exception processing JWT Token: ", ex);
-            }
+            log.error("Exception processing JWT Token: ", ex);
         }
 
         filterChain.doFilter(request, response);
