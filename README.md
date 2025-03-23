@@ -714,7 +714,7 @@ To build the dockerized image of the application, follow these instructions:
 # :dash: Deployment on Virtual Machine
 ## Requirements
 * Operating system: Ubuntu 22.04
-* Provided Private Key : 'prAppWeb16.key'
+* Provided Private Key : 'prAppWeb07.key'
 * Active internet connection to Eduroam
 
 ## Steps
@@ -724,7 +724,7 @@ To build the dockerized image of the application, follow these instructions:
    Connect to the virtual machine using SSH with the provided private key.
 
     ``` bash 
-    ssh -i prAppWeb16.key vmuser@10.100.139.173
+    ssh -i ssh-keys/appWeb07.key vmuser@10.100.139.50
     ``` 
 2. **Docker and Docker Compose Installation**
 
@@ -755,7 +755,7 @@ To build the dockerized image of the application, follow these instructions:
    Once the application is running, you can access it from a web browser using the virtual machine's IP address and port 8443.
 
    ```plaintext
-   https://10.100.139.173:8443
+   https://10.100.139.50:443
    ```
 
 
@@ -767,7 +767,7 @@ These steps will guide you through the process of deploying the application on t
 # :dash: Deployed application URL
 The application can be accessed at the following URL:
    ```plaintext
-   https://10.100.139.173:8443
+   https://10.100.139.50:443
    ```
 ## :bust_in_silhouette: User Examples
 Below are the credentials for example users, including an administrator user, to test the application:
