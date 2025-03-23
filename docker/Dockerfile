@@ -26,4 +26,4 @@ COPY --from=build /app/target/*.jar .
 EXPOSE 8443
 
 # Entrypoint command to run the application
-ENTRYPOINT ["java", "-jar", "backend-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "backend-0.0.1-SNAPSHOT.jar"]
