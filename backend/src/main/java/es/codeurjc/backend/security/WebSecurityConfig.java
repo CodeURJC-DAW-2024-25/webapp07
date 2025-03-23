@@ -170,6 +170,14 @@ public class WebSecurityConfig {
                         .requestMatchers("/menu/{id}/admin/remove-dish").hasAnyRole("ADMIN")
                         .requestMatchers("/menu/{id}/admin/mark-unavailable-dish").hasAnyRole("ADMIN")
 
+                        // Booking endpoints (only authenticated users)
+                        .requestMatchers(HttpMethod.GET, "/api/v1/bookings").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/bookings/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/bookings").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/bookings/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/bookings/**").authenticated()
+
+
 
 
 
