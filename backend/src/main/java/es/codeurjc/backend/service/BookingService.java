@@ -102,5 +102,11 @@ public class BookingService {
     public List<Booking> searchBookings(String query) {
         return bookingRepository.findByUser_UsernameContainingOrUser_EmailContainingOrUser_PhoneNumberContaining(query, query, query);
     }
+    public Optional<Booking> findById(Long id) {
+        return bookingRepository.findById(id);
+    }
+    public void save(Booking booking) {
+        bookingRepository.save(booking);
+    }
 
 }
