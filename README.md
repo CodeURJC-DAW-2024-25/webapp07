@@ -617,7 +617,7 @@ Next, a diagram will be included depicting the entities within the database, the
 | 3º |       [Update: CustomErrorController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/64354bdf7d231bad0f47fd80da72736bf01711a3)        | |2º |            [CustomErrorController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/CustomErrorController.java)             
 | 4º |   [Add: RestaurantAvailabilityController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/1cc77b0ac47a49e832ba47552ad28fc255bf0f35)    | | 3º | [RestaurantAvailabilityController](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/admin/RestaurantAvailabilityController.java) |
 | 5º | [Add: RestaurantController + findByLocation](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/d1826816b8be1dbb1598680f48a8a0d9e0e3db5f) | | 4º |             [RestaurantController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/RestaurantController.java)              |
-
+[.gitignore](backend/.gitignore)
 ___
 # Phase 3
 ___
