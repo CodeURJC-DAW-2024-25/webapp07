@@ -33,11 +33,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/users/me",
+							"raw": "https://localhost:8443/api/v1/users/me",
+							"protocol": "https",
 							"host": [
-								"{{base_url}}"
+								"localhost"
 							],
+							"port": "8443",
 							"path": [
+								"api",
+								"v1",
 								"users",
 								"me"
 							]
@@ -78,11 +82,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/users/new",
+							"raw": "https://localhost:8443/api/v1/users/new",
+							"protocol": "https",
 							"host": [
-								"{{base_url}}"
+								"localhost"
 							],
+							"port": "8443",
 							"path": [
+								"api",
+								"v1",
 								"users",
 								"new"
 							]
@@ -217,11 +225,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/auth/login",
+							"raw": "https://localhost:8443/api/v1/auth/login",
+							"protocol": "https",
 							"host": [
-								"{{base_url}}"
+								"localhost"
 							],
+							"port": "8443",
 							"path": [
+								"api",
+								"v1",
 								"auth",
 								"login"
 							]
@@ -244,11 +256,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/auth/login",
+							"raw": "https://localhost:8443/api/v1/auth/login",
+							"protocol": "https",
 							"host": [
-								"{{base_url}}"
+								"localhost"
 							],
+							"port": "8443",
 							"path": [
+								"api",
+								"v1",
 								"auth",
 								"login"
 							]
@@ -262,11 +278,15 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/auth/refresh",
+							"raw": "https://localhost:8443/api/v1/auth/refresh",
+							"protocol": "https",
 							"host": [
-								"{{base_url}}"
+								"localhost"
 							],
+							"port": "8443",
 							"path": [
+								"api",
+								"v1",
 								"auth",
 								"refresh"
 							]
@@ -280,11 +300,15 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/auth/logout",
+							"raw": "https://localhost:8443/api/v1/auth/logout",
+							"protocol": "https",
 							"host": [
-								"{{base_url}}"
+								"localhost"
 							],
+							"port": "8443",
 							"path": [
+								"api",
+								"v1",
 								"auth",
 								"logout"
 							]
@@ -314,6 +338,300 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "All Orders/admin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/orders",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/orders/5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}/admin",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/orders/admin/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								"admin",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}/admin",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"address\": \"Malaga\",\n  \"status\": \"Accepted\",\n  \"totalPrice\": 29.99\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/orders/admin/4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								"admin",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}/status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "Paid\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/orders/2/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								"2",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cart/add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dishId\": 3\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/orders/cart/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								"cart",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/orders/history",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								"history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cart/clear",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/orders/cart/clear",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								"cart",
+								"clear"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cart/remove",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"dishId\": 3\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/orders/cart/remove",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								"cart",
+								"remove"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}/summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/orders/2/summary",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								"2",
+								"summary"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}/update/address&status",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\": \"456 Elm Street\",\n    \"status\": \"Accepted\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/orders/6/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								"6",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice-data",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/orders/4/invoice-data",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								"4",
+								"invoice-data"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -324,11 +642,392 @@
 					"name": "menu",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/menu/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"menu",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "NewDish",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Papas con mojo\",\r\n        \"description\": \"Papas al estilo canario\",\r\n        \"pric\": 8,\r\n        \"ingredients\": [\r\n            \"patata\",\r\n            \"tomate\"\r\n        ],\r\n        \"allergens\": [\r\n            \"NONE\"\r\n        ],\r\n        \"isVegan\": false,\r\n        \"image\": false,\r\n        \"dishImagePat\": null,\r\n        \"isAvailable\": true,\r\n        \"rates\": [\r\n            3,\r\n            4,\r\n            5,\r\n            3,\r\n            1,\r\n            3,\r\n            2,\r\n            4,\r\n            4,\r\n            5\r\n        ],\r\n        \"rate\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/v1/menu/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"menu",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "disableDish",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/menu/2/disabled",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"menu",
+								"2",
+								"disabled"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enableDish",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/menu/1/enabled",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"menu",
+								"1",
+								"enabled"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/menu/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"menu",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Papas con mojo\",\r\n    \"description\": \"Papas al estilo canario\",\r\n    \"pric\": 0,\r\n    \"ingredients\": [\r\n        \"patata\",\r\n        \"tomate\"\r\n    ],\r\n    \"allergens\": [\r\n        \"NONE\"\r\n    ],\r\n    \"isVegan\": false,\r\n    \"image\": false,\r\n    \"dishImagePat\": null,\r\n    \"isAvailable\": false,\r\n    \"rates\": [\r\n        3,\r\n        4,\r\n        5,\r\n        3,\r\n        1,\r\n        3,\r\n        2,\r\n        4,\r\n        4,\r\n        5\r\n    ],\r\n    \"rate\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/v1/menu/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"menu",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getImage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/menu/2/image",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"menu",
+								"2",
+								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addImage",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imageFile",
+									"type": "file",
+									"src": "/C:/Users/hst04/Documents/GitHub/webapp07/backend/src/main/resources/static/img/dishes/Spaghetti_Carbonara.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/v1/menu/15/image",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"menu",
+								"15",
+								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeImage",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imageFile",
+									"type": "file",
+									"src": "/C:/Users/hst04/Documents/GitHub/webapp07/backend/src/main/resources/static/img/about-4.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/v1/menu/2/image",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"menu",
+								"2",
+								"image"
+							]
+						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Controlled Errors",
+			"item": [
+				{
+					"name": "User Not Found",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/users/999999",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"999999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Malformed JSON on User Creation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"test_user\",\r\n  \"email\": \"invalid-email\" // <-- Missing comma or wrong format\r\n  \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/v1/users/new",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Missing Required Parameter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/users/found",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"found"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid Parameter Type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/users/abc",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"abc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Access Denied",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Wrong HTTP Method",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
+			"description": "StartFragmentThis folder contains test requests designed to trigger controlled errors in the REST API. These requests simulate common failure scenarios such as invalid input, missing parameters, authentication failures, and incorrect HTTP methods. Each request is expected to return a meaningful error response in JSON format, which is handled gracefully by the centralized exception handler (`RestExceptionHandler`)EndFragment"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://localhost:8443/api/v1/",
+			"type": "string"
 		}
 	]
 }
