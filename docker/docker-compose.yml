@@ -15,7 +15,7 @@ services:
   web:
     image: hugost010/volteretacroqueta:latest
     container_name: volteretacroqueta-app
-    restart: always
+    restart: on-failure
     build:
       context: ../
       dockerfile: docker/Dockerfile
