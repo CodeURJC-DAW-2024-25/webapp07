@@ -9,6 +9,12 @@ import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.DishService;
 import es.codeurjc.backend.service.OrderService;
 import es.codeurjc.backend.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +45,18 @@ public class OrderRestController {
 
     //ADMIN
 
-    @GetMapping("/admin")
+    @Operation(
+            summary = "Get all orders",
+            description = "Retrieves a list of all orders in the system. Useful for admins or dashboards.",
+            tags = {"Orders"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of orders retrieved successfully",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content)
+    })
+    @GetMapping("/")
     public ResponseEntity<Map<String, Object>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
 
@@ -52,8 +69,19 @@ public class OrderRestController {
 
         return ResponseEntity.ok(response);
     }
-
-    @DeleteMapping("/admin/{id}")
+    @Operation(
+            summary = "Delete an order by ID",
+            description = "Deletes an order from the database using its unique ID. Only accessible to admins.",
+            tags = {"Orders"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Order deleted successfully",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error deleting order",
+                    content = @Content)
+    })
+    @Parameter(name = "id", description = "ID of the order to delete", required = true)
+    @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteOrder(@PathVariable Long id) {
         Map<String, String> response = new HashMap<>();
 
@@ -68,8 +96,20 @@ public class OrderRestController {
     }
 
 
+    @Operation(
+            summary = "Update an order by ID",
+            description = "Updates the address, status, or total price of an existing order. Admin access required.",
+            tags = {"Orders"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Order updated successfully",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Internal server error during update",
+                    content = @Content)
+    })
+    @Parameter(name = "id", description = "Order ID to update", required = true)
 
-    @PutMapping("/admin/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Map<String, String>> updateOrder(
             @PathVariable Long id,
             @RequestBody Map<String, Object> updates) {
@@ -97,7 +137,20 @@ public class OrderRestController {
 
 
 
-
+    @Operation(
+            summary = "Get an order by ID",
+            description = "Retrieves the details of a specific order by its ID. Only the user who placed the order can access it.",
+            tags = {"Orders"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Order retrieved successfully",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "403", description = "Access denied for this order",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Order not found",
+                    content = @Content)
+    })
+    @Parameter(name = "id", description = "Order ID to retrieve", required = true)
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         Optional<Order> orderOpt = orderService.getOrderById(id);
@@ -115,7 +168,16 @@ public class OrderRestController {
         return ResponseEntity.ok(order);
     }
 
-
+    @Operation(
+            summary = "Update order status",
+            description = "Allows updating the status of an existing order. Admin or user with proper permissions required.",
+            tags = {"Orders"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Order status updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Order not found", content = @Content)
+    })
+    @Parameter(name = "id", description = "Order ID", required = true)
     @PatchMapping("/{id}/status")
     public ResponseEntity<Void> updateOrderStatus(@PathVariable Long id, @RequestBody String newStatus) {
         Optional<Order> existingOrder = orderService.getOrderById(id);
@@ -128,7 +190,17 @@ public class OrderRestController {
 
         return ResponseEntity.noContent().build();
     }
-
+    @Operation(
+            summary = "Add a dish to the cart",
+            description = "Adds a dish to the current user's shopping cart. If no cart exists, a new one is created.",
+            tags = {"Cart"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Dish added to cart",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "400", description = "Missing 'dishId' in request body", content = @Content),
+            @ApiResponse(responseCode = "500", description = "User or dish not found", content = @Content)
+    })
     @PostMapping("/cart/add")
     @ResponseBody
     public Map<String, Object> addToCart(@RequestBody Map<String, Long> request, @AuthenticationPrincipal UserDetails userDetails) {
@@ -163,7 +235,33 @@ public class OrderRestController {
 
         return response;
     }
-
+    @Operation(
+            summary = "View cart",
+            description = "Retrieves the current authenticated user's shopping cart, including all dishes and total price.",
+            tags = {"Cart"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cart retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(example = """
+            {
+              "success": true,
+              "message": "Cart retrieved successfully",
+              "cartId": 12,
+              "hasDishes": true,
+              "totalPrice": 19.97,
+              "dishes": [
+                {
+                  "id": 1,
+                  "name": "Croqueta Deluxe",
+                  "price": 6.99,
+                  "isVegan": false
+                }
+              ]
+            }
+            """))),
+            @ApiResponse(responseCode = "500", description = "User not found", content = @Content)
+    })
     @GetMapping("/cart")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> viewCart(@AuthenticationPrincipal UserDetails userDetails) {
@@ -195,7 +293,22 @@ public class OrderRestController {
     }
 
 
-
+    @Operation(
+            summary = "Clear cart",
+            description = "Removes all dishes from the authenticated user's cart and resets total price to 0.",
+            tags = {"Cart"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cart cleared successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(example = """
+            {
+              "success": true,
+              "message": "Cart cleared successfully"
+            }
+            """))),
+            @ApiResponse(responseCode = "500", description = "User not found", content = @Content)
+    })
     @PutMapping("/cart/clear")
     public ResponseEntity<Map<String, Object>> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();
@@ -215,7 +328,37 @@ public class OrderRestController {
 
         return ResponseEntity.ok(response);
     }
-
+    @Operation(
+            summary = "Remove a dish from the cart",
+            description = "Removes a specific dish from the authenticated user's shopping cart by dishId.",
+            tags = {"Cart"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Dish removed from cart",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(example = """
+            {
+              "success": true,
+              "message": "Dish removed from cart"
+            }
+            """))),
+            @ApiResponse(responseCode = "400", description = "Missing dishId in request body",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(example = """
+            {
+              "success": false,
+              "message": "Missing 'dishId' in request body"
+            }
+            """))),
+            @ApiResponse(responseCode = "404", description = "Dish not found in cart",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(example = """
+            {
+              "success": false,
+              "message": "Dish not found in cart"
+            }
+            """)))
+    })
     @DeleteMapping("/cart/remove")
     public ResponseEntity<Map<String, Object>> removeFromCart(@RequestBody Map<String, Long> request,
                                                               @AuthenticationPrincipal UserDetails userDetails) {
@@ -249,6 +392,46 @@ public class OrderRestController {
         response.put("message", "Dish removed from cart");
         return ResponseEntity.ok(response);
     }
+
+    @Operation(
+            summary = "Get order summary",
+            description = "Returns a detailed summary of an order (if not yet paid), including final price, delivery cost and user info.",
+            tags = {"Orders"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Order summary retrieved",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(example = """
+            {
+              "id": 101,
+              "dishes": [
+                {
+                  "id": 1,
+                  "name": "Croqueta Deluxe",
+                  "price": 6.99
+                },
+                {
+                  "id": 2,
+                  "name": "Patatas Bravas",
+                  "price": 5.50
+                }
+              ],
+              "totalPrice": 12.49,
+              "deliveryCost": 4.99,
+              "finalPrice": 17.48,
+              "address": "123 Main Street",
+              "user": {
+                "id": 10,
+                "username": "john_doe",
+                "firstName": "John",
+                "lastName": "Doe"
+              }
+            }
+            """))),
+            @ApiResponse(responseCode = "302", description = "Order already paid. Redirect to detailed view"),
+            @ApiResponse(responseCode = "403", description = "Unauthorized to view this order"),
+            @ApiResponse(responseCode = "404", description = "Order not found")
+    })
 
     @GetMapping("/{id}/summary")
     public ResponseEntity<Map<String, Object>> getOrderSummary(
@@ -293,6 +476,36 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(
+            summary = "Get user order history",
+            description = "Retrieves all past orders marked as 'Paid' for the authenticated user.",
+            tags = {"Orders"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Order history retrieved",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(example = """
+            {
+              "success": true,
+              "message": "Order history retrieved successfully",
+              "orders": [
+                {
+                  "id": 1,
+                  "status": "Paid",
+                  "totalPrice": 18.95,
+                  "address": "123 Main Street"
+                },
+                {
+                  "id": 2,
+                  "status": "Paid",
+                  "totalPrice": 25.40,
+                  "address": "Avenida Siempre Viva 742"
+                }
+              ]
+            }
+            """))),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
 
     @GetMapping("/history")
     public ResponseEntity<Map<String, Object>> getUserOrderHistory(@AuthenticationPrincipal UserDetails userDetails) {
@@ -312,6 +525,28 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(
+            summary = "Update an order",
+            description = "Allows the authenticated user to update specific fields (status, address, totalPrice) of their order.",
+            tags = {"Orders"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Order updated successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(example = """
+            {
+              "success": true,
+              "message": "Order updated successfully",
+              "orderId": 101,
+              "status": "Confirmed",
+              "address": "456 Updated Street",
+              "totalPrice": 19.99
+            }
+            """))),
+            @ApiResponse(responseCode = "403", description = "Unauthorized to update this order"),
+            @ApiResponse(responseCode = "404", description = "Order or user not found"),
+            @ApiResponse(responseCode = "400", description = "Invalid input data")
+    })
     @PatchMapping("/{id}/update")
     public ResponseEntity<Map<String, Object>> updateOrder(@PathVariable Long id,@RequestBody Map<String, Object> updates,@AuthenticationPrincipal UserDetails userDetails) {
 
@@ -348,7 +583,42 @@ public class OrderRestController {
 
         return ResponseEntity.ok(response);
     }
-
+    
+    @Operation(
+            summary = "Get invoice data for an order",
+            description = "Returns invoice-related information for a specific order, including user details, subtotal, delivery cost, and list of dishes. Only the user who owns the order can access this information.",
+            tags = {"Orders"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Invoice data retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(example = """
+            {
+              "orderId": 42,
+              "userName": "John Doe",
+              "userAddress": "123 Main Street",
+              "subtotal": 27.50,
+              "deliveryCost": 4.99,
+              "totalPrice": 32.49,
+              "dishes": [
+                {
+                  "name": "Margherita Pizza",
+                  "price": 12.50
+                },
+                {
+                  "name": "Coke",
+                  "price": 3.00
+                },
+                {
+                  "name": "Chocolate Cake",
+                  "price": 12.00
+                }
+              ]
+            }
+            """))),
+            @ApiResponse(responseCode = "403", description = "User not authorized to access this order"),
+            @ApiResponse(responseCode = "404", description = "Order or user not found")
+    })
     @GetMapping("/{id}/invoice-data")
     @ResponseBody
     public Map<String, Object> getInvoiceData(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
