@@ -7,10 +7,12 @@ WORKDIR /app
 # Copy the project files into the working directory
 COPY ../backend/pom.xml ./pom.xml
 COPY ../backend/src ./src
+COPY ../backend/src/main/resources/static ./src/main/resources/static
+
 
 # Build the project and package the application
 
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -Pproduction
 
 
 # Use the official OpenJDK 21 image as the base image
