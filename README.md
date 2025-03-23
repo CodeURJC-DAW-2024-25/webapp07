@@ -776,7 +776,7 @@ Below are the credentials for example users, including an administrator user, to
 | User Type     | :construction_worker: Username | :lock: Password |
 |---------------|--------------------------------|-----------------|
 | Administrator | admin                          | adminpass       |
-| Administrator | user                           | pass            |
+| User          | user                           | pass            |
 
 
 
