@@ -62,4 +62,22 @@ public class RestaurantService {
         normalized = normalized.replaceAll("\\p{M}", "");
         return normalized;
     }
+    /**
+     * Saves or updates a restaurant.
+     *
+     * @param restaurant The restaurant to save.
+     * @return The saved restaurant.
+     */
+    public Restaurant save(Restaurant restaurant) {
+        return restaurantRepository.save(restaurant);
+    }
+
+    /**
+     * Deletes a restaurant by its ID.
+     *
+     * @param id The ID of the restaurant to delete.
+     */
+    public void deleteById(Long id) {
+        restaurantRepository.deleteById(id);
+    }
 }
