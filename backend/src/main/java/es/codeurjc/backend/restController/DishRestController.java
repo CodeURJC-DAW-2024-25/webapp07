@@ -179,4 +179,20 @@ public class DishRestController {
         List<DishDTO> dishes = dishService.searchDishByName(query);
         return ResponseEntity.ok(dishes);
     }
+
+    @GetMapping("/foundIngredient")
+    public ResponseEntity<List<DishDTO>> searchByIngredient(
+            @Parameter(description = "Search query for username or email") @RequestParam String query) {
+
+        List<DishDTO> dishes = dishService.searchDishByIngredient(query);
+        return ResponseEntity.ok(dishes);
+    }
+
+    @GetMapping("/foundPrice")
+    public ResponseEntity<List<DishDTO>> searchDishByMaxPrice(
+            @Parameter(description = "Search query for username or email") @RequestParam Integer query) {
+
+        List<DishDTO> dishes = dishService.searchDishByPrice(query);
+        return ResponseEntity.ok(dishes);
+    }
 }
