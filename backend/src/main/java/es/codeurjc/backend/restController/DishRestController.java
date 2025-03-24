@@ -1,9 +1,12 @@
 package es.codeurjc.backend.restController;
 import es.codeurjc.backend.dto.DishDTO;
+import es.codeurjc.backend.dto.UserDTO;
+import es.codeurjc.backend.exception.custom.ResourceNotFoundException;
 import es.codeurjc.backend.mapper.DishMapper;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.service.DishService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,10 +46,7 @@ public class DishRestController {
     })
     @GetMapping({"/", "/filter", "/sort"})
     public ResponseEntity<List<DishDTO>> showMenu() throws SQLException {
-        List<DishDTO> dishes = dishService.findAll()
-                .stream()
-                .map(dishMapper::toDto)
-                .toList();
+        List<DishDTO> dishes = dishService.findAll();
         return ResponseEntity.ok(dishes);
     }
 
@@ -60,25 +60,9 @@ public class DishRestController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<DishDTO> getDish(@PathVariable long id) {
-        Optional<Dish> dishOp = dishService.findById(id);
-        if (dishOp.isPresent()) {
-            DishDTO dish = dishOp.map(dishMapper::toDto).orElse(null);
-            return ResponseEntity.ok(dish);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @Operation(summary = "Delete a dish by ID", description = "Deletes a dish by their unique identifier")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Dish deleted",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = DishDTO.class))),
-            @ApiResponse(responseCode = "404", description = "User not found")
-    })
-    @DeleteMapping("/{id}")
-    public DishDTO deleteDish(@PathVariable long id) {
-        return dishService.deleteById(id);
+        return dishService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResourceNotFoundException("Dish with id " + id + " not found"));
     }
 
     @Operation(summary = "Update a dish by ID", description = "Update a dish by their unique identifier")
@@ -90,16 +74,8 @@ public class DishRestController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<DishDTO> updateDish(@PathVariable Long id, @Valid @RequestBody DishDTO dishDTO) {
-        Optional<Dish> existingDish = dishService.findById(id);
-        if (existingDish.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Dish dish = dishMapper.toEntity(dishDTO);
-        dish.setId(id);
-        dishService.save(dish);
-
-        return ResponseEntity.ok(dishMapper.toDto(dish));
+        Optional<DishDTO> updatedDish = dishService.updateDish(id, dishDTO);
+        return updatedDish.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Disable a dish", description = "Marks a dish as disable in the system.")
@@ -137,9 +113,8 @@ public class DishRestController {
     })
     @PostMapping("/")
     public ResponseEntity<DishDTO> createDish(@Valid @RequestBody DishDTO dishDTO) {
-        dishDTO = dishService.createDish(dishDTO);
-        URI location = fromCurrentRequest().path("/{id}")
-                .buildAndExpand(dishDTO.id()).toUri();
+        long dishId = dishService.createDish(dishDTO);
+        URI location = URI.create("/api/v1/dishes/" + dishId);
         return ResponseEntity.created(location).body(dishDTO);
     }
 
@@ -195,5 +170,13 @@ public class DishRestController {
         dishService.replaceDishImage(id, imageFile.getInputStream(), imageFile.getSize());
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/foundName")
+    public ResponseEntity<List<DishDTO>> searchDishByName(
+            @Parameter(description = "Search query for username or email") @RequestParam String query) {
+
+        List<DishDTO> dishes = dishService.searchDishByName(query);
+        return ResponseEntity.ok(dishes);
     }
 }
