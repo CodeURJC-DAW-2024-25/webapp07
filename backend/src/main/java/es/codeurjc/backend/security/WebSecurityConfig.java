@@ -109,18 +109,18 @@ public class WebSecurityConfig {
 
 
                         //orderAdmin
-                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/admin").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/admin/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/admin/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/{id}").hasRole("ADMIN")
 
                         //orderAuthenticated
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/orders/cart/add").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/orders/cart").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/cart").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/cart/clear").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/cart/remove").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/cart").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/cart/dish").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/history").authenticated()
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/{id}/update").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/{id}").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}/summary").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/*/status").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}/invoice-data").authenticated()
