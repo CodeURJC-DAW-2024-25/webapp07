@@ -67,7 +67,7 @@ public class BookingController {
 
         List<RestaurantDTO> restaurants = restaurantService.findAll();
 
-        model.addAttribute("user", user);
+        userService.toDto(user).ifPresent(dto -> model.addAttribute("user", dto));
         model.addAttribute("pageTitle", "Booking");
         model.addAttribute("restaurants", restaurants);
         return "booking";
