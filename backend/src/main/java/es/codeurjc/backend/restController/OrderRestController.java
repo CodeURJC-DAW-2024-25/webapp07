@@ -203,6 +203,24 @@ public class OrderRestController {
     }
 
 
+    @GetMapping("/history")
+    public ResponseEntity<Map<String, Object>> getUserOrderHistory(@AuthenticationPrincipal UserDetails userDetails) {
+        Map<String, Object> response = new HashMap<>();
+
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<OrderDTO> orderDTOs = orderService.getPaidOrderDTOsByUserId(user.getId());
+
+        response.put("success", true);
+        response.put("message", "Order history retrieved successfully");
+        response.put("orders", orderDTOs);
+
+        return ResponseEntity.ok(response);
+    }
+
+
+
 
 
 }

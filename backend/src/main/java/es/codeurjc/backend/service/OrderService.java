@@ -143,9 +143,13 @@ public class OrderService {
      * @param userId The ID of the user.
      * @return A list of orders with status "Paid".
      */
-    public List<Order> getPaidOrdersByUserId(Long userId) {
-        return orderRepository.findByUserIdAndStatus(userId, "Paid");
+    public List<OrderDTO> getPaidOrderDTOsByUserId(Long userId) {
+        List<Order> orders = orderRepository.findByUserIdAndStatus(userId, "Paid");
+        return orders.stream()
+                .map(orderMapper::toDto)
+                .toList();
     }
+
 
     /**
      * Retrieves the cart (order with status "Cart") for a specific user.
