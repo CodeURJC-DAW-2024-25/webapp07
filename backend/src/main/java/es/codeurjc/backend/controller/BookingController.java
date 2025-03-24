@@ -52,7 +52,7 @@ public class BookingController {
      */
     @GetMapping("/booking")
     public String showBookingForm(Model model, @AuthenticationPrincipal UserDetails loggedUser) {
-        Optional<User> userOpt = userService.findByUsername(loggedUser.getUsername());
+        Optional<User> userOpt = userService.getAuthenticatedUser();
         if (userOpt.isEmpty()) {
             model.addAttribute("error", "User not found.");
             return "redirect:/";
@@ -92,7 +92,7 @@ public class BookingController {
                                  @AuthenticationPrincipal UserDetails loggedUser,
                                  RedirectAttributes redirectAttributes) {
 
-        Optional<User> userOpt = userService.findByUsername(loggedUser.getUsername());
+        Optional<User> userOpt = userService.getAuthenticatedUser();
         if (userOpt.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "User not found.");
             return "redirect:/booking";
@@ -148,7 +148,7 @@ public class BookingController {
      */
     @GetMapping("/booking/my-booking")
     public String showUserBooking(Model model, @AuthenticationPrincipal UserDetails loggedUser) {
-        Optional<User> userOpt = userService.findByUsername(loggedUser.getUsername());
+        Optional<User> userOpt = userService.getAuthenticatedUser();
         if (userOpt.isPresent()) {
             Optional<Booking> bookingOpt = bookingService.findActiveBookingByUser(userOpt.get());
             if (bookingOpt.isPresent()) {
@@ -168,7 +168,7 @@ public class BookingController {
      */
     @PostMapping("/booking/cancel")
     public String cancelBooking(@AuthenticationPrincipal UserDetails loggedUser, RedirectAttributes redirectAttributes) {
-        Optional<User> userOpt = userService.findByUsername(loggedUser.getUsername());
+        Optional<User> userOpt = userService.getAuthenticatedUser();
         if (userOpt.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "User not found.");
             return "redirect:/profile";

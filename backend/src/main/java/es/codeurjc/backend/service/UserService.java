@@ -200,6 +200,21 @@ public class UserService {
     }
 
     /**
+     * Retrieves the currently authenticated user as a full User entity.
+     *
+     * @return Optional containing the User entity if authenticated, empty otherwise.
+     */
+    public Optional<User> getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+            return userRepository.findByUsername(userDetails.getUsername());
+        }
+
+        return Optional.empty();
+    }
+
+    /**
      * Deletes a user by their ID.
      *
      * @param id The ID of the user to delete.
