@@ -1,6 +1,10 @@
 package es.codeurjc.backend.service;
 
+import es.codeurjc.backend.dto.RestaurantDTO;
+import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.exception.custom.ResourceNotFoundException;
+import es.codeurjc.backend.mapper.DishMapper;
+import es.codeurjc.backend.mapper.UserMapper;
 import es.codeurjc.backend.model.Booking;
 import es.codeurjc.backend.model.Restaurant;
 import es.codeurjc.backend.model.User;
@@ -17,6 +21,9 @@ import java.util.Optional;
  */
 @Service
 public class BookingService {
+
+    @Autowired
+    private UserMapper userMapper;
 
     private final BookingRepository bookingRepository;
 
@@ -52,6 +59,30 @@ public class BookingService {
             throw new IllegalStateException("You already have an active booking. Please cancel it before creating a new one.");
         }
     }
+
+    public void validateBookingCreation(Long userId) {
+        if (hasActiveBookingByUserId(userId)) {
+            throw new IllegalStateException("You already have an active booking.");
+        }
+    }
+
+    public boolean createBooking(RestaurantDTO restaurantDTO, UserDTO userDTO, LocalDate date, String shift, int numPeople) {
+        Booking booking = new Booking();
+        booking.setDate(date);
+        booking.setShift(shift);
+        booking.setNumPeople(numPeople);
+
+        booking.setUser(userMapper.toEntity(userDTO));
+
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(restaurantDTO.id());
+        restaurant.setLocation(restaurantDTO.location());
+        booking.setRestaurant(restaurant);
+
+        bookingRepository.save(booking);
+        return true;
+    }
+
     public Optional<Booking> findActiveBookingByUserId(Long userId) {
         return bookingRepository.findActiveBookingByUserId(userId);
     }
@@ -192,4 +223,9 @@ public class BookingService {
                 .filter(b -> date == null || b.getDate().isEqual(date))
                 .toList();
     }
+
+    public boolean hasActiveBookingByUserId(Long userId) {
+        return findActiveBookingByUserId(userId).isPresent();
+    }
+
 }

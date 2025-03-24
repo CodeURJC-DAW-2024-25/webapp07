@@ -36,12 +36,6 @@ public class OrderRestController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private DishService dishService;
-
-    @Autowired
-    private OrderMapper orderMapper;
-
 
     //ADMIN
 
@@ -58,17 +52,12 @@ public class OrderRestController {
     })
     @GetMapping("/")
     public ResponseEntity<Map<String, Object>> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("orders", orders);
-        response.put("hasOrders", !orders.isEmpty());
-        response.put("modalId", "confirmationModal");
-        response.put("confirmButtonId", "confirmAction");
-        response.put("modalMessage", "Are you sure you want to proceed with this action?");
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(orderService.getAllOrdersAsDTOMap());
     }
+
+
+
+
     @Operation(
             summary = "Delete an order by ID",
             description = "Deletes an order from the database using its unique ID. Only accessible to admins.",
@@ -83,17 +72,16 @@ public class OrderRestController {
     @Parameter(name = "id", description = "ID of the order to delete", required = true)
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteOrder(@PathVariable Long id) {
-        Map<String, String> response = new HashMap<>();
-
         try {
-            orderService.deleteOrderById(id);
-            response.put("message", "Order deleted successfully!");
+            Map<String, String> response = orderService.deleteOrderAndReturnResponse(id);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            response.put("error", "Error deleting order.");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error deleting order."));
         }
     }
+
+
 
 
     @Operation(
@@ -113,16 +101,8 @@ public class OrderRestController {
     public ResponseEntity<Map<String, String>> updateOrder(
             @PathVariable Long id,
             @RequestBody Map<String, Object> updates) {
-
         try {
-            String status = (String) updates.getOrDefault("status", "Pending");
-            String address = (String) updates.get("address");
-            Double totalPrice = ((Number) updates.get("totalPrice")).doubleValue();
-
-            orderService.updateOrder(id, address, status, totalPrice);
-
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Order updated successfully!");
+            Map<String, String> response = orderService.updateOrderFromMap(id, updates);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -131,11 +111,7 @@ public class OrderRestController {
     }
 
 
-
-
     //USER
-
-
 
     @Operation(
             summary = "Get an order by ID",
@@ -152,21 +128,11 @@ public class OrderRestController {
     })
     @Parameter(name = "id", description = "Order ID to retrieve", required = true)
     @GetMapping("/{id}")
-    public ResponseEntity<?> getOrderById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
-        Optional<Order> orderOpt = orderService.getOrderById(id);
-
-        if (orderOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.singletonMap("error", "Order not found"));
-        }
-
-        Order order = orderOpt.get();
-
-        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Collections.singletonMap("error", "Access denied"));
-        }
-
-        return ResponseEntity.ok(order);
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        OrderDTO orderDTO = orderService.getOrderDTOByIdForUser(id, userDetails.getUsername());
+        return ResponseEntity.ok(orderDTO);
     }
+
 
     @Operation(
             summary = "Update order status",
@@ -179,482 +145,150 @@ public class OrderRestController {
     })
     @Parameter(name = "id", description = "Order ID", required = true)
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Void> updateOrderStatus(@PathVariable Long id, @RequestBody String newStatus) {
-        Optional<Order> existingOrder = orderService.getOrderById(id);
-
-        if (existingOrder.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        orderService.updateOrderStatus(id, newStatus.trim());
-
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<OrderDTO> updateOrderStatus(@PathVariable Long id, @RequestBody String newStatus) {
+        OrderDTO updatedOrder = orderService.updateOrderStatusChecked(id, newStatus.trim());
+        return ResponseEntity.ok(updatedOrder);
     }
+
     @Operation(
             summary = "Add a dish to the cart",
-            description = "Adds a dish to the current user's shopping cart. If no cart exists, a new one is created.",
+            description = "Adds a dish to the current user's shopping cart. If no cart exists, one will be created.",
             tags = {"Cart"}
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Dish added to cart",
-                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "200", description = "Dish added to cart successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = OrderDTO.class))),
             @ApiResponse(responseCode = "400", description = "Missing 'dishId' in request body", content = @Content),
-            @ApiResponse(responseCode = "500", description = "User or dish not found", content = @Content)
+            @ApiResponse(responseCode = "404", description = "User or Dish not found", content = @Content)
     })
     @PostMapping("/cart")
-    @ResponseBody
-    public Map<String, Object> addToCart(@RequestBody Map<String, Long> request, @AuthenticationPrincipal UserDetails userDetails) {
-        Map<String, Object> response = new HashMap<>();
-
-
+    public ResponseEntity<OrderDTO> addToCart(@RequestBody Map<String, Long> request,
+                                              @AuthenticationPrincipal UserDetails userDetails) {
         if (!request.containsKey("dishId")) {
-            throw new RuntimeException("Missing 'dishId' in request body");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing 'dishId' in request body");
         }
-
         Long dishId = request.get("dishId");
-
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        Order cart = orderService.findCartByUser(user.getId())
-                .orElseGet(() -> {
-                    Order newCart = new Order(new ArrayList<>(), user, "", "Cart", 0.0);
-                    orderService.saveOrder(newCart);
-                    return newCart;
-                });
-
-        Dish dish = dishService.findById(dishId)
-                .orElseThrow(() -> new RuntimeException("Dish not found"));
-
-        cart.getDishes().add(dish);
-        orderService.saveOrder(cart);
-
-        response.put("success", true);
-        response.put("message", "Dish added to cart");
-        response.put("cartId", cart.getId());
-
-        return response;
+        OrderDTO cartDTO = orderService.addDishToUserCart(dishId, userDetails.getUsername());
+        return ResponseEntity.ok(cartDTO);
     }
+
     @Operation(
-            summary = "View cart",
-            description = "Retrieves the current authenticated user's shopping cart, including all dishes and total price.",
+            summary = "View current cart",
+            description = "Retrieves the current user's shopping cart. If none exists, an empty cart is returned.",
             tags = {"Cart"}
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cart retrieved successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(example = """
-            {
-              "success": true,
-              "message": "Cart retrieved successfully",
-              "cartId": 12,
-              "hasDishes": true,
-              "totalPrice": 19.97,
-              "dishes": [
-                {
-                  "id": 1,
-                  "name": "Croqueta Deluxe",
-                  "price": 6.99,
-                  "isVegan": false
-                }
-              ]
-            }
-            """))),
-            @ApiResponse(responseCode = "500", description = "User not found", content = @Content)
+                            schema = @Schema(implementation = OrderDTO.class))),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
     @GetMapping("/cart")
-    @ResponseBody
-    public ResponseEntity<Map<String, Object>> viewCart(@AuthenticationPrincipal UserDetails userDetails) {
-        Map<String, Object> response = new HashMap<>();
-
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        Order cart = orderService.findCartByUser(user.getId())
-                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart", 0.0));
-
-        boolean hasDishes = !cart.getDishes().isEmpty();
-
-        double totalPrice = cart.getDishes().stream()
-                .mapToDouble(Dish::getPrice)
-                .sum();
-
-        cart.setTotalPrice(totalPrice);
-        orderService.saveOrder(cart);
-
-        response.put("success", true);
-        response.put("message", "Cart retrieved successfully");
-        response.put("cartId", cart.getId());
-        response.put("hasDishes", hasDishes);
-        response.put("totalPrice", totalPrice);
-        response.put("dishes", cart.getDishes());
-
-        return ResponseEntity.ok(response);
+    public ResponseEntity<OrderDTO> viewCart(@AuthenticationPrincipal UserDetails userDetails) {
+        OrderDTO cartDTO = orderService.viewCartForUser(userDetails.getUsername());
+        return ResponseEntity.ok(cartDTO);
     }
 
 
     @Operation(
-            summary = "Clear cart",
-            description = "Removes all dishes from the authenticated user's cart and resets total price to 0.",
+            summary = "Clear user's cart",
+            description = "Removes all dishes from the user's shopping cart.",
             tags = {"Cart"}
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cart cleared successfully",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(example = """
-            {
-              "success": true,
-              "message": "Cart cleared successfully"
-            }
-            """))),
-            @ApiResponse(responseCode = "500", description = "User not found", content = @Content)
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
-    @PutMapping("/cart")
-    public ResponseEntity<Map<String, Object>> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
-        Map<String, Object> response = new HashMap<>();
+    @DeleteMapping("/cart/dish")
+    public ResponseEntity<Map<String, Object>> removeFromCart(@RequestParam Long dishId,@AuthenticationPrincipal UserDetails userDetails) {
 
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        Order cart = orderService.findCartByUser(user.getId())
-                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart", 0.0));
-
-        cart.getDishes().clear();
-        cart.setTotalPrice(0.0);
-        orderService.saveOrder(cart);
-
-        response.put("success", true);
-        response.put("message", "Cart cleared successfully");
-
+        Map<String, Object> response = orderService.clearUserCart(userDetails.getUsername());
         return ResponseEntity.ok(response);
     }
+
     @Operation(
-            summary = "Remove a dish from the cart",
-            description = "Removes a specific dish from the authenticated user's shopping cart by dishId.",
+            summary = "Clear user's cart",
+            description = "Removes all dishes from the user's shopping cart.",
             tags = {"Cart"}
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Dish removed from cart",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(example = """
-            {
-              "success": true,
-              "message": "Dish removed from cart"
-            }
-            """))),
-            @ApiResponse(responseCode = "400", description = "Missing dishId in request body",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(example = """
-            {
-              "success": false,
-              "message": "Missing 'dishId' in request body"
-            }
-            """))),
-            @ApiResponse(responseCode = "404", description = "Dish not found in cart",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(example = """
-            {
-              "success": false,
-              "message": "Dish not found in cart"
-            }
-            """)))
+            @ApiResponse(responseCode = "200", description = "Cart cleared successfully",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
-    @DeleteMapping("/cart/dish")
-    public ResponseEntity<Map<String, Object>> removeFromCart(@RequestBody Map<String, Long> request,
-                                                              @AuthenticationPrincipal UserDetails userDetails) {
-        Map<String, Object> response = new HashMap<>();
-
-        if (!request.containsKey("dishId")) {
-            response.put("success", false);
-            response.put("message", "Missing 'dishId' in request body");
-            return ResponseEntity.badRequest().body(response);
-        }
-
-        Long dishId = request.get("dishId");
-
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        Order cart = orderService.findCartByUser(user.getId())
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
-
-        boolean removed = cart.getDishes().removeIf(dish -> dish.getId().equals(dishId));
-
-        if (!removed) {
-            response.put("success", false);
-            response.put("message", "Dish not found in cart");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-        }
-
-        orderService.saveOrder(cart);
-
-        response.put("success", true);
-        response.put("message", "Dish removed from cart");
-        return ResponseEntity.ok(response);
-    }
-
-    @Operation(
-            summary = "Get order summary",
-            description = "Returns a detailed summary of an order (if not yet paid), including final price, delivery cost and user info.",
-            tags = {"Orders"}
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Order summary retrieved",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(example = """
-            {
-              "id": 101,
-              "dishes": [
-                {
-                  "id": 1,
-                  "name": "Croqueta Deluxe",
-                  "price": 6.99
-                },
-                {
-                  "id": 2,
-                  "name": "Patatas Bravas",
-                  "price": 5.50
-                }
-              ],
-              "totalPrice": 12.49,
-              "deliveryCost": 4.99,
-              "finalPrice": 17.48,
-              "address": "123 Main Street",
-              "user": {
-                "id": 10,
-                "username": "john_doe",
-                "firstName": "John",
-                "lastName": "Doe"
-              }
-            }
-            """))),
-            @ApiResponse(responseCode = "302", description = "Order already paid. Redirect to detailed view"),
-            @ApiResponse(responseCode = "403", description = "Unauthorized to view this order"),
-            @ApiResponse(responseCode = "404", description = "Order not found")
-    })
-
     @GetMapping("/{id}/summary")
     public ResponseEntity<Map<String, Object>> getOrderSummary(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails userDetails) {
 
-        Order order = orderService.getOrderById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
-
-        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to view this order.");
+        try {
+            Map<String, Object> summary = orderService.getOrderSummaryDTOById(id, userDetails.getUsername());
+            return ResponseEntity.ok(summary);
+        } catch (ResponseStatusException ex) {
+            if (ex.getStatusCode() == HttpStatus.FOUND) {
+                return ResponseEntity.status(HttpStatus.FOUND)
+                        .header("Location", "/api/v1/orders/" + id + "/more-info")
+                        .build();
+            }
+            throw ex;
         }
-
-        if ("Paid".equals(order.getStatus())) {
-            return ResponseEntity.status(HttpStatus.FOUND)
-                    .header("Location", "/api/v1/orders/" + id + "/more-info")
-                    .build();
-        }
-
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        double deliveryCost = 4.99;
-        double totalPrice = order.getTotalPrice();
-        double finalPrice = Math.round((totalPrice + deliveryCost) * 100.0) / 100.0;
-
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("id", order.getId());
-        response.put("dishes", order.getDishes());
-        response.put("totalPrice", totalPrice);
-        response.put("deliveryCost", deliveryCost);
-        response.put("finalPrice", finalPrice);
-        response.put("address", order.getAddress());
-        response.put("user", Map.of(
-                "id", user.getId(),
-                "username", user.getUsername(),
-                "firstName", user.getFirstName(),
-                "lastName", user.getLastName()
-        ));
-
-        return ResponseEntity.ok(response);
     }
 
     @Operation(
             summary = "Get user order history",
-            description = "Retrieves all past orders marked as 'Paid' for the authenticated user.",
+            description = "Returns all 'Paid' orders for the authenticated user.",
             tags = {"Orders"}
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Order history retrieved",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(example = """
-            {
-              "success": true,
-              "message": "Order history retrieved successfully",
-              "orders": [
-                {
-                  "id": 1,
-                  "status": "Paid",
-                  "totalPrice": 18.95,
-                  "address": "123 Main Street"
-                },
-                {
-                  "id": 2,
-                  "status": "Paid",
-                  "totalPrice": 25.40,
-                  "address": "Avenida Siempre Viva 742"
-                }
-              ]
-            }
-            """))),
+            @ApiResponse(responseCode = "200", description = "Order history retrieved"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-
     @GetMapping("/history")
     public ResponseEntity<Map<String, Object>> getUserOrderHistory(@AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();
 
-
         User user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-
-        List<Order> orders = orderService.getPaidOrdersByUserId(user.getId());
+        List<OrderDTO> orderDTOs = orderService.getPaidOrderDTOsByUserId(user.getId());
 
         response.put("success", true);
         response.put("message", "Order history retrieved successfully");
-        response.put("orders", orders);
+        response.put("orders", orderDTOs);
 
         return ResponseEntity.ok(response);
     }
 
+
     @Operation(
-            summary = "Update an order",
-            description = "Allows the authenticated user to update specific fields (status, address, totalPrice) of their order.",
+            summary = "Update order status and address",
+            description = "Updates the status and address of an existing order. Accessible by the order's owner.",
             tags = {"Orders"}
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Order updated successfully",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(example = """
-            {
-              "success": true,
-              "message": "Order updated successfully",
-              "orderId": 101,
-              "status": "Confirmed",
-              "address": "456 Updated Street",
-              "totalPrice": 19.99
-            }
-            """))),
-            @ApiResponse(responseCode = "403", description = "Unauthorized to update this order"),
-            @ApiResponse(responseCode = "404", description = "Order or user not found"),
-            @ApiResponse(responseCode = "400", description = "Invalid input data")
+                            schema = @Schema(implementation = OrderDTO.class))),
+            @ApiResponse(responseCode = "403", description = "Unauthorized to update this order", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Order not found", content = @Content)
     })
     @PatchMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateOrder(@PathVariable Long id,@RequestBody Map<String, Object> updates,@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<OrderDTO> updateOrderStatusAndAddress(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> updates) {
 
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        String status = updates.getOrDefault("status", "").trim();
+        String address = updates.getOrDefault("address", "").trim();
 
-
-        Order order = orderService.getOrderById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
-
-        if (!order.getUser().equals(user)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Unauthorized: You can't update this order.");
-        }
-
-        if (updates.containsKey("address") && updates.get("address") instanceof String address) {
-            order.setAddress(address);
-        }
-        if (updates.containsKey("status") && updates.get("status") instanceof String status) {
-            order.setStatus(status);
-        }
-        if (updates.containsKey("totalPrice") && updates.get("totalPrice") instanceof Number totalPrice) {
-            order.setTotalPrice(totalPrice.doubleValue());
-        }
-
-        orderService.saveOrder(order);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("message", "Order updated successfully");
-        response.put("orderId", order.getId());
-        response.put("status", order.getStatus());
-        response.put("address", order.getAddress());
-        response.put("totalPrice", order.getTotalPrice());
-
-        return ResponseEntity.ok(response);
+        OrderDTO updatedOrder = orderService.updateOrderStatusAndAddressChecked(id, status, address);
+        return ResponseEntity.ok(updatedOrder);
     }
 
-    @Operation(
-            summary = "Get invoice data for an order",
-            description = "Returns invoice-related information for a specific order, including user details, subtotal, delivery cost, and list of dishes. Only the user who owns the order can access this information.",
-            tags = {"Orders"}
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Invoice data retrieved successfully",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(example = """
-            {
-              "orderId": 42,
-              "userName": "John Doe",
-              "userAddress": "123 Main Street",
-              "subtotal": 27.50,
-              "deliveryCost": 4.99,
-              "totalPrice": 32.49,
-              "dishes": [
-                {
-                  "name": "Margherita Pizza",
-                  "price": 12.50
-                },
-                {
-                  "name": "Coke",
-                  "price": 3.00
-                },
-                {
-                  "name": "Chocolate Cake",
-                  "price": 12.00
-                }
-              ]
-            }
-            """))),
-            @ApiResponse(responseCode = "403", description = "User not authorized to access this order"),
-            @ApiResponse(responseCode = "404", description = "Order or user not found")
-    })
-    @GetMapping("/{id}/invoice-data")
-    @ResponseBody
-    public Map<String, Object> getInvoiceData(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
-        Order order = orderService.getOrderById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
-
-        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to view this invoice");
-        }
-
-        User user = userService.findByUsername(order.getUser().getUsername())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-
-        double deliveryCost = 4.99;
-        double finalPrice = order.getTotalPrice() + deliveryCost;
 
 
-        Map<String, Object> invoiceData = new HashMap<>();
-        invoiceData.put("orderId", order.getId());
-        invoiceData.put("userName", user.getFirstName() + " " + user.getLastName());
-        invoiceData.put("userAddress", order.getAddress());
-        invoiceData.put("subtotal", order.getTotalPrice());
-        invoiceData.put("deliveryCost", deliveryCost);
-        invoiceData.put("totalPrice", finalPrice);
 
-        List<Map<String, Object>> dishesList = new ArrayList<>();
-        for (Dish dish : order.getDishes()) {
-            Map<String, Object> dishData = new HashMap<>();
-            dishData.put("name", dish.getName());
-            dishData.put("price", dish.getPrice());
-            dishesList.add(dishData);
-        }
-        invoiceData.put("dishes", dishesList);
-
-        return invoiceData;
-    }
 
 
 }

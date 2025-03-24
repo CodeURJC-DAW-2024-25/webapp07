@@ -44,15 +44,13 @@ public class ProfileController {
 
         String username = userDetails.getUsername();
 
-        Optional<User> userOpt = userService.findByUsernameEntity(username); // <-- método que tienes que añadir si no existe
+        Optional<User> userOpt = userService.findByUsernameEntity(username);
 
         userOpt.ifPresent(user -> {
-            // Añadimos el booking activo
             bookingService.findActiveBookingByUser(user)
                     .ifPresent(booking -> model.addAttribute("booking", booking));
 
-            // Añadimos también el DTO para mostrar datos del usuario
-            model.addAttribute("user", userService.toDto(user).get());
+            userService.toDto(user).ifPresent(dto -> model.addAttribute("user", dto));
         });
 
         model.addAttribute("editMode", edit);
@@ -65,6 +63,7 @@ public class ProfileController {
 
         return "profile";
     }
+
 
     /**
      * Handles the update of the authenticated user's profile information.

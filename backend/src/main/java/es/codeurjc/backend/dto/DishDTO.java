@@ -25,7 +25,7 @@ public record DishDTO(
 
         @Min(value = 1, message = "Price must be greater than 0")
         @Schema(description = "Price of the dish in cents", example = "950")
-        int pric,
+        int price,
 
         @NotNull(message = "Ingredients list is required")
         @Size(min = 1, message = "At least one ingredient is required")

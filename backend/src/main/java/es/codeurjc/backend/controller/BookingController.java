@@ -1,6 +1,7 @@
 package es.codeurjc.backend.controller;
 
 import es.codeurjc.backend.dto.RestaurantDTO;
+import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.mapper.RestaurantMapper;
 import es.codeurjc.backend.model.Booking;
 import es.codeurjc.backend.model.Restaurant;
@@ -52,14 +53,15 @@ public class BookingController {
      */
     @GetMapping("/booking")
     public String showBookingForm(Model model, @AuthenticationPrincipal UserDetails loggedUser) {
-        Optional<User> userOpt = userService.getAuthenticatedUser();
+        Optional<UserDTO> userOpt = userService.getAuthenticatedUserDto();
         if (userOpt.isEmpty()) {
             model.addAttribute("error", "User not found.");
             return "redirect:/";
         }
 
-        User user = userOpt.get();
-        if (bookingService.hasActiveBooking(user)) {
+        UserDTO user = userOpt.get();
+
+        if (bookingService.hasActiveBookingByUserId(user.id())) {
             model.addAttribute("pageTitle", "Existing Reservation");
             model.addAttribute("message", "You already have an active reservation. To make a new one, please cancel your existing booking in your profile.");
             return "booking-existing";
@@ -67,11 +69,13 @@ public class BookingController {
 
         List<RestaurantDTO> restaurants = restaurantService.findAll();
 
-        userService.toDto(user).ifPresent(dto -> model.addAttribute("user", dto));
+        model.addAttribute("user", user);
         model.addAttribute("pageTitle", "Booking");
         model.addAttribute("restaurants", restaurants);
+
         return "booking";
     }
+
 
     /**
      * Processes a new booking request.
@@ -92,16 +96,16 @@ public class BookingController {
                                  @AuthenticationPrincipal UserDetails loggedUser,
                                  RedirectAttributes redirectAttributes) {
 
-        Optional<User> userOpt = userService.getAuthenticatedUser();
+        Optional<UserDTO> userOpt = userService.getAuthenticatedUserDto();
         if (userOpt.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "User not found.");
             return "redirect:/booking";
         }
 
-        User user = userOpt.get();
+        UserDTO userDTO = userOpt.get();
 
         try {
-            bookingService.validateBookingCreation(user, user.getId());
+            bookingService.validateBookingCreation(userDTO.id());
         } catch (IllegalArgumentException | IllegalStateException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/booking";
@@ -113,12 +117,9 @@ public class BookingController {
             return "redirect:/booking";
         }
 
-        RestaurantDTO restaurantDto = restaurantOpt.get();
-        Restaurant restaurant = new Restaurant();
-        restaurant.setId(restaurantDto.id());
-        restaurant.setLocation(restaurantDto.location());
+        RestaurantDTO restaurantDTO = restaurantOpt.get();
 
-        boolean success = bookingService.createBooking(restaurant, user, date, shift, numPeople);
+        boolean success = bookingService.createBooking(restaurantDTO, userDTO, date, shift, numPeople);
         if (success) {
             return "booking-confirmation";
         } else {
@@ -126,6 +127,7 @@ public class BookingController {
             return "redirect:/booking";
         }
     }
+
 
     /**
      * Displays the booking confirmation page.
@@ -148,9 +150,9 @@ public class BookingController {
      */
     @GetMapping("/booking/my-booking")
     public String showUserBooking(Model model, @AuthenticationPrincipal UserDetails loggedUser) {
-        Optional<User> userOpt = userService.getAuthenticatedUser();
+        Optional<UserDTO> userOpt = userService.getAuthenticatedUserDto();
         if (userOpt.isPresent()) {
-            Optional<Booking> bookingOpt = bookingService.findActiveBookingByUser(userOpt.get());
+            Optional<Booking> bookingOpt = bookingService.findActiveBookingByUserId(userOpt.get().id());
             if (bookingOpt.isPresent()) {
                 model.addAttribute("booking", bookingOpt.get());
                 return "redirect:/profile";
@@ -158,6 +160,7 @@ public class BookingController {
         }
         return "redirect:/booking";
     }
+
 
     /**
      * Cancels an active booking for the current user.
@@ -168,14 +171,14 @@ public class BookingController {
      */
     @PostMapping("/booking/cancel")
     public String cancelBooking(@AuthenticationPrincipal UserDetails loggedUser, RedirectAttributes redirectAttributes) {
-        Optional<User> userOpt = userService.getAuthenticatedUser();
+        Optional<UserDTO> userOpt = userService.getAuthenticatedUserDto();
         if (userOpt.isEmpty()) {
             redirectAttributes.addFlashAttribute("error", "User not found.");
             return "redirect:/profile";
         }
 
-        User user = userOpt.get();
-        Optional<Booking> booking = bookingService.findActiveBookingByUser(user);
+        Long userId = userOpt.get().id();
+        Optional<Booking> booking = bookingService.findActiveBookingByUserId(userId);
 
         if (booking.isPresent()) {
             bookingService.cancelBooking(booking.get());
@@ -186,6 +189,7 @@ public class BookingController {
             return "redirect:/profile";
         }
     }
+
 
     /**
      * Shows confirmation page for cancelled booking.
