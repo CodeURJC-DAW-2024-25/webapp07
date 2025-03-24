@@ -92,6 +92,15 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/users/**").hasRole("ADMIN")
 
+                        // PRIVATE USER ENDPOINTS
+                        .requestMatchers(HttpMethod.GET, "/api/v1/bookings/me").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/bookings/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/bookings/new").hasRole("USER")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/bookings/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/bookings/search").hasRole("ADMIN")
+
+
                         .requestMatchers(HttpMethod.GET, "/api/v1/menu").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/menu/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/menu/**").hasRole("ADMIN")
@@ -100,18 +109,18 @@ public class WebSecurityConfig {
 
 
                         //orderAdmin
-                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/admin").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/admin/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/admin/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/{id}").hasRole("ADMIN")
 
                         //orderAuthenticated
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/orders/cart/add").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/orders/cart").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/cart").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/cart/clear").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/cart/remove").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/cart").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/cart/dish").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/history").authenticated()
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/{id}/update").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/{id}").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}/summary").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/*/status").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}/invoice-data").authenticated()
@@ -169,8 +178,6 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/menu/{id}/admin/edit-dish/save").hasAnyRole("ADMIN")
                         .requestMatchers("/menu/{id}/admin/remove-dish").hasAnyRole("ADMIN")
                         .requestMatchers("/menu/{id}/admin/mark-unavailable-dish").hasAnyRole("ADMIN")
-
-
 
 
                         // Public resources

@@ -201,7 +201,7 @@ public class OrderRestController {
             @ApiResponse(responseCode = "400", description = "Missing 'dishId' in request body", content = @Content),
             @ApiResponse(responseCode = "500", description = "User or dish not found", content = @Content)
     })
-    @PostMapping("/cart/add")
+    @PostMapping("/cart")
     @ResponseBody
     public Map<String, Object> addToCart(@RequestBody Map<String, Long> request, @AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();
@@ -309,7 +309,7 @@ public class OrderRestController {
             """))),
             @ApiResponse(responseCode = "500", description = "User not found", content = @Content)
     })
-    @PutMapping("/cart/clear")
+    @PutMapping("/cart")
     public ResponseEntity<Map<String, Object>> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();
 
@@ -359,7 +359,7 @@ public class OrderRestController {
             }
             """)))
     })
-    @DeleteMapping("/cart/remove")
+    @DeleteMapping("/cart/dish")
     public ResponseEntity<Map<String, Object>> removeFromCart(@RequestBody Map<String, Long> request,
                                                               @AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();
@@ -547,7 +547,7 @@ public class OrderRestController {
             @ApiResponse(responseCode = "404", description = "Order or user not found"),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
-    @PatchMapping("/{id}/update")
+    @PatchMapping("/{id}")
     public ResponseEntity<Map<String, Object>> updateOrder(@PathVariable Long id,@RequestBody Map<String, Object> updates,@AuthenticationPrincipal UserDetails userDetails) {
 
         User user = userService.findByUsername(userDetails.getUsername())

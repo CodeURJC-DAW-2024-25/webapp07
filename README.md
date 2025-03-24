@@ -617,7 +617,7 @@ Next, a diagram will be included depicting the entities within the database, the
 | 3º |       [Update: CustomErrorController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/64354bdf7d231bad0f47fd80da72736bf01711a3)        | |2º |            [CustomErrorController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/CustomErrorController.java)             
 | 4º |   [Add: RestaurantAvailabilityController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/1cc77b0ac47a49e832ba47552ad28fc255bf0f35)    | | 3º | [RestaurantAvailabilityController](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/admin/RestaurantAvailabilityController.java) |
 | 5º | [Add: RestaurantController + findByLocation](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/d1826816b8be1dbb1598680f48a8a0d9e0e3db5f) | | 4º |             [RestaurantController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/RestaurantController.java)              |
-
+[.gitignore](backend/.gitignore)
 ___
 # Phase 3
 ___
@@ -714,7 +714,7 @@ To build the dockerized image of the application, follow these instructions:
 # :dash: Deployment on Virtual Machine
 ## Requirements
 * Operating system: Ubuntu 22.04
-* Provided Private Key : 'prAppWeb16.key'
+* Provided Private Key : 'prAppWeb07.key'
 * Active internet connection to Eduroam
 
 ## Steps
@@ -724,7 +724,7 @@ To build the dockerized image of the application, follow these instructions:
    Connect to the virtual machine using SSH with the provided private key.
 
     ``` bash 
-    ssh -i prAppWeb16.key vmuser@10.100.139.173
+    ssh -i ssh-keys/appWeb07.key vmuser@10.100.139.50
     ``` 
 2. **Docker and Docker Compose Installation**
 
@@ -755,7 +755,7 @@ To build the dockerized image of the application, follow these instructions:
    Once the application is running, you can access it from a web browser using the virtual machine's IP address and port 8443.
 
    ```plaintext
-   https://10.100.139.173:8443
+   https://10.100.139.50:443
    ```
 
 
@@ -767,7 +767,7 @@ These steps will guide you through the process of deploying the application on t
 # :dash: Deployed application URL
 The application can be accessed at the following URL:
    ```plaintext
-   https://10.100.139.173:8443
+   https://10.100.139.50:443
    ```
 ## :bust_in_silhouette: User Examples
 Below are the credentials for example users, including an administrator user, to test the application:
@@ -776,6 +776,8 @@ Below are the credentials for example users, including an administrator user, to
 | User Type     | :construction_worker: Username | :lock: Password |
 |---------------|--------------------------------|-----------------|
 | Administrator | admin                          | adminpass       |
+| User          | user                           | pass            |
+
 
 
 ---
@@ -792,7 +794,7 @@ Below are the credentials for example users, including an administrator user, to
 *  Introduction of Sample Data via Postman: I introduced sample data into our application using Postman. This involved creating a collection of requests, each with its own set of parameters, headers, and body data.
 *  REST Controller Refactoring and Annotation: I reviewed and updated the UserRestController, DishRestController, and OrderRestController, ensuring proper usage of @Operation, @ApiResponses, and appropriate HTTP status codes
 *  Thorough Error Testing: I manually tested scenarios such as invalid user IDs, malformed JSON, unauthorized access, missing parameters, and non-existent endpoints to verify proper error propagation and consistent response formatting.
-* User Management API (UserRestController): Implemented endpoints for fetching all users and specific users by ID, creating new users, updating, banning/unbanning, and deleting users, searching users by query, and fetching the authenticated user (/me).
+*  User Management API (UserRestController): Implemented endpoints for fetching all users and specific users by ID, creating new users, updating, banning/unbanning, and deleting users, searching users by query, and fetching the authenticated user (/me).
 
 | #   |                                                               Commit                                                               |     | #   |                                                                                         File                                                                                          |
 | :-: |:----------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|

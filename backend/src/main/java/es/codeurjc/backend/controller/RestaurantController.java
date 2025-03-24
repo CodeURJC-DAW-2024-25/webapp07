@@ -1,6 +1,6 @@
 package es.codeurjc.backend.controller;
 
-import es.codeurjc.backend.model.Restaurant;
+import es.codeurjc.backend.dto.RestaurantDTO;
 import es.codeurjc.backend.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +39,7 @@ public class RestaurantController {
             }
         }
 
-        List<Restaurant> restaurants = (query != null && !query.isEmpty())
+        List<RestaurantDTO> restaurants = (query != null && !query.isEmpty())
                 ? restaurantService.findByLocationContaining(query)
                 : restaurantService.findAll();
 

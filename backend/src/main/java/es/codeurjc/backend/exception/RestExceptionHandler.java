@@ -11,6 +11,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -48,10 +49,17 @@ public class RestExceptionHandler {
         return buildError(HttpStatus.BAD_REQUEST, "Missing Parameter", message, request);
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiError> handleNotFound(ResourceNotFoundException ex, HttpServletRequest request) {
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<ApiError> handleNotFound(NoHandlerFoundException ex, HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        // Check if the request is for a static resource (e.g., ends with .css, .js, .png, etc.)
+        if (uri.matches(".*\\.(css|js|png|jpg|jpeg|gif|svg|ico)$")) {
+            // Return null to let Spring's default handling take over (or simply ignore this exception)
+            return null;
+        }
         return buildError(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
     }
+
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiError> handleIllegalArgument(IllegalArgumentException ex, HttpServletRequest request) {
@@ -70,9 +78,16 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleGenericException(Exception ex, HttpServletRequest request) {
-        ex.printStackTrace(); 
+        String uri = request.getRequestURI();
+
+        if (uri.startsWith("/js/") || uri.startsWith("/css/") || uri.startsWith("/img/") || uri.startsWith("/static/")) {
+            return null;
+        }
+
+        ex.printStackTrace();
         return buildError(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", ex.getMessage(), request);
     }
+
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ApiError> handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex, HttpServletRequest request) {
         return buildError(HttpStatus.METHOD_NOT_ALLOWED, "Method Not Allowed", ex.getMessage(), request);

@@ -28,7 +28,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 
 @Tag(name = "Dishes", description = "Dish management REST API")
 @RestController
-@RequestMapping("/api/v1/menu")
+@RequestMapping("/api/v1/dishes")
 public class DishRestController {
     @Autowired
     private DishService dishService;

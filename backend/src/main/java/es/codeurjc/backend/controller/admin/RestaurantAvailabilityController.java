@@ -1,6 +1,6 @@
 package es.codeurjc.backend.controller.admin;
 
-import es.codeurjc.backend.model.Restaurant;
+import es.codeurjc.backend.dto.RestaurantDTO;
 import es.codeurjc.backend.service.BookingService;
 import es.codeurjc.backend.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,18 +45,18 @@ public class RestaurantAvailabilityController {
 
         final LocalDate finalDate = date;
 
-        List<Restaurant> restaurants = restaurantService.findAll();
+        List<RestaurantDTO> restaurants = restaurantService.findAll();
         List<RestaurantAvailability> availabilityList = restaurants.stream()
                 .map(restaurant -> new RestaurantAvailability(
-                        restaurant.getLocation(),
-                        bookingService.getAvailableSeats(restaurant.getId(), finalDate, "LUNCH"),
-                        bookingService.getAvailableSeats(restaurant.getId(), finalDate, "DINNER")
+                        restaurant.location(),
+                        bookingService.getAvailableSeats(restaurant.id(), finalDate, "LUNCH"),
+                        bookingService.getAvailableSeats(restaurant.id(), finalDate, "DINNER")
                 ))
                 .collect(Collectors.toList());
 
         model.addAttribute("availabilityList", availabilityList);
         model.addAttribute("selectedDate", finalDate);
-        return "/admin/restaurant-availability";
+        return "admin/restaurant-availability";
     }
 
     /**
