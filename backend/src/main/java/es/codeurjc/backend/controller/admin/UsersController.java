@@ -21,6 +21,14 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Displays the user management view with a list of users.
+     * Supports optional query filtering by username or email.
+     *
+     * @param model The model to populate attributes for the view.
+     * @param query (Optional) A string to filter users by username or email.
+     * @return The name of the Thymeleaf template to render (admin/manage-users).
+     */
     @GetMapping
     public String listUsers(Model model, @RequestParam(required = false) String query) {
         List<UserDTO> users = (query != null && !query.isEmpty())

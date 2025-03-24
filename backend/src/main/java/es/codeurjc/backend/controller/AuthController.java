@@ -50,7 +50,20 @@ public class AuthController {
         return "login";
     }
 
-
+    /**
+     * Handles the user registration process from the web form.
+     * Validates that passwords match, builds a {@link UserDTO} with default values for optional fields,
+     * and delegates user creation to the service layer.
+     *
+     * @param username         The desired username for the new user.
+     * @param email            The user's email address.
+     * @param password         The user's password.
+     * @param passwordConfirm  Confirmation of the user's password.
+     * @param dateOfBirth      The user's date of birth (expected in ISO format: yyyy-MM-dd).
+     * @param model            Spring model for passing data to the view (not used here).
+     * @param session          HTTP session used to pass messages (success or error) between redirects.
+     * @return Redirects to the homepage on success or back to the login page on error.
+     */
     @PostMapping("/register")
     public String registerUser(@RequestParam String username,
                                @RequestParam String email,
@@ -99,6 +112,4 @@ public class AuthController {
             return "redirect:/auth/login";
         }
     }
-
-
 }

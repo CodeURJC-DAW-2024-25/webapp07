@@ -27,7 +27,15 @@ public class ProfileController {
     @Autowired
     private BookingService bookingService;
 
-
+    /**
+     * Displays the profile page for the authenticated user.
+     * Shows editable form fields and active booking if present.
+     *
+     * @param userDetails The currently authenticated user.
+     * @param edit        Indicates whether the profile should be displayed in edit mode.
+     * @param model       Spring model to pass attributes to the view.
+     * @return The name of the Thymeleaf template to render ("profile").
+     */
     @GetMapping("/profile")
     public String showProfile(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -54,10 +62,19 @@ public class ProfileController {
         return "profile";
     }
 
-
-
-
-
+    /**
+     * Handles the update of the authenticated user's profile information.
+     * Updates user data such as name, email, phone number, and address.
+     *
+     * @param userDetails   The currently authenticated user.
+     * @param firstName     Updated first name.
+     * @param lastName      Updated last name.
+     * @param email         Updated email address.
+     * @param phoneNumber   Updated contact number.
+     * @param address       Updated physical address.
+     * @param model         Spring model to pass attributes to the view.
+     * @return A redirect to the profile page upon successful update.
+     */
     @PostMapping("/profile")
     public String updateProfile(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -91,6 +108,4 @@ public class ProfileController {
 
         return "redirect:/profile";
     }
-
-
 }
