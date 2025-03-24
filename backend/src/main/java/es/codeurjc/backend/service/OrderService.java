@@ -106,17 +106,14 @@ public class OrderService {
      * @param id        The ID of the order.
      * @param newStatus The new status to be set (e.g., "Pending", "Paid", "Cancelled").
      */
-    public void updateOrderStatus(Long id, String newStatus) {
-        Optional<Order> order = orderRepository.findById(id);
-        if (order.isPresent()) {
-            Order updatedOrder = order.get();
-            updatedOrder.setStatus(newStatus);
-            orderRepository.save(updatedOrder);
-        } else {
-            System.err.println("Order with id " + id + " not found.");
-            throw new RuntimeException("Order not found.");
-        }
+    public void updateOrderStatusChecked(Long id, String newStatus) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+
+        order.setStatus(newStatus);
+        orderRepository.save(order);
     }
+
 
     /**
      * Retrieves all orders with a "Paid" status for a specific user.

@@ -63,6 +63,7 @@ public class OrderRestController {
 
 
 
+
     @Operation(
             summary = "Delete an order by ID",
             description = "Deletes an order from the database using its unique ID. Only accessible to admins.",
@@ -75,7 +76,6 @@ public class OrderRestController {
                     content = @Content)
     })
     @Parameter(name = "id", description = "ID of the order to delete", required = true)
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteOrder(@PathVariable Long id) {
         try {
@@ -86,6 +86,9 @@ public class OrderRestController {
                     .body(Map.of("error", "Error deleting order."));
         }
     }
+
+
+
 
     @Operation(
             summary = "Update an order by ID",
@@ -113,6 +116,9 @@ public class OrderRestController {
         }
     }
 
+
+    //USER
+
     @Operation(
             summary = "Get an order by ID",
             description = "Retrieves the details of a specific order by its ID. Only the user who placed the order can access it.",
@@ -127,12 +133,35 @@ public class OrderRestController {
                     content = @Content)
     })
     @Parameter(name = "id", description = "Order ID to retrieve", required = true)
-
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         OrderDTO orderDTO = orderService.getOrderDTOByIdForUser(id, userDetails.getUsername());
         return ResponseEntity.ok(orderDTO);
     }
+
+
+    @Operation(
+            summary = "Update order status",
+            description = "Allows updating the status of an existing order. Admin or user with proper permissions required.",
+            tags = {"Orders"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Order status updated successfully"),
+            @ApiResponse(responseCode = "404", description = "Order not found", content = @Content)
+    })
+    @Parameter(name = "id", description = "Order ID", required = true)
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Void> updateOrderStatus(@PathVariable Long id, @RequestBody String newStatus) {
+        orderService.updateOrderStatusChecked(id, newStatus.trim());
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+
+
+
+
 
 
 
