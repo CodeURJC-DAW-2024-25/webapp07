@@ -51,7 +51,7 @@ public class OrderController {
      */
     @GetMapping("/cart")
     public String viewCart(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByUsername(userDetails.getUsername())
+        User user = userService.getAuthenticatedUser()
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Order cart = orderService.findCartByUser(user.getId())
@@ -81,7 +81,7 @@ public class OrderController {
      */
     @PostMapping("/cart/clear")
     public String clearCart(@AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByUsername(userDetails.getUsername())
+        User user = userService.getAuthenticatedUser()
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Order cart = orderService.findCartByUser(user.getId())
@@ -105,7 +105,7 @@ public class OrderController {
     public Map<String, Object> addToCart(@RequestParam Long dishId, @AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();
 
-        User user = userService.findByUsername(userDetails.getUsername())
+        User user = userService.getAuthenticatedUser()
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Order cart = orderService.findCartByUser(user.getId())
@@ -132,7 +132,7 @@ public class OrderController {
      */
     @PostMapping("/cart/remove")
     public String removeFromCart(@RequestParam Long dishId, @AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByUsername(userDetails.getUsername())
+        User user = userService.getAuthenticatedUser()
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Order cart = orderService.findCartByUser(user.getId())
@@ -247,7 +247,7 @@ public class OrderController {
             return "redirect:/orders/" + id + "/more-info";
         }
 
-        User user = userService.findByUsername(userDetails.getUsername())
+        User user = userService.getAuthenticatedUser()
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         double deliveryCost = 4.99;
@@ -379,7 +379,7 @@ public class OrderController {
                               @RequestParam(required = false) Double totalPrice,
                               @AuthenticationPrincipal UserDetails userDetails) {
 
-        User user = userService.findByUsername(userDetails.getUsername())
+        User user = userService.getAuthenticatedUser()
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Order order = orderService.getOrderById(orderId)
@@ -463,9 +463,8 @@ public class OrderController {
         document.add(new Paragraph(" ").setFontSize(8)); // Espacio
 
         // Add user information table
-        String userName = order.getUser().getUsername();
-        Optional<User> userOpt = userService.findByUsername(userName);
-        User user = userOpt.get();
+        User user = order.getUser();
+
         Table userTable = new Table(new float[]{2, 4})
                 .useAllAvailableWidth()
                 .setHorizontalAlignment(HorizontalAlignment.CENTER);

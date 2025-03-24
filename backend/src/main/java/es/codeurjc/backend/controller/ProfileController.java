@@ -44,11 +44,15 @@ public class ProfileController {
 
         String username = userDetails.getUsername();
 
-        userService.findUserDtoByUsername(username).ifPresent(dto -> {
-            bookingService.findActiveBookingByUserId(dto.id())
+        Optional<User> userOpt = userService.findByUsernameEntity(username); // <-- método que tienes que añadir si no existe
+
+        userOpt.ifPresent(user -> {
+            // Añadimos el booking activo
+            bookingService.findActiveBookingByUser(user)
                     .ifPresent(booking -> model.addAttribute("booking", booking));
 
-            model.addAttribute("user", dto);
+            // Añadimos también el DTO para mostrar datos del usuario
+            model.addAttribute("user", userService.toDto(user).get());
         });
 
         model.addAttribute("editMode", edit);

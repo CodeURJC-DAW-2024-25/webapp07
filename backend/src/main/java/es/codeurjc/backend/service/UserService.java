@@ -226,4 +226,13 @@ public class UserService {
         }
         userRepository.deleteById(id);
     }
+
+    public Optional<User> findByUsernameEntity(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public Optional<UserDTO> toDto(User user) {
+        return Optional.of(userMapper.toDto(user));
+    }
+
 }
