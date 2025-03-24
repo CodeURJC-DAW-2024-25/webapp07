@@ -4,6 +4,7 @@ import es.codeurjc.backend.dto.BookingDTO;
 import es.codeurjc.backend.exception.custom.ResourceNotFoundException;
 import es.codeurjc.backend.mapper.BookingMapper;
 import es.codeurjc.backend.model.Booking;
+import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.BookingService;
 import es.codeurjc.backend.service.RestaurantService;
 import es.codeurjc.backend.service.UserService;
@@ -15,12 +16,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.GrantedAuthority;
-import es.codeurjc.backend.model.User;
-
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -29,6 +28,9 @@ import java.util.Optional;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
+/**
+ * REST controller for managing bookings.
+ */
 @Tag(name = "Bookings", description = "Booking management REST API")
 @RestController
 @RequestMapping("/api/v1/bookings")
@@ -46,6 +48,11 @@ public class BookingRestController {
     @Autowired
     private RestaurantService restaurantService;
 
+    /**
+     * Retrieves all active bookings.
+     *
+     * @return List of all active bookings.
+     */
     @Operation(summary = "Get all bookings")
     @GetMapping
     public List<BookingDTO> findAll() {
@@ -54,6 +61,12 @@ public class BookingRestController {
                 .toList();
     }
 
+    /**
+     * Retrieves a booking by its ID.
+     *
+     * @param id The ID of the booking.
+     * @return The booking if found, 404 otherwise.
+     */
     @Operation(summary = "Get a booking by ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Booking found"),
@@ -67,6 +80,12 @@ public class BookingRestController {
                 .orElseThrow(() -> new ResourceNotFoundException("Booking with id " + id + " not found"));
     }
 
+    /**
+     * Creates a new booking for the authenticated user.
+     *
+     * @param dto Booking data.
+     * @return 201 if created, 401/403/409 in case of errors.
+     */
     @Operation(summary = "Create a new booking")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Booking created successfully"),
@@ -77,7 +96,6 @@ public class BookingRestController {
     })
     @PostMapping
     public ResponseEntity<?> createBooking(@Valid @RequestBody BookingDTO dto) {
-
         Optional<User> currentUserOpt = userService.getAuthenticatedUser();
         if (currentUserOpt.isEmpty()) {
             return ResponseEntity.status(401).body("User not authenticated");
@@ -103,8 +121,12 @@ public class BookingRestController {
         return ResponseEntity.created(location).body(bookingMapper.toDto(booking));
     }
 
-
-
+    /**
+     * Deletes a booking by ID if the user is admin or owner.
+     *
+     * @param id ID of the booking.
+     * @return 204 if deleted, 403/404 in case of error.
+     */
     @Operation(summary = "Delete a booking")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Booking deleted successfully"),
@@ -133,7 +155,11 @@ public class BookingRestController {
         return ResponseEntity.noContent().build();
     }
 
-
+    /**
+     * Gets the authenticated user's active booking.
+     *
+     * @return Booking if found, 404 if not found.
+     */
     @Operation(summary = "Get the current user's active booking")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Booking found"),
@@ -147,6 +173,16 @@ public class BookingRestController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(404).body(null));
     }
+
+    /**
+     * Performs advanced search on bookings by optional parameters.
+     *
+     * @param query Optional keyword (username, email, or phone).
+     * @param shift Optional shift filter.
+     * @param restaurantId Optional restaurant ID.
+     * @param date Optional date filter.
+     * @return List of bookings matching filters.
+     */
     @Operation(summary = "Advanced search for bookings", description = "Search bookings by user info, shift, restaurantId and/or date")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Search results returned")
@@ -162,7 +198,4 @@ public class BookingRestController {
                 .map(bookingMapper::toDto)
                 .toList();
     }
-
-
-
 }

@@ -93,21 +93,58 @@ public class BookingService {
         return bookingRepository.findByRestaurantAndShiftAndDate(restaurantId, shift, date);
     }
 
-    // BookingService.java
+    /**
+     * Gets the number of available seats for a specific restaurant, shift, and date.
+     *
+     * @param restaurantId the ID of the restaurant
+     * @param date the date of the reservation
+     * @param shift the shift (LUNCH or DINNER)
+     * @return the number of available seats (maximum 40 per shift)
+     */
     public int getAvailableSeats(Long restaurantId, LocalDate date, String shift) {
         List<Booking> existingBookings = bookingRepository.findByRestaurantAndShiftAndDate(restaurantId, shift, date);
         int totalPeopleReserved = existingBookings.stream().mapToInt(Booking::getNumPeople).sum();
         return Math.max(40 - totalPeopleReserved, 0);
     }
+
+    /**
+     * Searches bookings by user information: username, email or phone number.
+     *
+     * @param query the search query to match against user details
+     * @return a list of matching bookings
+     */
     public List<Booking> searchBookings(String query) {
         return bookingRepository.findByUser_UsernameContainingOrUser_EmailContainingOrUser_PhoneNumberContaining(query, query, query);
     }
+
+    /**
+     * Retrieves a booking by its ID.
+     *
+     * @param id the ID of the booking
+     * @return an optional containing the booking if found, or empty otherwise
+     */
     public Optional<Booking> findById(Long id) {
         return bookingRepository.findById(id);
     }
+
+    /**
+     * Saves a booking to the repository.
+     *
+     * @param booking the booking to save
+     */
     public void save(Booking booking) {
         bookingRepository.save(booking);
     }
+
+    /**
+     * Performs an advanced search for bookings by user info, shift, restaurant ID and/or date.
+     *
+     * @param query optional query string to match username, email, or phone number
+     * @param shift optional shift (LUNCH or DINNER)
+     * @param restaurantId optional ID of the restaurant
+     * @param date optional booking date
+     * @return a list of bookings matching all provided criteria
+     */
     public List<Booking> advancedSearch(String query, String shift, Long restaurantId, LocalDate date) {
         return bookingRepository.findAll().stream()
                 .filter(b -> b.getDate().isAfter(LocalDate.now()) || b.getDate().isEqual(LocalDate.now()))
@@ -120,6 +157,5 @@ public class BookingService {
                 .filter(b -> date == null || b.getDate().isEqual(date))
                 .toList();
     }
-
 
 }
