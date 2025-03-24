@@ -176,17 +176,31 @@ public class OrderRestController {
 
 
 
+    @DeleteMapping("/cart/dish")
+    public ResponseEntity<Map<String, Object>> removeFromCart(@RequestParam Long dishId,@AuthenticationPrincipal UserDetails userDetails) {
 
-    @PutMapping("/cart")
-    public ResponseEntity<OrderDTO> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
-        OrderDTO clearedCart = orderService.clearCart(userDetails.getUsername());
-        return ResponseEntity.ok(clearedCart);
+        Map<String, Object> response = orderService.clearUserCart(userDetails.getUsername());
+        return ResponseEntity.ok(response);
     }
 
 
+    @GetMapping("/{id}/summary")
+    public ResponseEntity<Map<String, Object>> getOrderSummary(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
 
-
-
+        try {
+            Map<String, Object> summary = orderService.getOrderSummaryDTOById(id, userDetails.getUsername());
+            return ResponseEntity.ok(summary);
+        } catch (ResponseStatusException ex) {
+            if (ex.getStatusCode() == HttpStatus.FOUND) {
+                return ResponseEntity.status(HttpStatus.FOUND)
+                        .header("Location", "/api/v1/orders/" + id + "/more-info")
+                        .build();
+            }
+            throw ex;
+        }
+    }
 
 
 
