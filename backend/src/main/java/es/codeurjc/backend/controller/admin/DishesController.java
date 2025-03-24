@@ -1,5 +1,6 @@
 package es.codeurjc.backend.controller.admin;
 
+import es.codeurjc.backend.dto.DishDTO;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.service.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class DishesController {
      */
     @GetMapping
     public String listDishes(Model model, @RequestParam(required = false) String query) {
-        List<Dish> dishes;
+        List<DishDTO> dishes;
 
         if (query != null && !query.isEmpty()) {
             dishes = dishService.searchDishes(query);

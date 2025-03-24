@@ -149,8 +149,8 @@ public class DishService {
      * @param query the name or partial name of the dish
      * @return a list of matching dishes
      */
-    public List<Dish> searchDishes(String query) {
-        return dishRepository.findByNameContainingIgnoreCase(query);
+    public List<DishDTO> searchDishes(String query) {
+        return dishRepository.findByNameContainingIgnoreCase(query).stream().map(dishMapper::toDto).toList();
     }
 
     /**
