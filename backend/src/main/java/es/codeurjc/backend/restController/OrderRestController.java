@@ -359,7 +359,7 @@ public class OrderRestController {
             }
             """)))
     })
-    @DeleteMapping("/cart/remove")
+    @DeleteMapping("/cart/dish")
     public ResponseEntity<Map<String, Object>> removeFromCart(@RequestBody Map<String, Long> request,
                                                               @AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();
