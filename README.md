@@ -803,3 +803,18 @@ Below are the credentials for example users, including an administrator user, to
 | 3º  | [feat: add validation to UserDTO and centralized error handling with RestExceptionHandler](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/9e790eb7c7d5e6a704b5b64f46107270ea6b1f7d)  | | 3º | [UserRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/restController/UserRestController.java) |
 | 4º  | [Refactored User API - Improved REST compliance & security](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/87420e56d328dc992417010c86575dfc87e506de) | | 4º |           [UserService.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/service/UserService.java)            |
 | 5º  |        [feat: implement JWT authentication with login, logout, and refresh token](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/8d185fa191d5b9c64b5dd250b4151c6d2a28cc88)        | | 5º | [WebSecurityConfig.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/security/WebSecurityConfig.java) |
+
+
+#### Víctor Nuñez Regalón
+
+*  **Booking REST API Development:** I developed the BookingRestController including endpoints for creating, retrieving, deleting, and searching bookings, following REST principles and using DTOs.
+*  **User Authorization Validation:** I implemented logic to ensure that users can only create bookings for **their own user ID**, returning a 403 Forbidden status with a custom message if they attempt otherwise.
+*  **Single Active Reservation Logic:** I enforced that each user can only have **one active reservation** at a time, returning a 409 Conflict if they already have one.
+*  **Swagger Documentation:** I added @Operation and @ApiResponses annotations to all REST endpoints for auto-generating interactive API docs with **Springdoc OpenAPI**.
+*  **GET /me Endpoint:** I created an endpoint to allow authenticated users to retrieve **their active booking**, improving transparency and usability.
+*  **Advanced Search Endpoint:** I implemented /search with optional filters such as user info, date, shift, and restaurant ID, enabling **admin-level filtering** of bookings.
+*  **Seat Availability Checks**: I validated booking capacity in the service layer, ensuring **no more than 40 people per shift** in each restaurant.
+*  **Postman Collection Setup:** I tested all REST endpoints by creating a complete **Postman collection**, including login, booking creation, deletion, and filter scenarios.
+*  **Profile Integration:** I connected the REST booking logic to the traditional web app to display the **user’s current booking in their profile.**
+*  **BookingService Refactoring:** I centralized all business logic in the **BookingService** class, keeping the controller clean and focused on HTTP concerns.
+
