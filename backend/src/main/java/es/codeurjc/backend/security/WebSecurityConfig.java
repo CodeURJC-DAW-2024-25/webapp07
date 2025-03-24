@@ -118,7 +118,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/v1/orders/cart").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/cart/dish").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/history").authenticated()
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/{id}/update").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/{id}").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}/summary").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/*/status").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}/invoice-data").authenticated()

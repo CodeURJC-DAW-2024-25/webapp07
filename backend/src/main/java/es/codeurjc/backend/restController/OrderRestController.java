@@ -547,7 +547,7 @@ public class OrderRestController {
             @ApiResponse(responseCode = "404", description = "Order or user not found"),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
-    @PatchMapping("/{id}/update")
+    @PatchMapping("/{id}")
     public ResponseEntity<Map<String, Object>> updateOrder(@PathVariable Long id,@RequestBody Map<String, Object> updates,@AuthenticationPrincipal UserDetails userDetails) {
 
         User user = userService.findByUsername(userDetails.getUsername())
