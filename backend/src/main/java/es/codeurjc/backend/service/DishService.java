@@ -32,7 +32,7 @@ public class DishService {
     @Autowired
     private DishMapper dishMapper;
 
-    public List<Dish> processDishes( List<Dish> dishes) throws SQLException {
+    public List<DishDTO> processDishes( List<Dish> dishes) throws SQLException {
         if (dishes.size() < 10) {
             for (Dish dish : dishes) {
                 int rate = (int) Math.ceil(dish.getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
@@ -46,7 +46,7 @@ public class DishService {
                 dishes.get(i).setDishImagePath(dishes.get(i).blobToString(dishes.get(i).getDishImagefile(), dishes.get(i)));
             }
         }
-        return dishes;
+        return dishes.stream().map(dishMapper::toDto).toList();
     }
     /**
      * Filters dishes based on the provided name, ingredient, and maximum price.
@@ -56,7 +56,7 @@ public class DishService {
      * @param maxPrice The maximum price to filter dishes by (optional).
      * @return A list of dishes that match the provided filters and are available.
      */
-    public List<DishDTO> filterDishes(String name, String ingredient, Integer maxPrice) {
+    public List<DishDTO> filterDishes(String name, String ingredient, Integer maxPrice) throws SQLException {
 
         List<DishDTO> dishesByName =  searchDishByName(name);
 
@@ -70,11 +70,13 @@ public class DishService {
             dishesByName.retainAll(dishesByPrice);
             dishesByName.removeIf(dish -> !dish.isAvailable());
 
+            processDishes(dishesByName.stream().map(dishMapper::toEntity).toList());
             return dishesByName;  // Final list
         } else {
             dishesByIngredient.retainAll(dishesByPrice);
             dishesByIngredient.removeIf(dish -> !dish.isAvailable());
 
+            processDishes(dishesByIngredient.stream().map(dishMapper::toEntity).toList());
             return dishesByIngredient;  // Final list
         }
     }
@@ -157,13 +159,14 @@ public class DishService {
      * @param dishes the list of dishes
      * @return the updated list of dishes with calculated ratings
      */
-    public List<Dish> calculateRates(List<Dish> dishes) {
+    public List<DishDTO> calculateRates(List<DishDTO> dishesDTO) {
+        List<Dish> dishes = dishesDTO.stream().map(dishMapper::toEntity).toList();
         for (Dish dish : dishes) {
             int rate = (int) Math.ceil(dish.getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
             dish.setRate(rate);
             save(dish);
         }
-        return dishes;
+        return dishes.stream().map(dishMapper::toDto).toList();
     }
     /**
      * Disables a dish by its unique identifier.
@@ -298,9 +301,9 @@ public class DishService {
      * @throws NoSuchElementException If the provided Optional is empty, indicating that the dish
      * does not exist.
      */
-    public List<String> formatIngredients(Optional<Dish> dish) {
+    public List<String> formatIngredients(Optional<DishDTO> dish) {
         if (dish.isPresent()){
-            return dish.get().getIngredients().stream()
+            return dish.get().ingredients().stream()
                     .map(ing -> ing.substring(0, 1).toUpperCase() + ing.substring(1).toLowerCase())
                     .toList();
         } else{
@@ -309,12 +312,13 @@ public class DishService {
 
     }
 
-    public void setRating(Optional<Dish> dish, int rating) {
-        if (dish.isPresent()){
-            List<Integer> listRates = dish.get().getRates();
-            listRates.add(rating);
-            dish.get().setRates(listRates);
-            dishRepository.save(dish.get());        }
+    public void setRating(Long id, int rating) {
+        Optional<DishDTO> dishDto = findById(id);
+        List<Integer> listRates = dishDto.get().rates();
+        listRates.add(rating);
+        Optional<Dish> dish = dishRepository.findById(id);
+        dish.get().setRates(listRates);
+        dishRepository.save(dish.get());
     }
 
     public Optional<Dish> processNewDishInfo(Optional<Dish> dish, String ingredients, List<Allergens> selectedAllergens, boolean vegan, MultipartFile imageField) throws IOException {
@@ -413,5 +417,11 @@ public class DishService {
                 : dishRepository.findAll();
 
         return dishesByName.stream().map(dishMapper::toDto).toList();
+    }
+
+    public DishDTO setImagePath(DishDTO dishDTO) throws SQLException {
+        Dish dish = dishMapper.toEntity(dishDTO);
+        dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+        return dishMapper.toDto(dish);
     }
 }

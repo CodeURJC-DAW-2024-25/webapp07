@@ -1,5 +1,6 @@
 package es.codeurjc.backend.controller;
 
+import es.codeurjc.backend.dto.DishDTO;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.enums.Allergens;
 
@@ -53,8 +54,7 @@ public class DishController {
 
         model.addAttribute("isAuthenticated", isAuthenticated);
 
-        List<Dish> dishesOp = dishService.filterDishes(name, ingredient, maxPrice);
-        List<Dish> dishes = dishService.processDishes(dishesOp);
+        List<DishDTO> dishes = dishService.filterDishes(name, ingredient, maxPrice);
 
         model.addAttribute("dish", dishes.subList(0, Math.min(10, dishes.size())));
         model.addAttribute("pageTitle", "Menu");
@@ -83,19 +83,19 @@ public class DishController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean isAuthenticated = auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal());
 
-        List<Dish> filteredDishes = dishService.filterDishes(name, ingredient, maxPrice);
+        List<DishDTO> filteredDishes = dishService.filterDishes(name, ingredient, maxPrice);
         filteredDishes = dishService.calculateRates(filteredDishes);
 
         int fromIndex = page * pageSize;
         int toIndex = Math.min(fromIndex + pageSize, filteredDishes.size());
 
-        List<Dish> paginatedDishes = (fromIndex >= filteredDishes.size()) ?
+        List<DishDTO> paginatedDishes = (fromIndex >= filteredDishes.size()) ?
                 List.of() :
                 filteredDishes.subList(fromIndex, toIndex);
 
-        for (Dish dish : paginatedDishes) {
-            if (dish.getImage()) {
-                dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+        for (DishDTO dish : paginatedDishes) {
+            if (dish.image()) {
+                dish = dishService.setImagePath(dish);
             }
         }
 
@@ -120,12 +120,13 @@ public class DishController {
     @GetMapping("/menu/{id}")
     public String showDishInfo(Model model, @PathVariable long id) throws SQLException {
 
-        Optional<Dish> dish = dishService.findById(id);
+        Optional<DishDTO> dish = dishService.findById(id);
         if (dish.isPresent()) {
-            if (dish.get().getImage()) {
-                dish.get().setDishImagePath(dish.get().blobToString(dish.get().getDishImagefile(), dish.get()));
+            dish = Optional.ofNullable(dishService.setImagePath(dish.orElseThrow()));
+            if (dish.get().image()) {
+
             }
-            int rate = (int) Math.ceil(dish.get().getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
+            int rate = (int) Math.ceil(dish.get().rates().stream().mapToInt(Integer::intValue).average().orElse(0));
 
             model.addAttribute("stars", dishService.getStarList(rate));
             model.addAttribute("noStars", dishService.getNoStarList(rate));
@@ -149,36 +150,15 @@ public class DishController {
      */
     @GetMapping("/menu/{id}/image")
     public ResponseEntity<Object> downloadImage(@PathVariable long id) throws SQLException {
-
-        Optional<Dish> op = dishService.findById(id);
-
-        if (op.isPresent() && op.get().getDishImagefile() != null) {
-
-            Blob image = op.get().getDishImagefile();
+        Optional<DishDTO> op = dishService.findById(id);
+        if (op.isPresent() && op.get().dishImagefile() != null) {
+            Blob image = op.get().dishImagefile();
             Resource file = new InputStreamResource(image.getBinaryStream());
-
             return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
                     .contentLength(image.length()).body(file);
-
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
-
-    /**
-     * Removes a dish from the menu.
-     * @param id                 Dish ID.
-     * @param redirectAttributes Redirect attributes for messages.
-     * @return Redirects to the menu page.
-     */
-    @PostMapping("/menu/{id}/admin/remove-dish")
-    public String removeDish(@PathVariable long id, RedirectAttributes redirectAttributes) {
-        Optional<Dish> dish = dishService.findById(id);
-        if (dish.isPresent()) {
-            dishService.deleteById(id);
-            redirectAttributes.addFlashAttribute("message", "Dish successfully removed");
-        }
-        return "redirect:/menu";
     }
 
     /**
@@ -207,17 +187,17 @@ public class DishController {
         if (id != null) { // Modo edición
             model.addAttribute("pageTitle", "Edit dish");
             model.addAttribute("menuActive", true);
-            Optional<Dish> dishOpt = dishService.findById(id);
+            Optional<DishDTO> dishOpt = dishService.findById(id);
             if (dishOpt.isPresent()) {
-                Dish dish;
+                DishDTO dish;
                 dish = dishOpt.get();
-                dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+                dish = dishService.setImagePath(dish);
 
-                formAction = "/menu/" + dish.getId() + "/admin/edit-dish";
+                formAction = "/menu/" + dish.id() + "/admin/edit-dish";
 
-                model.addAttribute("imageFile", dish.getDishImagefile());
+                model.addAttribute("imageFile", dish.dishImagefile());
 
-                String ingredientsFormatted = String.join(", ", dish.getIngredients());
+                String ingredientsFormatted = String.join(", ", dish.ingredients());
                 model.addAttribute("ingredients", ingredientsFormatted);
 
                 model.addAttribute("allergens", Allergens.values());
@@ -325,8 +305,7 @@ public class DishController {
      */
     @PostMapping("/menu/{id}/save-dish-rate")
     public String saveDishRate(@RequestParam("rating") int rating, @PathVariable(required = false) Long id, RedirectAttributes redirectAttributes) {
-        Optional<Dish> dish = dishService.findById(id);
-        dishService.setRating(dish, rating);
+        dishService.setRating(id, rating);
         redirectAttributes.addFlashAttribute("mensaje", "Thanks for your rate!");
         return "redirect:/menu/" + id;
     }
