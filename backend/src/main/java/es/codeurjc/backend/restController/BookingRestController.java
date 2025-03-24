@@ -1,6 +1,7 @@
 package es.codeurjc.backend.restController;
 
 import es.codeurjc.backend.dto.BookingDTO;
+import es.codeurjc.backend.exception.custom.ResourceNotFoundException;
 import es.codeurjc.backend.mapper.BookingMapper;
 import es.codeurjc.backend.model.Booking;
 import es.codeurjc.backend.service.BookingService;
@@ -61,14 +62,20 @@ public class BookingRestController {
         return bookingService.findById(id)
                 .map(bookingMapper::toDto)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ResourceNotFoundException("Booking with id " + id + " not found"));
     }
 
     @Operation(summary = "Create a new booking")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Booking created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request body"),
+            @ApiResponse(responseCode = "401", description = "User not authenticated"),
+            @ApiResponse(responseCode = "403", description = "User not authorized to create this booking"),
+            @ApiResponse(responseCode = "409", description = "User already has an active booking")
+    })
     @PostMapping
     public ResponseEntity<?> createBooking(@Valid @RequestBody BookingDTO dto) {
 
-        // Get authenticated user
         Optional<User> currentUserOpt = userService.getAuthenticatedUser();
         if (currentUserOpt.isEmpty()) {
             return ResponseEntity.status(401).body("User not authenticated");
@@ -76,12 +83,10 @@ public class BookingRestController {
 
         User currentUser = currentUserOpt.get();
 
-        // Only allow booking for the authenticated user
         if (!dto.userId().equals(currentUser.getId())) {
             return ResponseEntity.status(403).body("You can only create a booking for your own account");
         }
 
-        // Check if user already has an active booking
         Optional<Booking> activeBooking = bookingService.findActiveBookingByUser(currentUser);
         if (activeBooking.isPresent()) {
             return ResponseEntity.status(409).body("You already have an active booking. Please cancel it before creating a new one.");
@@ -99,49 +104,34 @@ public class BookingRestController {
 
 
     @Operation(summary = "Delete a booking")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Booking deleted successfully"),
+            @ApiResponse(responseCode = "403", description = "Not allowed to delete this booking"),
+            @ApiResponse(responseCode = "404", description = "Booking not found")
+    })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBooking(@PathVariable Long id) {
-        Optional<Booking> optionalBooking = bookingService.findById(id);
-        if (optionalBooking.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<?> deleteBooking(@PathVariable Long id) {
+        Booking booking = bookingService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking with id " + id + " not found"));
 
-        Booking booking = optionalBooking.get();
-
-        // Get the current authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // Get current username (assuming your UserDetails returns it)
         String currentUsername = authentication.getName();
 
-        // Check if the user is ADMIN
         boolean isAdmin = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .anyMatch(role -> role.equals("ROLE_ADMIN"));
 
-        // Check if the booking belongs to the current user
         boolean isOwner = booking.getUser().getUsername().equals(currentUsername);
 
         if (!isAdmin && !isOwner) {
-            return ResponseEntity.status(403).build(); // Forbidden
+            return ResponseEntity.status(403).body("You are not authorized to delete this booking.");
         }
 
         bookingService.cancelBookingById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Update a booking")
-    @PutMapping("/{id}")
-    public ResponseEntity<BookingDTO> updateBooking(@PathVariable Long id, @Valid @RequestBody BookingDTO dto) {
-        Optional<Booking> existing = bookingService.findById(id);
-        if (existing.isEmpty()) return ResponseEntity.notFound().build();
 
-        Booking booking = bookingMapper.toEntity(dto);
-        booking.setId(id);
-        bookingService.save(booking);
-
-        return ResponseEntity.ok(bookingMapper.toDto(booking));
-    }
     @Operation(summary = "Get the current user's active booking")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Booking found"),
@@ -153,6 +143,7 @@ public class BookingRestController {
                 .flatMap(bookingService::findActiveBookingByUser)
                 .map(bookingMapper::toDto)
                 .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(404).build());
+                .orElseGet(() -> ResponseEntity.status(404).body(null));
     }
+
 }
