@@ -260,28 +260,58 @@ public class OrderService {
         return orderMapper.toDto(cart);
     }
 
-    public OrderDTO clearCart(String username) {
+    public Map<String, Object> clearUserCart(String username) {
         UserDTO userDTO = userService.findUserDtoByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         User user = userMapper.toEntity(userDTO);
 
         Order cart = findCartByUser(user.getId())
-                .orElseGet(() -> {
-                    Order newCart = new Order(new ArrayList<>(), user, "", "Cart", 0.0);
-                    saveOrder(newCart);
-                    return newCart;
-                });
+                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart", 0.0));
 
         cart.getDishes().clear();
         cart.setTotalPrice(0.0);
         saveOrder(cart);
 
-        return orderMapper.toDto(cart);
+        return Map.of(
+                "success", true,
+                "message", "Cart cleared successfully"
+        );
     }
 
 
 
+
+    public Map<String, Object> getOrderSummaryDTOById(Long orderId, String username) {
+        OrderDTO orderDTO = getOrderDTOByIdForUser(orderId, username);
+
+        UserDTO userDTO = userService.findUserDtoByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if ("Paid".equals(orderDTO.status())) {
+            throw new ResponseStatusException(HttpStatus.FOUND, "Redirect to paid info");
+        }
+
+        double deliveryCost = 4.99;
+        double totalPrice = orderDTO.totalPrice();
+        double finalPrice = Math.round((totalPrice + deliveryCost) * 100.0) / 100.0;
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", orderDTO.id());
+        response.put("dishes", orderDTO.dishes());
+        response.put("totalPrice", totalPrice);
+        response.put("deliveryCost", deliveryCost);
+        response.put("finalPrice", finalPrice);
+        response.put("address", orderDTO.address());
+        response.put("user", Map.of(
+                "id", userDTO.id(),
+                "username", userDTO.username(),
+                "firstName", userDTO.firstName(),
+                "lastName", userDTO.lastName()
+        ));
+
+        return response;
+    }
 
 
 
