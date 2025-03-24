@@ -36,12 +36,6 @@ public class OrderRestController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private DishService dishService;
-
-    @Autowired
-    private OrderMapper orderMapper;
-
 
     //ADMIN
 
@@ -156,7 +150,18 @@ public class OrderRestController {
         return ResponseEntity.ok(updatedOrder);
     }
 
-
+    @Operation(
+            summary = "Add a dish to the cart",
+            description = "Adds a dish to the current user's shopping cart. If no cart exists, one will be created.",
+            tags = {"Cart"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Dish added to cart successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = OrderDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Missing 'dishId' in request body", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User or Dish not found", content = @Content)
+    })
     @PostMapping("/cart")
     public ResponseEntity<OrderDTO> addToCart(@RequestBody Map<String, Long> request,
                                               @AuthenticationPrincipal UserDetails userDetails) {
@@ -168,7 +173,17 @@ public class OrderRestController {
         return ResponseEntity.ok(cartDTO);
     }
 
-
+    @Operation(
+            summary = "View current cart",
+            description = "Retrieves the current user's shopping cart. If none exists, an empty cart is returned.",
+            tags = {"Cart"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cart retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = OrderDTO.class))),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
     @GetMapping("/cart")
     public ResponseEntity<OrderDTO> viewCart(@AuthenticationPrincipal UserDetails userDetails) {
         OrderDTO cartDTO = orderService.viewCartForUser(userDetails.getUsername());
@@ -176,7 +191,16 @@ public class OrderRestController {
     }
 
 
-
+    @Operation(
+            summary = "Clear user's cart",
+            description = "Removes all dishes from the user's shopping cart.",
+            tags = {"Cart"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cart cleared successfully",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
     @DeleteMapping("/cart/dish")
     public ResponseEntity<Map<String, Object>> removeFromCart(@RequestParam Long dishId,@AuthenticationPrincipal UserDetails userDetails) {
 
@@ -184,7 +208,16 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
-
+    @Operation(
+            summary = "Clear user's cart",
+            description = "Removes all dishes from the user's shopping cart.",
+            tags = {"Cart"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cart cleared successfully",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
     @GetMapping("/{id}/summary")
     public ResponseEntity<Map<String, Object>> getOrderSummary(
             @PathVariable Long id,
@@ -203,7 +236,15 @@ public class OrderRestController {
         }
     }
 
-
+    @Operation(
+            summary = "Get user order history",
+            description = "Returns all 'Paid' orders for the authenticated user.",
+            tags = {"Orders"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Order history retrieved"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @GetMapping("/history")
     public ResponseEntity<Map<String, Object>> getUserOrderHistory(@AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();
@@ -220,6 +261,19 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
+
+    @Operation(
+            summary = "Update order status and address",
+            description = "Updates the status and address of an existing order. Accessible by the order's owner.",
+            tags = {"Orders"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Order updated successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = OrderDTO.class))),
+            @ApiResponse(responseCode = "403", description = "Unauthorized to update this order", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Order not found", content = @Content)
+    })
     @PatchMapping("/{id}")
     public ResponseEntity<OrderDTO> updateOrderStatusAndAddress(
             @PathVariable Long id,
