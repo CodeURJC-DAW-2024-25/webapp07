@@ -25,7 +25,7 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar .
 
 # Expose the port that the application runs on [8443]
-EXPOSE 8443
+EXPOSE 443
 
 # Entrypoint command to run the application
 CMD ["java", "-jar", "backend-0.0.1-SNAPSHOT.jar"]

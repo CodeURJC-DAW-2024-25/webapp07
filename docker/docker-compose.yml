@@ -13,14 +13,14 @@ services:
       start_period: 10s
 
   web:
-    image: hugost010/volteretacroqueta:latest
+    image: nicohht/volteretacroqueta:latest
     container_name: volteretacroqueta-app
     restart: on-failure
     build:
       context: ../
       dockerfile: docker/Dockerfile
     ports:
-      - 8443:8443
+      - 443:443
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/mysql
       - SPRING_DATASOURCE_USERNAME=root
