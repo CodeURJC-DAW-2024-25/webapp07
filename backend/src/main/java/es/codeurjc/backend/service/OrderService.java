@@ -128,13 +128,16 @@ public class OrderService {
      * @param id        The ID of the order.
      * @param newStatus The new status to be set (e.g., "Pending", "Paid", "Cancelled").
      */
-    public void updateOrderStatusChecked(Long id, String newStatus) {
+    public OrderDTO updateOrderStatusChecked(Long id, String newStatus) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
 
         order.setStatus(newStatus);
-        orderRepository.save(order);
+        Order updatedOrder = orderRepository.save(order);
+
+        return orderMapper.toDto(updatedOrder);
     }
+
 
 
     /**
@@ -316,6 +319,19 @@ public class OrderService {
 
         return response;
     }
+
+    public OrderDTO updateOrderStatusAndAddressChecked(Long id, String newStatus, String newAddress) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+
+        order.setStatus(newStatus);
+        order.setAddress(newAddress);
+
+        Order updatedOrder = orderRepository.save(order);
+
+        return orderMapper.toDto(updatedOrder);
+    }
+
 
 
 

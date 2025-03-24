@@ -151,10 +151,11 @@ public class OrderRestController {
     })
     @Parameter(name = "id", description = "Order ID", required = true)
     @PatchMapping("/{id}/status")
-    public ResponseEntity<Void> updateOrderStatus(@PathVariable Long id, @RequestBody String newStatus) {
-        orderService.updateOrderStatusChecked(id, newStatus.trim());
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<OrderDTO> updateOrderStatus(@PathVariable Long id, @RequestBody String newStatus) {
+        OrderDTO updatedOrder = orderService.updateOrderStatusChecked(id, newStatus.trim());
+        return ResponseEntity.ok(updatedOrder);
     }
+
 
     @PostMapping("/cart")
     public ResponseEntity<OrderDTO> addToCart(@RequestBody Map<String, Long> request,
@@ -218,6 +219,19 @@ public class OrderRestController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<OrderDTO> updateOrderStatusAndAddress(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> updates) {
+
+        String status = updates.getOrDefault("status", "").trim();
+        String address = updates.getOrDefault("address", "").trim();
+
+        OrderDTO updatedOrder = orderService.updateOrderStatusAndAddressChecked(id, status, address);
+        return ResponseEntity.ok(updatedOrder);
+    }
+
 
 
 
