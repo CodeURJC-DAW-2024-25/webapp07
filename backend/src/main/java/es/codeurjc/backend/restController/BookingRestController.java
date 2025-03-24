@@ -106,7 +106,7 @@ public class BookingRestController {
         try {
             bookingService.validateBookingCreation(currentUser, dto.userId());
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(403).body("User not authenticated");
+            return ResponseEntity.status(403).body("You are not authorized to create a booking for another user.");
         } catch (IllegalStateException e) {
             return ResponseEntity.status(409).body(e.getMessage());
         }
