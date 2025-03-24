@@ -309,7 +309,7 @@ public class OrderRestController {
             """))),
             @ApiResponse(responseCode = "500", description = "User not found", content = @Content)
     })
-    @PutMapping("/cart/clear")
+    @PutMapping("/cart")
     public ResponseEntity<Map<String, Object>> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();
 
