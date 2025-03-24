@@ -201,7 +201,7 @@ public class OrderRestController {
             @ApiResponse(responseCode = "400", description = "Missing 'dishId' in request body", content = @Content),
             @ApiResponse(responseCode = "500", description = "User or dish not found", content = @Content)
     })
-    @PostMapping("/cart/new")
+    @PostMapping("/cart")
     @ResponseBody
     public Map<String, Object> addToCart(@RequestBody Map<String, Long> request, @AuthenticationPrincipal UserDetails userDetails) {
         Map<String, Object> response = new HashMap<>();

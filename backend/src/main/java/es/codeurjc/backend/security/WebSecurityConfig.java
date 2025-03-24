@@ -113,9 +113,9 @@ public class WebSecurityConfig {
 
                         //orderAuthenticated
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/orders/cart/new").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/orders/cart").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/cart").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/cart/clear").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/cart/empty").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/cart/remove").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/history").authenticated()
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/{id}/update").authenticated()
