@@ -1,5 +1,7 @@
 package es.codeurjc.backend.service;
 
+import es.codeurjc.backend.dto.RestaurantDTO;
+import es.codeurjc.backend.mapper.RestaurantMapper;
 import es.codeurjc.backend.model.Restaurant;
 import es.codeurjc.backend.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +21,18 @@ public class RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @Autowired
+    private RestaurantMapper restaurantMapper;
+
     /**
      * Retrieves all restaurants from the repository.
      *
      * @return A list of all restaurants.
      */
-    public List<Restaurant> findAll() {
-        return restaurantRepository.findAll();
+    public List<RestaurantDTO> findAll() {
+        return restaurantRepository.findAll().stream()
+                .map(restaurantMapper::toDto)
+                .toList();
     }
 
     /**
@@ -34,8 +41,9 @@ public class RestaurantService {
      * @param id The ID of the restaurant to retrieve.
      * @return An Optional containing the restaurant if found, or empty if not.
      */
-    public Optional<Restaurant> findById(Long id) {
-        return restaurantRepository.findById(id);
+    public Optional<RestaurantDTO> findById(Long id) {
+        return restaurantRepository.findById(id)
+                .map(restaurantMapper::toDto);
     }
 
     /**
@@ -45,8 +53,36 @@ public class RestaurantService {
      * @param location The location text to search for.
      * @return A list of restaurants that match the search criteria.
      */
-    public List<Restaurant> findByLocationContaining(String location) {
-        return restaurantRepository.findByLocationContaining(normalizeText(location));
+    public List<RestaurantDTO> findByLocationContaining(String location) {
+        return restaurantRepository.findByLocationContaining(normalizeText(location)).stream()
+                .map(restaurantMapper::toDto)
+                .toList();
+    }
+
+    public RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO) {
+        if (restaurantDTO.id() != null) {
+            throw new IllegalArgumentException("New restaurant cannot have an ID");
+        }
+        Restaurant restaurant = restaurantMapper.toEntity(restaurantDTO);
+        restaurantRepository.save(restaurant);
+        return restaurantMapper.toDto(restaurant);
+    }
+
+    public RestaurantDTO updateRestaurant(Long id, RestaurantDTO restaurantDTO) {
+        if (!restaurantRepository.existsById(id)) {
+            throw new IllegalArgumentException("Restaurant not found");
+        }
+        Restaurant restaurant = restaurantMapper.toEntity(restaurantDTO);
+        restaurant.setId(id);
+        restaurantRepository.save(restaurant);
+        return restaurantMapper.toDto(restaurant);
+    }
+
+    public void deleteRestaurant(Long id) {
+        if (!restaurantRepository.existsById(id)) {
+            throw new IllegalArgumentException("Restaurant not found");
+        }
+        restaurantRepository.deleteById(id);
     }
 
     /**
@@ -61,23 +97,5 @@ public class RestaurantService {
         String normalized = Normalizer.normalize(text, Normalizer.Form.NFD);
         normalized = normalized.replaceAll("\\p{M}", "");
         return normalized;
-    }
-    /**
-     * Saves or updates a restaurant.
-     *
-     * @param restaurant The restaurant to save.
-     * @return The saved restaurant.
-     */
-    public Restaurant save(Restaurant restaurant) {
-        return restaurantRepository.save(restaurant);
-    }
-
-    /**
-     * Deletes a restaurant by its ID.
-     *
-     * @param id The ID of the restaurant to delete.
-     */
-    public void deleteById(Long id) {
-        restaurantRepository.deleteById(id);
     }
 }

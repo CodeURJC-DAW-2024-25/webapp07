@@ -1,24 +1,24 @@
 package es.codeurjc.backend.restController;
 
 import es.codeurjc.backend.dto.RestaurantDTO;
-import es.codeurjc.backend.mapper.RestaurantMapper;
-import es.codeurjc.backend.model.Restaurant;
 import es.codeurjc.backend.service.RestaurantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
+/**
+ * REST Controller for handling restaurant-related operations.
+ * Exposes the same functionalities as the non-REST controller for restaurants.
+ */
 @Tag(name = "Restaurants", description = "Restaurant management REST API")
 @RestController
 @RequestMapping("/api/v1/restaurants")
@@ -27,15 +27,24 @@ public class RestaurantRestController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @Autowired
-    private RestaurantMapper restaurantMapper;
-
-    @Operation(summary = "Get all restaurants")
+    /**
+     * Retrieves a list of all restaurants or filters them by location based on a query parameter.
+     *
+     * @param query The location query parameter to filter restaurants.
+     * @return A list of restaurants matching the filter.
+     */
+    @Operation(summary = "Get all restaurants or search by location")
     @GetMapping
-    public List<RestaurantDTO> findAll() {
-        return restaurantService.findAll().stream()
-                .map(restaurantMapper::toDto)
-                .toList();
+    public ResponseEntity<List<RestaurantDTO>> getAllRestaurants(@RequestParam(value = "query", required = false) String query) {
+        List<RestaurantDTO> restaurants;
+
+        if (query != null && !query.isEmpty()) {
+            restaurants = restaurantService.findByLocationContaining(query);
+        } else {
+            restaurants = restaurantService.findAll();
+        }
+
+        return ResponseEntity.ok(restaurants);
     }
 
     @Operation(summary = "Get a restaurant by ID")
@@ -46,42 +55,38 @@ public class RestaurantRestController {
     @GetMapping("/{id}")
     public ResponseEntity<RestaurantDTO> findById(@PathVariable Long id) {
         return restaurantService.findById(id)
-                .map(restaurantMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @Operation(summary = "Create a new restaurant")
     @PostMapping
-    public ResponseEntity<RestaurantDTO> create(@Valid @RequestBody RestaurantDTO dto) {
-        Restaurant restaurant = restaurantMapper.toEntity(dto);
-        restaurantService.save(restaurant);
+    public ResponseEntity<RestaurantDTO> create(@RequestBody RestaurantDTO dto) {
+        RestaurantDTO createdRestaurant = restaurantService.createRestaurant(dto);
         URI location = fromCurrentRequest().path("/{id}")
-                .buildAndExpand(restaurant.getId()).toUri();
-        return ResponseEntity.created(location).body(restaurantMapper.toDto(restaurant));
+                .buildAndExpand(createdRestaurant.id()).toUri();
+        return ResponseEntity.created(location).body(createdRestaurant);
+    }
+
+    @Operation(summary = "Update a restaurant")
+    @PutMapping("/{id}")
+    public ResponseEntity<RestaurantDTO> update(@PathVariable Long id, @RequestBody RestaurantDTO dto) {
+        try {
+            RestaurantDTO updatedRestaurant = restaurantService.updateRestaurant(id, dto);
+            return ResponseEntity.ok(updatedRestaurant);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @Operation(summary = "Delete a restaurant")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        Optional<Restaurant> restaurant = restaurantService.findById(id);
-        if (restaurant.isPresent()) {
-            restaurantService.deleteById(id);
+        try {
+            restaurantService.deleteRestaurant(id);
             return ResponseEntity.noContent().build();
-        } else {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
-    }
-
-    @Operation(summary = "Update a restaurant")
-    @PutMapping("/{id}")
-    public ResponseEntity<RestaurantDTO> update(@PathVariable Long id, @Valid @RequestBody RestaurantDTO dto) {
-        if (restaurantService.findById(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Restaurant updated = restaurantMapper.toEntity(dto);
-        updated.setId(id);
-        restaurantService.save(updated);
-        return ResponseEntity.ok(restaurantMapper.toDto(updated));
     }
 }
