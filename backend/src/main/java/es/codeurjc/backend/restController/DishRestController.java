@@ -7,6 +7,7 @@ import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.service.DishService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,10 +34,9 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 @RestController
 @RequestMapping("/api/v1/dishes")
 public class DishRestController {
+
     @Autowired
     private DishService dishService;
-    @Autowired
-    private DishMapper dishMapper;
 
     @Operation(summary = "Get all dishes", description = "Returns a list of all dishes")
     @ApiResponses({
@@ -88,6 +88,7 @@ public class DishRestController {
         dishService.disableById(id);
         return ResponseEntity.noContent().build();
     }
+
     @Operation(summary = "Enable a dish", description = "Marks a dish as enabled in the system.")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Dish enabled successfully"),
@@ -172,6 +173,15 @@ public class DishRestController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(
+            summary = "Search dishes by name",
+            description = "Returns a list of dishes that contain the specified name."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Dishes found successfully",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = DishDTO.class)))
+    )
     @GetMapping("/foundName")
     public ResponseEntity<List<DishDTO>> searchDishByName(
             @Parameter(description = "Search query for username or email") @RequestParam String query) {
@@ -180,6 +190,15 @@ public class DishRestController {
         return ResponseEntity.ok(dishes);
     }
 
+    @Operation(
+            summary = "Search dishes by ingredient",
+            description = "Returns a list of dishes that include the specified ingredient."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Dishes found successfully",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = DishDTO.class)))
+    )
     @GetMapping("/foundIngredient")
     public ResponseEntity<List<DishDTO>> searchByIngredient(
             @Parameter(description = "Search query for username or email") @RequestParam String query) {
@@ -188,6 +207,15 @@ public class DishRestController {
         return ResponseEntity.ok(dishes);
     }
 
+    @Operation(
+            summary = "Search dishes by maximum price",
+            description = "Returns a list of dishes with a price lower than or equal to the specified value."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Dishes found successfully",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = DishDTO.class)))
+    )
     @GetMapping("/foundPrice")
     public ResponseEntity<List<DishDTO>> searchDishByMaxPrice(
             @Parameter(description = "Search query for username or email") @RequestParam Integer query) {
