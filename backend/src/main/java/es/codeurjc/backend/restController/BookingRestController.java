@@ -1,6 +1,7 @@
 package es.codeurjc.backend.restController;
 
 import es.codeurjc.backend.dto.BookingDTO;
+import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.exception.custom.ResourceNotFoundException;
 import es.codeurjc.backend.mapper.BookingMapper;
 import es.codeurjc.backend.model.Booking;
@@ -96,18 +97,18 @@ public class BookingRestController {
     })
     @PostMapping
     public ResponseEntity<?> createBooking(@Valid @RequestBody BookingDTO dto) {
-        Optional<User> currentUserOpt = userService.getAuthenticatedUser();
+        Optional<UserDTO> currentUserOpt = userService.getAuthenticatedUserDto();
         if (currentUserOpt.isEmpty()) {
             return ResponseEntity.status(401).body("User not authenticated");
         }
 
-        User currentUser = currentUserOpt.get();
+        UserDTO currentUser = currentUserOpt.get();
 
-        if (!dto.userId().equals(currentUser.getId())) {
+        if (!dto.userId().equals(currentUser.id())) {
             return ResponseEntity.status(403).body("You can only create a booking for your own account");
         }
 
-        Optional<Booking> activeBooking = bookingService.findActiveBookingByUser(currentUser);
+        Optional<Booking> activeBooking = bookingService.findActiveBookingByUserId(currentUser.id());
         if (activeBooking.isPresent()) {
             return ResponseEntity.status(409).body("You already have an active booking. Please cancel it before creating a new one.");
         }
@@ -120,6 +121,7 @@ public class BookingRestController {
 
         return ResponseEntity.created(location).body(bookingMapper.toDto(booking));
     }
+
 
     /**
      * Deletes a booking by ID if the user is admin or owner.
@@ -167,12 +169,13 @@ public class BookingRestController {
     })
     @GetMapping("/me")
     public ResponseEntity<BookingDTO> getAuthenticatedUserBooking() {
-        return userService.getAuthenticatedUser()
-                .flatMap(bookingService::findActiveBookingByUser)
+        return userService.getAuthenticatedUserDto()
+                .flatMap(user -> bookingService.findActiveBookingByUserId(user.id()))
                 .map(bookingMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(404).body(null));
     }
+
 
     /**
      * Performs advanced search on bookings by optional parameters.
