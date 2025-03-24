@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
@@ -22,6 +23,7 @@ import es.codeurjc.backend.model.User;
 
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -145,5 +147,22 @@ public class BookingRestController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(404).body(null));
     }
+    @Operation(summary = "Advanced search for bookings", description = "Search bookings by user info, shift, restaurantId and/or date")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Search results returned")
+    })
+    @GetMapping("/search")
+    public List<BookingDTO> advancedSearch(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String shift,
+            @RequestParam(required = false) Long restaurantId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
+    ) {
+        return bookingService.advancedSearch(query, shift, restaurantId, date).stream()
+                .map(bookingMapper::toDto)
+                .toList();
+    }
+
+
 
 }

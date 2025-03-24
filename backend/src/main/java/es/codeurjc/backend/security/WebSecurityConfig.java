@@ -98,6 +98,8 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/bookings/new").hasRole("USER")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/bookings/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/bookings/search").hasRole("ADMIN")
+
 
                         .requestMatchers(HttpMethod.GET, "/api/v1/menu").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/menu/**").permitAll()

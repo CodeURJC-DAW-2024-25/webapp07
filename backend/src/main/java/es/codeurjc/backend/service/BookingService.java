@@ -108,5 +108,18 @@ public class BookingService {
     public void save(Booking booking) {
         bookingRepository.save(booking);
     }
+    public List<Booking> advancedSearch(String query, String shift, Long restaurantId, LocalDate date) {
+        return bookingRepository.findAll().stream()
+                .filter(b -> b.getDate().isAfter(LocalDate.now()) || b.getDate().isEqual(LocalDate.now()))
+                .filter(b -> query == null ||
+                        b.getUser().getUsername().toLowerCase().contains(query.toLowerCase()) ||
+                        b.getUser().getEmail().toLowerCase().contains(query.toLowerCase()) ||
+                        b.getUser().getPhoneNumber().toLowerCase().contains(query.toLowerCase()))
+                .filter(b -> shift == null || b.getShift().equalsIgnoreCase(shift))
+                .filter(b -> restaurantId == null || b.getRestaurant().getId().equals(restaurantId))
+                .filter(b -> date == null || b.getDate().isEqual(date))
+                .toList();
+    }
+
 
 }
