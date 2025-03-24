@@ -103,13 +103,12 @@ public class BookingRestController {
 
         User currentUser = currentUserOpt.get();
 
-        if (!dto.userId().equals(currentUser.getId())) {
-            return ResponseEntity.status(403).body("You can only create a booking for your own account");
-        }
-
-        Optional<Booking> activeBooking = bookingService.findActiveBookingByUser(currentUser);
-        if (activeBooking.isPresent()) {
-            return ResponseEntity.status(409).body("You already have an active booking. Please cancel it before creating a new one.");
+        try {
+            bookingService.validateBookingCreation(currentUser, dto.userId());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(409).body(e.getMessage());
         }
 
         Booking booking = bookingMapper.toEntity(dto);

@@ -1,8 +1,9 @@
 package es.codeurjc.backend.service;
 
+import es.codeurjc.backend.exception.custom.ResourceNotFoundException;
 import es.codeurjc.backend.model.Booking;
-import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.model.Restaurant;
+import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,17 +18,39 @@ import java.util.Optional;
 @Service
 public class BookingService {
 
-    @Autowired
-    private BookingRepository bookingRepository;
+    private final BookingRepository bookingRepository;
+
+    public BookingService(BookingRepository bookingRepository) {
+        this.bookingRepository = bookingRepository;
+    }
+
 
     /**
-     * Finds the active booking of a user.
+     * Checks if a user already has an active booking.
      *
-     * @param user The user whose active booking is being searched.
-     * @return An optional containing the active booking if found.
+     * @param user The user to check.
+     * @return true if the user has an active booking, false otherwise.
      */
-    public Optional<Booking> findActiveBookingByUser(User user) {
-        return bookingRepository.findActiveBookingByUserId(user.getId());
+    public boolean hasActiveBooking(User user) {
+        return bookingRepository.findActiveBookingByUserId(user.getId()).isPresent();
+    }
+
+    /**
+     * Validates that a booking can be created for the given user.
+     *
+     * @param user The user attempting to create the booking.
+     * @param userIdFromDTO The user ID specified in the booking DTO.
+     * @throws IllegalArgumentException if the user is not authorized.
+     * @throws IllegalStateException if the user already has an active booking.
+     */
+    public void validateBookingCreation(User user, Long userIdFromDTO) {
+        if (!user.getId().equals(userIdFromDTO)) {
+            throw new IllegalArgumentException("You can only create a booking for your own account");
+        }
+
+        if (hasActiveBooking(user)) {
+            throw new IllegalStateException("You already have an active booking. Please cancel it before creating a new one.");
+        }
     }
 
     /**
@@ -63,15 +86,6 @@ public class BookingService {
     }
 
     /**
-     * Retrieves all active bookings for the admin panel.
-     *
-     * @return A list of active bookings.
-     */
-    public List<Booking> getAllBookings() {
-        return bookingRepository.findActiveBookings(); // Now returns only active bookings
-    }
-
-    /**
      * Cancels a booking by its ID.
      *
      * @param id The ID of the booking to be canceled.
@@ -79,6 +93,25 @@ public class BookingService {
     public void cancelBookingById(Long id) {
         Optional<Booking> booking = bookingRepository.findById(id);
         booking.ifPresent(bookingRepository::delete);
+    }
+
+    /**
+     * Finds the active booking of a user.
+     *
+     * @param user The user whose active booking is being searched.
+     * @return An optional containing the active booking if found.
+     */
+    public Optional<Booking> findActiveBookingByUser(User user) {
+        return bookingRepository.findActiveBookingByUserId(user.getId());
+    }
+
+    /**
+     * Retrieves all active bookings.
+     *
+     * @return A list of active bookings.
+     */
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findActiveBookings();
     }
 
     /**
@@ -157,5 +190,4 @@ public class BookingService {
                 .filter(b -> date == null || b.getDate().isEqual(date))
                 .toList();
     }
-
 }
