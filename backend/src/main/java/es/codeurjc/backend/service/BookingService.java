@@ -29,7 +29,9 @@ public class BookingService {
     public Optional<Booking> findActiveBookingByUser(User user) {
         return bookingRepository.findActiveBookingByUserId(user.getId());
     }
-
+    public Optional<Booking> findActiveBookingByUserId(Long userId) {
+        return bookingRepository.findActiveBookingByUserId(userId);
+    }
     /**
      * Creates a new booking if there is availability.
      *

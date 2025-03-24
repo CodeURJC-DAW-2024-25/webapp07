@@ -1,5 +1,6 @@
 package es.codeurjc.backend.controller.admin;
 
+import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +21,11 @@ public class UsersController {
     @Autowired
     private UserService userService;
 
-    /**
-     * Displays the user management page with a list of users.
-     * Allows searching for users by username or email.
-     *
-     * @param model The model to pass attributes to the view.
-     * @param query Optional search query to filter users.
-     * @return The admin user management view name.
-     */
     @GetMapping
     public String listUsers(Model model, @RequestParam(required = false) String query) {
-        List<User> users;
-
-        if (query != null && !query.isEmpty()) {
-            users = userService.searchUsers(query);
-        } else {
-            users = userService.getAllUsers();
-        }
+        List<UserDTO> users = (query != null && !query.isEmpty())
+                ? userService.searchUsers(query)
+                : userService.getAllUsers();
 
         System.out.println("Users passed to view: " + users.size());
 
@@ -50,6 +39,7 @@ public class UsersController {
 
         return "admin/manage-users";
     }
+
 
     /**
      * Bans a user, preventing them from accessing the system.

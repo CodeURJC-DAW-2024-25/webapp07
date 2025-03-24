@@ -1,5 +1,6 @@
 package es.codeurjc.backend.controller;
 
+import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 /**
  * Controller responsible for handling authentication-related operations such as login and user registration.
@@ -48,30 +50,7 @@ public class AuthController {
         return "login";
     }
 
-    /**
-     * Handles user registration by validating input data, checking for duplicate users,
-     * and creating a new user account if valid.
-     *
-     * <p>
-     * The method performs the following checks:
-     * <ul>
-     *   <li>Ensures that the provided passwords match.</li>
-     *   <li>Delegates user existence and email existence validation to {@code UserService}.</li>
-     *   <li>Delegates user creation and password encryption to {@code UserService}.</li>
-     * </ul>
-     * If validation fails, the user is redirected to the login page with an error message.
-     * If registration is successful, the user is redirected to the home page.
-     * </p>
-     *
-     * @param username        The desired username for the new user.
-     * @param email           The email address associated with the new user.
-     * @param password        The password chosen by the user.
-     * @param passwordConfirm The confirmation of the chosen password.
-     * @param dateOfBirth     The user's date of birth in {@code yyyy-MM-dd} format.
-     * @param model           The model used to pass attributes to the view.
-     * @param session         The HTTP session used to store messages for redirection.
-     * @return A redirect to the home page on success or the login page on failure.
-     */
+
     @PostMapping("/register")
     public String registerUser(@RequestParam String username,
                                @RequestParam String email,
@@ -80,6 +59,7 @@ public class AuthController {
                                @RequestParam String dateOfBirth,
                                Model model,
                                HttpSession session) {
+
         System.out.println("✅ registerUser method invoked");
         System.out.println("📩 Registration data -> Username: " + username + ", Email: " + email + ", Date of Birth: " + dateOfBirth);
 
@@ -90,7 +70,21 @@ public class AuthController {
         }
 
         try {
-            userService.registerUser(username, email, password, dateOfBirth);
+            UserDTO userDTO = new UserDTO(
+                    null,
+                    username,
+                    "", // firstName
+                    "", // lastName
+                    LocalDate.parse(dateOfBirth),
+                    "", // phoneNumber
+                    "", // address
+                    email,
+                    List.of("USER"),
+                    false,
+                    password
+            );
+
+            userService.registerUser(userDTO);
 
             System.out.println("✅ User '" + username + "' registered successfully");
             session.setAttribute("message", "Registration successful!");
@@ -105,5 +99,6 @@ public class AuthController {
             return "redirect:/auth/login";
         }
     }
+
 
 }

@@ -1,5 +1,6 @@
 package es.codeurjc.backend.controller;
 
+import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.UserService;
 import es.codeurjc.backend.model.Booking;
@@ -27,14 +28,6 @@ public class ProfileController {
     private BookingService bookingService;
 
 
-    /**
-     * Displays the user profile page.
-     *
-     * @param userDetails The authenticated user details.
-     * @param edit        A flag indicating whether the profile should be shown in edit mode.
-     * @param model       The model to pass attributes to the view.
-     * @return The profile view name.
-     */
     @GetMapping("/profile")
     public String showProfile(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -42,14 +35,14 @@ public class ProfileController {
             Model model) {
 
         String username = userDetails.getUsername();
-        User user = userService.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Buscar la reserva activa del usuario
-        Optional<Booking> activeBooking = bookingService.findActiveBookingByUser(user);
-        activeBooking.ifPresent(booking -> model.addAttribute("booking", booking));
+        userService.findUserDtoByUsername(username).ifPresent(dto -> {
+            bookingService.findActiveBookingByUserId(dto.id())
+                    .ifPresent(booking -> model.addAttribute("booking", booking));
 
-        model.addAttribute("user", user);
+            model.addAttribute("user", dto);
+        });
+
         model.addAttribute("editMode", edit);
         model.addAttribute("pageTitle", "Profile");
 
@@ -62,18 +55,9 @@ public class ProfileController {
     }
 
 
-    /**
-     * Updates the user profile with the provided information.
-     *
-     * @param userDetails The authenticated user details.
-     * @param firstName   The updated first name.
-     * @param lastName    The updated last name.
-     * @param email       The updated email.
-     * @param phoneNumber The updated phone number.
-     * @param address     The updated address.
-     * @param model       The model to pass attributes to the view.
-     * @return A redirect to the profile page after updating.
-     */
+
+
+
     @PostMapping("/profile")
     public String updateProfile(
             @AuthenticationPrincipal UserDetails userDetails,
@@ -85,18 +69,28 @@ public class ProfileController {
             Model model) {
 
         String username = userDetails.getUsername();
-        User user = userService.findByUsername(username)
+
+        UserDTO userDTO = userService.findUserDtoByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Update user details
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setEmail(email);
-        user.setPhoneNumber(phoneNumber);
-        user.setAddress(address);
+        UserDTO updatedDTO = new UserDTO(
+                userDTO.id(),
+                userDTO.username(),
+                firstName,
+                lastName,
+                userDTO.dateOfBirth(),
+                phoneNumber,
+                address,
+                email,
+                userDTO.roles(),
+                userDTO.banned(),
+                userDTO.password()
+        );
 
-        userService.updateUser(user);
+        userService.updateUser(userDTO.id(), updatedDTO);
 
         return "redirect:/profile";
     }
+
+
 }
