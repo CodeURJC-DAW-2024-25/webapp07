@@ -156,20 +156,32 @@ public class OrderRestController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/cart")
+    public ResponseEntity<OrderDTO> addToCart(@RequestBody Map<String, Long> request,
+                                              @AuthenticationPrincipal UserDetails userDetails) {
+        if (!request.containsKey("dishId")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Missing 'dishId' in request body");
+        }
+        Long dishId = request.get("dishId");
+        OrderDTO cartDTO = orderService.addDishToUserCart(dishId, userDetails.getUsername());
+        return ResponseEntity.ok(cartDTO);
+    }
+
+
+    @GetMapping("/cart")
+    public ResponseEntity<OrderDTO> viewCart(@AuthenticationPrincipal UserDetails userDetails) {
+        OrderDTO cartDTO = orderService.viewCartForUser(userDetails.getUsername());
+        return ResponseEntity.ok(cartDTO);
+    }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+    @PutMapping("/cart")
+    public ResponseEntity<OrderDTO> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
+        OrderDTO clearedCart = orderService.clearCart(userDetails.getUsername());
+        return ResponseEntity.ok(clearedCart);
+    }
 
 
 

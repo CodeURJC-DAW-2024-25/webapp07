@@ -1,7 +1,9 @@
 package es.codeurjc.backend.service;
 
 import es.codeurjc.backend.dto.OrderDTO;
+import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.mapper.OrderMapper;
+import es.codeurjc.backend.mapper.UserMapper;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.model.Order;
 import es.codeurjc.backend.model.User;
@@ -12,10 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -36,19 +35,42 @@ public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
 
-    /**
-     * Saves a new order in the database.
-     *
-     * @param order The order to be saved.
-     */
-    public void createOrder(Order order) {
-        try {
-            orderRepository.save(order);
-        } catch (Exception e) {
-            System.err.println("Error saving order: " + e.getMessage());
-            throw e;
-        }
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+
+    @Autowired
+    private UserMapper userMapper;
+
+    public OrderDTO addDishToUserCart(Long dishId, String username) {
+        UserDTO userDTO = userService.findUserDtoByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        User user = userMapper.toEntity(userDTO);
+
+        Order cart = findCartByUser(user.getId())
+                .orElseGet(() -> {
+                    Order newCart = new Order(new ArrayList<>(), user, "", "Cart", 0.0);
+                    saveOrder(newCart);
+                    return newCart;
+                });
+
+        Dish dish = dishService.findById(dishId)
+                .orElseThrow(() -> new RuntimeException("Dish not found"));
+
+        cart.getDishes().add(dish);
+        cart.setTotalPrice(cart.calculateTotalPrice());
+        saveOrder(cart);
+
+        return orderMapper.toDto(cart);
     }
+
+
+
+
 
     /**
      * Retrieves an order by its ID.
@@ -218,6 +240,51 @@ public class OrderService {
 
         return Map.of("message", "Order updated successfully!");
     }
+
+    public OrderDTO viewCartForUser(String username) {
+        UserDTO userDTO = userService.findUserDtoByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        User user = userMapper.toEntity(userDTO);
+
+        Order cart = findCartByUser(user.getId())
+                .orElseGet(() -> {
+                    Order newCart = new Order(new ArrayList<>(), user, "", "Cart", 0.0);
+                    saveOrder(newCart);
+                    return newCart;
+                });
+
+        cart.setTotalPrice(cart.calculateTotalPrice());
+        saveOrder(cart);
+
+        return orderMapper.toDto(cart);
+    }
+
+    public OrderDTO clearCart(String username) {
+        UserDTO userDTO = userService.findUserDtoByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        User user = userMapper.toEntity(userDTO);
+
+        Order cart = findCartByUser(user.getId())
+                .orElseGet(() -> {
+                    Order newCart = new Order(new ArrayList<>(), user, "", "Cart", 0.0);
+                    saveOrder(newCart);
+                    return newCart;
+                });
+
+        cart.getDishes().clear();
+        cart.setTotalPrice(0.0);
+        saveOrder(cart);
+
+        return orderMapper.toDto(cart);
+    }
+
+
+
+
+
+
 
 }
 
