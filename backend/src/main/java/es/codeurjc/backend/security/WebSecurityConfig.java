@@ -107,9 +107,9 @@ public class WebSecurityConfig {
 
 
                         //orderAdmin
-                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/admin").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/admin/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/admin/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/orders/").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/orders/{id}").hasRole("ADMIN")
 
                         //orderAuthenticated
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").authenticated()
