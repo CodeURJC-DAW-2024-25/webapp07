@@ -5,6 +5,7 @@ import es.codeurjc.backend.enums.Allergens;
 import es.codeurjc.backend.mapper.DishMapper;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.repository.DishRepository;
+import jakarta.validation.Valid;
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -55,25 +56,20 @@ public class DishService {
      * @param maxPrice The maximum price to filter dishes by (optional).
      * @return A list of dishes that match the provided filters and are available.
      */
-    public List<Dish> filterDishes(String name, String ingredient, Integer maxPrice) {
+    public List<DishDTO> filterDishes(String name, String ingredient, Integer maxPrice) {
 
-        List<Dish> dishesByName =  (name != null  && !name.isEmpty())
-                ? dishRepository.findDishByName(name)
-                : dishRepository.findAll();
+        List<DishDTO> dishesByName =  searchDishByName(name);
 
-        List<Dish> dishesByIngredient = (ingredient != null && !ingredient.isEmpty())
-                ? dishRepository.findDishByIngredients(ingredient)
-                : dishRepository.findAll();
+        List<DishDTO> dishesByIngredient =  searchDishByIngredient(ingredient);
 
-        List<Dish> dishesByPrice = (maxPrice != null)
-                ? dishRepository.findDishBymaxPrice(maxPrice)
-                : dishRepository.findAll();
+        List<DishDTO> dishesByPrice = searchDishByPrice(maxPrice);
 
         // More than 1 filter
         if (name != null && !name.isEmpty()) {
             dishesByName.retainAll(dishesByIngredient);
             dishesByName.retainAll(dishesByPrice);
             dishesByName.removeIf(dish -> !dish.isAvailable());
+
             return dishesByName;  // Final list
         } else {
             dishesByIngredient.retainAll(dishesByPrice);
@@ -87,8 +83,11 @@ public class DishService {
      *
      * @return A list of all dishes.
      */
-    public List<Dish> findAll() {
-        return dishRepository.findAll();
+    public List<DishDTO> findAll() {
+        return dishRepository.findAll()
+                .stream()
+                .map(dishMapper::toDto)
+                .toList();
     }
 
     /**
@@ -106,8 +105,9 @@ public class DishService {
      * @param id the ID of the dish
      * @return an Optional containing the dish if found
      */
-    public Optional<Dish> findById(long id) {
-        return dishRepository.findById(id);
+    public Optional<DishDTO> findById(long id) {
+        return dishRepository.findById(id)
+                .map(dishMapper:: toDto);
     }
 
     /**
@@ -249,7 +249,7 @@ public class DishService {
      * @throws IllegalArgumentException If the provided DishDTO already has an ID set,
      * indicating that it's intended for an update rather than creation.
      */
-    public DishDTO createDish(DishDTO dishDTO) {
+    public long createDish(DishDTO dishDTO) {
         if(dishDTO.id() != null) {
             throw new IllegalArgumentException();
         }
@@ -258,7 +258,7 @@ public class DishService {
 
         dishRepository.save(dish);
 
-        return dishMapper.toDto(dish);
+        return dish.getId();
     }
 
     /**
@@ -380,5 +380,38 @@ public class DishService {
             }
         }
         return false;
+    }
+
+    public Optional<DishDTO> updateDish(Long id, @Valid DishDTO dishDTO) {
+        return dishRepository.findById(id).map(existingDish ->{
+            existingDish = dishMapper.toEntity(dishDTO);
+            existingDish.setId(dishDTO.id());
+
+            Dish savedDish = dishRepository.save(existingDish);
+            return dishMapper.toDto(savedDish);
+        });
+
+    }
+
+    public List<DishDTO> searchDishByName(String query) {
+        List<Dish> dishesByName = (query != null  && !query.isEmpty())
+                ? dishRepository.findDishByName(query)
+                : dishRepository.findAll();
+
+        return dishesByName.stream().map(dishMapper::toDto).toList();
+    }
+    public List<DishDTO> searchDishByIngredient(String query) {
+        List<Dish> dishesByName = (query != null  && !query.isEmpty())
+                ? dishRepository.findDishByIngredients(query)
+                : dishRepository.findAll();
+
+        return dishesByName.stream().map(dishMapper::toDto).toList();
+    }
+    public List<DishDTO> searchDishByPrice(Integer query) {
+        List<Dish> dishesByName = (query != null)
+                ? dishRepository.findDishBymaxPrice(query)
+                : dishRepository.findAll();
+
+        return dishesByName.stream().map(dishMapper::toDto).toList();
     }
 }
