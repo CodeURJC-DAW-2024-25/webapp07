@@ -332,6 +332,37 @@ public class OrderService {
         return orderMapper.toDto(updatedOrder);
     }
 
+    public Optional<OrderDTO> findDtoById(Long id) {
+        return orderRepository.findById(id).map(orderMapper::toDto);
+    }
+
+    public void saveOrderDTO(OrderDTO dto) {
+        Order order = orderMapper.toEntity(dto);
+        orderRepository.save(order);
+    }
+
+    public List<OrderDTO> getAllOrdersAsDTOList() {
+        return orderRepository.findAll()
+                .stream()
+                .map(orderMapper::toDto)
+                .toList();
+    }
+
+    public Optional<OrderDTO> findOrderDtoById(Long id) {
+        return orderRepository.findById(id)
+                .map(orderMapper::toDto);
+    }
+
+    public void updateOrderFromAdmin(OrderDTO dto) {
+        Order order = orderRepository.findById(dto.id())
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        order.setAddress(dto.address());
+        order.setStatus(dto.status());
+        order.setTotalPrice(dto.totalPrice());
+
+        orderRepository.save(order);
+    }
 
 
 

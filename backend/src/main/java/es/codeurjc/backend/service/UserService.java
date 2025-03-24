@@ -156,5 +156,11 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public Long getAuthenticatedUserId() {
+        return getAuthenticatedUserDto()
+                .map(UserDTO::id)
+                .orElseThrow(() -> new RuntimeException("User not authenticated"));
+    }
+
 
 }

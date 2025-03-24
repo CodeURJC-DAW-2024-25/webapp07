@@ -53,28 +53,23 @@ public class OrderController {
      */
     @GetMapping("/cart")
     public String viewCart(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        UserDTO user = userService.findUserDtoByUsername(userDetails.getUsername())
+        UserDTO userDTO = userService.findUserDtoByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Order cart = orderService.findCartByUser(user.id())
-                .orElseGet(() -> orderService.
-                        new OrderDTO(new ArrayList<>(), user, "", "Cart",0.0));
+        OrderDTO cartDTO = orderService.viewCartForUser(userDTO.username());
 
-        boolean hasDishes = !cart.getDishes().isEmpty();
-        double totalPrice = cart.getDishes().stream()
-                .mapToDouble(Dish::getPrice)
-                .sum();
 
-        cart.setTotalPrice(totalPrice);
-        orderService.saveOrder(cart);
+        boolean hasDishes = cartDTO.dishes() != null && !cartDTO.dishes().isEmpty();
+        double totalPrice = cartDTO.totalPrice();
 
         model.addAttribute("pageTitle", "Cart");
-
         model.addAttribute("hasDishes", hasDishes);
-        model.addAttribute("orders", cart);
+        model.addAttribute("orders", cartDTO);
         model.addAttribute("totalPrice", totalPrice);
+
         return "cart";
     }
+
 
     /**
      * Clears the user's cart.
@@ -176,11 +171,13 @@ public class OrderController {
     @GetMapping("/history")
     public String showUserOrderHistory(Model model) {
         Optional<UserDTO> userOpt = userService.getAuthenticatedUserDto();
-        if (userOpt.isPresent()) {
-            //search order for this user
-            List<Order> orders = orderService.getPaidOrdersByUserId(userOpt);
-            model.addAttribute("orders", orders);
 
+        if (userOpt.isPresent()) {
+            UserDTO user = userOpt.get();
+
+            List<OrderDTO> orders = orderService.getPaidOrderDTOsByUserId(user.id());
+
+            model.addAttribute("orders", orders);
             model.addAttribute("pageTitle", "Order history");
 
             return "user-order-history";
@@ -188,6 +185,7 @@ public class OrderController {
 
         return "redirect:/login";
     }
+
 
     /**
      * Displays detailed information about a specific order.
@@ -198,33 +196,28 @@ public class OrderController {
      */
     @GetMapping("/{id}/more-info")
     public String showOrderMoreInfo(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        Order order = orderService.getOrderById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        OrderDTO order = orderService.getOrderDTOByIdForUser(id, userDetails.getUsername());
 
-        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
-        if (!"Paid".equals(order.getStatus())) {
+        if (!"Paid".equals(order.status())) {
             return "redirect:/orders/" + id + "/summary";
         }
 
         double deliveryCost = 4.99;
-        double totalPrice = order.getTotalPrice();
+        double totalPrice = order.totalPrice();
         double finalPrice = Math.round((totalPrice + deliveryCost) * 100.0) / 100.0;
 
-        model.addAttribute("id", order.getId());
-        model.addAttribute("dishes", order.getDishes());
+        model.addAttribute("id", order.id());
+        model.addAttribute("dishes", order.dishes());
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("deliveryCost", deliveryCost);
         model.addAttribute("finalPrice", finalPrice);
-        model.addAttribute("address", order.getAddress());
+        model.addAttribute("address", order.address());
 
         model.addAttribute("pageTitle", "Order information");
 
         return "order-more-info";
-
     }
+
 
     /**
      * Displays the summary of a specific order.
@@ -236,36 +229,33 @@ public class OrderController {
      */
     @GetMapping("/{id}/summary")
     public String showOrderSummary(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        Order order = orderService.getOrderById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        OrderDTO orderDTO = orderService.getOrderDTOByIdForUser(id, userDetails.getUsername());
 
-        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
-        if ("Paid".equals(order.getStatus())) {
+        if ("Paid".equals(orderDTO.status())) {
             return "redirect:/orders/" + id + "/more-info";
         }
 
-        User user = userService.findByUsername(userDetails.getUsername())
+        UserDTO userDTO = userService.findUserDtoByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         double deliveryCost = 4.99;
-        double totalPrice = order.getTotalPrice();
+        double totalPrice = orderDTO.totalPrice();
         double finalPrice = Math.round((totalPrice + deliveryCost) * 100.0) / 100.0;
 
-        // transfer the data to the view
-        model.addAttribute("id", order.getId());
-        model.addAttribute("dishes", order.getDishes());
+        // transfer data to view
+        model.addAttribute("id", orderDTO.id());
+        model.addAttribute("dishes", orderDTO.dishes());
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("deliveryCost", deliveryCost);
         model.addAttribute("finalPrice", finalPrice);
-        model.addAttribute("address", order.getAddress());
+        model.addAttribute("address", orderDTO.address());
 
-        model.addAttribute("pageTitle", " Order summary" );
-        model.addAttribute("user", user);
-        return "order-summary"; // show mustache
+        model.addAttribute("user", userDTO);
+        model.addAttribute("pageTitle", "Order summary");
+
+        return "order-summary";
     }
+
 
     /**
      * Displays the confirmation page for a specific order.
@@ -276,64 +266,45 @@ public class OrderController {
      */
     @GetMapping("/{id}/confirmation")
     public String showOrderConfirmation(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        Optional<Order> orderOpt = orderService.getOrderById(id);
+        OrderDTO orderDTO = orderService.getOrderDTOByIdForUser(id, userDetails.getUsername());
 
-        Order order = orderService.getOrderById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
-        if ("Paid".equals(order.getStatus())) {
+        if ("Paid".equals(orderDTO.status())) {
             return "redirect:/orders/" + id + "/more-info";
         }
 
-        if (orderOpt.isPresent()) {
-            model.addAttribute("order", order);
-            return "order-confirmation";
-        } else {
-            return "redirect:/error";
-        }
+        model.addAttribute("order", orderDTO);
+        return "order-confirmation";
     }
+
 
     @GetMapping("/{id}/pay")
     public String showPayPage(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        Order order = orderService.getOrderById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        OrderDTO orderDTO = orderService.getOrderDTOByIdForUser(id, userDetails.getUsername());
 
-        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
-        if ("Paid".equals(order.getStatus())) {
+        if ("Paid".equals(orderDTO.status())) {
             return "redirect:/orders/" + id + "/more-info";
         } else {
             return "redirect:/orders/" + id + "/summary";
         }
     }
 
+
     /**
      * Processes the payment for a specific order.
      *
      * @param id The ID of the order to be paid.
-     * @param model The model to pass attributes to the view.
      * @return Redirects to the success page for the order if payment is successful, or redirects to the error page if the order is not found.
      */
     @PostMapping("/{id}/pay")
-    public String payOrder(@PathVariable Long id, Model model) {
-        Optional<Order> orderOpt = orderService.getOrderById(id);
-
-        if (orderOpt.isPresent()) {
-            Order order = orderOpt.get();
-            orderService.updateOrderStatus(id, "Paid");
-
-            model.addAttribute("order", order);
+    public String payOrder(@PathVariable Long id) {
+        try {
+            orderService.updateOrderStatusChecked(id, "Paid");
             return "redirect:/orders/" + id + "/success";
-        } else {
+        } catch (ResponseStatusException e) {
             return "redirect:/error";
         }
     }
+
 
     /**
      * Displays the success page for a specific order.
@@ -344,22 +315,12 @@ public class OrderController {
      */
     @GetMapping("/{id}/success")
     public String orderSuccess(@PathVariable Long id, Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        Optional<Order> orderOpt = orderService.getOrderById(id);
+        OrderDTO order = orderService.getOrderDTOByIdForUser(id, userDetails.getUsername());
 
-        Order order = orderService.getOrderById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
-        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-
-        if (orderOpt.isPresent()) {
-            model.addAttribute("order", order);
-            return "order-success";
-        } else {
-            return "redirect:/error";
-        }
+        model.addAttribute("order", order);
+        return "order-success";
     }
+
 
     /**
      * Updates the details of a specific order.
@@ -379,30 +340,31 @@ public class OrderController {
                               @RequestParam(required = false) Double totalPrice,
                               @AuthenticationPrincipal UserDetails userDetails) {
 
-        User user = userService.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        String username = userDetails.getUsername();
 
-        Order order = orderService.getOrderById(orderId)
+        OrderDTO orderDTO = orderService.findDtoById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        if (!order.getUser().equals(user)) {
+        if (!orderDTO.user().username().equals(username)) {
             throw new RuntimeException("Unauthorized: You can't update this order.");
         }
 
-        if (address != null && !address.isBlank()) {
-            order.setAddress(address);
-        }
-        if (status != null && !status.isBlank()) {
-            order.setStatus(status);
-        }
-        if (totalPrice != null) {
-            order.setTotalPrice(totalPrice);
-        }
+        // Crear un nuevo DTO actualizado (respetando los campos que no cambian)
+        OrderDTO updatedOrder = new OrderDTO(
+                orderDTO.id(),
+                orderDTO.dishes(),
+                orderDTO.user(),
+                orderDTO.orderDate(),
+                address != null ? address : orderDTO.address(),
+                status != null ? status : orderDTO.status(),
+                totalPrice != null ? totalPrice : orderDTO.totalPrice()
+        );
 
-        orderService.saveOrder(order);
+        orderService.saveOrderDTO(updatedOrder);
 
-        return "redirect:/orders/"+ orderId +"/confirmation";
+        return "redirect:/orders/" + orderId + "/confirmation";
     }
+
 
     /**
      * Generates and downloads a PDF invoice for a specific order.
@@ -412,118 +374,87 @@ public class OrderController {
      * @throws IOException If an input or output exception occurs.
      */
     @GetMapping("/{id}/invoice")
-    public void downloadInvoice(@PathVariable Long id, HttpServletResponse response, @AuthenticationPrincipal UserDetails userDetails) throws IOException {
-        Optional<Order> orderOpt = orderService.getOrderById(id);
+    public void downloadInvoice(@PathVariable Long id, HttpServletResponse response,
+                                @AuthenticationPrincipal UserDetails userDetails) throws IOException {
 
-        if (orderOpt.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Order not found");
-            return;
-        }
+        OrderDTO orderDTO = orderService.getOrderDTOByIdForUser(id, userDetails.getUsername());
 
-        Order order = orderOpt.get();
-
-        if (!order.getUser().getUsername().equals(userDetails.getUsername())) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "You are not authorized to view this invoice");
-            return;
-        }
+        UserDTO userDTO = userService.findUserDtoByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         double deliveryCost = 4.99;
-        double finalPrice = order.getTotalPrice() + deliveryCost;
+        double finalPrice = orderDTO.totalPrice() + deliveryCost;
 
-        // Configurar respuesta HTTP
         response.setContentType("application/pdf");
-        response.setHeader("Content-Disposition", "attachment; filename=invoice_" + order.getId() + ".pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=invoice_" + orderDTO.id() + ".pdf");
 
-        // Crear documento PDF
+
         PdfWriter writer = new PdfWriter(response.getOutputStream());
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc);
         document.setMargins(20, 20, 20, 20);
 
-        // "Voltereta Croqueta"
-        Paragraph header = new Paragraph("Voltereta Croqueta")
+
+        document.add(new Paragraph("Voltereta Croqueta")
                 .setTextAlignment(TextAlignment.CENTER)
                 .setBackgroundColor(new DeviceRgb(15, 23, 43))
                 .setFontColor(new DeviceRgb(254, 161, 22))
                 .setFontSize(32)
                 .simulateBold()
-                .setMarginTop(0)
-                .setMarginLeft(0)
-                .setMarginRight(0)
-                .setMarginBottom(20);
-        document.add(header);
-        document.add(new Paragraph(" ").setFontSize(8)); // Space
+                .setMarginBottom(20));
 
-        // Agregar título
-        Paragraph title = new Paragraph("Order Nº: " + order.getId())
+
+        document.add(new Paragraph("Order Nº: " + orderDTO.id())
                 .setTextAlignment(TextAlignment.CENTER)
-                .simulateBold()
-                .setFontSize(20);
-        document.add(title);
-        document.add(new Paragraph(" ").setFontSize(8)); // Espacio
+                .setFontSize(20)
+                .simulateBold());
 
-        // Add user information table
-        String userName = order.getUser().getUsername();
-        Optional<User> userOpt = userService.findByUsername(userName);
-        User user = userOpt.get();
-        Table userTable = new Table(new float[]{2, 4})
-                .useAllAvailableWidth()
-                .setHorizontalAlignment(HorizontalAlignment.CENTER);
+        document.add(new Paragraph(" ").setFontSize(8));
 
+
+        Table userTable = new Table(new float[]{2, 4}).useAllAvailableWidth();
         userTable.addCell(new Cell().add(new Paragraph("Name:").simulateBold()));
-        userTable.addCell(new Cell().add(new Paragraph(user.getFirstName() + " " + user.getLastName())));
-
+        userTable.addCell(new Cell().add(new Paragraph(userDTO.firstName() + " " + userDTO.lastName())));
         userTable.addCell(new Cell().add(new Paragraph("Address:").simulateBold()));
-        userTable.addCell(new Cell().add(new Paragraph(order.getAddress())));
-
+        userTable.addCell(new Cell().add(new Paragraph(orderDTO.address())));
         document.add(userTable);
+
+        document.add(new Paragraph(" ").setFontSize(8));
+
+        Table dishTable = new Table(new float[]{4, 2}).useAllAvailableWidth();
+        dishTable.addHeaderCell(new Cell().add(new Paragraph("Dish").simulateBold()));
+        dishTable.addHeaderCell(new Cell().add(new Paragraph("Price (€)").simulateBold()));
+
+        orderDTO.dishes().forEach(dish ->
+                dishTable.addCell(new Cell().add(new Paragraph(dish.name())))
+                        .addCell(new Cell().add(new Paragraph(String.format("%.2f", dish.price())))
+                                .setTextAlignment(TextAlignment.RIGHT))
+        );
+
+
+        document.add(dishTable);
+        document.add(new Paragraph(" ").setFontSize(8));
+
+        Table summary = new Table(new float[]{4, 2}).useAllAvailableWidth();
+        summary.addCell(new Cell().add(new Paragraph("Subtotal:")));
+        summary.addCell(new Cell().add(new Paragraph("€" + String.format("%.2f", orderDTO.totalPrice())))
+                .setTextAlignment(TextAlignment.RIGHT));
+        summary.addCell(new Cell().add(new Paragraph("Delivery:")));
+        summary.addCell(new Cell().add(new Paragraph("€4.99"))
+                .setTextAlignment(TextAlignment.RIGHT));
+        summary.addCell(new Cell().add(new Paragraph("Total:").simulateBold()));
+        summary.addCell(new Cell().add(new Paragraph("€" + String.format("%.2f", finalPrice)).simulateBold())
+                .setTextAlignment(TextAlignment.RIGHT));
+
+        document.add(summary);
+
+        // Footer
         document.add(new Paragraph(" ").setFontSize(8)); // Space
-
-        // Tabla de pedidos
-        Table table = new Table(new float[]{4, 2})
-                .useAllAvailableWidth()
-                .setHorizontalAlignment(HorizontalAlignment.CENTER);
-
-        table.addHeaderCell(new Cell().add(new Paragraph("Dish").simulateBold()));
-        table.addHeaderCell(new Cell().add(new Paragraph("Price (€)").simulateBold()));
-
-        for (Dish dish : order.getDishes()) {
-            table.addCell(new Cell().add(new Paragraph(dish.getName())));
-            table.addCell(new Cell().add(new Paragraph(String.format("%.2f", (double) dish.getPrice())))
-                    .setTextAlignment(TextAlignment.RIGHT));
-        }
-
-        document.add(table);
-        document.add(new Paragraph(" ").setFontSize(8)); // Espacio
-
-        // Subtotal, Delivery y Total
-        Table summaryTable = new Table(new float[]{4, 2})
-                .useAllAvailableWidth()
-                .setHorizontalAlignment(HorizontalAlignment.CENTER);
-
-        summaryTable.addCell(new Cell().add(new Paragraph("Subtotal:")));
-        summaryTable.addCell(new Cell().add(new Paragraph("€" + String.format("%.2f", order.getTotalPrice())))
-                .setTextAlignment(TextAlignment.RIGHT));
-
-        summaryTable.addCell(new Cell().add(new Paragraph("Delivery:")));
-        summaryTable.addCell(new Cell().add(new Paragraph("€4.99"))
-                .setTextAlignment(TextAlignment.RIGHT));
-
-        summaryTable.addCell(new Cell().add(new Paragraph("Total:").simulateBold()));
-        summaryTable.addCell(new Cell().add(new Paragraph("€" + String.format("%.2f", finalPrice)).simulateBold())
-                .setTextAlignment(TextAlignment.RIGHT));
-
-        document.add(summaryTable);
-
-        //footer
-        Paragraph footer = new Paragraph("© 2025 Voltereta Croqueta. All rights reserved.\nCalle Gran Vía 10 Madrid\nVoltereta Croqueta")
+        document.add(new Paragraph("© 2025 Voltereta Croqueta. All rights reserved.\nCalle Gran Vía 10 Madrid")
                 .setTextAlignment(TextAlignment.JUSTIFIED)
-                .setFontSize(10);
-        document.add(new Paragraph(" ").setFontSize(8)); // Space
-        document.add(footer);
+                .setFontSize(10));
 
-        // Cerrar documento
         document.close();
-
     }
+
 }
