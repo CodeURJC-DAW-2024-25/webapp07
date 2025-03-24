@@ -7,6 +7,8 @@ import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.*;
+import es.codeurjc.backend.dto.OrderDTO;
+import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.model.Order;
 import es.codeurjc.backend.model.User;
@@ -51,11 +53,12 @@ public class OrderController {
      */
     @GetMapping("/cart")
     public String viewCart(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        User user = userService.findByUsername(userDetails.getUsername())
+        UserDTO user = userService.findUserDtoByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Order cart = orderService.findCartByUser(user.getId())
-                .orElseGet(() -> new Order(new ArrayList<>(), user, "", "Cart",0.0));
+        Order cart = orderService.findCartByUser(user.id())
+                .orElseGet(() -> orderService.
+                        new OrderDTO(new ArrayList<>(), user, "", "Cart",0.0));
 
         boolean hasDishes = !cart.getDishes().isEmpty();
         double totalPrice = cart.getDishes().stream()
@@ -172,13 +175,10 @@ public class OrderController {
      */
     @GetMapping("/history")
     public String showUserOrderHistory(Model model) {
-        Optional<User> userOpt = userService.getAuthenticatedUser();
-
+        Optional<UserDTO> userOpt = userService.getAuthenticatedUserDto();
         if (userOpt.isPresent()) {
-            Long userId = userOpt.get().getId();
-
             //search order for this user
-            List<Order> orders = orderService.getPaidOrdersByUserId(userId);
+            List<Order> orders = orderService.getPaidOrdersByUserId(userOpt);
             model.addAttribute("orders", orders);
 
             model.addAttribute("pageTitle", "Order history");
