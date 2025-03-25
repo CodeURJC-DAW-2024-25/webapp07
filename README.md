@@ -819,6 +819,16 @@ Below are the credentials for example users, including an administrator user, to
 *  **BookingService Refactoring:** I centralized all business logic in the **BookingService** class, keeping the controller clean and focused on HTTP concerns.
 
 
+| #   |                                                               Commit                                                               |     | #   |                                                                                     File                                                                                     |
+| :-: |:----------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |         [Add: Booking and Retaurant Dtos,mapper and restControllers](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/294e38272787c7456c1450d703453d02ddf270b6)          | | 1º |                 [BookingDTO.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/dto/BookingDTO.java)                  |
+| 2º  |         [Add: Advanced Filter Booking](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/d42f24dc8a3a54adb532186a15737685f35c8cd9)         | |2º | [BookingRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/restController/BookingRestController.java) |
+| 3º  | [Update: Refactor Bookings](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/019d52d9d0aa7e56e0906bd0bf0a0ab7cfbe9c0f#diff-b934d836fdc0f627ea7e3edb02905d3afb4fa0111018b8367a94e2f2631af7f7)  | | 3º |       [BookingController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/BookingController.java)       |
+| 4º  | [Fixed: BookingRestController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/28014fd19d87ee8451c33c22a3704943acd393e0) | | 4º | [BookingRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/restController/BookingRestController.java) |
+| 5º  |        [Update: Refactor Bookings](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/019d52d9d0aa7e56e0906bd0bf0a0ab7cfbe9c0f#diff-118bb9be60b6656f1ced29e2deb206032f4602644f9d6f1807f4684fcf38e8da)        | | 5º |         [BookingService.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/service/BookingService.java)          |
+
+
+
 #### Juan Ramírez Blanco
 
 * **Order DTO Structure Creation**: Designed and implemented the structure of the Order DTOs, ensuring a clear and maintainable representation of order-related data throughout the application.
