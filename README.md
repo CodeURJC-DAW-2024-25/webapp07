@@ -632,7 +632,7 @@ The REST API documentation is automatically generated and can be accessed in the
 
 ### Link .html
 
-[api-docs.html](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/api-docs/Swagger%20UI.html)
+[api-docs.html](https://rawcdn.githack.com/CodeURJC-DAW-2024-25/webapp07/6eee51d324ebbeedf5fb51c30011001810f017d5/api-docs/Swagger%20UI.html)
 
 To generate or update this documentation, follow these commands:
 
