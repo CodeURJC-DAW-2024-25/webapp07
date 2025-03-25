@@ -627,12 +627,12 @@ The REST API documentation is automatically generated and can be accessed in the
 
 ### Link .yaml
 
-[api-docs.yaml](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/backend/api-docs/api-docs.yaml)
+[api-docs.yaml](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/api-docs/api-docs.yaml)
 
 
 ### Link .html
 
-[api-docs.html](https://raw.githack.com/CodeURJC-DAW-2023-24/webapp16/main/backend/api-docs/api-docs.html)
+[api-docs.html](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/api-docs/Swagger%20UI.html)
 
 To generate or update this documentation, follow these commands:
 
@@ -647,7 +647,7 @@ To generate or update this documentation, follow these commands:
 ---
 # :art: Class diagram and templates 2
 
-![*templateDiagram*](readmeImg/diagramaClass2.png)
+![*templateDiagram*](readmeImg/class_diagram_03.png)
 
 ---
 
@@ -817,4 +817,22 @@ Below are the credentials for example users, including an administrator user, to
 *  **Postman Collection Setup:** I tested all REST endpoints by creating a complete **Postman collection**, including login, booking creation, deletion, and filter scenarios.
 *  **Profile Integration:** I connected the REST booking logic to the traditional web app to display the **user’s current booking in their profile.**
 *  **BookingService Refactoring:** I centralized all business logic in the **BookingService** class, keeping the controller clean and focused on HTTP concerns.
+
+
+#### Juan Ramírez Blanco
+
+* **Order DTO Structure Creation**: Designed and implemented the structure of the Order DTOs, ensuring a clear and maintainable representation of order-related data throughout the application.
+* **OrderRestMapping Refactoring**: Refactored the OrderRestMapping to ensure correct API behavior, aligning data transformation between entities and DTOs for seamless REST operations.
+* **Sample Data via Postman**: Created sample data using Postman to test each API method. This included setting up a comprehensive collection of requests with appropriate parameters, headers, and JSON bodies.
+* **Thorough Error Testing**: Conducted extensive testing of authorized and unauthorized requests depending on user roles and access levels, verifying the correct enforcement of security and consistent error responses.
+* **OpenAPI Documentation of OrderRestController**: Documented the entire functionality of the OrderRestController using OpenAPI annotations, providing clear descriptions, response types, and HTTP codes for all endpoints to improve API clarity and developer experience.
+* **Service Layer Refactoring**: Delegated all business logic to the OrderService, ensuring a clean separation of concerns. The controller now simply handles HTTP requests and responses, while the service returns fully prepared DTOs.
+
+| #   |                                                               Commit                                                               |     | #   |                                                                                  File                                                                                  |
+| :-: |:----------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |         [Add: Refactor UpdateOrderStatus](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/8326e3f65b47310cc29b2b49b5ab14b9c5e509d2)          | | 1º | [OrderRestController.java](backend/src/main/java/es/codeurjc/backend/restController/OrderRestController.java)  |
+| 2º  |         [Add: Refactor addCart/ViewCart clearCart](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/fd5c9c6480ebeaf34f05fd247fd19ba0599efba0)         | |2º | [OrderService.java](backend/src/main/java/es/codeurjc/backend/service/OrderService.java) |
+| 3º  | [Add: Refactor history](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/68faf3e307dd48ef1227f1dfde2245a195ec20a5)  | | 3º | [OrderRestController.java](backend/src/main/java/es/codeurjc/backend/restController/OrderRestController.java) |
+| 4º  | [Fix: UpdateStatus and add UpdateStatus&Address](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/7cf4d823f87dc04d961a69c34412fe1cb9ac28fb) | | 4º |           [OrderRestController.java](backend/src/main/java/es/codeurjc/backend/restController/OrderRestController.java)            |
+| 5º  |        [Add: documented code](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/a5d641d0d273bb5790a00b2d27173595db6641cb)        | | 5º | [OrderRestController.java](backend/src/main/java/es/codeurjc/backend/restController/OrderRestController.java) |
 
