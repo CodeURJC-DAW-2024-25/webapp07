@@ -1,0 +1,1598 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: https://localhost:8443
+  description: Generated server url
+tags:
+- name: Authentication
+  description: User authentication and token management API
+- name: Dishes
+  description: Dish management REST API
+- name: Restaurants
+  description: Restaurant management REST API
+- name: Users
+  description: Operations related to user management
+- name: Bookings
+  description: Booking management REST API
+paths:
+  /api/v1/users/{id}:
+    get:
+      tags:
+      - Users
+      summary: Get user by ID
+      description: Retrieve a specific user by their unique ID.
+      operationId: getUserById
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user to retrieve
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: User found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+        "404":
+          description: User not found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+    put:
+      tags:
+      - Users
+      summary: Update existing user
+      description: Update user details for the given user ID.
+      operationId: updateUser
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user to update
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDTO"
+        required: true
+      responses:
+        "200":
+          description: User updated successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+        "404":
+          description: User not found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+    delete:
+      tags:
+      - Users
+      summary: Delete user
+      description: Delete the user with the specified ID.
+      operationId: deleteUser
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: User deleted successfully
+        "404":
+          description: User not found
+  /api/v1/restaurants/{id}:
+    get:
+      tags:
+      - Restaurants
+      summary: Get a restaurant by ID
+      operationId: findById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Restaurant found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RestaurantDTO"
+        "404":
+          description: Restaurant not found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RestaurantDTO"
+    put:
+      tags:
+      - Restaurants
+      summary: Update a restaurant
+      operationId: update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RestaurantDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RestaurantDTO"
+    delete:
+      tags:
+      - Restaurants
+      summary: Delete a restaurant
+      operationId: delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/v1/orders/{id}:
+    get:
+      tags:
+      - Orders
+      summary: Get an order by ID
+      description: Retrieves the details of a specific order by its ID. Only the user
+        who placed the order can access it.
+      operationId: getOrderById
+      parameters:
+      - name: id
+        in: path
+        description: Order ID to retrieve
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Order retrieved successfully
+          content:
+            application/json: {}
+        "403":
+          description: Access denied for this order
+        "404":
+          description: Order not found
+    put:
+      tags:
+      - Orders
+      summary: Update an order by ID
+      description: "Updates the address, status, or total price of an existing order.\
+        \ Admin access required."
+      operationId: updateOrder
+      parameters:
+      - name: id
+        in: path
+        description: Order ID to update
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: object
+        required: true
+      responses:
+        "200":
+          description: Order updated successfully
+          content:
+            application/json: {}
+        "500":
+          description: Internal server error during update
+    delete:
+      tags:
+      - Orders
+      summary: Delete an order by ID
+      description: Deletes an order from the database using its unique ID. Only accessible
+        to admins.
+      operationId: deleteOrder
+      parameters:
+      - name: id
+        in: path
+        description: ID of the order to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Order deleted successfully
+          content:
+            application/json: {}
+        "500":
+          description: Error deleting order
+    patch:
+      tags:
+      - Orders
+      summary: Update order status and address
+      description: Updates the status and address of an existing order. Accessible
+        by the order's owner.
+      operationId: updateOrderStatusAndAddress
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+        required: true
+      responses:
+        "200":
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+        "403":
+          description: Unauthorized to update this order
+        "404":
+          description: Order not found
+  /api/v1/dishes/{id}:
+    get:
+      tags:
+      - Dishes
+      summary: Get a dish by ID
+      description: Fetches a dish by their unique identifier
+      operationId: getDish
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Dish found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+        "404":
+          description: Dish not found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+        "500":
+          description: PAPA FRITASAJCNALNDLKASMDKSAMDLKMASDKLAMLDAS
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+    put:
+      tags:
+      - Dishes
+      summary: Update a dish by ID
+      description: Update a dish by their unique identifier
+      operationId: updateDish
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DishDTO"
+        required: true
+      responses:
+        "200":
+          description: Dish updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+        "404":
+          description: Dish not found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+  /api/v1/dishes/{id}/image:
+    get:
+      tags:
+      - Dishes
+      summary: Retrieve the image for a specific dish
+      description: Retrieves the image associated with the dish identified by the
+        given ID.
+      operationId: getDishImage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Image retrieved successfully
+          content:
+            image/jpeg: {}
+        "404":
+          description: Dish or image not found
+          content:
+            '*/*':
+              schema:
+                type: object
+        "500":
+          description: Internal server error during image retrieval
+          content:
+            '*/*':
+              schema:
+                type: object
+    put:
+      tags:
+      - Dishes
+      summary: Replace the image for a specific dish
+      description: Replaces the existing image associated with the dish identified
+        by the given ID with a new image file.
+      operationId: replaceDishImage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageFile:
+                  type: string
+                  format: binary
+              required:
+              - imageFile
+      responses:
+        "204":
+          description: Image replaced successfully
+          content:
+            '*/*':
+              schema:
+                type: object
+        "400":
+          description: "Invalid request - e.g., invalid file format or size"
+          content:
+            '*/*':
+              schema:
+                type: object
+        "404":
+          description: Dish not found
+          content:
+            '*/*':
+              schema:
+                type: object
+        "500":
+          description: Internal server error during image replacement
+          content:
+            '*/*':
+              schema:
+                type: object
+    post:
+      tags:
+      - Dishes
+      summary: Upload an image for a specific dish
+      description: Uploads an image file and associates it with the dish identified
+        by the given ID.
+      operationId: createDishImage
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                imageFile:
+                  type: string
+                  format: binary
+              required:
+              - imageFile
+      responses:
+        "201":
+          description: Image uploaded successfully
+          headers:
+            Location:
+              description: URI of the uploaded image resource
+              style: simple
+          content:
+            '*/*':
+              schema:
+                type: object
+        "400":
+          description: "Invalid request - e.g., invalid file format or size"
+          content:
+            '*/*':
+              schema:
+                type: object
+        "404":
+          description: Dish not found
+          content:
+            '*/*':
+              schema:
+                type: object
+        "500":
+          description: Internal server error during image upload
+          content:
+            '*/*':
+              schema:
+                type: object
+  /orders/cart/add:
+    post:
+      tags:
+      - order-controller
+      operationId: addToCart
+      parameters:
+      - name: dishId
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /api/v1/users/new:
+    post:
+      tags:
+      - Users
+      summary: Register new user
+      description: Create a new user with the provided data.
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserDTO"
+        required: true
+      responses:
+        "201":
+          description: User created successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+        "400":
+          description: Invalid input data
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+  /api/v1/restaurants:
+    get:
+      tags:
+      - Restaurants
+      summary: Get all restaurants or search by location
+      operationId: getAllRestaurants
+      parameters:
+      - name: query
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RestaurantDTO"
+    post:
+      tags:
+      - Restaurants
+      summary: Create a new restaurant
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RestaurantDTO"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RestaurantDTO"
+  /api/v1/orders/cart:
+    get:
+      tags:
+      - Cart
+      summary: View current cart
+      description: "Retrieves the current user's shopping cart. If none exists, an\
+        \ empty cart is returned."
+      operationId: viewCart
+      responses:
+        "200":
+          description: Cart retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+        "404":
+          description: User not found
+    post:
+      tags:
+      - Cart
+      summary: Add a dish to the cart
+      description: "Adds a dish to the current user's shopping cart. If no cart exists,\
+        \ one will be created."
+      operationId: addToCart_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: integer
+                format: int64
+        required: true
+      responses:
+        "200":
+          description: Dish added to cart successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+        "400":
+          description: Missing 'dishId' in request body
+        "404":
+          description: User or Dish not found
+  /api/v1/dishes/:
+    get:
+      tags:
+      - Dishes
+      summary: Get all dishes
+      description: Returns a list of all dishes
+      operationId: showMenu
+      responses:
+        "200":
+          description: Dishes retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+    post:
+      tags:
+      - Dishes
+      summary: Create a new dish
+      description: Create a new dish at the system.
+      operationId: createDish
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DishDTO"
+        required: true
+      responses:
+        "201":
+          description: Dish created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "{\"message\": \"Error at validation\", \"details\": [...]\"\
+                  }"
+        "500":
+          description: 'System '
+          content:
+            application/json:
+              schema:
+                type: string
+                example:
+                  message: Internal server error
+  /api/v1/bookings:
+    get:
+      tags:
+      - Bookings
+      summary: Get all bookings
+      operationId: findAll
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BookingDTO"
+    post:
+      tags:
+      - Bookings
+      summary: Create a new booking
+      operationId: createBooking
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingDTO"
+        required: true
+      responses:
+        "201":
+          description: Booking created successfully
+          content:
+            '*/*':
+              schema:
+                type: object
+        "400":
+          description: Invalid request body
+          content:
+            '*/*':
+              schema:
+                type: object
+        "401":
+          description: User not authenticated
+          content:
+            '*/*':
+              schema:
+                type: object
+        "403":
+          description: User not authorized to create this booking
+          content:
+            '*/*':
+              schema:
+                type: object
+        "409":
+          description: User already has an active booking
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/v1/auth/refresh:
+    post:
+      tags:
+      - Authentication
+      summary: Refresh access token
+      description: Refreshes the access token using the refresh token
+      operationId: refreshToken
+      parameters:
+      - name: RefreshToken
+        in: cookie
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Token refreshed successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid or expired refresh token
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/v1/auth/logout:
+    post:
+      tags:
+      - Authentication
+      summary: User logout
+      description: Logs out the user and invalidates tokens
+      operationId: logOut
+      responses:
+        "200":
+          description: Logout successful
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/v1/auth/login:
+    post:
+      tags:
+      - Authentication
+      summary: User login
+      description: Authenticates a user and returns an access token
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: Login successful
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid username or password
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/v1/users/{id}/unbanned:
+    patch:
+      tags:
+      - Users
+      summary: Unban user
+      description: Remove the ban from the specified user.
+      operationId: unbanUser
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user to unban
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: User unbanned successfully
+  /api/v1/users/{id}/banned:
+    patch:
+      tags:
+      - Users
+      summary: Ban user
+      description: Mark the specified user as banned.
+      operationId: banUser
+      parameters:
+      - name: id
+        in: path
+        description: ID of the user to ban
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: User banned successfully
+  /api/v1/orders/{id}/status:
+    patch:
+      tags:
+      - Orders
+      summary: Update order status
+      description: Allows updating the status of an existing order. Admin or user
+        with proper permissions required.
+      operationId: updateOrderStatus
+      parameters:
+      - name: id
+        in: path
+        description: Order ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "204":
+          description: Order status updated successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/OrderDTO"
+        "404":
+          description: Order not found
+  /api/v1/dishes/{id}/enabled:
+    patch:
+      tags:
+      - Dishes
+      summary: Enable a dish
+      description: Marks a dish as enabled in the system.
+      operationId: enableDish
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: Dish enabled successfully
+        "404":
+          description: Dish not found
+  /api/v1/dishes/{id}/disabled:
+    patch:
+      tags:
+      - Dishes
+      summary: Disable a dish
+      description: Marks a dish as disable in the system.
+      operationId: disableDish
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: Dish disabled successfully
+        "404":
+          description: Dish not found
+  /booking/availability:
+    get:
+      tags:
+      - booking-controller
+      operationId: getAvailableSeats
+      parameters:
+      - name: restaurantId
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: date
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: shift
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: integer
+                format: int32
+  /api/v1/users:
+    get:
+      tags:
+      - Users
+      summary: Get all users
+      description: Retrieve a list of all users. Optionally filter by username or
+        email.
+      operationId: getAllUsers
+      parameters:
+      - name: query
+        in: query
+        description: Query to search by username or email
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Users retrieved successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserDTO"
+  /api/v1/users/me:
+    get:
+      tags:
+      - Users
+      summary: Get authenticated user
+      description: Retrieve the currently authenticated user.
+      operationId: getAuthenticatedUser
+      responses:
+        "200":
+          description: Authenticated user found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+        "401":
+          description: User not authenticated
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserDTO"
+  /api/v1/users/found:
+    get:
+      tags:
+      - Users
+      summary: Search users
+      description: Search for users by matching username or email.
+      operationId: searchUsers
+      parameters:
+      - name: query
+        in: query
+        description: Search query for username or email
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Search completed successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserDTO"
+  /api/v1/orders/{id}/summary:
+    get:
+      tags:
+      - Cart
+      summary: Clear user's cart
+      description: Removes all dishes from the user's shopping cart.
+      operationId: getOrderSummary
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Cart cleared successfully
+          content:
+            application/json: {}
+        "404":
+          description: User not found
+  /api/v1/orders/history:
+    get:
+      tags:
+      - Orders
+      summary: Get user order history
+      description: Returns all 'Paid' orders for the authenticated user.
+      operationId: getUserOrderHistory
+      responses:
+        "200":
+          description: Order history retrieved
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+        "404":
+          description: User not found
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /api/v1/orders/:
+    get:
+      tags:
+      - Orders
+      summary: Get all orders
+      description: Retrieves a list of all orders in the system. Useful for admins
+        or dashboards.
+      operationId: getAllOrders
+      responses:
+        "200":
+          description: List of orders retrieved successfully
+          content:
+            application/json: {}
+        "500":
+          description: Internal server error
+  /api/v1/dishes/foundPrice:
+    get:
+      tags:
+      - Dishes
+      summary: Search dishes by maximum price
+      description: Returns a list of dishes with a price lower than or equal to the
+        specified value.
+      operationId: searchDishByMaxPrice
+      parameters:
+      - name: query
+        in: query
+        description: Search query for username or email
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Dishes found successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DishDTO"
+  /api/v1/dishes/foundName:
+    get:
+      tags:
+      - Dishes
+      summary: Search dishes by name
+      description: Returns a list of dishes that contain the specified name.
+      operationId: searchDishByName
+      parameters:
+      - name: query
+        in: query
+        description: Search query for username or email
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Dishes found successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DishDTO"
+  /api/v1/dishes/foundIngredient:
+    get:
+      tags:
+      - Dishes
+      summary: Search dishes by ingredient
+      description: Returns a list of dishes that include the specified ingredient.
+      operationId: searchByIngredient
+      parameters:
+      - name: query
+        in: query
+        description: Search query for username or email
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Dishes found successfully
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DishDTO"
+  /api/v1/dishes/sort:
+    get:
+      tags:
+      - Dishes
+      summary: Get all dishes
+      description: Returns a list of all dishes
+      operationId: showMenu_1
+      responses:
+        "200":
+          description: Dishes retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+  /api/v1/dishes/filter:
+    get:
+      tags:
+      - Dishes
+      summary: Get all dishes
+      description: Returns a list of all dishes
+      operationId: showMenu_2
+      responses:
+        "200":
+          description: Dishes retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DishDTO"
+  /api/v1/bookings/{id}:
+    get:
+      tags:
+      - Bookings
+      summary: Get a booking by ID
+      operationId: getBooking
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Booking found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BookingDTO"
+        "404":
+          description: Booking not found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BookingDTO"
+    delete:
+      tags:
+      - Bookings
+      summary: Delete a booking
+      operationId: deleteBooking
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: Booking deleted successfully
+          content:
+            '*/*':
+              schema:
+                type: object
+        "403":
+          description: Not allowed to delete this booking
+          content:
+            '*/*':
+              schema:
+                type: object
+        "404":
+          description: Booking not found
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/v1/bookings/search:
+    get:
+      tags:
+      - Bookings
+      summary: Advanced search for bookings
+      description: "Search bookings by user info, shift, restaurantId and/or date"
+      operationId: advancedSearch
+      parameters:
+      - name: query
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: shift
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: restaurantId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: date
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+      responses:
+        "200":
+          description: Search results returned
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BookingDTO"
+  /api/v1/bookings/me:
+    get:
+      tags:
+      - Bookings
+      summary: Get the current user's active booking
+      operationId: getAuthenticatedUserBooking
+      responses:
+        "200":
+          description: Booking found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BookingDTO"
+        "404":
+          description: No active booking found for the user
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BookingDTO"
+  /api/menu:
+    get:
+      tags:
+      - dish-controller
+      operationId: getDishes
+      parameters:
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: ingredient
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: maxPrice
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /api/v1/orders/cart/dish:
+    delete:
+      tags:
+      - Cart
+      summary: Clear user's cart
+      description: Removes all dishes from the user's shopping cart.
+      operationId: removeFromCart
+      parameters:
+      - name: dishId
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Cart cleared successfully
+          content:
+            application/json: {}
+        "404":
+          description: User not found
+components:
+  schemas:
+    UserDTO:
+      type: object
+      description: Data Transfer Object representing a user in the system
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the user
+          example: 1
+        username:
+          type: string
+          description: Username used for login
+          example: johndoe
+          maxLength: 30
+          minLength: 3
+        firstName:
+          type: string
+          description: User's first name
+          example: John
+        lastName:
+          type: string
+          description: User's last name
+          example: Doe
+        dateOfBirth:
+          type: string
+          format: date
+          description: Date of birth of the user
+          example: 1990-05-15
+        phoneNumber:
+          type: string
+          description: Phone number of the user
+          example: "+34600123456"
+          pattern: "\\+?\\d{9,15}"
+        address:
+          type: string
+          description: User's address
+          example: "Calle Falsa 123, Madrid"
+        email:
+          type: string
+          description: Email address of the user
+          example: john.doe@example.com
+        roles:
+          type: array
+          description: Roles assigned to the user
+          example:
+          - USER
+          items:
+            type: string
+        banned:
+          type: boolean
+          description: Indicates if the user is banned
+          example: false
+        password:
+          type: string
+          description: Password for authentication (write-only field)
+          example: superSecure123
+          maxLength: 2147483647
+          minLength: 8
+          writeOnly: true
+      required:
+      - email
+      - firstName
+      - lastName
+      - password
+      - username
+    RestaurantDTO:
+      type: object
+      description: DTO for Restaurant entity
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the restaurant
+          example: 1
+        location:
+          type: string
+          description: Location of the restaurant
+          example: "Calle Uruguay 33, Coslada"
+      required:
+      - location
+    DishDTO:
+      type: object
+      description: Represents a dish offered by the restaurant.
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the dish
+          example: 1
+        name:
+          type: string
+          description: Name of the dish
+          example: Margherita Pizza
+        description:
+          type: string
+          description: Description of the dish
+          example: "Classic pizza with tomato, mozzarella and basil."
+          maxLength: 500
+          minLength: 0
+        price:
+          type: integer
+          format: int32
+          description: Price of the dish in cents
+          example: 950
+          minimum: 1
+        ingredients:
+          type: array
+          description: List of ingredients used in the dish
+          example:
+          - Tomato
+          - Mozzarella
+          - Basil
+          items:
+            type: string
+          maxItems: 2147483647
+          minItems: 1
+        allergens:
+          type: array
+          description: List of allergens present in the dish
+          items:
+            type: string
+            enum:
+            - ALTRAMUZ
+            - GLUTEN
+            - CRUSTACEAN
+            - DAIRY
+            - EGGS
+            - FISH
+            - MOLLUSKS
+            - MUSTARD
+            - NUTS
+            - PEANUT
+            - SESAME
+            - SOYBEANS
+            - SULFITES
+            - NONE
+        isVegan:
+          type: boolean
+          description: Indicates if the dish is vegan
+          example: false
+        image:
+          type: boolean
+          description: Indicates whether the dish has an image
+          example: true
+        dishImagePath:
+          type: string
+          description: Path to the dish image if available
+          example: /images/dishes/1.jpg
+        isAvailable:
+          type: boolean
+          description: Availability status of the dish
+          example: true
+        rates:
+          type: array
+          description: List of user ratings for the dish
+          example:
+          - 5
+          - 4
+          - 5
+          - 3
+          items:
+            type: integer
+            format: int32
+        rate:
+          type: integer
+          format: int32
+          description: Average rating of the dish
+          example: 4
+      required:
+      - allergens
+      - description
+      - ingredients
+      - name
+    OrderDTO:
+      type: object
+      description: Data Transfer Object representing an order made by a user
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the order
+          example: 123
+        dishes:
+          type: array
+          description: List of dishes included in the order
+          items:
+            $ref: "#/components/schemas/DishDTO"
+          maxItems: 2147483647
+          minItems: 1
+        user:
+          $ref: "#/components/schemas/UserDTO"
+          description: User who placed the order
+        orderDate:
+          type: string
+          format: date-time
+          description: Date and time when the order was placed
+          example: 2024-03-19T15:45:00
+        address:
+          type: string
+          description: Delivery address of the order
+          example: 123
+        status:
+          type: string
+          description: Current status of the order
+          example: PENDING
+        totalPrice:
+          type: number
+          format: double
+          description: Total price of the order
+          example: 24.99
+      required:
+      - address
+      - dishes
+      - orderDate
+      - status
+      - user
+    BookingDTO:
+      type: object
+      description: Data Transfer Object for Booking entity
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the booking
+          example: 1
+        restaurantId:
+          type: integer
+          format: int64
+          description: ID of the restaurant
+          example: 3
+        userId:
+          type: integer
+          format: int64
+          description: ID of the user
+          example: 5
+        date:
+          type: string
+          format: date
+          description: Booking date
+          example: 2025-04-12
+        shift:
+          type: string
+          description: Shift for the booking
+          example: LUNCH or DINNER
+        numPeople:
+          type: integer
+          format: int32
+          description: Number of people
+          example: 4
+          maximum: 40
+          minimum: 1
+      required:
+      - date
+      - restaurantId
+      - shift
+      - userId
+    AuthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILURE
+        message:
+          type: string
+        error:
+          type: string
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
