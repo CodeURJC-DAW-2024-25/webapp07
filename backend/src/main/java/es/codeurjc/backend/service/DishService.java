@@ -445,4 +445,34 @@ public class DishService {
         }
         return filteredList;
     }
+
+    public List<DishDTO> getTop5DishesByRatingPriceRatio() {
+        return dishRepository.findAll().stream()
+                .map(dish -> {
+                    List<Integer> rates = dish.getRates();
+                    int avgRate = (int) Math.round(rates.stream()
+                            .mapToInt(Integer::intValue)
+                            .average()
+                            .orElse(0.0));
+
+                    return new DishWithComputedRate(dish, avgRate);
+                })
+                .sorted((d1, d2) -> Double.compare(
+                        ((double) d2.avgRate / d2.dish.getPrice()),
+                        ((double) d1.avgRate / d1.dish.getPrice())
+                ))
+                .limit(5)
+                .map(dishWithRate -> dishMapper.toDto(dishWithRate.dish))
+                .collect(Collectors.toList());
+    }
+
+    private static class DishWithComputedRate {
+        private final Dish dish;
+        private final int avgRate;
+
+        public DishWithComputedRate(Dish dish, int avgRate) {
+            this.dish = dish;
+            this.avgRate = avgRate;
+        }
+    }
 }

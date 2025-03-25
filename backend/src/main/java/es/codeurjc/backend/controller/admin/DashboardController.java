@@ -3,7 +3,7 @@ package es.codeurjc.backend.controller.admin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import es.codeurjc.backend.dto.DishDTO;
-import es.codeurjc.backend.service.DashboardService;
+import es.codeurjc.backend.service.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +15,11 @@ import java.util.List;
 public class DashboardController {
 
     @Autowired
-    private DashboardService dashboardService;
+    private DishService dishService;
 
     @GetMapping("/admin/dashboard")
     public String showDashboard(Model model) {
-        List<DishDTO> topDishes = dashboardService.getTop5DishesByRatingPriceRatio();
+        List<DishDTO> topDishes = dishService.getTop5DishesByRatingPriceRatio();
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {

@@ -39,8 +39,6 @@ public class DishRestController {
     @Autowired
     private DishService dishService;
 
-    @Autowired
-    private DashboardService dashboardService;
 
     @Operation(summary = "Get all dishes", description = "Returns a list of all dishes")
     @ApiResponses({
@@ -236,7 +234,7 @@ public class DishRestController {
     })
     @GetMapping({"/top-dishes"})
     public ResponseEntity<List<DishDTO>> showTop5() throws SQLException {
-        List<DishDTO> topDishes = dashboardService.getTop5DishesByRatingPriceRatio();
+        List<DishDTO> topDishes = dishService.getTop5DishesByRatingPriceRatio();
         return ResponseEntity.ok(topDishes);
     }
 }
