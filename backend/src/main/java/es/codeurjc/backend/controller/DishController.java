@@ -95,9 +95,10 @@ public class DishController {
 
         for (DishDTO dish : paginatedDishes) {
             if (dish.image()) {
-                dish = dishService.setImagePath(dish);
+                dish = dishService.setImagePathNotOptional(dish);
             }
         }
+
 
         // Crear respuesta en un mapa JSON
         Map<String, Object> response = new HashMap<>();

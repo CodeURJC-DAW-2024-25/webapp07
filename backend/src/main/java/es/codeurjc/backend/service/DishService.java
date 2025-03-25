@@ -475,4 +475,10 @@ public class DishService {
             this.avgRate = avgRate;
         }
     }
+
+    public DishDTO setImagePathNotOptional(DishDTO dishDTO) throws SQLException {
+        Dish dish = dishMapper.toEntity(dishDTO);
+        dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
+        return dishMapper.toDto(dish);
+    }
 }

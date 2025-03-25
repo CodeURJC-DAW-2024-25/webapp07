@@ -105,11 +105,12 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/v1/restaurants").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/restaurants").hasRole("ADMIN")
 
-                        .requestMatchers(HttpMethod.GET, "/api/v1/menu").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/menu/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/menu/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/menu/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/menu/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/dishes").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/dishes/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/dishes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/dishes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/dishes/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/dishes/**").hasRole("ADMIN")
 
 
                         //orderAdmin
