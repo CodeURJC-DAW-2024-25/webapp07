@@ -3,8 +3,8 @@
 		"_postman_id": "cef12d05-060d-4843-9fe0-e3edef93c26e",
 		"name": "VolteretaCroqueta",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "33851283",
-		"_collection_link": "https://volteretacroqueta.postman.co/workspace/VolteretaCroqueta-Workspace~43593ab9-a960-4649-96ec-21c698cf61be/collection/33851283-cef12d05-060d-4843-9fe0-e3edef93c26e?action=share&source=collection_link&creator=33851283"
+		"_exporter_id": "43361807",
+		"_collection_link": "https://volteretacroqueta.postman.co/workspace/VolteretaCroqueta-Workspace~43593ab9-a960-4649-96ec-21c698cf61be/collection/33851283-cef12d05-060d-4843-9fe0-e3edef93c26e?action=share&source=collection_link&creator=43361807"
 	},
 	"item": [
 		{
@@ -217,7 +217,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"username\":\"user\",\"password\":\"pass\"}",
+							"raw": "{\"username\":\"johndoe\",\"password\":\"password123\"}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -340,7 +340,7 @@
 					"response": []
 				},
 				{
-					"name": "All Orders/admin",
+					"name": "All Orders",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -366,20 +366,20 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/orders/5",
+							"raw": "{{base_url}}/orders/4",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"orders",
-								"5"
+								"4"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "{{id}}/admin",
+					"name": "{{id}}",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -393,13 +393,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/orders/admin/1",
+							"raw": "{{base_url}}/orders/1",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"orders",
-								"admin",
 								"1"
 							]
 						}
@@ -407,7 +406,7 @@
 					"response": []
 				},
 				{
-					"name": "{{id}}/admin",
+					"name": "{{id}}",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -421,14 +420,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/orders/admin/4",
+							"raw": "{{base_url}}/orders/3",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"orders",
-								"admin",
-								"4"
+								"3"
 							]
 						}
 					},
@@ -449,13 +447,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/orders/2/status",
+							"raw": "{{base_url}}/orders/4/status",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"orders",
-								"2",
+								"4",
 								"status"
 							]
 						}
@@ -463,13 +461,13 @@
 					"response": []
 				},
 				{
-					"name": "cart/add",
+					"name": "cart/new",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"dishId\": 3\n}\n",
+							"raw": "{\n  \"dishId\": 8\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -477,14 +475,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/orders/cart/add",
+							"raw": "{{base_url}}/orders/cart",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"orders",
-								"cart",
-								"add"
+								"cart"
 							]
 						}
 					},
@@ -509,65 +506,18 @@
 					"response": []
 				},
 				{
-					"name": "cart/clear",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/orders/cart/clear",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"orders",
-								"cart",
-								"clear"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "cart/remove",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"dishId\": 3\n}\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/orders/cart/remove",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"orders",
-								"cart",
-								"remove"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "{{id}}/summary",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/orders/2/summary",
+							"raw": "{{base_url}}/orders/6/summary",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"orders",
-								"2",
+								"6",
 								"summary"
 							]
 						}
@@ -575,7 +525,7 @@
 					"response": []
 				},
 				{
-					"name": "{{id}}/update/address&status",
+					"name": "{{id}}/address&status",
 					"request": {
 						"method": "PATCH",
 						"header": [],
@@ -589,45 +539,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_url}}/orders/6/update",
+							"raw": "{{base_url}}/orders/6",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"orders",
-								"6",
-								"update"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Invoice-data",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/orders/4/invoice-data",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"orders",
-								"4",
-								"invoice-data"
+								"6"
 							]
 						}
 					},
@@ -644,7 +562,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/v1/menu/",
+							"raw": "https://localhost:8443/api/v1/dishes/",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -653,7 +571,7 @@
 							"path": [
 								"api",
 								"v1",
-								"menu",
+								"dishes",
 								""
 							]
 						}
@@ -675,7 +593,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/v1/menu/",
+							"raw": "https://localhost:8443/api/v1/dishes/",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -684,7 +602,7 @@
 							"path": [
 								"api",
 								"v1",
-								"menu",
+								"dishes",
 								""
 							]
 						}
@@ -697,7 +615,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/v1/menu/2/disabled",
+							"raw": "https://localhost:8443/api/v1/dishes/2/disabled",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -706,7 +624,7 @@
 							"path": [
 								"api",
 								"v1",
-								"menu",
+								"dishes",
 								"2",
 								"disabled"
 							]
@@ -720,7 +638,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/v1/menu/1/enabled",
+							"raw": "https://localhost:8443/api/v1/dishes/1/enabled",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -729,7 +647,7 @@
 							"path": [
 								"api",
 								"v1",
-								"menu",
+								"dishes",
 								"1",
 								"enabled"
 							]
@@ -743,7 +661,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/v1/menu/1",
+							"raw": "https://localhost:8443/api/v1/dishes/1",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -752,7 +670,7 @@
 							"path": [
 								"api",
 								"v1",
-								"menu",
+								"dishes",
 								"1"
 							]
 						}
@@ -774,7 +692,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/v1/menu/1",
+							"raw": "https://localhost:8443/api/v1/dishes/1",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -783,7 +701,7 @@
 							"path": [
 								"api",
 								"v1",
-								"menu",
+								"dishes",
 								"1"
 							]
 						}
@@ -796,7 +714,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:8443/api/v1/menu/2/image",
+							"raw": "https://localhost:8443/api/v1/dishes/2/image",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -805,7 +723,7 @@
 							"path": [
 								"api",
 								"v1",
-								"menu",
+								"dishes",
 								"2",
 								"image"
 							]
@@ -829,7 +747,7 @@
 							]
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/v1/menu/15/image",
+							"raw": "https://localhost:8443/api/v1/dishes/1/image",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -838,8 +756,8 @@
 							"path": [
 								"api",
 								"v1",
-								"menu",
-								"15",
+								"dishes",
+								"1",
 								"image"
 							]
 						}
@@ -862,7 +780,7 @@
 							]
 						},
 						"url": {
-							"raw": "https://localhost:8443/api/v1/menu/2/image",
+							"raw": "https://localhost:8443/api/v1/dishes/2/image",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -871,9 +789,342 @@
 							"path": [
 								"api",
 								"v1",
-								"menu",
+								"dishes",
 								"2",
 								"image"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "showTop5",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/dishes/top-dishes",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"dishes",
+								"top-dishes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bookings",
+			"item": [
+				{
+					"name": "{{id}}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/bookings/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"bookings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/bookings/7",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"bookings",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/bookings/me",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"bookings",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All bookings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/bookings",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Booking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"restaurantId\": 1,\r\n  \"userId\": 1,\r\n  \"date\": \"2025-04-10\",\r\n  \"shift\": \"LUNCH\",\r\n  \"numPeople\": 12\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/v1/bookings",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Booking Filter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/bookings/search?restaurantId=3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"bookings",
+								"search"
+							],
+							"query": [
+								{
+									"key": "restaurantId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restaurants",
+			"item": [
+				{
+					"name": "All Restaurants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/restaurants",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"restaurants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllRestaurants with query",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/restaurants?query=Via",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"restaurants"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "Via"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{id}}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/restaurants/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"restaurants",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Restaurant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"location\": \"Calle de la Alameda 20\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/v1/restaurants",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"restaurants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Restaurant",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"location\": \"Avenida de America 3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:8443/api/v1/restaurants/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"restaurants",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Restaurant",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/restaurants/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"restaurants",
+								"3"
 							]
 						}
 					},
@@ -984,21 +1235,58 @@
 				{
 					"name": "Access Denied",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/users/1/banned",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"1",
+								"banned"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Wrong HTTP Method",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/api/v1/users/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}
 			],
 			"description": "StartFragmentThis folder contains test requests designed to trigger controlled errors in the REST API. These requests simulate common failure scenarios such as invalid input, missing parameters, authentication failures, and incorrect HTTP methods. Each request is expected to return a meaningful error response in JSON format, which is handled gracefully by the centralized exception handler (`RestExceptionHandler`)EndFragment"
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	],
 	"event": [
