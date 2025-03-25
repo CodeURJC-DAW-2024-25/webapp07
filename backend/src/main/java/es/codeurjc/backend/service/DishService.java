@@ -86,10 +86,13 @@ public class DishService {
      * @return A list of all dishes.
      */
     public List<DishDTO> findAll() {
-        return dishRepository.findAll()
+        List<DishDTO> aux = dishRepository.findAll()
                 .stream()
                 .map(dishMapper::toDto)
                 .toList();
+        Long id;
+        return aux;
+
     }
 
     /**
@@ -156,7 +159,6 @@ public class DishService {
     /**
      * Calculates and sets the average rating for each dish.
      *
-     * @param dishes the list of dishes
      * @return the updated list of dishes with calculated ratings
      */
     public List<DishDTO> calculateRates(List<DishDTO> dishesDTO) {
@@ -331,6 +333,7 @@ public class DishService {
 
             dish.get().setAllergens(selectedAllergens);
             dish.get().setVegan(vegan);
+            dish.get().setAvailable(true);
 
             setImageFile(imageField, dish);
         }
@@ -402,26 +405,44 @@ public class DishService {
                 ? dishRepository.findDishByName(query)
                 : dishRepository.findAll();
 
-        return dishesByName.stream().map(dishMapper::toDto).toList();
+        return setAvailableRight(dishesByName.stream().map(dishMapper::toDto).collect(Collectors.toList()));
     }
     public List<DishDTO> searchDishByIngredient(String query) {
-        List<Dish> dishesByName = (query != null  && !query.isEmpty())
+        List<Dish> dishesByIngredient = (query != null  && !query.isEmpty())
                 ? dishRepository.findDishByIngredients(query)
                 : dishRepository.findAll();
 
-        return dishesByName.stream().map(dishMapper::toDto).toList();
+        return setAvailableRight(dishesByIngredient.stream().map(dishMapper::toDto).collect(Collectors.toList()));
     }
     public List<DishDTO> searchDishByPrice(Integer query) {
-        List<Dish> dishesByName = (query != null)
+        List<Dish> dishesByPrice = (query != null)
                 ? dishRepository.findDishBymaxPrice(query)
                 : dishRepository.findAll();
 
-        return dishesByName.stream().map(dishMapper::toDto).toList();
+        return setAvailableRight(dishesByPrice.stream().map(dishMapper::toDto).collect(Collectors.toList()));
     }
 
     public DishDTO setImagePath(DishDTO dishDTO) throws SQLException {
         Dish dish = dishMapper.toEntity(dishDTO);
         dish.setDishImagePath(dish.blobToString(dish.getDishImagefile(), dish));
         return dishMapper.toDto(dish);
+    }
+
+    public List<DishDTO> setAvailableRight(List<DishDTO> filteredList){
+        Long id;
+        List<Dish> dishes = dishRepository.findAll();
+        for (Dish dish: dishes){
+            for (DishDTO finalDish: filteredList) {
+                if (dish.getId().equals(finalDish.id()))
+                {
+                    id = finalDish.id();
+                    Dish aux = dishMapper.toEntity(finalDish);
+                    aux.setAvailable(dish.isAvailable());
+                    DishDTO aux2 = dishMapper.toDto(aux);
+                    filteredList.set(Math.toIntExact(id), aux2);
+                }
+            }
+        }
+        return filteredList;
     }
 }
