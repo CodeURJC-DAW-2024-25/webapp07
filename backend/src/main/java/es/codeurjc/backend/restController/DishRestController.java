@@ -4,7 +4,6 @@ import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.exception.custom.ResourceNotFoundException;
 import es.codeurjc.backend.mapper.DishMapper;
 import es.codeurjc.backend.model.Dish;
-import es.codeurjc.backend.service.DashboardService;
 import es.codeurjc.backend.service.DishService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
