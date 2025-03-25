@@ -4,6 +4,7 @@ import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.exception.custom.ResourceNotFoundException;
 import es.codeurjc.backend.mapper.DishMapper;
 import es.codeurjc.backend.model.Dish;
+import es.codeurjc.backend.service.DashboardService;
 import es.codeurjc.backend.service.DishService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,6 +38,9 @@ public class DishRestController {
 
     @Autowired
     private DishService dishService;
+
+    @Autowired
+    private DashboardService dashboardService;
 
     @Operation(summary = "Get all dishes", description = "Returns a list of all dishes")
     @ApiResponses({
@@ -222,5 +226,17 @@ public class DishRestController {
 
         List<DishDTO> dishes = dishService.searchDishByPrice(query);
         return ResponseEntity.ok(dishes);
+    }
+
+    @Operation(summary = "Get the top 5 dishes", description = "Returns the top 5 dishes by rating/price ratio")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Dishes retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = DishDTO.class)))
+    })
+    @GetMapping({"/top-dishes"})
+    public ResponseEntity<List<DishDTO>> showTop5() throws SQLException {
+        List<DishDTO> topDishes = dashboardService.getTop5DishesByRatingPriceRatio();
+        return ResponseEntity.ok(topDishes);
     }
 }
