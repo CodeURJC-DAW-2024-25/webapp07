@@ -836,3 +836,16 @@ Below are the credentials for example users, including an administrator user, to
 | 4º  | [Fix: UpdateStatus and add UpdateStatus&Address](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/7cf4d823f87dc04d961a69c34412fe1cb9ac28fb) | | 4º |           [OrderRestController.java](backend/src/main/java/es/codeurjc/backend/restController/OrderRestController.java)            |
 | 5º  |        [Add: documented code](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/a5d641d0d273bb5790a00b2d27173595db6641cb)        | | 5º | [OrderRestController.java](backend/src/main/java/es/codeurjc/backend/restController/OrderRestController.java) |
 
+#### Hugo Sánchez Torres
+
+*   Docker Configuration: Configured Docker to create reproducible and scalable containers, facilitating the deployment and management of the application across different environments.
+*   Refactoring of Methods Related to Dish and Order: Refactored methods related to Dish and Order to improve code efficiency and readability, ensuring better separation of concerns and clearer logic.
+*   Introduction of Necessary Endpoints for the API: Implemented the necessary endpoints for the API, enabling complete CRUD operations and ensuring smooth communication between the frontend and backend.
+| #   |                                                               Commit                                                               |     | #   |                                                                                  File                                                                                  |
+| :-: |:----------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |         [Update: docker files](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/ab84cfbe5b28405d6e97e62b4e48f73cde063459)          | | 1º | [docker-compose.yml](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/docker/docker-compose.yml)  |
+| 2º  |         [Update: DishRestController refactor](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/2c299d875b1e87299ce132562657e656523e95b7)         | |2º | [DishRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/restController/DishRestController.java) |
+| 3º  | [Update: docker](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/6f71fac71ca0e850490f69c183f65de77c5fc74d)  | | 3º | [Dockerfile](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/docker/Dockerfile) |
+| 4º  | [Update: DishService](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/4c1533e34576b5cdba7474501872ab40a9b70c54) | | 4º |           [DishService.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/service/DishService.java)            |
+| 5º  |        [Update. last dance](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/4fea38462bb9cdf6506c24c3e7c63333513c55e4)        | | 5º | [DishController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/DishController.java) |
+
