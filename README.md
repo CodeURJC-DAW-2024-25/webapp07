@@ -627,12 +627,12 @@ The REST API documentation is automatically generated and can be accessed in the
 
 ### Link .yaml
 
-[api-docs.yaml](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/backend/api-docs/api-docs.yaml)
+[api-docs.yaml](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/api-docs/api-docs.yaml)
 
 
 ### Link .html
 
-[api-docs.html](https://raw.githack.com/CodeURJC-DAW-2023-24/webapp16/main/backend/api-docs/api-docs.html)
+[api-docs.html](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/api-docs/Swagger%20UI.html)
 
 To generate or update this documentation, follow these commands:
 
