@@ -849,3 +849,19 @@ Below are the credentials for example users, including an administrator user, to
 | 4º  | [Update: DishService](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/4c1533e34576b5cdba7474501872ab40a9b70c54) | | 4º |           [DishService.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/service/DishService.java)            |
 | 5º  |        [Update. last dance](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/4fea38462bb9cdf6506c24c3e7c63333513c55e4)        | | 5º | [DishController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/DishController.java) |
 
+#### Jesús López Esquinas
+
+* Assisted in the implementation of various methods within the application
+* Implemented the RestaurantDTO along with the corresponding refactoring in RestaurantController and RestaurantService
+* Created the RestaurantRestController, which contains additional functions compared to the previous version
+* Developed the Dashboard function along with its corresponding method in DishRestController and refactored DashboardController
+* Ensured that all methods outside the Service work with DTOs instead of entities
+* Updated the Postman file with various requests to verify the API functionality
+
+| #  |                                                                           Commit                                                                            |     | #   |                                                                                    File                                                                                    |
+|:--:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º |     [Add: Retaurant Dtos,mapper and restControllers](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/294e38272787c7456c1450d703453d02ddf270b6)      | | 5º |                          [RestaurantRestController.java](backend/src/main/java/es/codeurjc/backend/restController/RestaurantRestController.java)                           |
+| 2º |            [Update: Moved logic to service +](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/2a2163a292a023a34fdbc8de11a738b56abd0490)             | | 1º |                              [RestaurantService.java](backend/src/main/java/es/codeurjc/backend/service/RestaurantService.java)                              |
+| 3º |              [Update: Refactor dashboard logic](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/60b3105a82393be9c0f667f598cc15128dd4467c)              | |2º | [DashboardController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/admin/DashboardController.java) 
+| 4º |          [Add: Dashboard API REST logic](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/2cab054b978a2abb6cc5cac0cef823ffb79b98f2)          | | 3º |   [DishRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/restController/DishRestController.java)   |
+| 5º |    [Update VolteretaCroqueta.postman_collection.json](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/9823dea9abf1324d7a4c22202fc8aa970bd6b67f)     | | 4º |             [VolteretaCroqueta.postman_collection.json](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/VolteretaCroqueta.postman_collection.json)              |
