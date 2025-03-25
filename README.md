@@ -647,7 +647,7 @@ To generate or update this documentation, follow these commands:
 ---
 # :art: Class diagram and templates 2
 
-![*templateDiagram*](readmeImg/diagramaClass2.png)
+![*templateDiagram*](readmeImg/class_diagram_03.png)
 
 ---
 
