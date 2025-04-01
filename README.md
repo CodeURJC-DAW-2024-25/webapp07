@@ -819,6 +819,16 @@ Below are the credentials for example users, including an administrator user, to
 *  **BookingService Refactoring:** I centralized all business logic in the **BookingService** class, keeping the controller clean and focused on HTTP concerns.
 
 
+| #   |                                                               Commit                                                               |     | #   |                                                                                     File                                                                                     |
+| :-: |:----------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |         [Add: Booking and Retaurant Dtos,mapper and restControllers](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/294e38272787c7456c1450d703453d02ddf270b6)          | | 1º |                 [BookingDTO.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/dto/BookingDTO.java)                  |
+| 2º  |         [Add: Advanced Filter Booking](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/d42f24dc8a3a54adb532186a15737685f35c8cd9)         | |2º | [BookingRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/restController/BookingRestController.java) |
+| 3º  | [Update: Refactor Bookings](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/019d52d9d0aa7e56e0906bd0bf0a0ab7cfbe9c0f#diff-b934d836fdc0f627ea7e3edb02905d3afb4fa0111018b8367a94e2f2631af7f7)  | | 3º |       [BookingController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/BookingController.java)       |
+| 4º  | [Fixed: BookingRestController](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/28014fd19d87ee8451c33c22a3704943acd393e0) | | 4º | [BookingRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/restController/BookingRestController.java) |
+| 5º  |        [Update: Refactor Bookings](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/019d52d9d0aa7e56e0906bd0bf0a0ab7cfbe9c0f#diff-118bb9be60b6656f1ced29e2deb206032f4602644f9d6f1807f4684fcf38e8da)        | | 5º |         [BookingService.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/service/BookingService.java)          |
+
+
+
 #### Juan Ramírez Blanco
 
 * **Order DTO Structure Creation**: Designed and implemented the structure of the Order DTOs, ensuring a clear and maintainable representation of order-related data throughout the application.
@@ -841,6 +851,7 @@ Below are the credentials for example users, including an administrator user, to
 *   Docker Configuration: Configured Docker to create reproducible and scalable containers, facilitating the deployment and management of the application across different environments.
 *   Refactoring of Methods Related to Dish and Order: Refactored methods related to Dish and Order to improve code efficiency and readability, ensuring better separation of concerns and clearer logic.
 *   Introduction of Necessary Endpoints for the API: Implemented the necessary endpoints for the API, enabling complete CRUD operations and ensuring smooth communication between the frontend and backend.
+
 | #   |                                                               Commit                                                               |     | #   |                                                                                  File                                                                                  |
 | :-: |:----------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 | 1º  |         [Update: docker files](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/ab84cfbe5b28405d6e97e62b4e48f73cde063459)          | | 1º | [docker-compose.yml](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/docker/docker-compose.yml)  |
@@ -849,3 +860,19 @@ Below are the credentials for example users, including an administrator user, to
 | 4º  | [Update: DishService](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/4c1533e34576b5cdba7474501872ab40a9b70c54) | | 4º |           [DishService.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/service/DishService.java)            |
 | 5º  |        [Update. last dance](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/4fea38462bb9cdf6506c24c3e7c63333513c55e4)        | | 5º | [DishController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/DishController.java) |
 
+#### Jesús López Esquinas
+
+* Assisted in the implementation of various methods within the application
+* Implemented the RestaurantDTO along with the corresponding refactoring in RestaurantController and RestaurantService
+* Created the RestaurantRestController, which contains additional functions compared to the previous version
+* Developed the Dashboard function along with its corresponding method in DishRestController and refactored DashboardController
+* Ensured that all methods outside the Service work with DTOs instead of entities
+* Updated the Postman file with various requests to verify the API functionality
+
+| #  |                                                                           Commit                                                                            |     | #   |                                                                                    File                                                                                    |
+|:--:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º |     [Add: Retaurant Dtos,mapper and restControllers](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/294e38272787c7456c1450d703453d02ddf270b6)      | | 5º |                          [RestaurantRestController.java](backend/src/main/java/es/codeurjc/backend/restController/RestaurantRestController.java)                           |
+| 2º |            [Update: Moved logic to service +](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/2a2163a292a023a34fdbc8de11a738b56abd0490)             | | 1º |                              [RestaurantService.java](backend/src/main/java/es/codeurjc/backend/service/RestaurantService.java)                              |
+| 3º |              [Update: Refactor dashboard logic](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/60b3105a82393be9c0f667f598cc15128dd4467c)              | |2º | [DashboardController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/admin/DashboardController.java) 
+| 4º |          [Add: Dashboard API REST logic](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/2cab054b978a2abb6cc5cac0cef823ffb79b98f2)          | | 3º |   [DishRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/restController/DishRestController.java)   |
+| 5º |    [Update VolteretaCroqueta.postman_collection.json](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/9823dea9abf1324d7a4c22202fc8aa970bd6b67f)     | | 4º |             [VolteretaCroqueta.postman_collection.json](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/VolteretaCroqueta.postman_collection.json)              |
