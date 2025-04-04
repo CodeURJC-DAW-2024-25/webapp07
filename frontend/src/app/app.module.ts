@@ -5,10 +5,12 @@ import {HttpClientModule} from "@angular/common/http";
 import {FooterComponent} from "./components/generalComponents/footer/footer.component";
 import {BrowserModule} from "@angular/platform-browser";
 import {HeaderComponent} from "./components/generalComponents/header/header.component";
+import {HomeComponent} from "./components/viewsComponent/home/home.component";
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     FooterComponent,
     HeaderComponent
   ],
