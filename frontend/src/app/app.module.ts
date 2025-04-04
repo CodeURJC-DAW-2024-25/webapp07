@@ -6,6 +6,7 @@ import {FooterComponent} from "./components/generalComponents/footer/footer.comp
 import {BrowserModule} from "@angular/platform-browser";
 import {HeaderComponent} from "./components/generalComponents/header/header.component";
 import {HomeComponent} from "./components/viewsComponent/home/home.component";
+import { CountUpModule } from 'ngx-countup';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {HomeComponent} from "./components/viewsComponent/home/home.component";
   imports: [
     AppRoutingModule,
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    CountUpModule
   ],
   providers: [],
   bootstrap: [AppComponent]
