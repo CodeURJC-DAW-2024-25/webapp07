@@ -7,19 +7,25 @@ import {BrowserModule} from "@angular/platform-browser";
 import {HeaderComponent} from "./components/generalComponents/header/header.component";
 import {HomeComponent} from "./components/viewsComponent/home/home.component";
 import { CountUpModule } from 'ngx-countup';
+import {LoginComponent} from "./components/viewsComponent/login/login.component";
+import {ReactiveFormsModule} from "@angular/forms";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     FooterComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoginComponent
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     HttpClientModule,
-    CountUpModule
+    CountUpModule,
+    RouterModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
