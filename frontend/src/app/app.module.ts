@@ -1,3 +1,5 @@
+//app.module.ts
+
 import { AppRoutingModule } from './app-routing.module';
 import {NgModule} from "@angular/core";
 import {AppComponent} from "./components/app.component";
