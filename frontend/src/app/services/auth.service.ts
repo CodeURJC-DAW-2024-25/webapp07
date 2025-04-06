@@ -4,12 +4,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
-
-
-export interface LoginRequest {
-  username: string;
-  password: string;
-}
+import { environment } from '../../environments/environment';
+import { UserDTO, LoginRequest } from '../dtos/user.model';
 
 export interface AuthResponse {
   status: 'SUCCESS' | 'ERROR';
@@ -21,7 +17,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'https://localhost:8443/api/v1/auth';
+  private readonly API_URL = `${environment.apiBaseUrl}/api/v1/auth`;
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
