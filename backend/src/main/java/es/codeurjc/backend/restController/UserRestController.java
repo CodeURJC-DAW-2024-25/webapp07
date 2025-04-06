@@ -19,6 +19,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 
 @Tag(name = "Users", description = "Operations related to user management")
 @RestController
+@CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+        RequestMethod.DELETE, RequestMethod.PATCH })
 @RequestMapping("/api/v1/users")
 public class UserRestController {
 

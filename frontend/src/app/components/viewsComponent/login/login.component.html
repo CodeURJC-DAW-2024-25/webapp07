@@ -3,25 +3,24 @@
     <div class="col-12 text-center align-self-center py-5">
       <div class="section text-center">
         <h6 class="mb-0 pb-3 centered-text">
-          <span class="fs-3 ml-2">Log In </span><span class="fs-3">Sign Up</span>
+          <span class="fs-3 ml-2" [class.active-tab]="!isRegistering">Log In</span>
+          <span class="fs-3" [class.active-tab]="isRegistering">Sign Up</span>
         </h6>
-        <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
+        <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" [checked]="isRegistering" (change)="isRegistering = !isRegistering"/>
         <label for="reg-log"></label>
         <div class="card-3d-wrap mx-auto">
           <div class="card-3d-wrapper">
             <!-- Login Form -->
-            <div class="card-front">
+            <div class="card-front" [class.hidden]="isRegistering">
               <div class="center-wrap">
                 <div class="section text-center">
                   <h4 class="mb-4 pb-3">Log In</h4>
 
-                  <!-- Error -->
                   <div *ngIf="errorMessage" class="alert alert-danger">
                     <i class="uil uil-exclamation-triangle"></i> {{ errorMessage }}
                   </div>
 
                   <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
-                    <!--Username -->
                     <div class="form-group">
                       <input
                         type="text"
@@ -35,7 +34,6 @@
                       </div>
                     </div>
 
-                    <!-- Password -->
                     <div class="form-group mt-2">
                       <input
                         type="password"
@@ -49,12 +47,11 @@
                       </div>
                     </div>
 
-                    <!-- Submit -->
                     <button class="btn mt-4" type="submit" [disabled]="isLoading">
                       <span *ngIf="!isLoading">Login</span>
                       <span *ngIf="isLoading">
-            <i class="uil uil-spinner uil-spin"></i> Processing...
-          </span>
+                        <i class="uil uil-spinner uil-spin"></i> Processing...
+                      </span>
                     </button>
                   </form>
                 </div>
@@ -62,11 +59,91 @@
             </div>
 
             <!-- Register Form -->
-            <div class="card-back">
+            <div class="card-back" [class.hidden]="!isRegistering">
               <div class="center-wrap">
                 <div class="section text-center">
-                  <h4 class="mb-3 pb-3">Sign Up</h4>
-                  <!-- Puedes implementar el formulario de registro más adelante -->
+                  <h4 class="mb-4 pb-3">Sign Up</h4>
+
+                  <div *ngIf="registerSuccess" class="alert alert-success">
+                    <i class="uil uil-check-circle"></i> Registration successful!
+                  </div>
+
+                  <div *ngIf="registerErrorMessage" class="alert alert-danger">
+                    <i class="uil uil-exclamation-triangle"></i> {{ registerErrorMessage }}
+                  </div>
+
+                  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        class="form-style"
+                        placeholder="Username"
+                        formControlName="username"
+                        [ngClass]="{ 'is-invalid': regUsername?.invalid && (regUsername?.dirty || regUsername?.touched) }">
+                      <i class="input-icon uil uil-user"></i>
+                      <div *ngIf="regUsername?.invalid && (regUsername?.dirty || regUsername?.touched)" class="invalid-feedback">
+                        <div *ngIf="regUsername?.errors?.['required']">Username is required</div>
+                        <div *ngIf="regUsername?.errors?.['minlength']">Minimum 3 characters</div>
+                      </div>
+                    </div>
+
+                    <div class="form-group mt-2">
+                      <input
+                        type="email"
+                        class="form-style"
+                        placeholder="Email"
+                        formControlName="email"
+                        [ngClass]="{ 'is-invalid': regEmail?.invalid && (regEmail?.dirty || regEmail?.touched) }">
+                      <i class="input-icon uil uil-at"></i>
+                      <div *ngIf="regEmail?.invalid && (regEmail?.dirty || regEmail?.touched)" class="invalid-feedback">
+                        <div *ngIf="regEmail?.errors?.['required']">Email is required</div>
+                        <div *ngIf="regEmail?.errors?.['email']">Invalid email format</div>
+                      </div>
+                    </div>
+
+                    <div class="form-group mt-2">
+                      <input
+                        type="password"
+                        class="form-style"
+                        placeholder="Password"
+                        formControlName="password"
+                        [ngClass]="{ 'is-invalid': regPassword?.invalid && (regPassword?.dirty || regPassword?.touched) }">
+                      <i class="input-icon uil uil-lock-alt"></i>
+                      <div *ngIf="regPassword?.invalid && (regPassword?.dirty || regPassword?.touched)" class="invalid-feedback">
+                        <div *ngIf="regPassword?.errors?.['required']">Password is required</div>
+                        <div *ngIf="regPassword?.errors?.['minlength']">Minimum 6 characters</div>
+                      </div>
+                    </div>
+
+                    <div class="form-group mt-2">
+                      <input
+                        type="password"
+                        class="form-style"
+                        placeholder="Confirm Password"
+                        formControlName="passwordConfirm"
+                        [ngClass]="{ 'is-invalid': registerForm.errors?.['mismatch'] && (regPasswordConfirm?.dirty || regPasswordConfirm?.touched) }">
+                      <i class="input-icon uil uil-lock-alt"></i>
+                      <div *ngIf="registerForm.errors?.['mismatch'] && (regPasswordConfirm?.dirty || regPasswordConfirm?.touched)" class="invalid-feedback">
+                        Passwords don't match
+                      </div>
+                    </div>
+
+                    <span class="dob-label mt-2">Date of Birth</span>
+                    <div class="form-group">
+                      <input
+                        type="date"
+                        class="form-style"
+                        formControlName="dateOfBirth"
+                        [ngClass]="{ 'is-invalid': regDateOfBirth?.invalid && (regDateOfBirth?.dirty || regDateOfBirth?.touched) }">
+                      <i class="input-icon uil uil-schedule"></i>
+                      <div *ngIf="regDateOfBirth?.invalid && (regDateOfBirth?.dirty || regDateOfBirth?.touched)" class="invalid-feedback">
+                        Date of birth is required
+                      </div>
+                    </div>
+
+                    <button class="btn mt-4" type="submit">Register</button>
+                    <button class="btn mt-4" type="button" (click)="router.navigate(['/'])">Enter as a guest</button>
+                  </form>
                 </div>
               </div>
             </div>

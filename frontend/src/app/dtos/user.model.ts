@@ -3,15 +3,15 @@
 export interface UserDTO {
   id: number;
   username: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirth: Date;
-  phoneNumber: string;
-  address: string;
   email: string;
-  roles: string[];
-  banned: boolean;
   password?: string;
+  dateOfBirth: Date;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: string;
+  address?: string;
+  roles?: string[];
+  banned?: boolean;
 }
 
 export interface LoginRequest {
@@ -19,4 +19,11 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface RegisterRequest {
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+  dateOfBirth: string;
+}
 
