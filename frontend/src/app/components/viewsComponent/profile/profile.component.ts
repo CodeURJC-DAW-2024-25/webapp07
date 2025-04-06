@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../../services/users.service';
 import { UserDTO } from '../../../dtos/user.model';
+import {AuthService} from "../../../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +14,10 @@ export class ProfileComponent implements OnInit {
   editMode = false;
   isLoading = true;
 
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private authService: AuthService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.loadUserProfile();
@@ -46,6 +51,16 @@ export class ProfileComponent implements OnInit {
       error: (err) => {
         console.error('Error updating profile:', err);
         this.isLoading = false;
+      }
+    });
+  }
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Logout failed:', err);
       }
     });
   }
