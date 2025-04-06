@@ -10,8 +10,9 @@ import {HeaderComponent} from "./components/generalComponents/header/header.comp
 import {HomeComponent} from "./components/viewsComponent/home/home.component";
 import { CountUpModule } from 'ngx-countup';
 import {LoginComponent} from "./components/viewsComponent/login/login.component";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
+import {ProfileComponent} from "./components/viewsComponent/profile/profile.component";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {RouterModule} from "@angular/router";
     HomeComponent,
     FooterComponent,
     HeaderComponent,
-    LoginComponent
+    LoginComponent,
+    ProfileComponent
   ],
   imports: [
     AppRoutingModule,
@@ -27,7 +29,8 @@ import {RouterModule} from "@angular/router";
     HttpClientModule,
     CountUpModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
