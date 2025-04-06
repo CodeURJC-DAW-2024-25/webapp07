@@ -18,6 +18,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.List;
 
 /**
  * Configuration class for security settings using Spring Security.
@@ -69,6 +73,21 @@ public class WebSecurityConfig {
 
         return authProvider;
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:4200", "https://localhost:8443"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
     @Bean
     @Order(1)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
@@ -76,7 +95,7 @@ public class WebSecurityConfig {
         http.authenticationProvider(authenticationProvider());
 
         http
-                    
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .securityMatcher("/api/**")
                 .exceptionHandling(handling -> handling.authenticationEntryPoint(unauthorizedHandlerJwt));
 
@@ -166,13 +185,15 @@ public class WebSecurityConfig {
         http.authenticationProvider(authenticationProvider());
         //http.csrf(AbstractHttpConfigurer::disable);
 
+
         http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
 
                         // Private pages (authenticated users)
                         .requestMatchers(request -> request.getServletPath().startsWith("/profile")).authenticated()
-                        .requestMatchers("/booking/**").hasRole("USER") // Solo usuarios registrados pueden acceder a reservas
-                        .requestMatchers("/booking-cancelled").hasRole("USER")// Permitir acceso a la página de confirmación
+                        .requestMatchers("/booking/**").hasRole("USER")
+                        .requestMatchers("/booking-cancelled").hasRole("USER")
 
                         // Admin-restricted pages
                         .requestMatchers("/admin/**").hasRole("ADMIN")

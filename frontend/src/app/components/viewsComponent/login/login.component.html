@@ -14,16 +14,48 @@
               <div class="center-wrap">
                 <div class="section text-center">
                   <h4 class="mb-4 pb-3">Log In</h4>
+
+                  <!-- Error -->
+                  <div *ngIf="errorMessage" class="alert alert-danger">
+                    <i class="uil uil-exclamation-triangle"></i> {{ errorMessage }}
+                  </div>
+
                   <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
+                    <!--Username -->
                     <div class="form-group">
-                      <input type="text" class="form-style" placeholder="username" formControlName="username" required>
+                      <input
+                        type="text"
+                        class="form-style"
+                        placeholder="Username"
+                        formControlName="username"
+                        [ngClass]="{ 'is-invalid': username?.invalid && (username?.dirty || username?.touched) }">
                       <i class="input-icon uil uil-user"></i>
+                      <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="invalid-feedback">
+                        Username is required
+                      </div>
                     </div>
+
+                    <!-- Password -->
                     <div class="form-group mt-2">
-                      <input type="password" class="form-style" placeholder="Password" formControlName="password" required>
+                      <input
+                        type="password"
+                        class="form-style"
+                        placeholder="Password"
+                        formControlName="password"
+                        [ngClass]="{ 'is-invalid': password?.invalid && (password?.dirty || password?.touched) }">
                       <i class="input-icon uil uil-lock-alt"></i>
+                      <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="invalid-feedback">
+                        Password is required
+                      </div>
                     </div>
-                    <button class="btn mt-4" type="submit">Login</button>
+
+                    <!-- Submit -->
+                    <button class="btn mt-4" type="submit" [disabled]="isLoading">
+                      <span *ngIf="!isLoading">Login</span>
+                      <span *ngIf="isLoading">
+            <i class="uil uil-spinner uil-spin"></i> Processing...
+          </span>
+                    </button>
                   </form>
                 </div>
               </div>
