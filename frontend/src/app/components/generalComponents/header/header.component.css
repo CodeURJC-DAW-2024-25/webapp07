@@ -1,0 +1,9 @@
+.auth-link {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.auth-link:hover {
+  color: #007bff;
+  text-decoration: none;
+}

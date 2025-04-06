@@ -21,8 +21,9 @@
       </div>
     </div>
     <a routerLink="/booking" class="btn btn-primary py-2 px-4 me-3">Book A Table</a>
-    <a routerLink="/login" class="me-2">
-      <i class="fa fa-user me-2"></i>Log in
+    <a (click)="handleAuthAction()" class="me-2 auth-link">
+      <i class="fa fa-user me-2"></i>
+      {{ isLoggedIn ? 'Logout' : 'Login' }}
     </a>
   </div>
 </nav>
