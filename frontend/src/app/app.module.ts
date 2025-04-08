@@ -13,6 +13,7 @@ import {LoginComponent} from "./components/viewsComponent/login/login.component"
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {ProfileComponent} from "./components/viewsComponent/profile/profile.component";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,9 @@ import {ProfileComponent} from "./components/viewsComponent/profile/profile.comp
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
