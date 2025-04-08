@@ -45,7 +45,7 @@
         </div>
 
         <!-- Modo edición -->
-        <form *ngIf="editMode && !isLoading" (ngSubmit)="saveProfile()">
+        <form *ngIf="editMode && !isLoading" (ngSubmit)="requestSaveProfile()">
           <div class="mb-3">
             <label class="form-label">Username</label>
             <input type="text" class="form-control" [value]="user.username" disabled>
@@ -79,7 +79,7 @@
               name="dateOfBirth"
               [max]="today | date:'yyyy-MM-dd'">
           </div>
-          <button type="submit" class="btn btn-primary py-3 px-5 mt-2">Save</button>
+          <button type="button" class="btn btn-primary py-3 px-5 mt-2" (click)="showConfirmationModal = true">Save</button>
           <button type="button" class="btn btn-secondary py-3 px-5 mt-2" (click)="toggleEditMode()">Cancel</button>
         </form>
       </div>
@@ -92,5 +92,12 @@
         -->
       </div>
     </div>
+    <app-confirmation-modal
+      [showModal]="showConfirmationModal"
+      [title]="'Confirm changes'"
+      [message]="'Are you sure you want to save these changes on your profile?'"
+      (confirmed)="onSaveConfirmed()"
+      (closed)="showConfirmationModal = false">
+    </app-confirmation-modal>
   </div>
 </div>
