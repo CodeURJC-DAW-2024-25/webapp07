@@ -42,8 +42,7 @@ export class ProfileComponent implements OnInit {
 
   saveProfile(): void {
     this.isLoading = true;
-    const { id, ...userData } = this.user;
-    this.usersService.updateUser(id, userData).subscribe({
+    this.usersService.updateUser(this.user).subscribe({
       next: () => {
         this.editMode = false;
         this.isLoading = false;
@@ -63,5 +62,8 @@ export class ProfileComponent implements OnInit {
         console.error('Logout failed:', err);
       }
     });
+  }
+  get today(): string {
+    return new Date().toISOString().split('T')[0];
   }
 }

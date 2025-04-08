@@ -97,6 +97,13 @@ public class UserRestController {
         return updatedUser.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/me")
+    public ResponseEntity<UserDTO> editAuthenticatedUser(
+            @Parameter(description = "Updated user data") @RequestBody UserDTO userDTO) {
+        Optional<UserDTO> updatedUser = userService.updateUser(userDTO.id(), userDTO);
+        return updatedUser.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
     @Operation(summary = "Delete user", description = "Delete the user with the specified ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "User deleted successfully"),

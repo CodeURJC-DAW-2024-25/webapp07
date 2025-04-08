@@ -105,6 +105,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/logout").permitAll()
                         // PRIVATE USER ENDPOINTS
                         .requestMatchers(HttpMethod.GET, "/api/v1/users/me").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/users/me").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/users/new").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole("ADMIN")
