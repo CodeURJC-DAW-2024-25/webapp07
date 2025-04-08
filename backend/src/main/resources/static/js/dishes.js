@@ -53,16 +53,7 @@ $(document).ready(function () {
                                     style="width: 10vw; height: 15vh">`;
 
                         let authButton = isAuthenticated
-                            ? `<form id="addToCartForm-${dish.id}" class="addToCartForm">
-                                    <input type="hidden" name="_csrf" value="${response.csrfToken}">
-                                    <input type="hidden" name="dishId" value="${dish.id}" />
-                                    <button type="button" class="btn btn-primary btn-sm m-2 p-2 addToCartButton" data-id="${dish.id}">
-                                        <i class="fa fa-shopping-cart"></i> Add to Cart
-                                    </button>
-                               </form>
-                               <div id="cartMessage-${dish.id}" class="alert alert-success d-none mt-2" role="alert">
-                                    Added successfully
-                               </div>`
+                            ? ``
                             : "";
 
                         newDishesHtml += `
@@ -84,7 +75,16 @@ $(document).ready(function () {
                                             </div>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            ${authButton}
+                                            <form id="addToCartForm-${dish.id}" class="addToCartForm">
+                                    <input type="hidden" name="_csrf" value="${response.csrfToken}">
+                                    <input type="hidden" name="dishId" value="${dish.id}" />
+                                    <button type="button" class="btn btn-primary btn-sm m-2 p-2 addToCartButton" data-id="${dish.id}">
+                                        <i class="fa fa-shopping-cart"></i> Add to Cart
+                                    </button>
+                               </form>
+                               <div id="cartMessage-${dish.id}" class="alert alert-success d-none mt-2" role="alert">
+                                    Added successfully
+                               </div>
                                         </div>
                                     </div>
                                 </div>
