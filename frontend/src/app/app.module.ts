@@ -14,6 +14,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {ProfileComponent} from "./components/viewsComponent/profile/profile.component";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {OrderComponent} from "./components/viewsComponent/order/order.component";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     FooterComponent,
     HeaderComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    OrderComponent
   ],
   imports: [
     AppRoutingModule,
