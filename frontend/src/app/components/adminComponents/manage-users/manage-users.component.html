@@ -31,6 +31,9 @@
         <button *ngIf="user.banned" class="btn btn-success btn-sm" (click)="confirmUnban(user)">
           Unban
         </button>
+        <button class="btn btn-outline-danger btn-sm" (click)="confirmDelete(user)">
+          Delete
+        </button>
       </td>
     </tr>
     </tbody>

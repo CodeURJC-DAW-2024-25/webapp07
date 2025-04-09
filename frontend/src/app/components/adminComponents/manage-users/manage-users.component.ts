@@ -16,7 +16,8 @@ export class AdminManageUsersComponent implements OnInit {
   public modalTitle = '';
   public modalMessage = '';
   public selectedUser: UserDTO | null = null;
-  public actionType: 'BAN' | 'UNBAN' | null = null;
+  public actionType: 'BAN' | 'UNBAN' | 'DELETE' | null = null;
+
 
   constructor(private usersService: UsersService) {}
 
@@ -53,14 +54,34 @@ export class AdminManageUsersComponent implements OnInit {
     this.modalMessage = `Are you sure you want to unban user "${user.username}"?`;
     this.showConfirmationModal = true;
   }
+  confirmDelete(user: UserDTO): void {
+    this.selectedUser = user;
+    this.actionType = 'DELETE';
+    this.modalTitle = 'Confirm Deletion';
+    this.modalMessage = `Are you sure you want to permanently delete user "${user.username}"?`;
+    this.showConfirmationModal = true;
+  }
 
   onActionConfirmed(): void {
     if (!this.selectedUser || !this.actionType) return;
 
     const userId = this.selectedUser.id;
-    const action$ = this.actionType === 'BAN'
-      ? this.usersService.banUser(userId)
-      : this.usersService.unbanUser(userId);
+
+    let action$;
+
+    switch (this.actionType) {
+      case 'BAN':
+        action$ = this.usersService.banUser(userId);
+        break;
+      case 'UNBAN':
+        action$ = this.usersService.unbanUser(userId);
+        break;
+      case 'DELETE':
+        action$ = this.usersService.deleteUser(userId);
+        break;
+      default:
+        return;
+    }
 
     action$.subscribe({
       next: () => {
@@ -73,6 +94,7 @@ export class AdminManageUsersComponent implements OnInit {
       }
     });
   }
+
 
   resetModalState(): void {
     this.showConfirmationModal = false;
