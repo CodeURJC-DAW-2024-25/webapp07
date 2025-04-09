@@ -13,6 +13,9 @@ import {LoginComponent} from "./components/viewsComponent/login/login.component"
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {ProfileComponent} from "./components/viewsComponent/profile/profile.component";
+import {
+  ConfirmationModalComponent
+} from "./components/generalComponents/confirmation-modal/confirmation-modal.component";
 
 @NgModule({
   declarations: [
@@ -21,7 +24,8 @@ import {ProfileComponent} from "./components/viewsComponent/profile/profile.comp
     FooterComponent,
     HeaderComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     AppRoutingModule,

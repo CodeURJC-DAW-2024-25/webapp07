@@ -13,6 +13,7 @@ export class ProfileComponent implements OnInit {
   user!: UserDTO;
   editMode = false;
   isLoading = true;
+  showConfirmationModal = false;
 
   constructor(
     private usersService: UsersService,
@@ -40,17 +41,24 @@ export class ProfileComponent implements OnInit {
     this.editMode = !this.editMode;
   }
 
-  saveProfile(): void {
+  requestSaveProfile(): void {
+    this.showConfirmationModal = true;
+  }
+
+  onSaveConfirmed(): void {
+    this.showConfirmationModal = false;
     this.isLoading = true;
-    const { id, ...userData } = this.user;
-    this.usersService.updateUser(id, userData).subscribe({
+
+    this.usersService.updateUser(this.user).subscribe({
       next: () => {
         this.editMode = false;
         this.isLoading = false;
+
       },
       error: (err) => {
         console.error('Error updating profile:', err);
         this.isLoading = false;
+
       }
     });
   }
@@ -63,5 +71,8 @@ export class ProfileComponent implements OnInit {
         console.error('Logout failed:', err);
       }
     });
+  }
+  get today(): string {
+    return new Date().toISOString().split('T')[0];
   }
 }

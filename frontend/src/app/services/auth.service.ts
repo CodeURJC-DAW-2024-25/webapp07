@@ -18,8 +18,12 @@ export interface AuthResponse {
 })
 export class AuthService {
   private readonly API_URL = `${environment.apiBaseUrl}/api/v1/auth`;
+
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+
+  private isAdminSubject = new BehaviorSubject<boolean>(false);
+  public isAdmin$ = this.isAdminSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {
     this.checkAuthStatus();
@@ -56,8 +60,21 @@ export class AuthService {
   private handleLoginSuccess(response: AuthResponse): void {
     if (response.status === 'SUCCESS') {
       this.isAuthenticatedSubject.next(true);
+      this.fetchUserInfo(); // nueva función
       this.router.navigate(['/']);
     }
+  }
+
+  private fetchUserInfo(): void {
+    this.http.get<UserDTO>(`${environment.apiBaseUrl}/api/v1/users/me`, { withCredentials: true })
+      .subscribe({
+        next: (user: UserDTO) => {
+          const isAdmin = (user.roles ?? []).includes('ADMIN');
+          this.isAdminSubject.next(isAdmin);        },
+        error: () => {
+          this.isAdminSubject.next(false);
+        }
+      });
   }
 
   private handleRefreshSuccess(response: AuthResponse): void {
