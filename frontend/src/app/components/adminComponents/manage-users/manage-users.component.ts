@@ -1,6 +1,9 @@
+//manage.users.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../../services/users.service';
 import { UserDTO } from '../../../dtos/user.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-manage-users',
@@ -18,8 +21,13 @@ export class AdminManageUsersComponent implements OnInit {
   public selectedUser: UserDTO | null = null;
   public actionType: 'BAN' | 'UNBAN' | 'DELETE' | null = null;
 
+  private pendingToastMessage: { type: 'success' | 'error', message: string, title: string } | null = null;
 
-  constructor(private usersService: UsersService) {}
+
+
+  constructor(
+    private usersService: UsersService,
+    protected toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -66,9 +74,9 @@ export class AdminManageUsersComponent implements OnInit {
     if (!this.selectedUser || !this.actionType) return;
 
     const userId = this.selectedUser.id;
-
     let action$;
 
+    // Se asegura de que action$ siempre tenga un valor válido
     switch (this.actionType) {
       case 'BAN':
         action$ = this.usersService.banUser(userId);
@@ -80,19 +88,53 @@ export class AdminManageUsersComponent implements OnInit {
         action$ = this.usersService.deleteUser(userId);
         break;
       default:
-        return;
+        console.error(`Unknown action type: ${this.actionType}`);
+        return; // Si la acción no es válida, salimos de la función
     }
 
     action$.subscribe({
       next: () => {
         this.loadUsers();
-        this.resetModalState();
+        this.pendingToastMessage = {
+          type: 'success',
+          message:
+            this.actionType === 'DELETE'
+              ? 'User deleted successfully!'
+              : this.actionType === 'BAN'
+                ? 'User banned successfully!'
+                : 'User unbanned successfully!',
+          title: 'Success'
+        };
+        this.resetModalState(); // aquí el modal se cierra, y esperamos evento
       },
       error: (err) => {
         console.error(`Error performing ${this.actionType} action:`, err);
+        this.pendingToastMessage = {
+          type: 'error',
+          message:
+            this.actionType === 'DELETE'
+              ? 'Error deleting user. Please try again.'
+              : this.actionType === 'BAN'
+                ? 'Error banning user. Please try again.'
+                : 'Error unbanning user. Please try again.',
+          title: 'Error'
+        };
         this.resetModalState();
       }
     });
+
+  }
+
+
+  onModalFullyClosed(): void {
+    if (this.pendingToastMessage) {
+      const { type, message, title } = this.pendingToastMessage;
+      type === 'success'
+        ? this.toastr.success(message, title)
+        : this.toastr.error(message, title);
+
+      this.pendingToastMessage = null;
+    }
   }
 
 

@@ -11,14 +11,21 @@ export class ConfirmationModalComponent {
   @Input() showModal: boolean = false;
   @Output() confirmed = new EventEmitter<boolean>();
   @Output() closed = new EventEmitter<void>();
+  @Output() closedCompletely = new EventEmitter<void>();
 
   confirm() {
     this.confirmed.emit(true);
     this.showModal = false;
+    setTimeout(() => {
+      this.closedCompletely.emit();
+    }, 100);
   }
 
   cancel() {
     this.closed.emit();
     this.showModal = false;
+    setTimeout(() => {
+      this.closedCompletely.emit();
+    }, 100);
   }
 }

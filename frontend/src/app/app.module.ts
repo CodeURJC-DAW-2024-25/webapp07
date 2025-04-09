@@ -17,6 +17,8 @@ import {
   ConfirmationModalComponent
 } from "./components/generalComponents/confirmation-modal/confirmation-modal.component";
 import {AdminManageUsersComponent} from "./components/adminComponents/manage-users/manage-users.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ToastrModule} from "ngx-toastr";
 
 @NgModule({
   declarations: [
@@ -36,7 +38,12 @@ import {AdminManageUsersComponent} from "./components/adminComponents/manage-use
     CountUpModule,
     RouterModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right',
+      timeOut: 3000
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

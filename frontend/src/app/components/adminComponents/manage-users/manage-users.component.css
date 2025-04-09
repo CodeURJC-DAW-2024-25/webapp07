@@ -3,11 +3,21 @@
   margin-right: 0.4rem;
 }
 .fixed-width-btn {
-  width: 90px;             
+  width: 90px;
   text-align: center;
   padding: 0.375rem 0.5rem;
   margin-right: 0.4rem;
   display: inline-block;
   white-space: nowrap;
 }
+.btn-warning {
+  background-color: #f0ad4e;
+  border-color: #f0ad4e;
+}
+
+.btn-warning:hover {
+  background-color: #ec971f;
+  border-color: #d58512;
+}
+
 

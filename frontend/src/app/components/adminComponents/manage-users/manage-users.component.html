@@ -1,3 +1,6 @@
+<!--manage.users.component.html-->
+
+
 <div class="container mt-5">
   <h2 class="text-center mb-4">User Management</h2>
 
@@ -25,17 +28,18 @@
       <td>{{ user.email || 'N/A' }}</td>
       <td>{{ user.banned ? 'Banned' : 'Active' }}</td>
       <td>
-        <button *ngIf="!user.banned" class="btn btn-danger btn-sm fixed-width-btn" (click)="confirmBan(user)">
+        <button *ngIf="!user.banned" class="btn btn-danger btn-sm" (click)="confirmBan(user)">
           Ban
         </button>
-        <button *ngIf="user.banned" class="btn btn-success btn-sm fixed-width-btn" (click)="confirmUnban(user)">
+        <button *ngIf="user.banned" class="btn btn-success btn-sm" (click)="confirmUnban(user)">
           Unban
         </button>
-        <button class="btn btn-outline-danger btn-sm fixed-width-btn" (click)="confirmDelete(user)">
-          <i class="bi bi-trash"></i> Delete
+        <button class="btn btn-warning btn-sm" (click)="confirmDelete(user)">
+          Delete
         </button>
-
+        <button (click)="toastr.success('Hello from toast!', 'Toast works')">Test Toast</button>
       </td>
+
     </tr>
     </tbody>
   </table>
@@ -46,6 +50,7 @@
     [title]="modalTitle"
     [message]="modalMessage"
     (confirmed)="onActionConfirmed()"
-    (closed)="showConfirmationModal = false">
+    (closed)="showConfirmationModal = false"
+    (closedCompletely)="onModalFullyClosed()">
   </app-confirmation-modal>
 </div>
