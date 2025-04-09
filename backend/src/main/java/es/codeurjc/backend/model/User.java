@@ -1,5 +1,6 @@
 package es.codeurjc.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,6 +50,10 @@ public class User {
 
     /** Indicates whether the user is banned from the system. */
     private boolean banned;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Booking> bookings;
 
     /** Default constructor for JPA. */
     public User() {}
