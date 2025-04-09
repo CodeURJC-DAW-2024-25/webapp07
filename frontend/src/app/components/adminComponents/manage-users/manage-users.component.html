@@ -25,15 +25,16 @@
       <td>{{ user.email || 'N/A' }}</td>
       <td>{{ user.banned ? 'Banned' : 'Active' }}</td>
       <td>
-        <button *ngIf="!user.banned" class="btn btn-danger btn-sm" (click)="confirmBan(user)">
+        <button *ngIf="!user.banned" class="btn btn-danger btn-sm fixed-width-btn" (click)="confirmBan(user)">
           Ban
         </button>
-        <button *ngIf="user.banned" class="btn btn-success btn-sm" (click)="confirmUnban(user)">
+        <button *ngIf="user.banned" class="btn btn-success btn-sm fixed-width-btn" (click)="confirmUnban(user)">
           Unban
         </button>
-        <button class="btn btn-outline-danger btn-sm" (click)="confirmDelete(user)">
-          Delete
+        <button class="btn btn-outline-danger btn-sm fixed-width-btn" (click)="confirmDelete(user)">
+          <i class="bi bi-trash"></i> Delete
         </button>
+
       </td>
     </tr>
     </tbody>
