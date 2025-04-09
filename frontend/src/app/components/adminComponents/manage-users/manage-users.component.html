@@ -1,0 +1,47 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">User Management</h2>
+
+  <div class="form-group mb-3">
+    <input type="text" class="form-control" placeholder="Search user..." [(ngModel)]="searchQuery">
+    <button class="btn btn-primary mt-2" (click)="loadUsers()">Search</button>
+  </div>
+
+  <p *ngIf="!users.length && !isLoading">No users found.</p>
+
+  <table class="table" *ngIf="users.length">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.id }}</td>
+      <td>{{ user.username || 'N/A' }}</td>
+      <td>{{ user.email || 'N/A' }}</td>
+      <td>{{ user.banned ? 'Banned' : 'Active' }}</td>
+      <td>
+        <button *ngIf="!user.banned" class="btn btn-danger btn-sm" (click)="confirmBan(user)">
+          Ban
+        </button>
+        <button *ngIf="user.banned" class="btn btn-success btn-sm" (click)="confirmUnban(user)">
+          Unban
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Confirmation Modal -->
+  <app-confirmation-modal
+    [showModal]="showConfirmationModal"
+    [title]="modalTitle"
+    [message]="modalMessage"
+    (confirmed)="onActionConfirmed()"
+    (closed)="showConfirmationModal = false">
+  </app-confirmation-modal>
+</div>

@@ -16,6 +16,7 @@ import {ProfileComponent} from "./components/viewsComponent/profile/profile.comp
 import {
   ConfirmationModalComponent
 } from "./components/generalComponents/confirmation-modal/confirmation-modal.component";
+import {AdminManageUsersComponent} from "./components/adminComponents/manage-users/manage-users.component";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {
     HeaderComponent,
     LoginComponent,
     ProfileComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    AdminManageUsersComponent
   ],
   imports: [
     AppRoutingModule,
