@@ -21,14 +21,44 @@
       </div>
     </div>
     <a routerLink="/booking" class="btn btn-primary py-2 px-4 me-3">Book A Table</a>
-    <a routerLink="/profile" class="me-2 auth-link" *ngIf="isLoggedIn">
-      <i class="fa fa-user me-2"></i>
-      Profile
+    <!-- Account link -->
+    <a routerLink="/profile" class="me-2 auth-link" *ngIf="isLoggedIn$ | async">
+      <i class="fa fa-user me-2"></i>Account
     </a>
 
-    <a routerLink="/login" class="me-2 auth-link" *ngIf="!isLoggedIn">
-      <i class="fa fa-user me-2"></i>
-      Login
+    <!-- Cart button -->
+    <a routerLink="/orders/cart" class="btn btn-primary btn-sm m-2 p-2" *ngIf="isLoggedIn$ | async">
+      <i class="fa fa-shopping-cart"></i> Cart
+    </a>
+
+    <!-- Admin Panel Dropdown -->
+    <div class="dropdown" *ngIf="(isLoggedIn$ | async) && (isAdmin$ | async)">
+      <button class="btn btn-warning dropdown-toggle" id="adminPanelButton" data-bs-toggle="dropdown" aria-expanded="false"
+              style="box-shadow:none; text-transform:none;">
+        <i class="fa fa-user-shield me-2"></i>Admin Panel
+      </button>
+      <div class="dropdown-menu dropdown-menu-end" aria-labelledby="adminPanelButton" style="right: 0; left: auto; width: max-content;">
+        <a class="dropdown-item" routerLink="/admin/dashboard">
+          <i class="fa fa-tachometer-alt me-2"></i> Dashboard
+        </a>
+        <a class="dropdown-item" routerLink="/admin/orders">
+          <i class="fa fa-list-alt me-2"></i> Manage Orders
+        </a>
+        <a class="dropdown-item" routerLink="/admin/users">
+          <i class="fa fa-users me-2"></i> Manage Users
+        </a>
+        <a class="dropdown-item" routerLink="/admin/dishes">
+          <i class="fa fa-utensils me-2"></i> Manage Menu
+        </a>
+        <a class="dropdown-item" routerLink="/admin/bookings">
+          <i class="fa fa-calendar-check me-2"></i> Manage Bookings
+        </a>
+      </div>
+    </div>
+
+    <!-- Login link -->
+    <a routerLink="/login" class="me-2 auth-link" *ngIf="!(isLoggedIn$ | async)">
+      <i class="fa fa-user me-2"></i>Login
     </a>
   </div>
 </nav>
