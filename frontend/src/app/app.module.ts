@@ -13,6 +13,12 @@ import {LoginComponent} from "./components/viewsComponent/login/login.component"
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {ProfileComponent} from "./components/viewsComponent/profile/profile.component";
+import {
+  ConfirmationModalComponent
+} from "./components/generalComponents/confirmation-modal/confirmation-modal.component";
+import {AdminManageUsersComponent} from "./components/adminComponents/manage-users/manage-users.component";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ToastrModule} from "ngx-toastr";
 
 @NgModule({
   declarations: [
@@ -21,7 +27,9 @@ import {ProfileComponent} from "./components/viewsComponent/profile/profile.comp
     FooterComponent,
     HeaderComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    ConfirmationModalComponent,
+    AdminManageUsersComponent
   ],
   imports: [
     AppRoutingModule,
@@ -30,7 +38,12 @@ import {ProfileComponent} from "./components/viewsComponent/profile/profile.comp
     CountUpModule,
     RouterModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right',
+      timeOut: 3000
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
