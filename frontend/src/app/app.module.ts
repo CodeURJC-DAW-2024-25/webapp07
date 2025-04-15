@@ -13,8 +13,6 @@ import {LoginComponent} from "./components/viewsComponent/login/login.component"
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {ProfileComponent} from "./components/viewsComponent/profile/profile.component";
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import {OrderComponent} from "./components/viewsComponent/order/order.component";
 
 @NgModule({
   declarations: [
@@ -23,8 +21,7 @@ import {OrderComponent} from "./components/viewsComponent/order/order.component"
     FooterComponent,
     HeaderComponent,
     LoginComponent,
-    ProfileComponent,
-    OrderComponent
+    ProfileComponent
   ],
   imports: [
     AppRoutingModule,
@@ -35,9 +32,7 @@ import {OrderComponent} from "./components/viewsComponent/order/order.component"
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [
-    provideAnimationsAsync()
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

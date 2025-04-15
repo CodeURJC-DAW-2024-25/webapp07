@@ -6,6 +6,10 @@
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css');
 @import url('assets/css/style.css');
 
+#toast-container {
+  z-index: 9999 !important;
+}
+
 
 
 html, body { height: 100%; }

@@ -29,6 +29,12 @@
               <h3 class="section-title ff-secondary text-start text-primary fw-normal">Address</h3>
               <p class="mb-4">{{ user.address || 'No address provided' }}</p>
             </tr>
+            <tr>
+              <h3 class="section-title ff-secondary text-start text-primary fw-normal">Date of Birth</h3>
+              <p class="mb-4">
+                {{ user.dateOfBirth ? (user.dateOfBirth | date:'mediumDate') : 'No date of birth provided' }}
+              </p>
+            </tr>
           </table>
 
           <div class="breadcrumb">
@@ -39,7 +45,7 @@
         </div>
 
         <!-- Modo edición -->
-        <form *ngIf="editMode && !isLoading" (ngSubmit)="saveProfile()">
+        <form *ngIf="editMode && !isLoading" (ngSubmit)="requestSaveProfile()">
           <div class="mb-3">
             <label class="form-label">Username</label>
             <input type="text" class="form-control" [value]="user.username" disabled>
@@ -64,7 +70,16 @@
             <label class="form-label">Address</label>
             <input type="text" class="form-control" [(ngModel)]="user.address" name="address">
           </div>
-          <button type="submit" class="btn btn-primary py-3 px-5 mt-2">Save</button>
+          <div class="mb-3">
+            <label class="form-label">Date of Birth</label>
+            <input
+              type="date"
+              class="form-control"
+              [(ngModel)]="user.dateOfBirth"
+              name="dateOfBirth"
+              [max]="today | date:'yyyy-MM-dd'">
+          </div>
+          <button type="button" class="btn btn-primary py-3 px-5 mt-2" (click)="showConfirmationModal = true">Save</button>
           <button type="button" class="btn btn-secondary py-3 px-5 mt-2" (click)="toggleEditMode()">Cancel</button>
         </form>
       </div>
@@ -77,5 +92,12 @@
         -->
       </div>
     </div>
+    <app-confirmation-modal
+      [showModal]="showConfirmationModal"
+      [title]="'Confirm changes'"
+      [message]="'Are you sure you want to save these changes on your profile?'"
+      (confirmed)="onSaveConfirmed()"
+      (closed)="showConfirmationModal = false">
+    </app-confirmation-modal>
   </div>
 </div>

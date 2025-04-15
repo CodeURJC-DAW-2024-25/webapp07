@@ -10,7 +10,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  isLoggedIn = false;
+  isLoggedIn$ = this.authService.isAuthenticated$;
+  isAdmin$ = this.authService.isAdmin$;
+
 
   constructor(
     private authService: AuthService,
@@ -18,13 +20,11 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.authService.isAuthenticated$.subscribe(isAuthenticated => {
-      this.isLoggedIn = isAuthenticated;
-    });
+
   }
 
   handleAuthAction() {
-    if (this.isLoggedIn) {
+    if (this.authService.currentAuthStatus) {
       this.authService.logout().subscribe(() => {
         this.router.navigate(['/']);
       });

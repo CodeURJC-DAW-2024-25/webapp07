@@ -3,6 +3,8 @@ import { UsersService } from '../../../services/users.service';
 import { UserDTO } from '../../../dtos/user.model';
 import {AuthService} from "../../../services/auth.service";
 import {Router} from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-profile',
@@ -13,11 +15,13 @@ export class ProfileComponent implements OnInit {
   user!: UserDTO;
   editMode = false;
   isLoading = true;
+  showConfirmationModal = false;
 
   constructor(
     private usersService: UsersService,
     private authService: AuthService,
-    private router: Router) {}
+    private router: Router,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.loadUserProfile();
@@ -40,20 +44,29 @@ export class ProfileComponent implements OnInit {
     this.editMode = !this.editMode;
   }
 
-  saveProfile(): void {
-    this.isLoading = true;
-    const { id, ...userData } = this.user;
-    this.usersService.updateUser(id, userData).subscribe({
-      next: () => {
-        this.editMode = false;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Error updating profile:', err);
-        this.isLoading = false;
-      }
-    });
+  requestSaveProfile(): void {
+    this.showConfirmationModal = true;
   }
+
+  onSaveConfirmed(): void {
+    this.showConfirmationModal = false;
+
+    setTimeout(() => {
+      this.usersService.updateUser(this.user).subscribe({
+        next: () => {
+          this.editMode = false;
+          this.toastr.success('Profile updated successfully!', 'Success');
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Error updating profile:', err);
+          this.toastr.error('Error updating profile. Please try again.', 'Error');
+          this.isLoading = false;
+        }
+      });
+    }, 300);
+  }
+
   logout(): void {
     this.authService.logout().subscribe({
       next: () => {
@@ -63,5 +76,8 @@ export class ProfileComponent implements OnInit {
         console.error('Logout failed:', err);
       }
     });
+  }
+  get today(): string {
+    return new Date().toISOString().split('T')[0];
   }
 }
