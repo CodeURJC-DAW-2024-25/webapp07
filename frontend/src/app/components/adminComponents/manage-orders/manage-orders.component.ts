@@ -16,7 +16,7 @@ export class AdminManageOrdersComponent implements OnInit {
   public selectedOrder: OrderDTO | null = null;
   public newStatus: string = '';
   public newTotalPrice: number = 0;
-  public newOrderDate: string = '';
+  public newAddress: string = '';
 
   constructor(
     private orderService: OrderService,
@@ -45,7 +45,7 @@ export class AdminManageOrdersComponent implements OnInit {
     this.selectedOrder = order;
     this.newStatus = order.status;
     this.newTotalPrice = order.totalPrice;
-    this.newOrderDate = order.orderDate;
+    this.newAddress = order.address;
     this.showEditPopup = true;
   }
 
@@ -54,7 +54,7 @@ export class AdminManageOrdersComponent implements OnInit {
     this.selectedOrder = null;
     this.newStatus = '';
     this.newTotalPrice = 0;
-    this.newOrderDate = '';
+    this.newAddress = '';
   }
 
   confirmEditOrder(): void {
@@ -63,7 +63,7 @@ export class AdminManageOrdersComponent implements OnInit {
     const updates = {
       status: this.newStatus,
       totalPrice: this.newTotalPrice,
-      orderDate: this.newOrderDate
+      address: this.newAddress
     };
 
     console.log('Order update payload:', updates);
