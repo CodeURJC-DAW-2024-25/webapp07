@@ -2,6 +2,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {AdminManageOrdersComponent} from "./components/adminComponents/manage-orders/manage-orders.component";
 import {AppComponent} from "./components/app.component";
 import { HomeComponent } from './components/viewsComponent/home/home.component';
 import {LoginComponent} from "./components/viewsComponent/login/login.component";
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {path:'profile', component: ProfileComponent},
   { path:'admin/users', component: AdminManageUsersComponent},
+  { path: 'admin/orders', component: AdminManageOrdersComponent },
   { path: '**', redirectTo: '' },
 ];
 

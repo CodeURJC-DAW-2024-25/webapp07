@@ -1,0 +1,78 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Order Management</h2>
+
+  <p *ngIf="!orders.length && !isLoading">No orders found.</p>
+
+  <table class="table" *ngIf="orders.length">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>User</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Total</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let order of orders">
+      <td>{{ order.id }}</td>
+      <td>{{ order.user.username }}</td>
+      <td>{{ order.orderDate | date:'short' }}</td>
+      <td>{{ order.status }}</td>
+      <td>{{ order.totalPrice | currency:'EUR' }}</td>
+      <td>
+        <button class="btn btn-primary btn-sm" (click)="confirmChangeStatus(order)">Edit Order</button>
+        <button class="btn btn-danger btn-sm" (click)="confirmDelete(order)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Confirmation Modal -->
+  <app-confirmation-modal
+    [showModal]="showConfirmationModal"
+    [title]="modalTitle"
+    [message]="modalMessage"
+    (confirmed)="onActionConfirmed()"
+    (closed)="showConfirmationModal = false"
+    (closedCompletely)="onModalFullyClosed()">
+
+    <ng-container *ngIf="actionType === 'CHANGE_STATUS'">
+      <form>
+        <div class="form-group mt-3">
+          <label for="statusSelect">Status</label>
+          <select id="statusSelect" class="form-control" [(ngModel)]="newStatus" name="status">
+            <option value="Pending">Pending</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Paid">Paid</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <div class="form-group mt-3">
+          <label for="totalPriceInput">Total Price (€)</label>
+          <input
+            type="number"
+            class="form-control"
+            id="totalPriceInput"
+            [(ngModel)]="newTotalPrice"
+            name="totalPrice"
+            min="0"
+            step="0.01">
+        </div>
+
+        <div class="form-group mt-3">
+          <label for="orderDateInput">Order Date</label>
+          <input
+            type="datetime-local"
+            class="form-control"
+            id="orderDateInput"
+            [(ngModel)]="newOrderDate"
+            name="orderDate">
+        </div>
+      </form>
+    </ng-container>
+
+  </app-confirmation-modal>
+</div>

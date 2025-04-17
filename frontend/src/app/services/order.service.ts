@@ -33,6 +33,10 @@ export class OrderService {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
+  updateOrderFields(orderId: number, fieldsToUpdate: { [key: string]: any }) {
+    return this.http.put(`/api/v1/orders/${orderId}`, fieldsToUpdate);
+  }
+
   addToCart(dishId: number): Observable<OrderDTO> {
     return this.http.post<OrderDTO>(`${this.baseUrl}/cart`, { dishId });
   }

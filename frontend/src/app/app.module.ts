@@ -19,6 +19,19 @@ import {
 import {AdminManageUsersComponent} from "./components/adminComponents/manage-users/manage-users.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from "ngx-toastr";
+import {
+  AdminManageOrdersComponent
+} from "./components/adminComponents/manage-orders/manage-orders.component";
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
+  MatTable
+} from "@angular/material/table";
+import {MatButton} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -29,7 +42,8 @@ import {ToastrModule} from "ngx-toastr";
     LoginComponent,
     ProfileComponent,
     ConfirmationModalComponent,
-    AdminManageUsersComponent
+    AdminManageUsersComponent,
+    AdminManageOrdersComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -44,6 +58,17 @@ import {ToastrModule} from "ngx-toastr";
       positionClass: 'toast-top-right',
       timeOut: 3000
     }),
+    MatTable,
+    MatColumnDef,
+    MatHeaderCell,
+    MatCell,
+    MatHeaderCellDef,
+    MatCellDef,
+    MatButton,
+    MatHeaderRow,
+    MatRow,
+    MatHeaderRowDef,
+    MatRowDef,
   ],
   providers: [],
   bootstrap: [AppComponent]
