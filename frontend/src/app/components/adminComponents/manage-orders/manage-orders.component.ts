@@ -12,17 +12,11 @@ export class AdminManageOrdersComponent implements OnInit {
   public orders: OrderDTO[] = [];
   public isLoading = true;
 
-  public showConfirmationModal = false;
-  public modalTitle = '';
-  public modalMessage = '';
+  public showEditPopup = false;
   public selectedOrder: OrderDTO | null = null;
-  public actionType: 'DELETE' | 'CHANGE_STATUS' | null = null;
-
   public newStatus: string = '';
   public newTotalPrice: number = 0;
   public newOrderDate: string = '';
-
-  private pendingToastMessage: { type: 'success' | 'error', message: string, title: string } | null = null;
 
   constructor(
     private orderService: OrderService,
@@ -47,97 +41,57 @@ export class AdminManageOrdersComponent implements OnInit {
     });
   }
 
-  confirmDelete(order: OrderDTO): void {
+  openEditPopup(order: OrderDTO): void {
     this.selectedOrder = order;
-    this.actionType = 'DELETE';
-    this.modalTitle = 'Confirm Deletion';
-    this.modalMessage = `Are you sure you want to delete order #${order.id}?`;
-    this.showConfirmationModal = true;
-  }
-
-  confirmChangeStatus(order: OrderDTO): void {
-    this.selectedOrder = order;
-    this.actionType = 'CHANGE_STATUS';
-
     this.newStatus = order.status;
     this.newTotalPrice = order.totalPrice;
     this.newOrderDate = order.orderDate;
-
-    this.modalTitle = 'Change Order Details';
-    this.modalMessage = `Edit order #${order.id}:`;
-    this.showConfirmationModal = true;
+    this.showEditPopup = true;
   }
 
-  onActionConfirmed(): void {
-    if (!this.selectedOrder || !this.actionType) return;
+  cancelEditPopup(): void {
+    this.showEditPopup = false;
+    this.selectedOrder = null;
+    this.newStatus = '';
+    this.newTotalPrice = 0;
+    this.newOrderDate = '';
+  }
 
-    const orderId = this.selectedOrder.id;
+  confirmEditOrder(): void {
+    if (!this.selectedOrder) return;
 
-    let action$;
+    const updates = {
+      status: this.newStatus,
+      totalPrice: this.newTotalPrice,
+      orderDate: this.newOrderDate
+    };
 
-    switch (this.actionType) {
-      case 'DELETE':
-        action$ = this.orderService.delete(orderId);
-        break;
+    console.log('Order update payload:', updates);
 
-      case 'CHANGE_STATUS':
-        const updates = {
-          status: this.newStatus,
-          totalPrice: this.newTotalPrice,
-          orderDate: this.newOrderDate
-        };
-        action$ = this.orderService.updateOrderFields(orderId, updates);
-        break;
-
-      default:
-        return;
-    }
-
-    action$.subscribe({
+    this.orderService.updateOrderFields(this.selectedOrder.id, updates).subscribe({
       next: () => {
+        this.toastr.success('Order updated successfully!');
         this.loadOrders();
-        this.pendingToastMessage = {
-          type: 'success',
-          message: this.actionType === 'DELETE'
-            ? 'Order deleted successfully!'
-            : 'Order updated successfully!',
-          title: 'Success'
-        };
-        this.resetModalState();
+        this.cancelEditPopup();
       },
-      error: (err) => {
-        console.error(`Error performing ${this.actionType} action:`, err);
-        this.pendingToastMessage = {
-          type: 'error',
-          message: this.actionType === 'DELETE'
-            ? 'Error deleting order.'
-            : 'Error updating order.',
-          title: 'Error'
-        };
-        this.resetModalState();
+      error: () => {
+        this.toastr.error('Error updating order.');
       }
     });
   }
 
-  onModalFullyClosed(): void {
-    if (this.pendingToastMessage) {
-      const { type, message, title } = this.pendingToastMessage;
-      type === 'success'
-        ? this.toastr.success(message, title)
-        : this.toastr.error(message, title);
+  confirmDelete(order: OrderDTO): void {
+    this.selectedOrder = order;
+    if (!this.selectedOrder) return;
 
-      this.pendingToastMessage = null;
-    }
-  }
-
-  resetModalState(): void {
-    this.showConfirmationModal = false;
-    this.modalTitle = '';
-    this.modalMessage = '';
-    this.selectedOrder = null;
-    this.actionType = null;
-    this.newStatus = '';
-    this.newTotalPrice = 0;
-    this.newOrderDate = '';
+    this.orderService.delete(this.selectedOrder.id).subscribe({
+      next: () => {
+        this.toastr.success('Order deleted successfully!');
+        this.loadOrders();
+      },
+      error: () => {
+        this.toastr.error('Error deleting order.');
+      }
+    });
   }
 }

@@ -22,57 +22,42 @@
       <td>{{ order.status }}</td>
       <td>{{ order.totalPrice | currency:'EUR' }}</td>
       <td>
-        <button class="btn btn-primary btn-sm" (click)="confirmChangeStatus(order)">Edit Order</button>
+        <button class="btn btn-primary btn-sm" (click)="openEditPopup(order)">Edit Order</button>
         <button class="btn btn-danger btn-sm" (click)="confirmDelete(order)">Delete</button>
       </td>
     </tr>
     </tbody>
   </table>
 
-  <!-- Confirmation Modal -->
-  <app-confirmation-modal
-    [showModal]="showConfirmationModal"
-    [title]="modalTitle"
-    [message]="modalMessage"
-    (confirmed)="onActionConfirmed()"
-    (closed)="showConfirmationModal = false"
-    (closedCompletely)="onModalFullyClosed()">
+  <!-- Inline Edit Popup -->
+  <div class="custom-modal-backdrop" *ngIf="showEditPopup">
+    <div class="custom-modal">
+      <h4>Edit Order #{{ selectedOrder?.id }}</h4>
 
-    <ng-container *ngIf="actionType === 'CHANGE_STATUS'">
-      <form>
-        <div class="form-group mt-3">
-          <label for="statusSelect">Status</label>
-          <select id="statusSelect" class="form-control" [(ngModel)]="newStatus" name="status">
-            <option value="Pending">Pending</option>
-            <option value="Accepted">Accepted</option>
-            <option value="Paid">Paid</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
-        </div>
+      <div class="form-group mt-3">
+        <label for="status">Status</label>
+        <select [(ngModel)]="newStatus" class="form-control" id="status">
+          <option value="Pending">Pending</option>
+          <option value="Accepted">Accepted</option>
+          <option value="Paid">Paid</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+      </div>
 
-        <div class="form-group mt-3">
-          <label for="totalPriceInput">Total Price (€)</label>
-          <input
-            type="number"
-            class="form-control"
-            id="totalPriceInput"
-            [(ngModel)]="newTotalPrice"
-            name="totalPrice"
-            min="0"
-            step="0.01">
-        </div>
+      <div class="form-group mt-3">
+        <label for="total">Total Price (€)</label>
+        <input [(ngModel)]="newTotalPrice" type="number" class="form-control" id="total" min="0" step="0.01">
+      </div>
 
-        <div class="form-group mt-3">
-          <label for="orderDateInput">Order Date</label>
-          <input
-            type="datetime-local"
-            class="form-control"
-            id="orderDateInput"
-            [(ngModel)]="newOrderDate"
-            name="orderDate">
-        </div>
-      </form>
-    </ng-container>
+      <div class="form-group mt-3">
+        <label for="date">Order Date</label>
+        <input [(ngModel)]="newOrderDate" type="datetime-local" class="form-control" id="date">
+      </div>
 
-  </app-confirmation-modal>
+      <div class="mt-3 text-end">
+        <button class="btn btn-secondary me-2" (click)="cancelEditPopup()">Cancel</button>
+        <button class="btn btn-primary" (click)="confirmEditOrder()">Update</button>
+      </div>
+    </div>
+  </div>
 </div>
