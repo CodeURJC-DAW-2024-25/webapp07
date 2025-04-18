@@ -8,6 +8,8 @@ import { HomeComponent } from './components/viewsComponent/home/home.component';
 import {LoginComponent} from "./components/viewsComponent/login/login.component";
 import {ProfileComponent} from "./components/viewsComponent/profile/profile.component";
 import {AdminManageUsersComponent} from "./components/adminComponents/manage-users/manage-users.component";
+import { OrderHistoryComponent } from './components/viewsComponent/order/order-history/order-history.component';
+
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,7 +17,9 @@ const routes: Routes = [
   {path:'profile', component: ProfileComponent},
   { path:'admin/users', component: AdminManageUsersComponent},
   { path: 'admin/orders', component: AdminManageOrdersComponent },
+  { path: 'orders/history', component: OrderHistoryComponent },
   { path: '**', redirectTo: '' },
+
 ];
 
 @NgModule({

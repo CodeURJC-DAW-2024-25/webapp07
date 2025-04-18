@@ -1,0 +1,26 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">My Orders</h2>
+
+  <p *ngIf="!orders.length && !isLoading">You have no paid orders.</p>
+
+  <table class="table" *ngIf="orders.length">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Total (€)</th>
+      <th>Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let order of orders">
+      <td>{{ order.id }}</td>
+      <td>{{ order.orderDate | date:'short' }}</td>
+      <td>{{ order.status }}</td>
+      <td>{{ order.totalPrice | currency:'EUR' }}</td>
+      <td>{{ order.address }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
