@@ -22,6 +22,9 @@ export class AuthService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
+  private userDataSubject = new BehaviorSubject<UserDTO | null>(null);
+  public userData$ = this.userDataSubject.asObservable();
+
   private isAdminSubject = new BehaviorSubject<boolean>(false);
   public isAdmin$ = this.isAdminSubject.asObservable();
 
@@ -60,7 +63,7 @@ export class AuthService {
   private handleLoginSuccess(response: AuthResponse): void {
     if (response.status === 'SUCCESS') {
       this.isAuthenticatedSubject.next(true);
-      this.fetchUserInfo(); // nueva función
+      this.fetchUserInfo();
       this.router.navigate(['/']);
     }
   }
@@ -69,9 +72,11 @@ export class AuthService {
     this.http.get<UserDTO>(`/api/v1/users/me`, { withCredentials: true })
       .subscribe({
         next: (user: UserDTO) => {
+          this.userDataSubject.next(user);
           const isAdmin = (user.roles ?? []).includes('ADMIN');
           this.isAdminSubject.next(isAdmin);        },
         error: () => {
+          this.userDataSubject.next(null);
           this.isAdminSubject.next(false);
         }
       });
