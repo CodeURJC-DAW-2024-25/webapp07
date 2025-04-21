@@ -1,0 +1,26 @@
+/* Opcional: Personaliza las animaciones si no usas animate.css */
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.slideInDown {
+  animation-name: slideInDown;
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translate3d(0, -100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Asegúrate que el fondo oscuro tenga buen contraste */
+.bg-dark.hero-header {
+  background-color: #1a1a1a !important;
+  margin-bottom: 2rem;
+}

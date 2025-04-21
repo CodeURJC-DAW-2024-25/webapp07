@@ -31,6 +31,7 @@ import {
 } from "@angular/material/table";
 import {MatButton} from "@angular/material/button";
 import {OrderHistoryComponent} from "./components/viewsComponent/order/order-history/order-history.component";
+import {TitleComponent} from "./components/generalComponents/title/title.component";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {OrderHistoryComponent} from "./components/viewsComponent/order/order-his
     AdminManageUsersComponent,
     AdminManageOrdersComponent,
     OrderHistoryComponent,
+    TitleComponent,
   ],
   imports: [
     AppRoutingModule,

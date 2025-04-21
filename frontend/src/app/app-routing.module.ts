@@ -12,12 +12,30 @@ import { OrderHistoryComponent } from './components/viewsComponent/order/order-h
 
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  {path:'profile', component: ProfileComponent},
-  { path:'admin/users', component: AdminManageUsersComponent},
-  { path: 'admin/orders', component: AdminManageOrdersComponent },
-  { path: 'orders/history', component: OrderHistoryComponent },
+  { path: '', component: HomeComponent, data: {
+      title: 'Voltereta Croqueta',
+      showTitle: true
+    }},
+  { path: 'login', component: LoginComponent, data: {
+      title: 'Login',
+      showTitle: false
+    } },
+  {path:'profile', component: ProfileComponent, data: {
+      title: 'Profile',
+      showTitle: true
+    }},
+  { path:'admin/users', component: AdminManageUsersComponent, data: {
+      title: 'Users',
+      showTitle: true
+    }},
+  { path: 'admin/orders', component: AdminManageOrdersComponent, data: {
+      title: 'Orders',
+      showTitle: true
+    } },
+  { path: 'orders/history', component: OrderHistoryComponent, data: {
+      title: 'Orders history',
+      showTitle: false
+    }},
   { path: '**', redirectTo: '' },
 
 ];
