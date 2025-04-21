@@ -1,4 +1,4 @@
-/* Opcional: Personaliza las animaciones si no usas animate.css */
+
 .animated {
   animation-duration: 1s;
   animation-fill-mode: both;
@@ -19,8 +19,4 @@
   }
 }
 
-/* Asegúrate que el fondo oscuro tenga buen contraste */
-.bg-dark.hero-header {
-  background-color: #1a1a1a !important;
-  margin-bottom: 2rem;
-}
+
