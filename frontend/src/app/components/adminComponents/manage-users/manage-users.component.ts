@@ -76,7 +76,7 @@ export class AdminManageUsersComponent implements OnInit {
     const userId = this.selectedUser.id;
     let action$;
 
-    // Se asegura de que action$ siempre tenga un valor válido
+
     switch (this.actionType) {
       case 'BAN':
         action$ = this.usersService.banUser(userId);
@@ -89,7 +89,7 @@ export class AdminManageUsersComponent implements OnInit {
         break;
       default:
         console.error(`Unknown action type: ${this.actionType}`);
-        return; // Si la acción no es válida, salimos de la función
+        return;
     }
 
     action$.subscribe({
@@ -105,7 +105,7 @@ export class AdminManageUsersComponent implements OnInit {
                 : 'User unbanned successfully!',
           title: 'Success'
         };
-        this.resetModalState(); // aquí el modal se cierra, y esperamos evento
+        this.resetModalState();
       },
       error: (err) => {
         console.error(`Error performing ${this.actionType} action:`, err);
