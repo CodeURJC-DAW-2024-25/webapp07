@@ -9,7 +9,7 @@ import { UserDTO, LoginRequest } from '../dtos/user.model';
   providedIn: 'root'
 })
 export class UsersService {
-  private apiUrl = `${environment.apiBaseUrl}/api/v1/users`;
+  private apiUrl = `/api/v1/users`;
 
   constructor(private http: HttpClient) {}
 

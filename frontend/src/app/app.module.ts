@@ -13,9 +13,7 @@ import {LoginComponent} from "./components/viewsComponent/login/login.component"
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {ProfileComponent} from "./components/viewsComponent/profile/profile.component";
-import {
-  ConfirmationModalComponent
-} from "./components/generalComponents/confirmation-modal/confirmation-modal.component";
+import {ConfirmationModalComponent} from "./components/generalComponents/confirmation-modal/confirmation-modal.component";
 import {AdminManageUsersComponent} from "./components/adminComponents/manage-users/manage-users.component";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from "ngx-toastr";

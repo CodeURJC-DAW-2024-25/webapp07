@@ -17,7 +17,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = `${environment.apiBaseUrl}/api/v1/auth`;
+  private readonly API_URL = `/api/v1/auth`;
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
@@ -66,7 +66,7 @@ export class AuthService {
   }
 
   private fetchUserInfo(): void {
-    this.http.get<UserDTO>(`${environment.apiBaseUrl}/api/v1/users/me`, { withCredentials: true })
+    this.http.get<UserDTO>(`/api/v1/users/me`, { withCredentials: true })
       .subscribe({
         next: (user: UserDTO) => {
           const isAdmin = (user.roles ?? []).includes('ADMIN');
