@@ -13,3 +13,32 @@
   text-align: center;
 }
 
+
+:host {
+  display: block;
+  contain: content;
+}
+
+.title-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  will-change: transform, opacity;
+  transition:
+    opacity 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+    transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: translateY(0);
+}
+
+.title-container.hidden {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+
+.main-content {
+  padding-top: 150px; 
+  min-height: 100vh;
+}

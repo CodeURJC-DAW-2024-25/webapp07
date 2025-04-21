@@ -6,16 +6,3 @@
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css');
 @import url('assets/css/style.css');
 
-
-html {
-  scroll-behavior: smooth;
-}
-
-.title-container {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.title-container.hidden {
-  opacity: 0;
-  transform: translateY(-20px);
-}
