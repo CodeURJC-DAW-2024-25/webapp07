@@ -1,3 +1,4 @@
+// title.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { TitleService } from '../../../services/title.service';
