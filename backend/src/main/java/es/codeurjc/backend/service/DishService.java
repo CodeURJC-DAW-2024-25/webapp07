@@ -68,13 +68,13 @@ public class DishService {
         if (name != null && !name.isEmpty()) {
             dishesByName.retainAll(dishesByIngredient);
             dishesByName.retainAll(dishesByPrice);
-            dishesByName.removeIf(dish -> !dish.isAvailable());
+            dishesByName.removeIf(dish -> !dish.available());
 
             processDishes(dishesByName.stream().map(dishMapper::toEntity).toList());
             return dishesByName;  // Final list
         } else {
             dishesByIngredient.retainAll(dishesByPrice);
-            dishesByIngredient.removeIf(dish -> !dish.isAvailable());
+            dishesByIngredient.removeIf(dish -> !dish.available());
 
             processDishes(dishesByIngredient.stream().map(dishMapper::toEntity).toList());
             return dishesByIngredient;  // Final list
@@ -90,7 +90,7 @@ public class DishService {
                 .stream()
                 .map(dishMapper::toDto)
                 .toList();
-        Long id;
+        List<Dish> lkasd = dishRepository.findAll();
         List<DishDTO> finalList = calculateRates(aux);
         return finalList;
 
