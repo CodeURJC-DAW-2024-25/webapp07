@@ -91,7 +91,8 @@ public class DishService {
                 .map(dishMapper::toDto)
                 .toList();
         Long id;
-        return aux;
+        List<DishDTO> finalList = calculateRates(aux);
+        return finalList;
 
     }
 
@@ -111,9 +112,12 @@ public class DishService {
      * @return an Optional containing the dish if found
      */
     public Optional<DishDTO> findById(long id) {
+        calculateRate(id);
         return dishRepository.findById(id)
                 .map(dishMapper:: toDto);
     }
+
+
 
     /**
      * Deletes a dish by its ID.
@@ -169,6 +173,13 @@ public class DishService {
             save(dish);
         }
         return dishes.stream().map(dishMapper::toDto).toList();
+    }
+
+    private void calculateRate(long id) {
+        Optional<Dish> dish = dishRepository.findById(id);
+        int rate = (int) Math.ceil(dish.get().getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
+        dish.get().setRate(rate);
+        dishRepository.save(dish.orElse(null));
     }
     /**
      * Disables a dish by its unique identifier.
