@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { DishService } from '../../../services/dish.service';
 import { DishDTO } from '../../../dtos/dish.model';
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-dish-details',
@@ -12,10 +13,16 @@ export class DishDetailsComponent implements OnInit {
   dish!: DishDTO;
   stars: number[] = [];
   noStars: number[] = [];
+  id!: number;
+  isLoggedIn$ = this.authService.isAuthenticated$;
+  isAdmin$ = this.authService.isAdmin$;
 
   constructor(
     private route: ActivatedRoute,
-    private dishService: DishService
+    private dishService: DishService,
+    private authService: AuthService,
+    private router: Router
+
   ) {}
 
   ngOnInit(): void {
@@ -30,4 +37,22 @@ export class DishDetailsComponent implements OnInit {
       error: (err) => console.error('Error cargando el plato:', err)
     });
   }
+
+  toggleAvailability(): void {
+    const isCurrentlyAvailable = this.dish.available;
+
+    const patchCall = isCurrentlyAvailable
+      ? this.dishService.disableDish(this.dish.id)
+      : this.dishService.enableDish(this.dish.id);
+
+    patchCall.subscribe({
+      next: () => {
+        this.dish.available = !isCurrentlyAvailable;
+        this.router.navigate(['/dishes']);
+        console.log(`Plato ${isCurrentlyAvailable ? 'deshabilitado' : 'habilitado'}`);
+      },
+      error: err => console.error('Error al cambiar la disponibilidad:', err)
+    });
+  }
+
 }

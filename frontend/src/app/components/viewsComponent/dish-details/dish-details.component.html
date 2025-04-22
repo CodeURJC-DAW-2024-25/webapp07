@@ -72,9 +72,11 @@
 
           <!-- Botones -->
           <div class="col-12 mt-4">
-            <a routerLink="/menu" class="btn btn-primary me-2">Back to menu</a>
-<!--            <button *ngIf="isAdmin" class="btn btn-warning me-2">Edit Dish</button>-->
-<!--            <button *ngIf="isAdmin" class="btn btn-danger">Delete Dish</button>-->
+            <a routerLink="/dishes" class="btn btn-primary me-2">Back to menu</a>
+            <a routerLink="/dishes/{{ dish.id }}/edit" *ngIf="isLoggedIn$ | async" class="btn btn-warning me-2">Edit Dish</a>
+            <button class="btn btn-warning" *ngIf="isLoggedIn$ | async" (click)="toggleAvailability()">
+              {{ dish.available ? 'Deshabilitar' : 'Habilitar' }}
+            </button>
           </div>
 
         </div>

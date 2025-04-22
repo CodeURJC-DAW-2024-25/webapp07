@@ -29,4 +29,13 @@ export class DishService {
     return this.http.put(`${this.apiUrl}/${id}`, dishData);
   }
 
+  disableDish(id: number) {
+    return this.http.patch(`/api/v1/dishes/${id}/disabled`, { available: false });
+  }
+
+  enableDish(id: number) {
+    return this.http.patch(`/api/v1/dishes/${id}/enabled`, { available: true });
+  }
+
+
 }
