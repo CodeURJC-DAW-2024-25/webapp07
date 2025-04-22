@@ -1,0 +1,85 @@
+<div class="container-xxl py-5 px-0">
+  <div class="row g-0">
+
+    <!-- Columna de imagen -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center bg-dark">
+      <div class="dish-image text-center">
+        <img
+          *ngIf="dish.image"
+          [src]="dish.image"
+          [alt]="dish.name"
+          class="img-fluid rounded shadow"
+          style="height: 100vh; width: auto; border: 5px solid #FEA116"
+        />
+        <img
+          *ngIf="!dish.image"
+          src="/assets/img/logo.jpg"
+          alt="Default Dish"
+          class="img-fluid rounded shadow"
+          style="height: 100vh; width: auto; border: 5px solid #FEA116"
+        />
+      </div>
+    </div>
+
+    <!-- Columna de información -->
+    <div class="col-md-6 bg-dark d-flex align-items-center">
+      <div class="p-5 text-white">
+        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Dish Details</h5>
+        <h1 class="text-white mb-4">{{ dish.name }}</h1>
+        <p class="text-white mb-4">{{ dish.description }}</p>
+
+        <div class="mb-4">
+          <div class="star-rating">
+            <i class="fas fa-star text-warning" *ngFor="let star of stars"></i>
+            <i class="fas fa-star text-muted" *ngFor="let star of noStars"></i>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <h5 class="text-white">Price:</h5>
+            <p class="text-white">€{{ dish.price }}</p>
+          </div>
+          <div class="col-md-6">
+            <h5 class="text-white">Ingredients:</h5>
+            <ul class="text-white">
+              <li *ngFor="let ingredient of dish.ingredients">{{ ingredient }}</li>
+            </ul>
+          </div>
+
+          <div class="col-12">
+            <h5 class="text-white">Allergens:</h5>
+            <div class="allergens text-white">
+              <img
+                *ngFor="let allergen of dish.allergens"
+                [src]="'/assets/img/allergen_symbols/allergen_symbol_' + allergen.toLowerCase() + '.png'"
+                [alt]="allergen"
+                style="max-width: 2vw"
+              />
+
+            </div>
+          </div>
+
+          <div class="col-12" *ngIf="dish.isVegan">
+            <h5 class="text-white">Additional Notes:</h5>
+            <img
+              src="/assets/img/allergen_symbols/vegan_symbol.png"
+              alt="Vegan"
+              class="img-thumbnail"
+              style="width: 30px"
+            />
+          </div>
+
+          <!-- Botones -->
+          <div class="col-12 mt-4">
+            <a routerLink="/menu" class="btn btn-primary me-2">Back to menu</a>
+<!--            <button *ngIf="isAdmin" class="btn btn-warning me-2">Edit Dish</button>-->
+<!--            <button *ngIf="isAdmin" class="btn btn-danger">Delete Dish</button>-->
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
