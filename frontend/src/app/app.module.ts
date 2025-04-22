@@ -33,6 +33,8 @@ import {MatButton} from "@angular/material/button";
 import {OrderHistoryComponent} from "./components/viewsComponent/order/order-history/order-history.component";
 import {TitleComponent} from "./components/generalComponents/title/title.component";
 import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
+import {DishDetailsComponent} from "./components/viewsComponent/dish-details/dish-details.component";
+import {DishFormComponent} from "./components/viewsComponent/dish-form/dish-form.component";
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
     AdminManageOrdersComponent,
     OrderHistoryComponent,
     TitleComponent,
-    MenuComponent
+    MenuComponent,
+    DishDetailsComponent,
+    DishFormComponent
   ],
   imports: [
     AppRoutingModule,

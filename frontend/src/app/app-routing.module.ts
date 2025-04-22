@@ -10,6 +10,8 @@ import {ProfileComponent} from "./components/viewsComponent/profile/profile.comp
 import {AdminManageUsersComponent} from "./components/adminComponents/manage-users/manage-users.component";
 import { OrderHistoryComponent } from './components/viewsComponent/order/order-history/order-history.component';
 import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
+import {DishDetailsComponent} from "./components/viewsComponent/dish-details/dish-details.component";
+import {DishFormComponent} from "./components/viewsComponent/dish-form/dish-form.component";
 
 
 const routes: Routes = [
@@ -40,6 +42,14 @@ const routes: Routes = [
   { path: 'dishes', component: MenuComponent, data: {
       title: 'Menu',
       showTitle: true
+    }},
+  { path: 'dishes/:id', component: DishDetailsComponent, data: {
+      title: 'Dish Info',
+      showTitle: true
+    }},
+  { path: 'dishes/:id/edit', component: DishFormComponent, data: {
+      title: 'Dish Form',
+      showTitle: false
     }},
   { path: '**', redirectTo: '' },
 
