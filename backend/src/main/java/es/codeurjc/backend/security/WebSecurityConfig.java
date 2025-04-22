@@ -150,6 +150,8 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/*/status").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}/invoice-data").authenticated()
 
+                        .requestMatchers("/spa/**").permitAll()
+
                         // PUBLIC ENDPOINTS
                         .anyRequest().permitAll()
                 );
