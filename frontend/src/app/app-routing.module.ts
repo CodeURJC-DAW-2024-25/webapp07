@@ -9,6 +9,7 @@ import {LoginComponent} from "./components/viewsComponent/login/login.component"
 import {ProfileComponent} from "./components/viewsComponent/profile/profile.component";
 import {AdminManageUsersComponent} from "./components/adminComponents/manage-users/manage-users.component";
 import { OrderHistoryComponent } from './components/viewsComponent/order/order-history/order-history.component';
+import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
 
 
 const routes: Routes = [
@@ -35,6 +36,10 @@ const routes: Routes = [
   { path: 'orders/history', component: OrderHistoryComponent, data: {
       title: 'Orders history',
       showTitle: false
+    }},
+  { path: 'dishes', component: MenuComponent, data: {
+      title: 'Menu',
+      showTitle: true
     }},
   { path: '**', redirectTo: '' },
 
