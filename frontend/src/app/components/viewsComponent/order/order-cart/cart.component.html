@@ -1,0 +1,30 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Your Cart</h2>
+
+  <div *ngIf="isLoading">Loading...</div>
+
+  <div *ngIf="!isLoading && cart?.dishes?.length === 0">
+    <p class="text-muted text-center">Your cart is empty.</p>
+  </div>
+
+  <table class="table" *ngIf="cart?.dishes?.length">
+    <thead>
+    <tr>
+      <th>Dish</th>
+      <th>Description</th>
+      <th>Price (€)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let dish of cart?.dishes">
+      <td>{{ dish.name }}</td>
+      <td>{{ dish.description }}</td>
+      <td>{{ dish.price | currency:'EUR' }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="cart">
+    <h5 class="text-end">Total: {{ cart.totalPrice | currency:'EUR' }}</h5>
+  </div>
+</div>

@@ -10,6 +10,7 @@ import {ProfileComponent} from "./components/viewsComponent/profile/profile.comp
 import {AdminManageUsersComponent} from "./components/adminComponents/manage-users/manage-users.component";
 import { OrderHistoryComponent } from './components/viewsComponent/order/order-history/order-history.component';
 import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
+import {CartComponent} from './components/viewsComponent/order/order-cart/cart.component';
 
 
 const routes: Routes = [
@@ -41,6 +42,8 @@ const routes: Routes = [
       title: 'Menu',
       showTitle: true
     }},
+  { path: 'orders/cart', component: CartComponent },
+
   { path: '**', redirectTo: '' },
 
 ];
