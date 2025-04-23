@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { OrderService } from '../../../../services/order.service';
 import { OrderDTO } from '../../../../dtos/order.model';
 
@@ -14,7 +14,8 @@ export class OrderSummaryComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -42,12 +43,13 @@ export class OrderSummaryComponent implements OnInit {
 
       this.orderService.updateOrderFields(this.order.id, updates).subscribe({
         next: () => {
-          console.log('Order updated successfully');
+          this.router.navigate(['/orders', this.order!.id, 'confirm-payment']);
         },
         error: (err) => {
-          console.error('Error updating order:', err);
+          console.error('Error confirming order:', err);
         }
       });
     }
   }
+
 }

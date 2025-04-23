@@ -35,6 +35,8 @@ import {TitleComponent} from "./components/generalComponents/title/title.compone
 import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
 import {CartComponent} from "./components/viewsComponent/order/order-cart/cart.component";
 import {OrderSummaryComponent} from "./components/viewsComponent/order/order-summary/summary.component";
+import { ConfirmPaymentComponent } from './components/viewsComponent/order/confirm-payment/confirm-payment.component';
+
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import {OrderSummaryComponent} from "./components/viewsComponent/order/order-sum
     MenuComponent,
     CartComponent,
     OrderSummaryComponent,
+    ConfirmPaymentComponent,
   ],
   imports: [
     AppRoutingModule,
