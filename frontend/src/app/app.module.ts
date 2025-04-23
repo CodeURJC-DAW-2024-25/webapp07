@@ -34,6 +34,7 @@ import {OrderHistoryComponent} from "./components/viewsComponent/order/order-his
 import {TitleComponent} from "./components/generalComponents/title/title.component";
 import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
 import {CartComponent} from "./components/viewsComponent/order/order-cart/cart.component";
+import {OrderSummaryComponent} from "./components/viewsComponent/order/order-summary/summary.component";
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import {CartComponent} from "./components/viewsComponent/order/order-cart/cart.c
     TitleComponent,
     MenuComponent,
     CartComponent,
+    OrderSummaryComponent,
   ],
   imports: [
     AppRoutingModule,

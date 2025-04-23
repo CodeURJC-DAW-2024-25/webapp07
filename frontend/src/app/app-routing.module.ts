@@ -11,6 +11,7 @@ import {AdminManageUsersComponent} from "./components/adminComponents/manage-use
 import { OrderHistoryComponent } from './components/viewsComponent/order/order-history/order-history.component';
 import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
 import {CartComponent} from './components/viewsComponent/order/order-cart/cart.component';
+import {OrderSummaryComponent} from './components/viewsComponent/order/order-summary/summary.component';
 
 
 const routes: Routes = [
@@ -43,6 +44,7 @@ const routes: Routes = [
       showTitle: true
     }},
   { path: 'orders/cart', component: CartComponent },
+  { path: 'orders/summary', component: OrderSummaryComponent },
 
   { path: '**', redirectTo: '' },
 
