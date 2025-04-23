@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderDTO } from '../../../../dtos/order.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { OrderService } from '../../../../services/order.service';
+import { OrderDTO } from '../../../../dtos/order.model';
 
 @Component({
   selector: 'app-order-summary',
@@ -13,39 +13,41 @@ export class OrderSummaryComponent implements OnInit {
   isLoading = true;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
-    const nav = this.router.getCurrentNavigation();
-    const state = nav?.extras?.state as { order: OrderDTO };
-
-    if (state?.order) {
-      this.order = state.order;
-      this.isLoading = false;
-    } else {
-      console.error('No order data found in navigation state.');
-      this.isLoading = false;
+    const orderId = Number(this.route.snapshot.paramMap.get('id'));
+    if (!isNaN(orderId)) {
+      this.orderService.getSummary(orderId).subscribe({
+        next: (data) => {
+          this.order = data;
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Error fetching summary:', err);
+          this.isLoading = false;
+        }
+      });
     }
   }
 
   confirmOrder(): void {
-    if (!this.order) return;
+    if (this.order && this.order.id) {
+      const updates = {
+        status: 'Accepted',
+        address: this.order.address
+      };
 
-    const updates = {
-      status: 'Accepted',
-      address: this.order.address
-    };
-
-    this.orderService.updateOrderFields(this.order.id, updates).subscribe({
-      next: () => {
-        alert('Order confirmed!');
-      },
-      error: (err) => {
-        console.error('Error updating order:', err);
-      }
-    });
+      this.orderService.updateOrderFields(this.order.id, updates).subscribe({
+        next: () => {
+          console.log('Order updated successfully');
+        },
+        error: (err) => {
+          console.error('Error updating order:', err);
+        }
+      });
+    }
   }
 }

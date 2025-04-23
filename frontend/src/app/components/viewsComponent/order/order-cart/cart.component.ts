@@ -32,18 +32,8 @@ export class CartComponent implements OnInit {
   }
   placeOrder(): void {
     if (this.cart && this.cart.id) {
-      const updates = {
-        status: 'Accepted'
-      };
-
-      this.orderService.updateOrderFields(this.cart.id, updates).subscribe({
-        next: () => {
-          this.router.navigate(['/orders/summary'], {
-            state: { order: this.cart }
-          });
-        },
-        error: (err) => console.error('Error placing order:', err)
-      });
+      this.router.navigate(['/orders', this.cart.id, 'summary']);
     }
   }
+
 }

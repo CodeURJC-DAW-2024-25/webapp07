@@ -44,7 +44,8 @@ const routes: Routes = [
       showTitle: true
     }},
   { path: 'orders/cart', component: CartComponent },
-  { path: 'orders/summary', component: OrderSummaryComponent },
+  { path: 'orders/:id/summary', component: OrderSummaryComponent },
+
 
   { path: '**', redirectTo: '' },
 
