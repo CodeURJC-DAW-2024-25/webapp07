@@ -16,6 +16,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -45,10 +48,10 @@ public class DishRestController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = DishDTO.class)))
     })
-    @GetMapping({"/", "/filter", "/sort"})
-    public ResponseEntity<List<DishDTO>> showMenu() throws SQLException {
-        List<DishDTO> dishes = dishService.findAll();
-        return ResponseEntity.ok(dishes);
+    @GetMapping({"","/", "/filter", "/sort"})
+    public ResponseEntity<List<DishDTO>> getDishes(@RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(dishService.getDishes(PageRequest.of(page, size)).getContent());
     }
 
     @Operation(summary = "Get a dish by ID", description = "Fetches a dish by their unique identifier")

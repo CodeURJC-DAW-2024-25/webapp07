@@ -12,6 +12,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -94,6 +95,11 @@ public class DishService {
         List<DishDTO> finalList = calculateRates(aux);
         return finalList;
 
+    }
+
+    public Page<DishDTO> getDishes(PageRequest pageRequest) {
+        return dishRepository.findAll(pageRequest)
+                .map(dishMapper::toDto);
     }
 
     /**
