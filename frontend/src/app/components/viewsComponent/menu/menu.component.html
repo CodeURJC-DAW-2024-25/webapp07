@@ -10,10 +10,10 @@
               <div class="d-flex">
                 <img
                   *ngIf="dish.image"
-                  [src]="dish.dishImagePath"
-                  alt="{{ dish.name }}"
+                  [src]="'/api/v1/dishes/' + dish.id + '/image'" alt="{{ dish.name }}"
+
                   class="img-fluid rounded shadow"
-                  style="width: 15vw; height: 10vh"
+                  style="width: 15vw; height: auto"
                 />
                 <img
                   *ngIf="!dish.image"
@@ -32,7 +32,7 @@
                   <h5>
                     <span>{{ dish.rate.toFixed(1) }}<i class="fas fa-star text-warning"></i></span>
                   </h5>
-                  <a class="btn btn-primary btn-sm m-2 p-1 w-10" [routerLink]="['/menu', dish.id]">
+                  <a class="btn btn-primary btn-sm m-2 p-1 w-10" [routerLink]="['/dishes', dish.id]">
                     <i class="fa fa-info"></i> More info
                   </a>
                 </div>
@@ -51,7 +51,7 @@
       </div>
 
 <!--      <button class="btn btn-primary mt-5 d-block mx-auto" (click)="loadMoreDishes()">View More</button>-->
-      <button *ngIf="isLoggedIn$ | async" class="btn btn-primary mt-5 d-block mx-auto" routerLink="/menu/admin/new-dish">
+      <button *ngIf="isLoggedIn$ | async" class="btn btn-primary mt-5 d-block mx-auto" routerLink="/dishes/add">
         New dish
       </button>
     </div>

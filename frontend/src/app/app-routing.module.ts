@@ -16,6 +16,7 @@ import { ConfirmPaymentComponent } from './components/viewsComponent/order/confi
 
 import {DishDetailsComponent} from "./components/viewsComponent/dish-details/dish-details.component";
 import {DishFormComponent} from "./components/viewsComponent/dish-form/dish-form.component";
+import {DishService} from "./services/dish.service";
 
 
 const routes: Routes = [
@@ -46,6 +47,9 @@ const routes: Routes = [
   { path: 'dishes', component: MenuComponent, data: {
       title: 'Menu',
       showTitle: true
+    }},{ path: 'dishes/add', component: DishFormComponent, data: {
+      title: 'Dish Form',
+      showTitle: false
     }},
   { path: 'orders/cart', component: CartComponent },
   { path: 'orders/:id/summary', component: OrderSummaryComponent },

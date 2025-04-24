@@ -6,10 +6,7 @@
       <div class="dish-image text-center">
         <img
           *ngIf="dish.image"
-          [src]="dish.image"
-          [alt]="dish.name"
-          class="img-fluid rounded shadow"
-          style="height: 100vh; width: auto; border: 5px solid #FEA116"
+          [src]="'/api/v1/dishes/' + dish.id + '/image'" alt="{{ dish.name }}"
         />
         <img
           *ngIf="!dish.image"
