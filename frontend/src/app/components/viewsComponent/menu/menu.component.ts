@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DishService } from '../../../services/dish.service';
 import { DishDTO } from '../../../dtos/dish.model';
 import {AuthService} from "../../../services/auth.service";
+import { OrderService } from '../../../services/order.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-menu',
@@ -14,8 +17,13 @@ export class MenuComponent implements OnInit {
   isLoggedIn$ = this.authService.isAuthenticated$;
   isAdmin$ = this.authService.isAdmin$;
 
-  constructor(private dishService: DishService,
-              private authService: AuthService) {}
+  constructor(
+    private dishService: DishService,
+    private authService: AuthService,
+    private orderService: OrderService,
+    private toastr: ToastrService
+  ) {}
+
 
   ngOnInit(): void {
     this.dishService.getDishes().subscribe({
@@ -27,4 +35,17 @@ export class MenuComponent implements OnInit {
       error: (err) => console.error('Error cargando platos:', err)
     });
   }
+
+  addToCart(dishId: number): void {
+    this.orderService.addToCart(dishId).subscribe({
+      next: () => {
+        this.toastr.success('Dish added to cart!');
+      },
+      error: (err) => {
+        console.error('Error adding dish to cart:', err);
+        this.toastr.error('Could not add dish to cart.');
+      }
+    });
+  }
+
 }
