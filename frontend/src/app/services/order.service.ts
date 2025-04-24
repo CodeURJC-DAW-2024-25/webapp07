@@ -34,7 +34,7 @@ export class OrderService {
   }
 
   updateOrderFields(orderId: number, fieldsToUpdate: { [key: string]: any }) {
-    return this.http.put(`/api/v1/orders/${orderId}`, fieldsToUpdate);
+    return this.http.patch(`/api/v1/orders/${orderId}`, fieldsToUpdate);
   }
 
   addToCart(dishId: number): Observable<OrderDTO> {

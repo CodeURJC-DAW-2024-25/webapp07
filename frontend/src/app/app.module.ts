@@ -35,6 +35,10 @@ import {TitleComponent} from "./components/generalComponents/title/title.compone
 import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
 import {DishDetailsComponent} from "./components/viewsComponent/dish-details/dish-details.component";
 import {DishFormComponent} from "./components/viewsComponent/dish-form/dish-form.component";
+import {CartComponent} from "./components/viewsComponent/order/order-cart/cart.component";
+import {OrderSummaryComponent} from "./components/viewsComponent/order/order-summary/summary.component";
+import { ConfirmPaymentComponent } from './components/viewsComponent/order/confirm-payment/confirm-payment.component';
+
 
 @NgModule({
   declarations: [
@@ -49,6 +53,10 @@ import {DishFormComponent} from "./components/viewsComponent/dish-form/dish-form
     AdminManageOrdersComponent,
     OrderHistoryComponent,
     TitleComponent,
+    MenuComponent,
+    CartComponent,
+    OrderSummaryComponent,
+    ConfirmPaymentComponent,
     MenuComponent,
     DishDetailsComponent,
     DishFormComponent

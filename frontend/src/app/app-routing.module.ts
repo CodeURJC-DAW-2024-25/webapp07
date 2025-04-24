@@ -10,6 +10,10 @@ import {ProfileComponent} from "./components/viewsComponent/profile/profile.comp
 import {AdminManageUsersComponent} from "./components/adminComponents/manage-users/manage-users.component";
 import { OrderHistoryComponent } from './components/viewsComponent/order/order-history/order-history.component';
 import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
+import {CartComponent} from './components/viewsComponent/order/order-cart/cart.component';
+import {OrderSummaryComponent} from './components/viewsComponent/order/order-summary/summary.component';
+import { ConfirmPaymentComponent } from './components/viewsComponent/order/confirm-payment/confirm-payment.component';
+
 import {DishDetailsComponent} from "./components/viewsComponent/dish-details/dish-details.component";
 import {DishFormComponent} from "./components/viewsComponent/dish-form/dish-form.component";
 
@@ -43,6 +47,9 @@ const routes: Routes = [
       title: 'Menu',
       showTitle: true
     }},
+  { path: 'orders/cart', component: CartComponent },
+  { path: 'orders/:id/summary', component: OrderSummaryComponent },
+  { path: 'orders/:id/confirm-payment', component: ConfirmPaymentComponent },
   { path: 'dishes/:id', component: DishDetailsComponent, data: {
       title: 'Dish Info',
       showTitle: true
