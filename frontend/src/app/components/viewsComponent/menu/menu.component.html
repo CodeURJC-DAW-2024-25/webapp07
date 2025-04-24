@@ -1,17 +1,16 @@
 <div class="container-xxl py-5">
   <div class="container">
-    <!-- Aquí podrías poner filtros si los necesitas -->
 
     <div class="menu-items mt-5">
       <div class="row g-4" style="max-width: 800px; margin: 0 auto;">
-        <div class="col-lg-12" *ngFor="let dish of dishes">
+        <div class="col-lg-12" *ngFor="let dish of dishData">
           <div class="d-flex align-items-center">
             <div class="w-100 d-flex flex-column text-start ps-4">
               <div class="d-flex">
                 <img
                   *ngIf="dish.image"
-                  [src]="'/api/v1/dishes/' + dish.id + '/image'" alt="{{ dish.name }}"
-
+                  [src]="'/api/v1/dishes/' + dish.id + '/image'"
+                  alt="{{ dish.name }}"
                   class="img-fluid rounded shadow"
                   style="width: 15vw; height: auto"
                 />
@@ -50,10 +49,11 @@
         </div>
       </div>
 
-<!--      <button class="btn btn-primary mt-5 d-block mx-auto" (click)="loadMoreDishes()">View More</button>-->
-      <button *ngIf="isLoggedIn$ | async" class="btn btn-primary mt-5 d-block mx-auto" routerLink="/dishes/add">
-        New dish
-      </button>
+      <button id="loadMoreDishes" class="btn btn-primary mt-5 d-block mx-auto"
+              *ngIf="hasMoreData" (click)="loadMoreDishes()">View More</button>
+
+      <button *ngIf="isLoggedIn$ | async" class="btn btn-primary mt-5 d-block mx-auto"
+              routerLink="/dishes/add">New dish</button>
     </div>
   </div>
 </div>

@@ -14,9 +14,10 @@ export class DishService {
 
   constructor(private http: HttpClient) {}
 
-  getDishes(): Observable<DishDTO[]> {
-    return this.http.get<DishDTO[]>(`${this.apiUrl}/`);
+  getDishes(page: number, size: number = 10): Observable<DishDTO[]> {
+    return this.http.get<DishDTO[]>(`${this.apiUrl}?page=${page}&size=${size}`);
   }
+
 
   getDishById(id: number): Observable<DishDTO> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
