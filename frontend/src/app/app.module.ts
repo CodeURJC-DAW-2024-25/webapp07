@@ -41,6 +41,11 @@ import { ConfirmPaymentComponent } from './components/viewsComponent/order/confi
 import {DishFilterComponent} from "./components/viewsComponent/dish-filter/dish-filter.component";
 import {AdminManageDishesComponent} from "./components/adminComponents/manage-dishes/manage-dishes.component";
 
+import { BookingFormComponent } from './components/viewsComponent/booking/booking-form/booking-form.component';
+import { BookingExistingComponent } from './components/viewsComponent/booking/booking-messages/booking-existing.component';
+import { BookingCancelledComponent } from './components/viewsComponent/booking/booking-messages/booking-cancelled.component';
+import { BookingConfirmationComponent } from './components/viewsComponent/booking/booking-messages/booking-confirmation.component';
+import {AdminManageBookingsComponent} from "./components/adminComponents/manage-bookings/manage-bookings.component";
 
 @NgModule({
   declarations: [
@@ -63,7 +68,13 @@ import {AdminManageDishesComponent} from "./components/adminComponents/manage-di
     MenuComponent,
     DishDetailsComponent,
     DishFormComponent,
-    DishFilterComponent
+    DishFilterComponent,
+    BookingFormComponent,
+    BookingExistingComponent,
+    BookingCancelledComponent,
+    BookingConfirmationComponent,
+    AdminManageBookingsComponent,
+
   ],
   imports: [
     AppRoutingModule,

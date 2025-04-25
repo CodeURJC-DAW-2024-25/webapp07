@@ -1,0 +1,19 @@
+.confirm-btn {
+  background-color: #fea116;         /* naranja de tu tema */
+  color: white;                      /* texto blanco */
+  font-size: 1.1rem;                 /* tamaño más grande pero no excesivo */
+  font-weight: 600;
+  padding: 12px 30px;                /* espacio interior */
+  border: none;
+  border-radius: 8px;
+  text-transform: uppercase;         /* texto en mayúsculas */
+  letter-spacing: 1px;
+  display: block;
+  margin: 2rem auto 0 auto;          /* centrado */
+  transition: background-color 0.3s ease;
+}
+
+.confirm-btn:hover {
+  background-color: #e4910e;         /* tono más oscuro al pasar el ratón */
+  cursor: pointer;
+}

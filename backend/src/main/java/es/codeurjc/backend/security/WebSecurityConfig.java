@@ -114,6 +114,7 @@ public class WebSecurityConfig {
 
                         // PRIVATE USER ENDPOINTS
                         .requestMatchers(HttpMethod.GET, "/api/v1/bookings/me").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/bookings/availability").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/bookings/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/bookings/new").hasRole("USER")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/users/**").hasRole("ADMIN")
