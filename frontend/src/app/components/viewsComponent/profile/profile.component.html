@@ -88,7 +88,7 @@
       <div class="col-lg-6" *ngIf="!isLoading && activeBooking">
         <div class="p-4 border rounded shadow">
           <h3 class="section-title ff-secondary text-start text-primary fw-normal">Active Reservation</h3>
-          <p class="mb-2"><strong>Restaurant:</strong> {{ activeBooking.restaurant?.location }}</p>
+          <p class="mb-2"><strong>Restaurant:</strong> {{ activeBooking.restaurantLocation }}</p>
           <p class="mb-2"><strong>Date:</strong> {{ activeBooking.date }}</p>
           <p class="mb-2"><strong>Shift:</strong> {{ activeBooking.shift }}</p>
           <p class="mb-2"><strong>Number of People:</strong> {{ activeBooking.numPeople }}</p>
