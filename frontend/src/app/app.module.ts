@@ -53,6 +53,7 @@ import {CounterComponent} from "./components/generalComponents/counter/counter.c
 import {FaqsComponent} from "./components/viewsComponent/faqs/faqs.component";
 import {AccordionItemComponent} from "./components/generalComponents/accordion-item/accordion-item.component";
 import {TestimonialCardComponent} from "./components/generalComponents/testimonial-card/testimonial-card.component";
+import {UnauthorizedComponent} from "./components/viewsComponent/unauthorized/unauthorized.component";
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import {TestimonialCardComponent} from "./components/generalComponents/testimoni
     FaqsComponent,
     AccordionItemComponent,
     TestimonialCardComponent,
+    UnauthorizedComponent,
 
   ],
   imports: [

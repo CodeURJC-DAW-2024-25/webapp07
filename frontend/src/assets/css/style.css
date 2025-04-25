@@ -2,7 +2,7 @@
 :root {
     --primary: #FEA116;
     --light: #F1F8FF;
-    --dark: #0F172B;
+    --dark: #CFD8DC;
 }
 
 .ff-secondary {
@@ -547,3 +547,4 @@
    /* aquí tu color deseado: */
    color: #CFD8DC;  /* por ejemplo un naranja fuerte */
  }
+

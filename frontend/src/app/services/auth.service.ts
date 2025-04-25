@@ -4,13 +4,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
-import { environment } from '../../environments/environment';
 import { UserDTO, LoginRequest } from '../dtos/user.model';
+import jwt_decode from 'jwt-decode';
 
 export interface AuthResponse {
   status: 'SUCCESS' | 'ERROR';
   message?: string;
   token?: string;
+}
+export interface DecodedToken {
+  sub: string;
+  roles: string[];
+  exp: number;
 }
 
 @Injectable({
@@ -100,6 +105,18 @@ export class AuthService {
   }
 
   private checkAuthStatus(): void {
+    this.refreshToken().subscribe({
+      next: () => this.fetchUserInfo(),
+      error: () => {  }
+    });
+  }
+
+  get roles(): string[] {
+    return this.userDataSubject.value?.roles ?? [];
+  }
+
+  hasAnyRole(allowed: string[]): boolean {
+    return allowed.some(r => this.roles.includes(r));
   }
 
   get currentAuthStatus(): boolean {
