@@ -106,6 +106,18 @@ public class DishService {
                 .map(dishMapper::toDto);
     }
 
+    public List<DishDTO> getFilteredDishes(int page, int size, String name, Double maxPrice, String ingredient) {
+        calculateRates(dishRepository.findAll()
+                .stream()
+                .map(dishMapper::toDto)
+                .toList());        Pageable pageable = PageRequest.of(page, size);
+        return dishRepository.findFiltered(name, maxPrice, ingredient, pageable)
+                .stream()
+                .map(dishMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+
     /**
      * Saves a dish to the repository.
      *

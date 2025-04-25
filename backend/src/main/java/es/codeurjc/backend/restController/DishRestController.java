@@ -49,9 +49,19 @@ public class DishRestController {
                             schema = @Schema(implementation = DishDTO.class)))
     })
     @GetMapping({"","/", "/filter", "/sort"})
-    public ResponseEntity<List<DishDTO>> getDishes(@RequestParam(defaultValue = "0") int page,
-                                   @RequestParam(defaultValue = "10") int size) {
-        return ResponseEntity.ok(dishService.getDishes(PageRequest.of(page, size)).getContent());
+//    public ResponseEntity<List<DishDTO>> getDishes(@RequestParam(defaultValue = "0") int page,
+//                                   @RequestParam(defaultValue = "10") int size) {
+//        return ResponseEntity.ok(dishService.getDishes(PageRequest.of(page, size)).getContent());
+//    }
+    public ResponseEntity<List<DishDTO>> getDishes(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) String ingredient) {
+
+        List<DishDTO> filteredDishes = dishService.getFilteredDishes(page, size, name, maxPrice, ingredient);
+        return ResponseEntity.ok(filteredDishes);
     }
 
     @Operation(summary = "Get a dish by ID", description = "Fetches a dish by their unique identifier")

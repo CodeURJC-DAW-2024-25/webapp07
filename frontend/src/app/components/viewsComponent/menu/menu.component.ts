@@ -17,6 +17,11 @@ export class MenuComponent implements OnInit {
   pageSize = 10;
   hasMoreData = true;
   isLoggedIn$ = this.authService.isAuthenticated$;
+  filters = {
+    name: '',
+    maxPrice: undefined,
+    ingredient: ''
+  };
 
   constructor(private dishService: DishService, private orderService: OrderService, private authService: AuthService, private toastr: ToastrService) {}
 
@@ -24,8 +29,17 @@ export class MenuComponent implements OnInit {
     this.loadMoreDishes();
   }
 
+  // loadMoreDishes(): void {
+  //   //   this.dishService.getDishes(this.currentPage, this.pageSize).subscribe((data: DishDTO[]) => {
+  //   //     if (data.length < this.pageSize) {
+  //   //       this.hasMoreData = false;
+  //   //     }
+  //   //     this.dishData = [...this.dishData, ...data];
+  //   //     this.currentPage++;
+  //   //   });
+  //   // }
   loadMoreDishes(): void {
-    this.dishService.getDishes(this.currentPage, this.pageSize).subscribe((data: DishDTO[]) => {
+    this.dishService.getDishes(this.currentPage, this.pageSize, this.filters).subscribe((data: DishDTO[]) => {
       if (data.length < this.pageSize) {
         this.hasMoreData = false;
       }
@@ -33,7 +47,13 @@ export class MenuComponent implements OnInit {
       this.currentPage++;
     });
   }
-
+  onFiltersChanged(filters: any): void {
+    this.filters = filters;
+    this.currentPage = 0;
+    this.dishData = [];
+    this.hasMoreData = true;
+    this.loadMoreDishes();
+  }
 
 
 

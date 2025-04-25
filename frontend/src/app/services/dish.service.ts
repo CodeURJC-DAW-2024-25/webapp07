@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -14,9 +14,24 @@ export class DishService {
 
   constructor(private http: HttpClient) {}
 
-  getDishes(page: number, size: number = 10): Observable<DishDTO[]> {
-    return this.http.get<DishDTO[]>(`${this.apiUrl}?page=${page}&size=${size}`);
+  // getDishes(page: number, size: number = 10): Observable<DishDTO[]> {
+  //   return this.http.get<DishDTO[]>(`${this.apiUrl}?page=${page}&size=${size}`);
+  // }
+
+  getDishes(page: number, size: number, filters?: any): Observable<DishDTO[]> {
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+
+    if (filters) {
+      if (filters.name) params = params.set('name', filters.name);
+      if (filters.maxPrice) params = params.set('maxPrice', filters.maxPrice);
+      if (filters.ingredient) params = params.set('ingredient', filters.ingredient);
+    }
+
+    return this.http.get<DishDTO[]>('/api/v1/dishes', { params });
   }
+
 
 
   getDishById(id: number): Observable<DishDTO> {

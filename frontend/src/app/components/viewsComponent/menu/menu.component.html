@@ -1,6 +1,10 @@
 <div class="container-xxl py-5">
   <div class="container">
 
+    <app-dish-filter (filtersChanged)="onFiltersChanged($event)"></app-dish-filter>
+
+    <!-- aquí tu lista de platos -->
+
     <div class="menu-items mt-5">
       <div class="row g-4" style="max-width: 800px; margin: 0 auto;">
         <div class="col-lg-12" *ngFor="let dish of dishData">
