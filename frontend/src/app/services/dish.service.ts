@@ -45,8 +45,9 @@ export class DishService {
     return this.http.post<{id: number}>(`${this.apiUrl}/`, dishData);
   }
 
-  updateDish(id: number, dishData: Omit<DishDTO, 'id'>): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, dishData);
+  updateDish(id: number, dishData: Partial<DishDTO>): Observable<DishDTO> {
+    // this.http.put<DishDTO>(`${this.apiUrl}/${id}/image`, dishData.im);
+    return this.http.put<DishDTO>(`${this.apiUrl}/${id}`, dishData);
   }
 
   disableDish(id: number) {

@@ -30,6 +30,7 @@ export class DishDetailsComponent implements OnInit {
     this.dishService.getDishById(id).subscribe({
       next: (data) => {
         this.dish = data;
+        console.log(this.dish);
         const roundedRate = Math.round(this.dish.rate);
         this.stars = Array(roundedRate).fill(0);
         this.noStars = Array(5 - roundedRate).fill(0);

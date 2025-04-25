@@ -1,19 +1,20 @@
 <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
   <div class="row g-0 align-items-center">
 
-    <!-- Imagen a la izquierda -->
-    <div class="col-md-6">
-      <div class="dish-image text-center">
-        <img
-          [src]="previewImage || '/img/logo.jpg'"
-          alt="Dish Image"
-          class="img-fluid rounded shadow"
-          style="border: 5px solid #FEA116; max-width: 80%;"
-        />
+    <!-- Imagen a la izquierda --><!-- Imagen a la izquierda -->
+      <div class="col-md-6">
+          <div class="dish-image text-center" *ngIf="editMode; else newDishImage">
+              <img [src]="'/api/v1/dishes/' + dish.id + '/image'" alt="{{ dish?.name }}">
+          </div>
+          <ng-template #newDishImage>
+              <div class="text-center text-muted">
+                  <p>No image yet</p>
+              </div>
+          </ng-template>
       </div>
-    </div>
 
-    <!-- Formulario a la derecha -->
+
+      <!-- Formulario a la derecha -->
     <div class="col-md-6 bg-dark d-flex align-items-center">
       <div class="p-5 wow fadeInUp text-white w-100" data-wow-delay="0.2s">
         <h5 class="section-title ff-secondary text-start text-primary fw-normal">
@@ -50,13 +51,35 @@
                 <label for="ingredients">Dish Ingredients (comma-separated)</label>
               </div>
             </div>
+        <div class="col-12">
+          <h5 class="text-white">Allergens:</h5>
+          <div class="allergens container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+              <div class="col" *ngFor="let allergen of allAllergens">
+                <div class="form-check">
+                  <label>
+                    <input
+                      type="checkbox"
+                      [value]="allergen.name"
+                      (change)="onAllergenChange($event)"/>
+<!--                      [checked]="dishForm.value.allergens.includes(allergen.name)"-->
 
-            <div class="col-12">
+                    <img [src]="allergen.imageUrl" [alt]="allergen.name" width="24" height="24" />
+                    {{ allergen.name }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+              <div class="col-12">
               <h5 class="text-white">Dietary Preferences:</h5>
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="vegan" formControlName="vegan">
+                <input class="form-check-input" type="checkbox" id="vegan" formControlName="isVegan">
                 <label class="form-check-label text-white" for="vegan">
-                  <img src="/img/allergen_symbols/vegan_symbol.png" alt="Vegan" class="img-thumbnail" style="width: 30px;">
+                  <img src="/assets/img/allergen_symbols/vegan_symbol.png" alt="Vegan" class="img-thumbnail" style="width: 30px;">
                   Vegan Option
                 </label>
               </div>
