@@ -50,6 +50,9 @@ import {AboutComponent} from "./components/viewsComponent/about/about.component"
 import {TeamComponent} from "./components/viewsComponent/team/team.component";
 import {ChefCardComponent} from "./components/viewsComponent/chef-card/chef-card.component";
 import {CounterComponent} from "./components/generalComponents/counter/counter.component";
+import {FaqsComponent} from "./components/viewsComponent/faqs/faqs.component";
+import {AccordionItemComponent} from "./components/generalComponents/accordion-item/accordion-item.component";
+import {TestimonialCardComponent} from "./components/generalComponents/testimonial-card/testimonial-card.component";
 
 @NgModule({
   declarations: [
@@ -81,7 +84,10 @@ import {CounterComponent} from "./components/generalComponents/counter/counter.c
     AboutComponent,
     TeamComponent,
     ChefCardComponent,
-    CounterComponent
+    CounterComponent,
+    FaqsComponent,
+    AccordionItemComponent,
+    TestimonialCardComponent,
 
   ],
   imports: [

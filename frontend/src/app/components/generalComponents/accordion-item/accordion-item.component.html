@@ -1,0 +1,24 @@
+<!--accordion-item.component.html-->
+<div class="accordion-item">
+  <h2 class="accordion-header" [attr.id]="'heading-'+faq.id">
+    <button
+      class="accordion-button"
+      type="button"
+      [class.collapsed]="!faq.expanded"
+      [attr.aria-expanded]="faq.expanded"
+      [attr.aria-controls]="'collapse-'+faq.id"
+      (click)="toggle.emit()">
+      {{ faq.question }}
+    </button>
+  </h2>
+
+  <div
+    [attr.id]="'collapse-'+faq.id"
+    class="accordion-collapse collapse"
+    [class.show]="faq.expanded"
+    [attr.aria-labelledby]="'heading-'+faq.id">
+    <div class="accordion-body">
+      {{ faq.answer }}
+    </div>
+  </div>
+</div>

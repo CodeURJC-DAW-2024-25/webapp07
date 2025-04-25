@@ -24,6 +24,7 @@ import {DishFormComponent} from "./components/viewsComponent/dish-form/dish-form
 import {DishService} from "./services/dish.service";
 import {AdminManageDishesComponent} from "./components/adminComponents/manage-dishes/manage-dishes.component";
 import {AboutComponent} from "./components/viewsComponent/about/about.component";
+import {FaqsComponent} from "./components/viewsComponent/faqs/faqs.component";
 
 
 const routes: Routes = [
@@ -112,6 +113,10 @@ const routes: Routes = [
     }},
   { path: 'about-us', component: AboutComponent, data: {
       title: 'About us',
+      showTitle: true
+    }},
+  { path: 'faqs', component: FaqsComponent, data: {
+      title: 'FAQs',
       showTitle: true
     }},
   { path: '**', redirectTo: '' },
