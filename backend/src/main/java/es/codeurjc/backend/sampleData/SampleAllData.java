@@ -248,12 +248,12 @@ public class SampleAllData {
         restaurantRepository.save(restaurant2);
 
         // Creating sample bookings
-        Booking booking1 = new Booking(restaurant1, user1, LocalDate.of(2025, 3, 26), "Lunch", 40);
-        Booking booking2 = new Booking(restaurant1, user2, LocalDate.of(2025, 3, 29), "Dinner", 25);
-        Booking booking3 = new Booking(restaurant1, user3, LocalDate.of(2025, 3, 27), "Lunch", 12);
-        Booking booking4 = new Booking(restaurant2, user4, LocalDate.of(2025, 3, 10), "Dinner", 20);
-        Booking booking5 = new Booking(restaurant1, user5, LocalDate.of(2025, 3, 27), "Lunch", 5);
-        Booking booking6 = new Booking(restaurant2, user6, LocalDate.of(2025, 3, 20), "Dinner", 30);
+        Booking booking1 = new Booking(restaurant1, user1, LocalDate.of(2025, 5, 26), "Lunch", 40);
+        Booking booking2 = new Booking(restaurant1, user2, LocalDate.of(2025, 4, 29), "Dinner", 25);
+        Booking booking3 = new Booking(restaurant1, user3, LocalDate.of(2025, 5, 27), "Lunch", 12);
+        Booking booking4 = new Booking(restaurant2, user4, LocalDate.of(2025, 5, 10), "Dinner", 20);
+        Booking booking5 = new Booking(restaurant1, user5, LocalDate.of(2025, 5, 27), "Lunch", 5);
+        Booking booking6 = new Booking(restaurant2, user6, LocalDate.of(2025, 5, 20), "Dinner", 30);
         bookingRepository.save(booking1);
         bookingRepository.save(booking2);
         bookingRepository.save(booking3);
