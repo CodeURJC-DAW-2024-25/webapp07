@@ -116,6 +116,10 @@ public class BookingRestController {
         }
 
         Booking booking = bookingMapper.toEntity(dto);
+        booking.setFirstName(dto.firstName());
+        booking.setLastName(dto.lastName());
+        booking.setPhone(dto.phone());
+        booking.setEmail(dto.email());
         bookingService.save(booking);
 
         URI location = fromCurrentRequest().path("/{id}")

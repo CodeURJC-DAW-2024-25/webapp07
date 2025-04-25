@@ -1,6 +1,6 @@
 <a routerLink="/" class="back-link"><i class="bi bi-arrow-left"></i></a>
 <a routerLink="/" class="logo-link">
-  <img class="show-logo" src="/assets/img/logo.jpg" alt="Logo"/>
+  <img class="show-logo" src="/assets/img/logo.jpg" alt="Logo" />
 </a>
 
 <div class="container mt-5">
@@ -8,7 +8,7 @@
 
   <div class="form-group mb-3">
     <form (ngSubmit)="searchBookings()">
-      <input type="text" class="form-control" placeholder="Search by username, email or phone..." [(ngModel)]="searchQuery" name="query">
+      <input type="text" class="form-control" placeholder="Search by name, email or phone..." [(ngModel)]="searchQuery" name="query">
       <button type="submit" class="btn btn-primary mt-2">Search</button>
     </form>
   </div>
@@ -17,7 +17,7 @@
     <thead>
     <tr>
       <th>ID</th>
-      <th>User</th>
+      <th>Name</th>
       <th>Phone</th>
       <th>Email</th>
       <th>Restaurant</th>
@@ -30,10 +30,10 @@
     <tbody>
     <tr *ngFor="let booking of bookings">
       <td>{{ booking.id }}</td>
-      <td>{{ booking.user?.username }}</td>
-      <td>{{ booking.user?.phoneNumber }}</td>
-      <td>{{ booking.user?.email }}</td>
-      <td>{{ booking.restaurant?.location }}</td>
+      <td>{{ booking.firstName }} {{ booking.lastName }}</td>
+      <td>{{ booking.phone }}</td>
+      <td>{{ booking.email }}</td>
+      <td>{{ booking.restaurantLocation }}</td>
       <td>{{ booking.shift }}</td>
       <td>{{ booking.numPeople }}</td>
       <td>{{ booking.date }}</td>

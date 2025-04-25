@@ -249,17 +249,48 @@ public class SampleAllData {
 
         // Creating sample bookings
         Booking booking1 = new Booking(restaurant1, user1, LocalDate.of(2025, 5, 26), "Lunch", 40);
+        booking1.setFirstName(user1.getFirstName());
+        booking1.setLastName(user1.getLastName());
+        booking1.setPhone(user1.getPhoneNumber());
+        booking1.setEmail(user1.getEmail());
+
         Booking booking2 = new Booking(restaurant1, user2, LocalDate.of(2025, 4, 29), "Dinner", 25);
+        booking2.setFirstName(user2.getFirstName());
+        booking2.setLastName(user2.getLastName());
+        booking2.setPhone(user2.getPhoneNumber());
+        booking2.setEmail(user2.getEmail());
+
         Booking booking3 = new Booking(restaurant1, user3, LocalDate.of(2025, 5, 27), "Lunch", 12);
+        booking3.setFirstName(user3.getFirstName());
+        booking3.setLastName(user3.getLastName());
+        booking3.setPhone(user3.getPhoneNumber());
+        booking3.setEmail(user3.getEmail());
+
         Booking booking4 = new Booking(restaurant2, user4, LocalDate.of(2025, 5, 10), "Dinner", 20);
+        booking4.setFirstName(user4.getFirstName());
+        booking4.setLastName(user4.getLastName());
+        booking4.setPhone(user4.getPhoneNumber());
+        booking4.setEmail(user4.getEmail());
+
         Booking booking5 = new Booking(restaurant1, user5, LocalDate.of(2025, 5, 27), "Lunch", 5);
+        booking5.setFirstName(user5.getFirstName());
+        booking5.setLastName(user5.getLastName());
+        booking5.setPhone(user5.getPhoneNumber());
+        booking5.setEmail(user5.getEmail());
+
         Booking booking6 = new Booking(restaurant2, user6, LocalDate.of(2025, 5, 20), "Dinner", 30);
+        booking6.setFirstName(user6.getFirstName());
+        booking6.setLastName(user6.getLastName());
+        booking6.setPhone(user6.getPhoneNumber());
+        booking6.setEmail(user6.getEmail());
+
         bookingRepository.save(booking1);
         bookingRepository.save(booking2);
         bookingRepository.save(booking3);
         bookingRepository.save(booking4);
         bookingRepository.save(booking5);
         bookingRepository.save(booking6);
+
 
         //order creation
         Order order1 = new Order(Arrays.asList(croquetasJamon, tortillaEspanola), user1, "Calle A, 14", "Pending",20.0);

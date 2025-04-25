@@ -2,13 +2,29 @@ import { Restaurant } from './restaurant.model';
 import { UserDTO } from './user.model';
 
 export interface Booking {
-  id: number;               // Opcional porque se genera en el backend
+  id?: number;
   restaurantId: number;
   userId: number;
-  date: string;              // Se suele usar string tipo "2025-04-12"
-  shift: string;             // "LUNCH" o "DINNER"
+  date: string;
+  shift: string;
   numPeople: number;
-  restaurant?: Restaurant; // <
-  user?: UserDTO;
+  restaurantLocation?: string;
 
+  // Nuevos campos rellenados en el momento de la reserva
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  email?: string;
+
+  // Información opcional extendida (si se desea mostrar detalles)
+  restaurant?: {
+    id: number;
+    location: string;
+  };
+
+  user?: {
+    id: number;
+    username: string;
+  };
 }
+
