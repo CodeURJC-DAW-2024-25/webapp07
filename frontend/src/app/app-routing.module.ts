@@ -67,7 +67,7 @@ const routes: Routes = [
   { path: 'booking/form',
     component: BookingFormComponent, data: {
       title: 'Booking Form',
-      showTitle: false
+      showTitle: true
     }},
   {
     path: 'booking/existing',
