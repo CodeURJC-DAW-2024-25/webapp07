@@ -98,6 +98,10 @@ public class DishService {
     }
 
     public Page<DishDTO> getDishes(PageRequest pageRequest) {
+        calculateRates(dishRepository.findAll()
+                .stream()
+                .map(dishMapper::toDto)
+                .toList());
         return dishRepository.findAll(pageRequest)
                 .map(dishMapper::toDto);
     }
