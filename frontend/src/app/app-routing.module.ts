@@ -23,6 +23,7 @@ import {DishDetailsComponent} from "./components/viewsComponent/dish-details/dis
 import {DishFormComponent} from "./components/viewsComponent/dish-form/dish-form.component";
 import {DishService} from "./services/dish.service";
 import {AdminManageDishesComponent} from "./components/adminComponents/manage-dishes/manage-dishes.component";
+import {AboutComponent} from "./components/viewsComponent/about/about.component";
 
 
 const routes: Routes = [
@@ -71,7 +72,7 @@ const routes: Routes = [
     }},
   {
     path: 'booking/existing',
-    component: BookingExistingComponent, // crea un componente sencillo
+    component: BookingExistingComponent,
     data: {
       title: 'Existing Reservation',
       showTitle: false
@@ -108,6 +109,10 @@ const routes: Routes = [
   { path: 'dishes/:id/edit', component: DishFormComponent, data: {
       title: 'Dish Form',
       showTitle: false
+    }},
+  { path: 'about-us', component: AboutComponent, data: {
+      title: 'About us',
+      showTitle: true
     }},
   { path: '**', redirectTo: '' },
 

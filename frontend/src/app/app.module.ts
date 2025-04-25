@@ -46,6 +46,10 @@ import { BookingExistingComponent } from './components/viewsComponent/booking/bo
 import { BookingCancelledComponent } from './components/viewsComponent/booking/booking-messages/booking-cancelled.component';
 import { BookingConfirmationComponent } from './components/viewsComponent/booking/booking-messages/booking-confirmation.component';
 import {AdminManageBookingsComponent} from "./components/adminComponents/manage-bookings/manage-bookings.component";
+import {AboutComponent} from "./components/viewsComponent/about/about.component";
+import {TeamComponent} from "./components/viewsComponent/team/team.component";
+import {ChefCardComponent} from "./components/viewsComponent/chef-card/chef-card.component";
+import {CounterComponent} from "./components/generalComponents/counter/counter.component";
 
 @NgModule({
   declarations: [
@@ -74,6 +78,10 @@ import {AdminManageBookingsComponent} from "./components/adminComponents/manage-
     BookingCancelledComponent,
     BookingConfirmationComponent,
     AdminManageBookingsComponent,
+    AboutComponent,
+    TeamComponent,
+    ChefCardComponent,
+    CounterComponent
 
   ],
   imports: [
