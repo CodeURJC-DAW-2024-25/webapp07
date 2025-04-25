@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../../services/users.service';
 import { UserDTO } from '../../../dtos/user.model';
-import {AuthService} from "../../../services/auth.service";
-import {Router} from "@angular/router";
+import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-
+import { BookingService } from '../../../services/booking.service';
+import { Booking } from '../../../dtos/booking.model';
 
 @Component({
   selector: 'app-profile',
@@ -16,15 +17,19 @@ export class ProfileComponent implements OnInit {
   editMode = false;
   isLoading = true;
   showConfirmationModal = false;
+  activeBooking: Booking | null = null;
 
   constructor(
     private usersService: UsersService,
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService) {}
+    private toastr: ToastrService,
+    private bookingService: BookingService
+  ) {}
 
   ngOnInit(): void {
     this.loadUserProfile();
+    this.loadActiveBooking();
   }
 
   loadUserProfile(): void {
@@ -36,6 +41,36 @@ export class ProfileComponent implements OnInit {
       error: (err) => {
         console.error('Error loading profile:', err);
         this.isLoading = false;
+      }
+    });
+  }
+
+  loadActiveBooking(): void {
+    this.bookingService.getMyActiveBooking().subscribe({
+      next: (booking) => {
+        this.activeBooking = booking;
+      },
+      error: (err) => {
+        if (err.status === 404) {
+          this.activeBooking = null;
+        } else {
+          console.error('Error loading active booking:', err);
+        }
+      }
+    });
+  }
+
+  cancelBooking(): void {
+    if (!this.activeBooking || this.activeBooking.id === undefined) return;
+
+    this.bookingService.deleteBooking(this.activeBooking.id).subscribe({
+      next: () => {
+        this.toastr.success('Booking cancelled successfully!', 'Success');
+        this.activeBooking = null;
+      },
+      error: (err) => {
+        console.error('Error cancelling booking:', err);
+        this.toastr.error('Error cancelling booking. Please try again.', 'Error');
       }
     });
   }
@@ -77,6 +112,7 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+
   get today(): string {
     return new Date().toISOString().split('T')[0];
   }

@@ -36,7 +36,11 @@ import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
 import {CartComponent} from "./components/viewsComponent/order/order-cart/cart.component";
 import {OrderSummaryComponent} from "./components/viewsComponent/order/order-summary/summary.component";
 import { ConfirmPaymentComponent } from './components/viewsComponent/order/confirm-payment/confirm-payment.component';
-
+import { BookingFormComponent } from './components/viewsComponent/booking/booking-form/booking-form.component';
+import { BookingExistingComponent } from './components/viewsComponent/booking/booking-messages/booking-existing.component';
+import { BookingCancelledComponent } from './components/viewsComponent/booking/booking-messages/booking-cancelled.component';
+import { BookingConfirmationComponent } from './components/viewsComponent/booking/booking-messages/booking-confirmation.component';
+import {AdminManageBookingsComponent} from "./components/adminComponents/manage-bookings/manage-bookings.component";
 
 @NgModule({
   declarations: [
@@ -55,6 +59,12 @@ import { ConfirmPaymentComponent } from './components/viewsComponent/order/confi
     CartComponent,
     OrderSummaryComponent,
     ConfirmPaymentComponent,
+    BookingFormComponent,
+    BookingExistingComponent,
+    BookingCancelledComponent,
+    BookingConfirmationComponent,
+    AdminManageBookingsComponent,
+
   ],
   imports: [
     AppRoutingModule,

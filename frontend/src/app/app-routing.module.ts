@@ -13,6 +13,11 @@ import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
 import {CartComponent} from './components/viewsComponent/order/order-cart/cart.component';
 import {OrderSummaryComponent} from './components/viewsComponent/order/order-summary/summary.component';
 import { ConfirmPaymentComponent } from './components/viewsComponent/order/confirm-payment/confirm-payment.component';
+import { BookingFormComponent } from './components/viewsComponent/booking/booking-form/booking-form.component';
+import { BookingExistingComponent } from './components/viewsComponent/booking/booking-messages/booking-existing.component';
+import { BookingCancelledComponent } from './components/viewsComponent/booking/booking-messages/booking-cancelled.component';
+import { BookingConfirmationComponent } from './components/viewsComponent/booking/booking-messages/booking-confirmation.component';
+import {AdminManageBookingsComponent} from "./components/adminComponents/manage-bookings/manage-bookings.component";
 
 
 
@@ -48,6 +53,44 @@ const routes: Routes = [
   { path: 'orders/cart', component: CartComponent },
   { path: 'orders/:id/summary', component: OrderSummaryComponent },
   { path: 'orders/:id/confirm-payment', component: ConfirmPaymentComponent },
+
+  { path: 'booking/form',
+    component: BookingFormComponent, data: {
+      title: 'Booking Form',
+      showTitle: false
+    }},
+  {
+    path: 'booking/existing',
+    component: BookingExistingComponent, // crea un componente sencillo
+    data: {
+      title: 'Existing Reservation',
+      showTitle: false
+    }
+  },
+  {
+    path: 'booking/cancelled',
+    component: BookingCancelledComponent,
+    data: {
+      title: 'Booking Cancelled',
+      showTitle: false
+    }
+  },
+  { path: 'booking/confirmation',
+    component:
+    BookingConfirmationComponent,
+    data: {
+      title: 'Reservation Confirmed',
+      showTitle: false
+    }},
+  {
+    path: 'admin/bookings',
+    component: AdminManageBookingsComponent,
+    data: {
+      title: 'Booking Management',
+      showTitle: true }
+  },
+
+
   { path: '**', redirectTo: '' },
 
 ];

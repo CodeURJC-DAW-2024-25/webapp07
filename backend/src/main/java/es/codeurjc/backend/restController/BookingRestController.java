@@ -203,4 +203,14 @@ public class BookingRestController {
                 .map(bookingMapper::toDto)
                 .toList();
     }
+    @Operation(summary = "Get available seats for a restaurant, date, and shift")
+    @GetMapping("/availability")
+    public ResponseEntity<Integer> getAvailableSeats(
+            @RequestParam Long restaurantId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam String shift
+    ) {
+        int seats = bookingService.getAvailableSeats(restaurantId, date, shift);
+        return ResponseEntity.ok(seats);
+    }
 }
