@@ -67,6 +67,7 @@ export class ProfileComponent implements OnInit {
       next: () => {
         this.toastr.success('Booking cancelled successfully!', 'Success');
         this.activeBooking = null;
+        this.router.navigate(['/booking/cancelled']);
       },
       error: (err) => {
         console.error('Error cancelling booking:', err);
