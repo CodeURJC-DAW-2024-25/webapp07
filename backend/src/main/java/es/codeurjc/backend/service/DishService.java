@@ -1,6 +1,7 @@
 package es.codeurjc.backend.service;
 
 import es.codeurjc.backend.dto.DishDTO;
+import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.enums.Allergens;
 import es.codeurjc.backend.mapper.DishMapper;
 import es.codeurjc.backend.model.Dish;
@@ -97,13 +98,15 @@ public class DishService {
 
     }
 
-    public Page<DishDTO> getDishes(PageRequest pageRequest) {
+    public List<DishDTO> getDishes() {
         calculateRates(dishRepository.findAll()
                 .stream()
                 .map(dishMapper::toDto)
                 .toList());
-        return dishRepository.findAll(pageRequest)
-                .map(dishMapper::toDto);
+        return dishRepository.findAll()
+                .stream()
+                .map(dishMapper::toDto)
+                .toList();
     }
 
     public List<DishDTO> getFilteredDishes(int page, int size, String name, Double maxPrice, String ingredient) {

@@ -14,9 +14,13 @@ export class DishService {
 
   constructor(private http: HttpClient) {}
 
-  // getDishes(page: number, size: number = 10): Observable<DishDTO[]> {
-  //   return this.http.get<DishDTO[]>(`${this.apiUrl}?page=${page}&size=${size}`);
-  // }
+  getAllDishes(query?: string): Observable<DishDTO[]> {
+    return this.http.get<DishDTO[]>(this.apiUrl, {
+      params: query ? { query } : {}
+    });
+  }
+
+
 
   getDishes(page: number, size: number, filters?: any): Observable<DishDTO[]> {
     let params = new HttpParams()

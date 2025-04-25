@@ -39,6 +39,7 @@ import {CartComponent} from "./components/viewsComponent/order/order-cart/cart.c
 import {OrderSummaryComponent} from "./components/viewsComponent/order/order-summary/summary.component";
 import { ConfirmPaymentComponent } from './components/viewsComponent/order/confirm-payment/confirm-payment.component';
 import {DishFilterComponent} from "./components/viewsComponent/dish-filter/dish-filter.component";
+import {AdminManageDishesComponent} from "./components/adminComponents/manage-dishes/manage-dishes.component";
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import {DishFilterComponent} from "./components/viewsComponent/dish-filter/dish-
     ConfirmationModalComponent,
     AdminManageUsersComponent,
     AdminManageOrdersComponent,
+    AdminManageDishesComponent,
     OrderHistoryComponent,
     TitleComponent,
     MenuComponent,
