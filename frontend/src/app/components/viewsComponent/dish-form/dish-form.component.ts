@@ -56,11 +56,18 @@ export class DishFormComponent implements OnInit {
     });
 
     this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
+      const idParam = params.get('id');
+
+      // Sólo si idParam es un entero válido:
+      const idNum = idParam !== null ? Number(idParam) : NaN;
+      if (idParam !== null && !isNaN(idNum)) {
         this.editMode = true;
-        this.dishId = +id;
-        this.loadDish(this.dishId);
+        this.dishId   = idNum;
+        this.loadDish(idNum);
+      } else {
+        // Ruta de creación: no cargamos nada
+        this.editMode = false;
+        this.dishId   = undefined;
       }
     });
   }
@@ -86,6 +93,7 @@ export class DishFormComponent implements OnInit {
       this.dishForm.markAllAsTouched();
       return;
     }
+
     this.isSubmitting = true;
     this.submitErrorMessage = null;
 
@@ -99,10 +107,10 @@ export class DishFormComponent implements OnInit {
       imageField: File | null;
     };
 
-    const file = fv.imageField as File | null;
+    const file = fv.imageField;
 
-    const selectedAllergens: Allergens[] = (fv.allergens as string[])
-      .map(name => name as keyof typeof Allergens)        // 'GLUTEN' -> key of enum
+    const selectedAllergens: Allergens[] = (fv.allergens ?? [])
+      .map(name => name as keyof typeof Allergens)
       .map(key => Allergens[key]);
 
     const dto: Omit<DishDTO, 'id'> = {
@@ -112,20 +120,12 @@ export class DishFormComponent implements OnInit {
       ingredients: fv.ingredients.split(',').map(i => i.trim()),
       allergens: selectedAllergens,
       isVegan: fv.isVegan,
-
-      // campos del backend
       dishImagePath: '',
       available: true,
       rates: [],
       rate: 0,
-
-      // ← ESTE CAMPO ES OBLIGATORIO:
-      // true si hemos seleccionado un fichero, false en otro caso
       image: !!file
     };
-
-    this.isSubmitting = true;
-    this.submitErrorMessage = null;
 
     if (this.editMode && this.dishId != null) {
       // UPDATE
@@ -134,6 +134,7 @@ export class DishFormComponent implements OnInit {
           const img$ = file
             ? this.dishService.replaceDishImage(this.dishId!, file)
             : of(void 0);
+
           img$.subscribe({
             next: () => this.finishSubmit(),
             error: err => this.handleError(err)
@@ -141,19 +142,30 @@ export class DishFormComponent implements OnInit {
         },
         error: err => this.handleError(err)
       });
+
     } else {
       // CREATE
       this.dishService.addDish(dto).subscribe({
-        next: (createdDish: DishDTO) => {
-          const newId = createdDish.id;
-          const file = this.dishForm.value.imageField as File | null;
+        next: response => {
+          const location = response.headers.get('Location');
+          if (!location) {
+            this.handleError(new Error('No Location header received'));
+            return;
+          }
 
-          // Solo si hay archivo, hacemos la subida:
-          const img$ = file
-            ? this.dishService.uploadDishImage(newId, file)
+          const idString = location.split('/').pop();
+          const newDishId = idString ? Number(idString) : NaN;
+
+          if (isNaN(newDishId)) {
+            this.handleError(new Error(`Invalid dish ID parsed from Location: ${idString}`));
+            return;
+          }
+
+          const upload$ = file
+            ? this.dishService.uploadDishImage(newDishId, file)
             : of(void 0);
 
-          img$.subscribe({
+          upload$.subscribe({
             next: () => this.finishSubmit(),
             error: err => this.handleError(err)
           });
@@ -162,6 +174,7 @@ export class DishFormComponent implements OnInit {
       });
     }
   }
+
 
   private finishSubmit() {
     this.isSubmitting = false;

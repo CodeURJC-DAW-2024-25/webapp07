@@ -1,6 +1,6 @@
 //dish.service.ts
 
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -43,20 +43,28 @@ export class DishService {
   getDishById(id: number): Observable<DishDTO> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
-  addDish(dishData: Omit<DishDTO, 'id'>): Observable<DishDTO> {
-    return this.http.post<DishDTO>(`${this.apiUrl}/`, dishData);
+
+  addDish(dishData: Omit<DishDTO, 'id'>) {
+    return this.http.post<void>(
+      '/api/v1/dishes/',
+      dishData,
+      { observe: 'response' }
+    );
   }
 
-  updateDish(id: number, dishData: Partial<DishDTO>): Observable<DishDTO> {
-    // this.http.put<DishDTO>(`${this.apiUrl}/${id}/image`, dishData.im);
-    return this.http.put<DishDTO>(`${this.apiUrl}/${id}`, dishData);
-  }
 
   uploadDishImage(id: number, file: File): Observable<void> {
     const form = new FormData();
     form.append('imageFile', file);
     return this.http.post<void>(`${this.apiUrl}/${id}/image`, form);
   }
+
+
+  updateDish(id: number, dishData: Partial<DishDTO>): Observable<DishDTO> {
+    // this.http.put<DishDTO>(`${this.apiUrl}/${id}/image`, dishData.im);
+    return this.http.put<DishDTO>(`${this.apiUrl}/${id}`, dishData);
+  }
+
 
   replaceDishImage(id: number, file: File): Observable<void> {
     const form = new FormData();
