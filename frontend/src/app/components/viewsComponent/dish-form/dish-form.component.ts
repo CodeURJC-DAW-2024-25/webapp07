@@ -88,6 +88,109 @@ export class DishFormComponent implements OnInit {
     });
   }
 
+  // onSubmit(): void {
+  //   if (this.dishForm.invalid) {
+  //     this.dishForm.markAllAsTouched();
+  //     return;
+  //   }
+  //
+  //   this.isSubmitting = true;
+  //   this.submitErrorMessage = null;
+  //
+  //   const fv = this.dishForm.value as {
+  //     name: string;
+  //     description: string;
+  //     price: number;
+  //     ingredients: string;
+  //     allergens: string[];
+  //     isVegan: boolean;
+  //     imageField: File | null;
+  //   };
+  //
+  //   const file = fv.imageField;
+  //
+  //   const selectedAllergens: Allergens[] = (fv.allergens ?? [])
+  //     .map(name => name as keyof typeof Allergens)
+  //     .map(key => Allergens[key]);
+  //
+  //   const hasNewImage = !!file;
+  //
+  //   let dtoBase = {
+  //     name: fv.name,
+  //     description: fv.description,
+  //     price: fv.price,
+  //     ingredients: fv.ingredients.split(',').map(i => i.trim()),
+  //     allergens: selectedAllergens,
+  //     isVegan: fv.isVegan,
+  //     available: this.dish?.available ?? true,
+  //     rates: this.dish?.rates ?? [],
+  //     rate: this.dish?.rate ?? 0,
+  //     dishImagePath: this.dish?.dishImagePath ?? '',
+  //   };
+  //
+  //   let dto: DishDTO | Omit<DishDTO, 'id'>;
+  //
+  //   if (this.editMode && this.dishId != null) {
+  //     dto = {
+  //       id: this.dishId,
+  //       ...dtoBase,
+  //       image: hasNewImage
+  //     };
+  //   } else {
+  //     dto = {
+  //       ...dtoBase,
+  //       image: hasNewImage
+  //     };
+  //   }
+  //
+  //
+  //   if (this.editMode && this.dishId != null) {
+  //     // UPDATE
+  //     this.dishService.updateDish(this.dishId, dto).subscribe({
+  //       next: () => {
+  //         const img$ = file
+  //           ? this.dishService.replaceDishImage(this.dishId!, file)
+  //           : of(void 0);
+  //
+  //         img$.subscribe({
+  //           next: () => this.finishSubmit(),
+  //           error: err => this.handleError(err)
+  //         });
+  //       },
+  //       error: err => this.handleError(err)
+  //     });
+  //
+  //   } else {
+  //     // CREATE
+  //     this.dishService.addDish(dto).subscribe({
+  //       next: response => {
+  //         const location = response.headers.get('Location');
+  //         if (!location) {
+  //           this.handleError(new Error('No Location header received'));
+  //           return;
+  //         }
+  //
+  //         const idString = location.split('/').pop();
+  //         const newDishId = idString ? Number(idString) : NaN;
+  //
+  //         if (isNaN(newDishId)) {
+  //           this.handleError(new Error(`Invalid dish ID parsed from Location: ${idString}`));
+  //           return;
+  //         }
+  //
+  //         const upload$ = file
+  //           ? this.dishService.uploadDishImage(newDishId, file)
+  //           : of(void 0);
+  //
+  //         upload$.subscribe({
+  //           next: () => this.finishSubmit(),
+  //           error: err => this.handleError(err)
+  //         });
+  //       },
+  //       error: err => this.handleError(err)
+  //     });
+  //   }
+  // }
   onSubmit(): void {
     if (this.dishForm.invalid) {
       this.dishForm.markAllAsTouched();
@@ -113,19 +216,36 @@ export class DishFormComponent implements OnInit {
       .map(name => name as keyof typeof Allergens)
       .map(key => Allergens[key]);
 
-    const dto: Omit<DishDTO, 'id'> = {
-      name: fv.name,
-      description: fv.description,
-      price: fv.price,
-      ingredients: fv.ingredients.split(',').map(i => i.trim()),
-      allergens: selectedAllergens,
-      isVegan: fv.isVegan,
-      dishImagePath: '',
-      available: true,
-      rates: [],
-      rate: 0,
-      image: !!file
-    };
+    const hasNewImage = !!file;
+
+    let dto: DishDTO | Omit<DishDTO, 'id'>;
+
+    if (this.editMode && this.dishId != null && this.dish) {
+      dto = {
+        ...this.dish, // ← Copiamos todo lo anterior
+        name: fv.name,
+        description: fv.description,
+        price: fv.price,
+        ingredients: fv.ingredients.split(',').map(i => i.trim()),
+        allergens: selectedAllergens,
+        isVegan: fv.isVegan,
+        image: hasNewImage // Solo true/false para indicar si hay imagen nueva
+      };
+    } else {
+      dto = {
+        name: fv.name,
+        description: fv.description,
+        price: fv.price,
+        ingredients: fv.ingredients.split(',').map(i => i.trim()),
+        allergens: selectedAllergens,
+        isVegan: fv.isVegan,
+        available: true,
+        rates: [],
+        rate: 0,
+        dishImagePath: '',
+        image: hasNewImage
+      };
+    }
 
     if (this.editMode && this.dishId != null) {
       // UPDATE
@@ -142,7 +262,6 @@ export class DishFormComponent implements OnInit {
         },
         error: err => this.handleError(err)
       });
-
     } else {
       // CREATE
       this.dishService.addDish(dto).subscribe({
@@ -174,6 +293,7 @@ export class DishFormComponent implements OnInit {
       });
     }
   }
+
 
 
   private finishSubmit() {
