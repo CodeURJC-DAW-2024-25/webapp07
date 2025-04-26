@@ -36,4 +36,15 @@ export class CartComponent implements OnInit {
     }
   }
 
+  onClearCart(): void {
+    this.orderService.clearCart().subscribe({
+      next: () => {
+        this.cart = null;
+        console.log('Cart cleared');
+      },
+      error: (err) => console.error('Error clearing cart:', err)
+    });
+  }
+
+
 }

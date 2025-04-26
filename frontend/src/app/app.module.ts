@@ -41,6 +41,19 @@ import { ConfirmPaymentComponent } from './components/viewsComponent/order/confi
 import {DishFilterComponent} from "./components/viewsComponent/dish-filter/dish-filter.component";
 import {AdminManageDishesComponent} from "./components/adminComponents/manage-dishes/manage-dishes.component";
 
+import { BookingFormComponent } from './components/viewsComponent/booking/booking-form/booking-form.component';
+import { BookingExistingComponent } from './components/viewsComponent/booking/booking-messages/booking-existing.component';
+import { BookingCancelledComponent } from './components/viewsComponent/booking/booking-messages/booking-cancelled.component';
+import { BookingConfirmationComponent } from './components/viewsComponent/booking/booking-messages/booking-confirmation.component';
+import {AdminManageBookingsComponent} from "./components/adminComponents/manage-bookings/manage-bookings.component";
+import {AboutComponent} from "./components/viewsComponent/about/about.component";
+import {TeamComponent} from "./components/viewsComponent/team/team.component";
+import {ChefCardComponent} from "./components/viewsComponent/chef-card/chef-card.component";
+import {CounterComponent} from "./components/generalComponents/counter/counter.component";
+import {FaqsComponent} from "./components/viewsComponent/faqs/faqs.component";
+import {AccordionItemComponent} from "./components/generalComponents/accordion-item/accordion-item.component";
+import {TestimonialCardComponent} from "./components/generalComponents/testimonial-card/testimonial-card.component";
+import {UnauthorizedComponent} from "./components/viewsComponent/unauthorized/unauthorized.component";
 
 @NgModule({
   declarations: [
@@ -63,7 +76,21 @@ import {AdminManageDishesComponent} from "./components/adminComponents/manage-di
     MenuComponent,
     DishDetailsComponent,
     DishFormComponent,
-    DishFilterComponent
+    DishFilterComponent,
+    BookingFormComponent,
+    BookingExistingComponent,
+    BookingCancelledComponent,
+    BookingConfirmationComponent,
+    AdminManageBookingsComponent,
+    AboutComponent,
+    TeamComponent,
+    ChefCardComponent,
+    CounterComponent,
+    FaqsComponent,
+    AccordionItemComponent,
+    TestimonialCardComponent,
+    UnauthorizedComponent,
+
   ],
   imports: [
     AppRoutingModule,

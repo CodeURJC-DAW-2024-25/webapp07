@@ -1,0 +1,53 @@
+<!--faqs.component.html-->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center pb-3">
+      <h5 class="section-title ff-secondary text-center text-primary fw-normal">FAQs</h5>
+    </div>
+
+    <div class="row g-4">
+      <!-- faqs -->
+      <div class="col-md-6">
+        <div class="accordion">
+          <app-accordion-item
+            *ngFor="let faq of faqs"
+            [faq]="faq"
+            (toggle)="toggleAccordion(faq)">
+          </app-accordion-item>
+        </div>
+      </div>
+
+      <!-- Allergens -->
+      <div class="col-md-6">
+        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Allergens Information</h5>
+        <p class="mb-4">Below is a list of allergens we handle in our kitchen. Please inform our staff if you have any allergies.</p>
+
+        <div class="allergens">
+          <div class="row">
+            <div class="col-6 mb-3" *ngFor="let allergen of allergens">
+              <img [src]="allergen.image" [alt]="allergen.name" class="img-thumbnail" style="width: 50px;">
+              <span>{{allergen.name}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonios -->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center">
+      <h5 class="section-title ff-secondary text-center text-primary fw-normal">Reviews</h5>
+      <h1 class="mb-5">What Our Customers Say</h1>
+    </div>
+
+    <div class="testimonial-container">
+      <app-testimonial-card
+        *ngFor="let testimonial of testimonials"
+        [testimonial]="testimonial">
+      </app-testimonial-card>
+    </div>
+  </div>
+</div>

@@ -24,6 +24,11 @@ public class Booking {
     private LocalDate date;
     private String shift; // "LUNCH" or "DINNER"
     private int numPeople;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private String email;
+
 
     /**
      * Default constructor.
@@ -154,4 +159,62 @@ public class Booking {
     public void setNumPeople(int numPeople) {
         this.numPeople = numPeople;
     }
+
+    /**
+     * Gets the first name of the person who made the booking.
+     *
+     * @return The first name.
+     */
+    public String getFirstName() {return firstName; }
+
+    /**
+     * Sets the first name of the person who made the booking.
+     *
+     * @param firstName The first name.
+     */
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    /**
+     * Gets the last name of the person who made the booking.
+     *
+     * @return The last name.
+     */
+    public String getLastName() { return lastName; }
+
+    /**
+     * Sets the last name of the person who made the booking.
+     *
+     * @param lastName The last name.
+     */
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
+    /**
+     * Gets the phone number of the person who made the booking.
+     *
+     * @return The phone number.
+     */
+    public String getPhone() { return phone; }
+
+    /**
+     * Sets the phone number of the person who made the booking.
+     *
+     * @param phone The phone number.
+     */
+    public void setPhone(String phone) { this.phone = phone; }
+
+    /**
+     * Gets the email of the person who made the booking.
+     *
+     * @return The email.
+     */
+    public String getEmail() { return email; }
+
+    /**
+     * Sets the email of the person who made the booking.
+     *
+     * @param email The email.
+     */
+    public void setEmail(String email) { this.email = email; }
+
+
 }

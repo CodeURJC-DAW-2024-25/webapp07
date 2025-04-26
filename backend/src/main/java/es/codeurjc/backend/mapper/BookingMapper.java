@@ -20,7 +20,12 @@ public interface BookingMapper extends EntityMapper<BookingDTO, Booking> {
      */
     @Override
     @Mapping(source = "restaurant.id", target = "restaurantId")
+    @Mapping(source = "restaurant.location", target = "restaurantLocation")
     @Mapping(source = "user.id", target = "userId")
+    @Mapping(target = "firstName", source = "firstName")
+    @Mapping(target = "lastName", source = "lastName")
+    @Mapping(target = "phone", source = "phone")
+    @Mapping(target = "email", source = "email")
     BookingDTO toDto(Booking booking);
 
     /**
@@ -33,5 +38,10 @@ public interface BookingMapper extends EntityMapper<BookingDTO, Booking> {
     @Override
     @Mapping(target = "restaurant.id", source = "restaurantId")
     @Mapping(target = "user.id", source = "userId")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "firstName", source = "firstName")
+    @Mapping(target = "lastName", source = "lastName")
+    @Mapping(target = "phone", source = "phone")
+    @Mapping(target = "email", source = "email")
     Booking toEntity(BookingDTO bookingDTO);
 }

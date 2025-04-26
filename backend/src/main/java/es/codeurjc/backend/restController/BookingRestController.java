@@ -116,6 +116,10 @@ public class BookingRestController {
         }
 
         Booking booking = bookingMapper.toEntity(dto);
+        booking.setFirstName(dto.firstName());
+        booking.setLastName(dto.lastName());
+        booking.setPhone(dto.phone());
+        booking.setEmail(dto.email());
         bookingService.save(booking);
 
         URI location = fromCurrentRequest().path("/{id}")
@@ -202,5 +206,15 @@ public class BookingRestController {
         return bookingService.advancedSearch(query, shift, restaurantId, date).stream()
                 .map(bookingMapper::toDto)
                 .toList();
+    }
+    @Operation(summary = "Get available seats for a restaurant, date, and shift")
+    @GetMapping("/availability")
+    public ResponseEntity<Integer> getAvailableSeats(
+            @RequestParam Long restaurantId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+            @RequestParam String shift
+    ) {
+        int seats = bookingService.getAvailableSeats(restaurantId, date, shift);
+        return ResponseEntity.ok(seats);
     }
 }

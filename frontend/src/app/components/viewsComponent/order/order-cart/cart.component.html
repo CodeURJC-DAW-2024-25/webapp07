@@ -28,4 +28,5 @@
     <h5 class="text-end">Total: {{ cart.totalPrice | currency:'EUR' }}</h5>
   </div>
   <button class="btn btn-success mt-3" (click)="placeOrder()">Order</button>
+  <button class="btn btn-danger mt-3 ms-2" (click)="onClearCart()">Clear Cart</button>
 </div>

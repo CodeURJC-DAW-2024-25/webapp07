@@ -2,7 +2,7 @@
 :root {
     --primary: #FEA116;
     --light: #F1F8FF;
-    --dark: #0F172B;
+    --dark: #CFD8DC;
 }
 
 .ff-secondary {
@@ -142,7 +142,7 @@
         z-index: 999;
         background: transparent !important;
     }
-    
+
     .sticky-top.navbar-dark {
         position: fixed;
         background: var(--dark) !important;
@@ -162,10 +162,10 @@
     animation: imgRotate 50s linear infinite;
 }
 
-@keyframes imgRotate { 
-    100% { 
-        transform: rotate(360deg); 
-    } 
+@keyframes imgRotate {
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
@@ -484,7 +484,7 @@
      transition: transform 0.3s ease, box-shadow 0.3s ease;
  }
 .dish-image img:hover {
-    transform: scale(1.05); 
+    transform: scale(1.05);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
@@ -535,3 +535,16 @@
 .star-rating .fas.active {
     color: #ffcc00;
 }
+.mb-4 {
+  /* conserva la separación: */
+  margin-bottom: 3rem;
+  /* aquí tu color deseado: */
+  color: #CFD8DC;  /* por ejemplo un naranja fuerte */
+}
+.mb-5 {
+   /* conserva la separación: */
+   margin-bottom: 3rem;
+   /* aquí tu color deseado: */
+   color: #CFD8DC;  /* por ejemplo un naranja fuerte */
+ }
+
