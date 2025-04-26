@@ -1,8 +1,12 @@
+//dish-form-component.ts
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DishService } from '../../../services/dish.service';
 import { DishDTO } from '../../../dtos/dish.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import {of} from "rxjs";
+import { Allergens } from "../../../dtos/enums/allergens.enum";
 
 @Component({
   selector: 'app-dish-form',
@@ -82,40 +86,91 @@ export class DishFormComponent implements OnInit {
       this.dishForm.markAllAsTouched();
       return;
     }
+    this.isSubmitting = true;
+    this.submitErrorMessage = null;
+
+    const fv = this.dishForm.value as {
+      name: string;
+      description: string;
+      price: number;
+      ingredients: string;
+      allergens: string[];
+      isVegan: boolean;
+      imageField: File | null;
+    };
+
+    const file = fv.imageField as File | null;
+
+    const selectedAllergens: Allergens[] = (fv.allergens as string[])
+      .map(name => name as keyof typeof Allergens)        // 'GLUTEN' -> key of enum
+      .map(key => Allergens[key]);
+
+    const dto: Omit<DishDTO, 'id'> = {
+      name: fv.name,
+      description: fv.description,
+      price: fv.price,
+      ingredients: fv.ingredients.split(',').map(i => i.trim()),
+      allergens: selectedAllergens,
+      isVegan: fv.isVegan,
+
+      // campos del backend
+      dishImagePath: '',
+      available: true,
+      rates: [],
+      rate: 0,
+
+      // ← ESTE CAMPO ES OBLIGATORIO:
+      // true si hemos seleccionado un fichero, false en otro caso
+      image: !!file
+    };
 
     this.isSubmitting = true;
     this.submitErrorMessage = null;
 
-    const formValues = this.dishForm.value;
+    if (this.editMode && this.dishId != null) {
+      // UPDATE
+      this.dishService.updateDish(this.dishId, dto).subscribe({
+        next: () => {
+          const img$ = file
+            ? this.dishService.replaceDishImage(this.dishId!, file)
+            : of(void 0);
+          img$.subscribe({
+            next: () => this.finishSubmit(),
+            error: err => this.handleError(err)
+          });
+        },
+        error: err => this.handleError(err)
+      });
+    } else {
+      // CREATE
+      this.dishService.addDish(dto).subscribe({
+        next: (createdDish: DishDTO) => {
+          const newId = createdDish.id;
+          const file = this.dishForm.value.imageField as File | null;
 
-    const dishData: DishDTO = {
-      ...formValues,
-      id: this.dishId ?? null,
-      ingredients: formValues.ingredients.split(',').map((i: string) => i.trim()),
-      allergens: formValues.allergens,
-      dishImagePath: this.dish?.dishImagePath ?? '',
-      // dishImageFile: this.dish?.dish ?? '',
-      image: !!formValues.imageField,
-      available: this.dish?.available ?? true,
-      rates: this.dish?.rates ?? [],
-      rate: this.dish?.rate ?? 0,
-    };
+          // Solo si hay archivo, hacemos la subida:
+          const img$ = file
+            ? this.dishService.uploadDishImage(newId, file)
+            : of(void 0);
 
-    console.log(dishData);
-    const request$ = this.editMode && this.dishId
-        ? this.dishService.updateDish(this.dishId, dishData)
-        : this.dishService.addDish(dishData);
+          img$.subscribe({
+            next: () => this.finishSubmit(),
+            error: err => this.handleError(err)
+          });
+        },
+        error: err => this.handleError(err)
+      });
+    }
+  }
 
-    request$.subscribe({
-      next: () => {
-        this.isSubmitting = false;
-        this.router.navigate(['/dishes']);
-      },
-      error: (err) => {
-        this.isSubmitting = false;
-        this.submitErrorMessage = err.error?.message || 'Error while saving the dish.';
-      }
-    });
+  private finishSubmit() {
+    this.isSubmitting = false;
+    this.router.navigate(['/dishes']);
+  }
+
+  private handleError(err: any) {
+    this.isSubmitting = false;
+    this.submitErrorMessage = err.error?.message || 'Error al guardar el plato.';
   }
 
   onImageSelected(event: Event) {

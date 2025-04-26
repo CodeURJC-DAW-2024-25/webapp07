@@ -1,3 +1,5 @@
+//dish.service.ts
+
 import {HttpClient, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -41,13 +43,25 @@ export class DishService {
   getDishById(id: number): Observable<DishDTO> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
-  addDish(dishData: Omit<DishDTO, 'id'>): Observable<{id: number}> {
-    return this.http.post<{id: number}>(`${this.apiUrl}/`, dishData);
+  addDish(dishData: Omit<DishDTO, 'id'>): Observable<DishDTO> {
+    return this.http.post<DishDTO>(`${this.apiUrl}/`, dishData);
   }
 
   updateDish(id: number, dishData: Partial<DishDTO>): Observable<DishDTO> {
     // this.http.put<DishDTO>(`${this.apiUrl}/${id}/image`, dishData.im);
     return this.http.put<DishDTO>(`${this.apiUrl}/${id}`, dishData);
+  }
+
+  uploadDishImage(id: number, file: File): Observable<void> {
+    const form = new FormData();
+    form.append('imageFile', file);
+    return this.http.post<void>(`${this.apiUrl}/${id}/image`, form);
+  }
+
+  replaceDishImage(id: number, file: File): Observable<void> {
+    const form = new FormData();
+    form.append('imageFile', file);
+    return this.http.put<void>(`${this.apiUrl}/${id}/image`, form);
   }
 
   disableDish(id: number) {

@@ -137,6 +137,7 @@ public class DishRestController {
     @PostMapping("/")
     public ResponseEntity<DishDTO> createDish(@Valid @RequestBody DishDTO dishDTO) {
         long dishId = dishService.createDish(dishDTO);
+        //dishDTO.setId(dishId);
         URI location = URI.create("/api/v1/dishes/" + dishId);
         return ResponseEntity.created(location).body(dishDTO);
     }
