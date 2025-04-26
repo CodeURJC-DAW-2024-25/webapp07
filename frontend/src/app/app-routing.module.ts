@@ -28,6 +28,7 @@ import { BookingFormComponent }      from './components/viewsComponent/booking/b
 import { BookingExistingComponent }  from './components/viewsComponent/booking/booking-messages/booking-existing.component';
 import { BookingCancelledComponent } from './components/viewsComponent/booking/booking-messages/booking-cancelled.component';
 import { BookingConfirmationComponent } from './components/viewsComponent/booking/booking-messages/booking-confirmation.component';
+import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-rating.component";
 
 const routes: Routes = [
   // public
@@ -61,6 +62,7 @@ const routes: Routes = [
       // menu
       { path: 'dishes/add',   component: DishFormComponent, data: { title: 'Dish Form', showTitle: false } },
       { path: 'dishes/:id/edit', component: DishFormComponent, data: { title: 'Dish Form', showTitle: false } },
+      { path: 'dishes/:id/rate', component: DishRatingComponent, data: { title: 'Dish Rate', showTitle: false } },
 
       // orders
       { path: 'orders/cart',          component: CartComponent },

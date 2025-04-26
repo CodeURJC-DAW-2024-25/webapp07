@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
@@ -160,6 +161,14 @@ public class DishRestController {
 
         return ResponseEntity.created(location).build();
     }
+
+    @PostMapping("/{id}/rate")
+    public ResponseEntity<Void> rateDish(@PathVariable Long id, @RequestBody Map<String, Integer> ratePayload) {
+        Integer rate = ratePayload.get("rate");
+        dishService.addRate(id, rate);
+        return ResponseEntity.ok().build();
+    }
+
 
     @Operation(summary = "Retrieve the image for a specific dish", description = "Retrieves the image associated with the dish identified by the given ID.")
     @ApiResponses({

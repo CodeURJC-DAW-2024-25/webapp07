@@ -127,6 +127,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/restaurants/**").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/api/v1/dishes").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/dishes/{id}/rate").authenticated()
                         .requestMatchers(HttpMethod.GET, "/api/v1/dishes/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/dishes/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/dishes/**").hasRole("ADMIN")

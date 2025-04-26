@@ -65,6 +65,9 @@ export class DishService {
     return this.http.put<DishDTO>(`${this.apiUrl}/${id}`, dishData);
   }
 
+  rateDish(dishId: number, rate: number) {
+    return this.http.post(`${this.apiUrl}/${dishId}/rate`, { rate });
+  }
 
   replaceDishImage(id: number, file: File): Observable<void> {
     const form = new FormData();

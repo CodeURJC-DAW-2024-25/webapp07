@@ -54,6 +54,7 @@ import {FaqsComponent} from "./components/viewsComponent/faqs/faqs.component";
 import {AccordionItemComponent} from "./components/generalComponents/accordion-item/accordion-item.component";
 import {TestimonialCardComponent} from "./components/generalComponents/testimonial-card/testimonial-card.component";
 import {UnauthorizedComponent} from "./components/viewsComponent/unauthorized/unauthorized.component";
+import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-rating.component";
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import {UnauthorizedComponent} from "./components/viewsComponent/unauthorized/un
     DishDetailsComponent,
     DishFormComponent,
     DishFilterComponent,
+    DishRatingComponent,
     BookingFormComponent,
     BookingExistingComponent,
     BookingCancelledComponent,

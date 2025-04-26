@@ -74,6 +74,13 @@
             <button class="btn btn-warning" *ngIf="isLoggedIn$ | async" (click)="toggleAvailability()">
               {{ dish.available ? 'Deshabilitar' : 'Habilitar' }}
             </button>
+            <!-- Detalles del plato -->
+            <div class="d-flex justify-content-center mt-4">
+              <button class="btn btn-primary" [routerLink]="['/dishes', dish.id, 'rate']">
+                Rate this dish
+              </button>
+            </div>
+
           </div>
 
         </div>

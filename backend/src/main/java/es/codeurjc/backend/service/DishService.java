@@ -3,6 +3,7 @@ package es.codeurjc.backend.service;
 import es.codeurjc.backend.dto.DishDTO;
 import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.enums.Allergens;
+import es.codeurjc.backend.exception.custom.ResourceNotFoundException;
 import es.codeurjc.backend.mapper.DishMapper;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.repository.DishRepository;
@@ -300,6 +301,15 @@ public class DishService {
         dishRepository.save(dish);
 
         return dish.getId();
+    }
+    public void addRate(Long dishId, Integer newRate) {
+        Dish dish = dishRepository.findById(dishId)
+                .orElseThrow(() -> new ResourceNotFoundException("Dish not found"));
+
+        List <Integer> ratesList = dish.getRates();
+        ratesList.add(newRate);
+        dish.setRates(ratesList); // rates es un List<Integer> en el Dish
+        dishRepository.save(dish);
     }
 
     /**
