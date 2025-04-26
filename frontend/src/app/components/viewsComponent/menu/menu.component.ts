@@ -16,6 +16,7 @@ export class MenuComponent implements OnInit {
   currentPage = 0;
   pageSize = 10;
   hasMoreData = true;
+  isLoading = false;
   isLoggedIn$ = this.authService.isAuthenticated$;
   filters = {
     name: '',
@@ -39,7 +40,12 @@ export class MenuComponent implements OnInit {
   //   //   });
   //   // }
   loadMoreDishes(): void {
+    this.isLoading = true;
+
+
     this.dishService.getDishes(this.currentPage, this.pageSize, this.filters).subscribe((data: DishDTO[]) => {
+      this.isLoading = false;
+
       if (data.length < this.pageSize) {
         this.hasMoreData = false;
       }
