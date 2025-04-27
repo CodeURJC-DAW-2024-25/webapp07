@@ -219,12 +219,11 @@ public class OrderRestController {
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
     @GetMapping("/{id}/summary")
-    public ResponseEntity<OrderDTO> getOrderSummary(
+    public ResponseEntity<Map<String,Object>> getOrderSummary(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails userDetails) {
-
-        OrderDTO orderDTO = orderService.getOrderDTOByIdForUser(id, userDetails.getUsername());
-        return ResponseEntity.ok(orderDTO);
+        Map<String,Object> summary = orderService.getOrderSummaryDTOById(id, userDetails.getUsername());
+        return ResponseEntity.ok(summary);
     }
 
 
