@@ -46,19 +46,13 @@ export class OrderSummaryComponent implements OnInit {
 
     this.orderService.getSummary(orderId).subscribe({
       next: (data: OrderSummary) => {
-        // Si ya está pagada, redirigimos a la vista de info
         if (data.status === 'Paid') {
           this.router.navigate(['/orders', orderId, 'info']);
           return;
         }
-
-        // Mostramos el resumen para confirmar
         this.order = data;
-
-        // Inicializamos originalAddress y dejamos address no nulo
         this.originalAddress = this.order.address ?? '';
         this.order.address = this.originalAddress;
-
         this.isLoading = false;
       },
       error: err => {
@@ -70,9 +64,7 @@ export class OrderSummaryComponent implements OnInit {
   }
 
   confirmOrder(): void {
-    if (!this.order) {
-      return;
-    }
+    if (!this.order) return;
 
     const addr = this.order.address?.trim();
     if (!addr) {
@@ -96,4 +88,21 @@ export class OrderSummaryComponent implements OnInit {
     });
   }
 
+  goBack(): void {
+    this.router.navigate(['/menu']);
+  }
+
+  cancelOrder(): void {
+    if (!this.order) return;
+
+    this.orderService.delete(this.order.id).subscribe({
+      next: () => {
+        this.router.navigate(['/menu']);
+      },
+      error: err => {
+        console.error('Error cancelling order:', err);
+        this.error = 'Could not cancel order';
+      }
+    });
+  }
 }

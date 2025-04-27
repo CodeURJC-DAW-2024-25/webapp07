@@ -1,101 +1,100 @@
-<div class="container mt-5">
-  <ng-container *ngIf="!isLoading; else loadingTpl">
-    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+<div class="container-xxl py-3" *ngIf="order">
+  <div class="container">
+    <div class="text-center">
 
-    <div *ngIf="order">
-      <h2 class="text-center mb-4">Order Summary</h2>
+      <!-- Order's Card -->
+      <div class="text-sm-start rounded-4 card shadow-lg">
 
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <strong>Subtotal:</strong>
-          {{ order.totalPrice | currency:'EUR' }}
+        <!-- Header del Card -->
+        <div class="d-flex py-3 card-head bg-primary text-white justify-content-center align-items-center rounded-top-4">
+          <span class="section-title ff-secondary text-center text-white fw-normal fs-3">Your order</span>
         </div>
-        <div class="col-md-6 text-end">
-          <strong>Delivery:</strong>
-          {{ order.deliveryCost | currency:'EUR' }}
+
+        <!-- Cuerpo del Card -->
+        <div class="card-body bg-light rounded-bottom-4">
+
+          <!-- Dishes List -->
+          <div *ngFor="let dish of order.dishes" class="d-flex align-items-center mb-3">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>{{ dish.name }}</span>
+                <span class="text-primary">&euro;{{ dish.price }}</span>
+              </h5>
+              <small class="fst-italic">{{ dish.description }}</small>
+            </div>
+          </div>
+
+          <!-- Subtotal -->
+          <div class="d-flex justify-content-between pt-3">
+            <h5 class="text-end">Subtotal</h5>
+            <h5 class="text-end text-primary">&euro;{{ order.totalPrice }}</h5>
+          </div>
+
+          <!-- Delivery -->
+          <div class="d-flex justify-content-between">
+            <h5 class="text-end">Delivery</h5>
+            <h5 class="text-end text-primary">&euro;{{ order.deliveryCost }}</h5>
+          </div>
+
+          <!-- Shipping Address -->
+          <div class="d-flex align-items-center mb-3 mt-4">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+              <h5 class="d-flex justify-content-between border-bottom pb-2">
+                <span>Address</span>
+              </h5>
+              <input
+                type="text"
+                id="addressInput"
+                class="form-control mt-2"
+                [(ngModel)]="order.address"
+                placeholder="Enter your address"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Total Final -->
+          <hr>
+          <div class="d-flex justify-content-between fw-bold mt-3">
+            <h5 class="text-end">Total</h5>
+            <h5 class="text-end text-primary">&euro;{{ order.finalPrice }}</h5>
+          </div>
+
+          <!-- Botones -->
+          <div class="button-group justify-content-between d-flex mt-4">
+            <button class="btn btn-secondary mt-2" (click)="goBack()">Back</button>
+            <button class="btn btn-danger mt-2" (click)="cancelOrder()">Cancel Order</button>
+            <button
+              class="btn btn-success mt-2"
+              (click)="confirmOrder()"
+              [disabled]="!order.address.trim()"
+            >
+              Pay
+            </button>
+          </div>
+
+          <!-- Validación dirección -->
+          <div *ngIf="order?.address !== undefined && !order.address.trim()" class="text-danger mt-2 text-center">
+            Please enter a shipping address before confirming.
+          </div>
+
         </div>
+
       </div>
 
-      <!-- Address Section -->
-      <div class="form-group mb-4">
-        <label for="addressInput"><strong>Shipping Address</strong></label>
-
-        <p class="mt-2 mb-1 text-light">
-          Please review your shipping address below.
-          You can use the one on file or enter a new one.
-        </p>
-
-        <div *ngIf="order.address && order.address === originalAddress; else customAddress">
-          <small class="text-success">
-            <i class="bi bi-check-circle-fill"></i>
-            Using address from your profile. You can edit it if needed.
-          </small>
-        </div>
-        <ng-template #customAddress>
-          <small class="text-info">
-            <i class="bi bi-pencil-fill"></i>
-            You’ve entered a custom shipping address.
-          </small>
-        </ng-template>
-
-        <input
-          type="text"
-          id="addressInput"
-          class="form-control mt-2"
-          [(ngModel)]="order.address"
-          placeholder="Enter your shipping address"
-        >
-      </div>
-
-      <!-- Dishes List -->
-      <table class="table" *ngIf="order.dishes?.length">
-        <thead>
-        <tr>
-          <th>Dish</th>
-          <th>Description</th>
-          <th class="text-end">Price (€)</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let dish of order.dishes">
-          <td>{{ dish.name }}</td>
-          <td><small class="fst-italic">{{ dish.description }}</small></td>
-          <td class="text-end">{{ dish.price | currency:'EUR' }}</td>
-        </tr>
-        </tbody>
-      </table>
-
-      <!-- Final Total -->
-      <div class="d-flex justify-content-between fw-bold mt-3">
-        <h5>Total:</h5>
-        <h5>{{ order.finalPrice | currency:'EUR' }}</h5>
-      </div>
-
-      <!-- Actions -->
-      <div class="text-center mt-4">
-        <button
-          class="btn btn-success px-5 py-2"
-          (click)="confirmOrder()"
-          [disabled]="!order.address.trim()"
-
-        >
-          Confirm Order
-        </button>
-      </div>
-      <div *ngIf="order?.address !== undefined && !order.address.trim()" class="text-danger mt-2 text-center">
-        Please enter a shipping address before confirming.
-      </div>
     </div>
-
-    <div *ngIf="!order && !error" class="text-center">
-      <p>No order data available.</p>
-    </div>
-  </ng-container>
-
-  <ng-template #loadingTpl>
-    <div class="text-center py-5">
-      <div class="spinner-border" role="status"></div>
-      <span class="ms-2">Loading...</span>
-    </div>
-  </ng-template>
+  </div>
 </div>
+
+<!-- Spinner de carga si no hay order -->
+<ng-container *ngIf="isLoading">
+  <div class="text-center py-5">
+    <div class="spinner-border" role="status"></div>
+    <span class="ms-2">Loading...</span>
+  </div>
+</ng-container>
+
+<!-- Error si lo hay -->
+<ng-container *ngIf="error && !isLoading">
+  <div class="alert alert-danger text-center mt-4">{{ error }}</div>
+</ng-container>

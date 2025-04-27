@@ -1,32 +1,59 @@
-<div class="container mt-5">
-  <h2 class="text-center mb-4">Your Cart</h2>
+<div class="container-xxl py-3" *ngIf="cart">
+  <div class="container">
+    <div class="text-center">
 
-  <div *ngIf="isLoading">Loading...</div>
+      <!-- Carrito Card -->
+      <div class="text-sm-start rounded-4 card shadow-lg">
 
-  <div *ngIf="!isLoading && cart?.dishes?.length === 0">
-    <p class="text-muted text-center">Your cart is empty.</p>
+        <!-- Header del Card -->
+        <div class="d-flex py-3 card-head bg-primary text-white justify-content-center align-items-center rounded-top-4">
+          <span class="section-title ff-secondary text-center text-white fw-normal fs-3">Your Cart</span>
+        </div>
+
+        <!-- Cuerpo del Card -->
+        <div class="card-body bg-light rounded-bottom-4">
+
+          <!-- Cargando -->
+          <div *ngIf="isLoading" class="text-center py-5">
+            <div class="spinner-border" role="status"></div>
+            <span class="ms-2">Loading...</span>
+          </div>
+
+          <!-- Carrito vacío -->
+          <div *ngIf="!isLoading && cart?.dishes?.length === 0" class="text-center py-5">
+            <p class="text-muted">Your cart is empty.</p>
+          </div>
+
+          <!-- Lista de platos -->
+          <div *ngIf="cart?.dishes?.length">
+            <div *ngFor="let dish of cart.dishes" class="d-flex align-items-center mb-3">
+              <div class="w-100 d-flex flex-column text-start ps-4">
+                <h5 class="d-flex justify-content-between border-bottom pb-2">
+                  <span>{{ dish.name }}</span>
+                  <span class="text-primary">{{ dish.price | currency:'EUR' }}</span>
+                </h5>
+                <small class="fst-italic">{{ dish.description }}</small>
+              </div>
+            </div>
+
+            <!-- Total -->
+            <hr>
+            <div class="d-flex justify-content-between fw-bold mt-3">
+              <h5>Total</h5>
+              <h5 class="text-primary">{{ cart.totalPrice | currency:'EUR' }}</h5>
+            </div>
+
+            <!-- Botones -->
+            <div class="button-group justify-content-between d-flex mt-4">
+              <button class="btn btn-success mt-2" (click)="placeOrder()">Order</button>
+              <button class="btn btn-danger mt-2" (click)="onClearCart()">Clear Cart</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
   </div>
-
-  <table class="table" *ngIf="cart?.dishes?.length">
-    <thead>
-    <tr>
-      <th>Dish</th>
-      <th>Description</th>
-      <th>Price (€)</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let dish of cart?.dishes">
-      <td>{{ dish.name }}</td>
-      <td>{{ dish.description }}</td>
-      <td>{{ dish.price}}</td>
-    </tr>
-    </tbody>
-  </table>
-
-  <div *ngIf="cart">
-    <h5 class="text-end">Total: {{ cart.totalPrice | currency:'EUR' }}</h5>
-  </div>
-  <button class="btn btn-success mt-3" (click)="placeOrder()">Order</button>
-  <button class="btn btn-danger mt-3 ms-2" (click)="onClearCart()">Clear Cart</button>
 </div>
