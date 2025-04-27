@@ -7,6 +7,6 @@ export interface OrderDTO {
   user: UserDTO;
   orderDate: string;
   address: string;
-  status: string;
+  status: 'Paid' | 'Accepted' | 'Pending';
   totalPrice: number;
 }

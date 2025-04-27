@@ -1,0 +1,17 @@
+.card {
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.card-head {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+.card-body {
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  padding: 2rem;
+}
+.btn {
+  border-radius: 0.5rem;
+}

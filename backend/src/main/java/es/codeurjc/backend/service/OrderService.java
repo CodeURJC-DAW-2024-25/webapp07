@@ -301,9 +301,9 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
 
-        if ("Paid".equals(orderDTO.status())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Order is already paid");
-        }
+//        if ("Paid".equals(orderDTO.status())) {
+//            throw new ResponseStatusException(HttpStatus.CONFLICT, "Order is already paid");
+//        }
 
         double deliveryCost = 4.99;
         double totalPrice   = orderDTO.totalPrice();
@@ -333,6 +333,8 @@ public class OrderService {
                 "firstName", firstNameSafe,
                 "lastName",  lastNameSafe
         ));
+        response.put("status", orderDTO.status());
+
 
         return response;
     }
