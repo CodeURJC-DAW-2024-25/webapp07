@@ -936,8 +936,9 @@ Node.js: [Installation Node.js](https://nodejs.org/)
 ---
 # :art: Class and templates diagram of SPA
 
-![*templateDiagram*](readmeImg/diagramSPA2.png)
-![*templateDiagram*](readmeImg/diagramSPA1.png)
+![*templateDiagram*](ComponentDiagram_img1.png)
+![*templateDiagram*](ComponentDiagram_img2.png)
+![*templateDiagram*](ComponentDiagram_img3.png)
 
 
 
