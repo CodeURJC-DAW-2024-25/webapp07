@@ -47,15 +47,20 @@ ___
     - [**:art:Class diagram and templates**](#art-Class-diagram-and-templates)
     - [**:raised_hand: Participation**](#raised_hand-Participation)
   - [**Phase 3**](#phase-3)
-  - [**:globe_with_meridians:API REST documentation**](#globe_with_meridians-API-REST-documentation)
-  - [**:art:Class diagram and templates 2**](#art-Class-diagram-and-templates-2)
-  - [**:feet:Instructions for Running the Dockerized Application**](#feet-Instructions-for-Running-the-Dockerized-Application)
-  - [**:paperclip: Documentation for Building the Docker Image**](#paperclip-Documentation-for-Building-the-Docker-Image)
-  - [**:dash: Deployment on Virtual Machine**](#dash-Deployment-on-Virtual-Machine)
-  - [**:dash: Deployed application URL**](#dash-Deployed-application-URL)
-  - [**:bust_in_silhouette: User Examples**](#bust_in_silhouette-User-Examples)
-  - [**:raised_hand: Participation**](#raised_hand-Participation-phase-3)
-
+    - [**:globe_with_meridians:API REST documentation**](#globe_with_meridians-API-REST-documentation)
+    - [**:art:Class diagram and templates 2**](#art-Class-diagram-and-templates-2)
+    - [**:feet:Instructions for Running the Dockerized Application**](#feet-Instructions-for-Running-the-Dockerized-Application)
+    - [**:paperclip: Documentation for Building the Docker Image**](#paperclip-Documentation-for-Building-the-Docker-Image)
+    - [**:dash: Deployment on Virtual Machine**](#dash-Deployment-on-Virtual-Machine)
+    - [**:dash: Deployed application URL**](#dash-Deployed-application-URL)
+    - [**:bust_in_silhouette: User Examples**](#bust_in_silhouette-User-Examples)
+    - [**:raised_hand: Participation**](#raised_hand-Participation-phase-3)
+  - [**Phase 4**](#phase-4)
+    - [**:globe_with_meridians: SPA Client with Angular documentation**](#globe_with_meridians-SPA-Client-with-Angular-documentation)
+    - [**:art: Class and templates diagram of SPA**](#art-Class-and-templates-diagram-of-SPA)
+    - [**:raised_hand: Participation phase 4**](#raised_hand-Participation-phase-4)
+    - [**:video_camera: Video of the application**](#video_camera-Demo-video)
+___
 
 # Phase 0
 ___
@@ -876,3 +881,164 @@ Below are the credentials for example users, including an administrator user, to
 | 3º |              [Update: Refactor dashboard logic](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/60b3105a82393be9c0f667f598cc15128dd4467c)              | |2º | [DashboardController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/controller/admin/DashboardController.java) 
 | 4º |          [Add: Dashboard API REST logic](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/2cab054b978a2abb6cc5cac0cef823ffb79b98f2)          | | 3º |   [DishRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/restController/DishRestController.java)   |
 | 5º |    [Update VolteretaCroqueta.postman_collection.json](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/9823dea9abf1324d7a4c22202fc8aa970bd6b67f)     | | 4º |             [VolteretaCroqueta.postman_collection.json](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/VolteretaCroqueta.postman_collection.json)              |
+
+
+___
+# Phase 4
+___
+# :globe_with_meridians: SPA Client with Angular documentation
+
+To Setting Up the Development Environment, follow these instructions:
+
+### Requirements:
+- Node and npm installed on the host machine
+- Angular CLI installed on the host machine
+
+### Steps:
+1. Installing Node.js and npm:
+
+   Before starting to work with the SPA application developed with Angular, it's necessary to have Node.js and npm (Node Package Manager) installed. You can download and install Node.js from the official website: Node.js. npm will be installed automatically along with Node.js.
+
+
+Node.js: [Installation Node.js](https://nodejs.org/)
+
+
+2. Installing Angular CLI:
+
+   Angular CLI (Command Line Interface) is a command-line tool that facilitates the creation, compilation, and execution of Angular projects. To install Angular CLI, open a terminal or command prompt and execute the following command:
+
+   ```bash
+    npm install -g @angular/cli
+   ```
+3. **Repository Cloning**
+
+   Clone the application repository using Git.
+
+   ```bash
+   git clone https://github.com/CodeURJC-DAW-2023-24/webapp16
+   ```
+
+4. Installing Dependencies
+
+   Once you have cloned the repository, navigate to the project directory and execute the following command to install all project dependencies:
+
+   ```shell
+    cd webapp16
+    npm install
+
+5. Compiling and Running the Application
+
+   Once you have installed all dependencies, you can compile and run the Angular application locally. Use the following commands in your terminal:
+
+   ```shell
+   ng serve
+
+---
+# :art: Class and templates diagram of SPA
+
+![*templateDiagram*](readmeImg/diagramSPA2.png)
+![*templateDiagram*](readmeImg/diagramSPA1.png)
+
+
+
+---
+# :raised_hand: Participation phase 4
+
+---
+
+#### Ahmad Abdel Raziq Al Otaibi
+
+*  Showreport: I implemented the Show Report component, which allows users to view the reports generated by the application.
+*  FillMatchreport. I implemented the Fill Match Report component, which allows users to fill out a match report form.
+*  Login: I implemented the Login component, which allows users to log in to the application.
+*  Login Error: I implemented the Login Error component, which displays an error message when a user enters incorrect login credentials.
+
+
+| #   |                                                                             Commit                                                                              |     | #   |                                                                      File                                                                      |
+| :-: |:---------------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:----------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |                    [Add: Login Component](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/07bcbbc1da6b099f479c55899678b0db5650f940)                     | | 1º |                                    [match.service.ts](frontend/webapp16/src/app/services/match.service.ts)                                     |
+| 2º  |                 [Add: Login Error Component](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/08e26fbe30e58e13d9340221b40a94ed0d72236c)                  | |2º | [fillMatchReport.component.html](frontend/webapp16/src/app/components/viewsComponents/fillMatchReportComponent/fillMatchReport.component.html) |
+| 3º  |              [Add: Fill Match Report Component](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/7fdb1c96ca58d2d9293128c378fdfb91bc63c891)               | | 3º |   [fillMatchReport.component.ts](frontend/webapp16/src/app/components/viewsComponents/fillMatchReportComponent/fillMatchReport.component.ts)   |
+| 4º  |                 [Add: Show Report Component](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/a1b0c4691ef8b95b8cba8d829a371154a26f82b2)                  | | 4º |        [showReport.component.html](frontend/webapp16/src/app/components/viewsComponents/showReportComponent/showReport.component.html)         |
+| 5º  | [Add: logic ShowReportComponent and FillMatchReportComponent](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/33187a68c2cf3712650dbd101c4010d67feea0d5) | | 5º |                  [showReport.component.ts](frontend/webapp16/src/app/components/viewsComponents/showReportComponent/showReport.component.ts)                   |
+
+
+#### Nicolás Hernández Tejero
+
+* Authentication and Authorization implementation: I implemented the authentication and authorization mechanisms in the Angular application, ensuring that users can only access the application's features based on their roles.
+* User Profile Management: I implemented the user profile management feature, allowing users to view and modify their profile information.
+* Security Enhancements: I added security enhancements to the application, such as password hashing and salting, to protect user data.
+* User Registration and Login: I implemented the user registration and login features, allowing users to create an account and log in to the application.
+* Bug Fixes and User Interface Enhancements: Troubleshooting issues related to incorrect password. Updated user interface components related to authentication and user profile.
+* Updating configuration files, such as Dockerfile and proxy.conf.json, to maintain project functionality and security.
+* Implementation of AJAX requests for player and team management.
+* Introduction of new reactive forms for login.
+
+| #   |                                                                              Commit                                                                              |     | #   |                                                                                         File                                                                                          |
+| :-: |:----------------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |         [Add: players statidistics component service](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/d08ab87a17801f5670dc4fb35f7e3db13bdc9ca4)          | | 1º |             [auth.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/services/auth.service.ts)              |
+| 2º  |                [Add: register and Fix: search](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/14a714f5d6f4b1c76bd48b178b4313b296413886)                 | |2º |            [profile.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/profileComponent/profile.component.ts)             |
+| 3º  |                [Add: new reactive forms login](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/1ba6ed32b789205abeb6363d8f054c1980376120)                 | | 3º | [login.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/loginComponent/login.component.ts)  |
+| 4º  |                         [Add: User me](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/e49b7477da5018f4d18d501c85ba9e2409ab64b5)                         | | 4º |            [teamStatistics.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/teamStatistics/teamStatistics.component.ts)             |
+| 5º  |               [Add: AJAX players and fix teams](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/40db3a7187d1e56bc6ecb028dd90ae43ae5f69e8)                | | 5º | [user.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/services/user.service.ts) |
+
+#### Adrián Soriano Aragón
+
+* Algorithms: I implemented the algorithms for calculating the statistics of the teams.
+* Algorithms: Algorithm to generate and update tournamet Bracket with matches reports.
+* Screen : I have implemented and helped with the creation of numerous screen, such as, tournament, tournamentBracket,matchInfo, fillMatchReport..
+* Technology : I have implemented PDF technology to generate reports.
+
+
+
+| #   |                                                                                           Commit                                                                                           |     | #   |                                                                                                    File                                                                                                     |
+| :-: |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |                                        [Add: PDF](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/0a2d4e7e93ce892c4783083d35ecf201c7f22ebf)                                        | | 1º |                                [tournament.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/services/tournament.service.ts)                                 |
+| 2º  |                                 [Add: tournament Logic](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/ccae648f9756d6ad93dc02166fd3b29e5eee09e3)                                  | |2º |                                    [report.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/services/reports.service.ts)                                    |
+| 3º  | [Add : Match info](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/1d862fd32a29fc7926b4ebe1c02ab2eb9d39f2b0#diff-f1b490685397d0aa51631c08d1e5f7f252af3088056372434bae8258a1ff0b5a) | | 3º |           [tournament.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/tournamentComponent/tournament.component.ts)            |
+| 4º  |                                 [Add: tournament screen](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/931c41808bdbd00eb33d7e6e3251427ccb905a2f)                                 | | 4º | [tournamentBracket.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/tournamentBracketComponent/tournamentBracket.component.ts) |
+| 5º  |                               [Add: statistics algorithm](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/21142855b9fa9512cd849fc342549eb623231512)                                | | 5º |          [teamStatistics.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/teamStatistics/teamStatistics.component.ts)          |
+
+#### Manuel López Corchado
+
+* Implemented and designed logic in form of new Tournament and new Team components.
+* Implemented and designed team info and player info components.
+* Implemented API authentication and authorization. Also requests with auth tokens.
+* Implemented user auth login/logout.
+* Added some component's html and css.
+
+
+
+| #   |                                                                                                                                  Commit                                                                                                                                  |     | #   |                                                                                File                                                                                |
+| :-: |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |                                                      [Add: NewTournament logic added. Fixed: Tournament addition](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/0afc16d76d1e80efbd039b9f704d2aee603fb288)                                                      | | 1º |      [Team Info Component](https://github.com/CodeURJC-DAW-2023-24/webapp16/tree/main/frontend/webapp16/src/app/components/viewsComponents/teamInfoComponent)      |
+| 2º  |                                                                          [Auth login on SPA](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/313b67f56fc4b280cadd137d73bd0ecf41a11b31)                                                                           | |2º |    [Player Info Component](https://github.com/CodeURJC-DAW-2023-24/webapp16/tree/main/frontend/webapp16/src/app/components/viewsComponents/playerInfoComponent)    |
+| 3º  |                 [Add: teamInfoComponent and playerInfoComponent implementation. Fix: teamInfo screen players by team. Fixed: teamInfo and playerInfo](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/c95c2e8d5762e2558633f1f4dee68bbdd3b56447)                  | | 3º |       [New Team Component](https://github.com/CodeURJC-DAW-2023-24/webapp16/tree/main/frontend/webapp16/src/app/components/viewsComponents/newTeamComponent)       |
+| 4º  |                                                      [Add: NewTournament logic added. fixed: Tournament addition](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/0afc16d76d1e80efbd039b9f704d2aee603fb288)                                                      | | 4º | [New Tournament Component](https://github.com/CodeURJC-DAW-2023-24/webapp16/tree/main/frontend/webapp16/src/app/components/viewsComponents/newTournamentComponent) |
+| 5º  |                                                              [Add: angular folder and SPA proyect files](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/aa2867f3b389e340f67e138a29d3b21ad1c987d1)                                                               | | 5º |                              [Auth.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/services/auth.service.ts)                               |
+
+
+#### Natalia Hernández Vargas
+
+* I have helped implement the errorComponent and bannerComponent.
+* I have helped implement the teamCardsComponent and playerCardsComponent.
+* I have done the class and templates Diagram.
+* I have implemented the playerComponent.
+* I have implemented the teamComponent.
+
+
+| #   |                                                                                                           Commit                                                                                                           |     | #   |                                                                                    File                                                                                    |
+| :-: |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |                                                   [Add: teamComponent](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/4be45e50d5562bfe6a911420c21cc2fe8c2395b2)                                                   | | 1º | [player.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/playerComponent/player.component.ts) |
+| 2º  |                                                  [Add: playerComponent](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/35a18ba38ad2beb927ae6fbe34dacf9ab13f827d)                                                  | |2º |    [team.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/teamComponent/team.component.ts)    |
+| 3º  | [Fix: playerCardsComponent and teamCardsComponent](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/3b951223960c76cd48c6f0a6b69e92b8907bf883#diff-33924fab0ea9d6793f53a7b2d043767b2cd70beb671b5c5ff1f3e3a452ab1218) | | 3º |  [error.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/errorComponent/error.component.ts)   |
+| 4º  |                                                  [Add: errorComponent](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/b6dd2ba1dd1aec106d7717d033940a483e4c77f5)                                                   | | 4º | [banner.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/bannerComponent/banner.component.ts) |
+| 5º  |                                                     [Class Diagram](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/9b91f5579300bb33cdc49536bd39c81ce26c0892)                                                      | | 5º |                                             [Readme.md](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/README.md)                                              |
+
+
+---
+# :movie_camera: Demo video
+
+---
+
+[[Watch the video!]](https://www.youtube.com/watch?v=Vl9Ap8Mt7kA)
