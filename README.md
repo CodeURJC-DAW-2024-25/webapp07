@@ -965,22 +965,25 @@ Node.js: [Installation Node.js](https://nodejs.org/)
 
 #### Nicolás Hernández Tejero
 
-* Authentication and Authorization implementation: I implemented the authentication and authorization mechanisms in the Angular application, ensuring that users can only access the application's features based on their roles.
-* User Profile Management: I implemented the user profile management feature, allowing users to view and modify their profile information.
-* Security Enhancements: I added security enhancements to the application, such as password hashing and salting, to protect user data.
-* User Registration and Login: I implemented the user registration and login features, allowing users to create an account and log in to the application.
-* Bug Fixes and User Interface Enhancements: Troubleshooting issues related to incorrect password. Updated user interface components related to authentication and user profile.
-* Updating configuration files, such as Dockerfile and proxy.conf.json, to maintain project functionality and security.
-* Implementation of AJAX requests for player and team management.
-* Introduction of new reactive forms for login.
+- **PDF Invoices**: Implemented dynamic PDF generation with Angular download integration
+- **Order Validation**: Added address requirements & paid order redirection guards
+- **Security**: Enforced admin action protections & route-based access controls
+- **UI Migration**: Converted order history to Angular cards & FAQ accordion component
+- **Deployment**: Dockerized Angular+SpringBoot stack with SPA routing optimizations
+- **Error Handling**: Fixed price formatting bugs & profile NPEs in order flow
+- **Performance**: Optimized scroll transitions & auth state management with RxJS
+- **Content**: Migrated about/team sections & added dish availability filters
+- **Maintenance**: Removed legacy JS scripts & streamlined API endpoints
+- **Auth**: Upgraded token rotation & implemented 401 error component
 
-| #   |                                                                              Commit                                                                              |     | #   |                                                                                         File                                                                                          |
-| :-: |:----------------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| 1º  |         [Add: players statidistics component service](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/d08ab87a17801f5670dc4fb35f7e3db13bdc9ca4)          | | 1º |             [auth.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/services/auth.service.ts)              |
-| 2º  |                [Add: register and Fix: search](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/14a714f5d6f4b1c76bd48b178b4313b296413886)                 | |2º |            [profile.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/profileComponent/profile.component.ts)             |
-| 3º  |                [Add: new reactive forms login](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/1ba6ed32b789205abeb6363d8f054c1980376120)                 | | 3º | [login.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/loginComponent/login.component.ts)  |
-| 4º  |                         [Add: User me](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/e49b7477da5018f4d18d501c85ba9e2409ab64b5)                         | | 4º |            [teamStatistics.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/teamStatistics/teamStatistics.component.ts)             |
-| 5º  |               [Add: AJAX players and fix teams](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/40db3a7187d1e56bc6ecb028dd90ae43ae5f69e8)                | | 5º | [user.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/services/user.service.ts) |
+
+| #   |                                                                              Commit                                                                              |     | #   |                                                                            File                                                                            |
+| :-: |:----------------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:----------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |         [feat: create login page component with form](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/609e2fffd61084f74d54bb531a9147d46c1bc4a6)          | | 1º |              [auth.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/services/auth.service.ts)              |
+| 2º  |                [feat(auth): implement auth service with login/logout/refresh endpoints](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/06723bbd3e7ce8768b9261067cb7537b9ae78038)                 | |2º |    [login.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/components/viewsComponent/login/login.component.ts)    |
+| 3º  |                [fix: configure CORS and proxy for frontend-backend communication](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/19e52c37693ede26a28923232dd4f24b9f1826a1)                 | | 3º | [profile.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/components/viewsComponent/profile/profile.component.ts) |
+| 4º  |                         [feat(profile): implement user profile view and edit functionality with service integration](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/764a697161a6f0aecff72d6e09f6bd81e4b57af5)                         | | 4º |                 [users.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/services/users.service.ts)                  |
+| 5º  |               [feat(auth): implement isAdmin$ observable to control admin panel visibility](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/3c1cbd7bfe0ffa1f15eee964658c11581b7e5677)                | | 5º |                    [title.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/3c1cbd7bfe0ffa1f15eee964658c11581b7e5677)                    |
 
 #### Adrián Soriano Aragón
 
