@@ -18,6 +18,7 @@ export class MenuComponent implements OnInit {
   hasMoreData = true;
   isLoading = false;
   isLoggedIn$ = this.authService.isAuthenticated$;
+  isAdmin$ = this.authService.isAdmin$;
   filters = {
     name: '',
     maxPrice: undefined,
