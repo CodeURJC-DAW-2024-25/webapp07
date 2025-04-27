@@ -208,46 +208,25 @@ public class OrderRestController {
         return ResponseEntity.ok(response);
     }
 
-//    @Operation(
-//            summary = "Clear user's cart",
-//            description = "Removes all dishes from the user's shopping cart.",
-//            tags = {"Cart"}
-//    )
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "Cart cleared successfully",
-//                    content = @Content(mediaType = "application/json")),
-//            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
-//    })
-//    @GetMapping("/{id}/summary")
-//    public ResponseEntity<?> getOrderSummary(
-//            @PathVariable Long id,
-//            @AuthenticationPrincipal UserDetails userDetails) {
-//        try {
-//            Map<String, Object> summary = orderService.getOrderSummaryDTOById(id, userDetails.getUsername());
-//            return ResponseEntity.ok(summary);
-//        } catch (ResponseStatusException ex) {
-//            if (ex.getStatusCode() == HttpStatus.FOUND) {
-//                // ya tenías este caso
-//                return ResponseEntity.status(HttpStatus.FOUND)
-//                        .header("Location", "/api/v1/orders/" + id + "/more-info")
-//                        .build();
-//            }
-//            if (ex.getStatusCode() == HttpStatus.CONFLICT) {
-//                // Nuevo manejo para orden ya pagada
-//                return ResponseEntity
-//                        .status(HttpStatus.CONFLICT)
-//                        .body(Map.of("error", ex.getReason()));
-//            }
-//            throw ex;
-//        }
-//    }
+    @Operation(
+            summary = "Clear user's cart",
+            description = "Removes all dishes from the user's shopping cart.",
+            tags = {"Cart"}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cart cleared successfully",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
     @GetMapping("/{id}/summary")
-    public ResponseEntity<Map<String,Object>> getOrderSummary(
+    public ResponseEntity<OrderDTO> getOrderSummary(
             @PathVariable Long id,
             @AuthenticationPrincipal UserDetails userDetails) {
-        Map<String,Object> summary = orderService.getOrderSummaryDTOById(id, userDetails.getUsername());
-        return ResponseEntity.ok(summary);
+
+        OrderDTO orderDTO = orderService.getOrderDTOByIdForUser(id, userDetails.getUsername());
+        return ResponseEntity.ok(orderDTO);
     }
+
 
     @Operation(
             summary = "Get user order history",

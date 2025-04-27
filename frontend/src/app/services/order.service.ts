@@ -59,7 +59,7 @@ export class OrderService {
     );
   }
 
-  getSummary(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}/summary`);
+  getSummary(id: number): Observable<OrderDTO> {
+    return this.http.get<OrderDTO>(`${this.baseUrl}/${id}/summary`);
   }
 }
