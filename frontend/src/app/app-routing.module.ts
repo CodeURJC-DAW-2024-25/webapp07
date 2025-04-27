@@ -31,6 +31,7 @@ import { BookingConfirmationComponent } from './components/viewsComponent/bookin
 import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-rating.component";
 import {OrderInfoComponent} from "./components/viewsComponent/order/order-info/order-info.component";
 import {RestaurantComponent} from "./components/viewsComponent/restaurant/restaurant.component";
+import {DashboardComponent} from "./components/adminComponents/dashboard/dashboard.component";
 
 const routes: Routes = [
   // public
@@ -108,6 +109,12 @@ const routes: Routes = [
         canActivate: [roleGuard],
         data: { title: 'Booking Management', showTitle: true, roles: ['ADMIN'] }
       },
+      {
+        path:'admin/dashboard',
+        component: DashboardComponent,
+        canActivate: [roleGuard],
+        data: { title: 'Dashboard', showTitle: true, roles: ['ADMIN'] }
+      }
     ]
   },
 

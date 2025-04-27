@@ -83,5 +83,8 @@ export class DishService {
     return this.http.patch(`/api/v1/dishes/${id}/enabled`, { available: true });
   }
 
+  getTop5Dishes(): Observable<DishDTO[]> {
+    return this.http.get<DishDTO[]>(`${this.apiUrl}/top-dishes`);
+  }
 
 }

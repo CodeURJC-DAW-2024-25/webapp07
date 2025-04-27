@@ -57,6 +57,7 @@ import {UnauthorizedComponent} from "./components/viewsComponent/unauthorized/un
 import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-rating.component";
 import {OrderInfoComponent} from "./components/viewsComponent/order/order-info/order-info.component";
 import {RestaurantComponent} from "./components/viewsComponent/restaurant/restaurant.component";
+import {DashboardComponent} from "./components/adminComponents/dashboard/dashboard.component";
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import {RestaurantComponent} from "./components/viewsComponent/restaurant/restau
     AdminManageUsersComponent,
     AdminManageOrdersComponent,
     AdminManageDishesComponent,
+    DashboardComponent,
     OrderHistoryComponent,
     TitleComponent,
     MenuComponent,
