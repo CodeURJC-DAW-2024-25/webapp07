@@ -62,7 +62,19 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
                                                   @Param("shift") String shift,
                                                   @Param("date") LocalDate date);
 
-    @Query("SELECT b FROM Booking b WHERE b.user.username LIKE %:query% OR b.user.email LIKE %:query% OR b.user.phoneNumber LIKE %:query% AND b.date >= CURRENT_DATE")
-    List<Booking> findByUser_UsernameContainingOrUser_EmailContainingOrUser_PhoneNumberContaining(@Param("query") String username, @Param("query") String email, @Param("query") String phoneNumber);
+    @Query("""
+    SELECT b FROM Booking b
+    WHERE 
+      (LOWER(b.firstName) LIKE LOWER(CONCAT('%', :query, '%'))
+      OR LOWER(b.lastName) LIKE LOWER(CONCAT('%', :query, '%'))
+      OR LOWER(b.phone) LIKE LOWER(CONCAT('%', :query, '%'))
+      OR LOWER(b.email) LIKE LOWER(CONCAT('%', :query, '%'))
+      OR LOWER(b.restaurant.location) LIKE LOWER(CONCAT('%', :query, '%'))
+      OR LOWER(b.shift) LIKE LOWER(CONCAT('%', :query, '%'))
+      OR STR(b.numPeople) LIKE CONCAT('%', :query, '%')
+      OR STR(b.date) LIKE CONCAT('%', :query, '%'))
+      AND b.date >= CURRENT_DATE
+""")
+    List<Booking> searchBookingsByAllFields(@Param("query") String query);
 
 }

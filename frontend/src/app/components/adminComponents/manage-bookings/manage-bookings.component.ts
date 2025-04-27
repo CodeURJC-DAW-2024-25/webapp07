@@ -78,4 +78,8 @@ export class AdminManageBookingsComponent implements OnInit {
       }
     });
   }
+  clearSearch(): void {
+    this.searchQuery = '';
+    this.loadBookings();
+  }
 }
