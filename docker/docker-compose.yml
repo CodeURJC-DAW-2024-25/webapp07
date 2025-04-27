@@ -1,11 +1,13 @@
+version: '3.8'
+
 services:
   db:
     image: mysql:8.0.36
     container_name: mysql
     restart: on-failure
     environment:
-      - MYSQL_ROOT_PASSWORD=webapp07
-      - MYSQL_DATABASE=mysql
+      MYSQL_ROOT_PASSWORD: webapp07
+      MYSQL_DATABASE: mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -13,18 +15,18 @@ services:
       start_period: 10s
 
   web:
-    image: nicohht/volteretacroqueta:latest
+    build:
+      context: ..           # contexto = webapp07/
+      dockerfile: docker/Dockerfile
+    image: hugost010/volteretacroqueta:latest
     container_name: volteretacroqueta-app
     restart: on-failure
-    build:
-      context: ../
-      dockerfile: docker/Dockerfile
     ports:
-      - 443:8443
+      - "443:8443"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/mysql
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=webapp07
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/mysql
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: webapp07
     depends_on:
       db:
         condition: service_healthy
