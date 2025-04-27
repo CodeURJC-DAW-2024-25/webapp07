@@ -73,9 +73,16 @@
 
       <!-- Actions -->
       <div class="text-center mt-4">
-        <button class="btn btn-success px-5 py-2" (click)="confirmOrder()">
+        <button
+          class="btn btn-success px-5 py-2"
+          (click)="confirmOrder()"
+          [disabled]="!order?.address?.trim()"
+        >
           Confirm Order
         </button>
+      </div>
+      <div *ngIf="order?.address !== undefined && !order.address.trim()" class="text-danger mt-2 text-center">
+        Please enter a shipping address before confirming.
       </div>
     </div>
 

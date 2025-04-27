@@ -22,6 +22,7 @@ export class CartComponent implements OnInit {
     this.orderService.viewCart().subscribe({
       next: (data) => {
         this.cart = data;
+        console.log(data);
         this.isLoading = false;
       },
       error: (err) => {

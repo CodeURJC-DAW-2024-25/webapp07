@@ -1,17 +1,25 @@
 package es.codeurjc.backend.mapper;
 
-import es.codeurjc.backend.dto.DishDTO;
 import es.codeurjc.backend.dto.OrderDTO;
-import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.model.Order;
-import es.codeurjc.backend.model.Dish;
-import es.codeurjc.backend.model.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { DishMapper.class, UserMapper.class })
 public interface OrderMapper extends EntityMapper<OrderDTO, Order> {
 
+    @Override
+    @Mappings({
+            @Mapping(source = "dishes", target = "dishes"),
+            @Mapping(source = "user", target = "user")
+    })
+    OrderDTO toDto(Order entity);
+
+    @Override
+    @Mappings({
+            @Mapping(source = "dishes", target = "dishes"),
+            @Mapping(source = "user", target = "user")
+    })
+    Order toEntity(OrderDTO dto);
 }
