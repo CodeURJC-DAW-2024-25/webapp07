@@ -1002,23 +1002,22 @@ Node.js: [Installation Node.js](https://nodejs.org/)
 | 4º  |                                 [Add: tournament screen](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/931c41808bdbd00eb33d7e6e3251427ccb905a2f)                                 | | 4º | [tournamentBracket.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/tournamentBracketComponent/tournamentBracket.component.ts) |
 | 5º  |                               [Add: statistics algorithm](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/21142855b9fa9512cd849fc342549eb623231512)                                | | 5º |          [teamStatistics.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/teamStatistics/teamStatistics.component.ts)          |
 
-#### Manuel López Corchado
+#### Juan Ramirez Blanco
 
-* Implemented and designed logic in form of new Tournament and new Team components.
-* Implemented and designed team info and player info components.
-* Implemented API authentication and authorization. Also requests with auth tokens.
-* Implemented user auth login/logout.
-* Added some component's html and css.
+* Implemented cart functionality and logic for adding dishes to the cart.
+* Implemented order management functionality for the admin panel.
+* Implemented order history functionality for the user profile.
+* Development of the component diagram
 
 
 
 | #   |                                                                                                                                  Commit                                                                                                                                  |     | #   |                                                                                File                                                                                |
 | :-: |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| 1º  |                                                      [Add: NewTournament logic added. Fixed: Tournament addition](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/0afc16d76d1e80efbd039b9f704d2aee603fb288)                                                      | | 1º |      [Team Info Component](https://github.com/CodeURJC-DAW-2023-24/webapp16/tree/main/frontend/webapp16/src/app/components/viewsComponents/teamInfoComponent)      |
-| 2º  |                                                                          [Auth login on SPA](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/313b67f56fc4b280cadd137d73bd0ecf41a11b31)                                                                           | |2º |    [Player Info Component](https://github.com/CodeURJC-DAW-2023-24/webapp16/tree/main/frontend/webapp16/src/app/components/viewsComponents/playerInfoComponent)    |
-| 3º  |                 [Add: teamInfoComponent and playerInfoComponent implementation. Fix: teamInfo screen players by team. Fixed: teamInfo and playerInfo](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/c95c2e8d5762e2558633f1f4dee68bbdd3b56447)                  | | 3º |       [New Team Component](https://github.com/CodeURJC-DAW-2023-24/webapp16/tree/main/frontend/webapp16/src/app/components/viewsComponents/newTeamComponent)       |
-| 4º  |                                                      [Add: NewTournament logic added. fixed: Tournament addition](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/0afc16d76d1e80efbd039b9f704d2aee603fb288)                                                      | | 4º | [New Tournament Component](https://github.com/CodeURJC-DAW-2023-24/webapp16/tree/main/frontend/webapp16/src/app/components/viewsComponents/newTournamentComponent) |
-| 5º  |                                                              [Add: angular folder and SPA proyect files](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/aa2867f3b389e340f67e138a29d3b21ad1c987d1)                                                               | | 5º |                              [Auth.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/services/auth.service.ts)                               |
+| 1º  |                                                      [Add: Delete Order](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/70edf0781667c44aeac5fcb45e65b243b95462b3)                                                      | | 1º |      [Manage-orders.component.ts](frontend/src/app/components/adminComponents/manage-orders/manage-orders.component.ts)      |
+| 2º  |                                                                          [Add: Order History](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/e8911da7eacc2828e80fc4a8b6a5330c3644ba16)                                                                           | |2º |    [Order-history.component.ts](frontend/src/app/components/viewsComponent/order/order-history/order-history.component.ts)    |
+| 3º  |                 [Add: Cart Works](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/e68ca04b769013c27a7c94b60712e66a25e5665d#diff-b3969afba06eb8d2b63ffd724363a57bfc10d77f7b985291c83e545255ddbb98)                  | | 3º |       [cart.component.ts](frontend/src/app/components/viewsComponent/order/order-cart/cart.component.ts)       |
+| 4º  |                                                      [Add: Clear Cart](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/1e28f16be4131b97eb9dc2888d79b1a25c9cc11a)                                                      | | 4º | [Cart.component.ts](frontend/src/app/components/viewsComponent/order/order-cart/cart.component.ts) |
+| 5º  |                                                              [Fix: Summary Page](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/b008237a0b797b396e21772aea0f1c706cd9ced6)                                                               | | 5º |                              [summary.component.ts](frontend/src/app/components/viewsComponent/order/order-summary/summary.component.html)                               |
 
 
 #### Hugo Sánchez Torres
