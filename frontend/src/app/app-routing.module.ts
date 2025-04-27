@@ -29,6 +29,7 @@ import { BookingExistingComponent }  from './components/viewsComponent/booking/b
 import { BookingCancelledComponent } from './components/viewsComponent/booking/booking-messages/booking-cancelled.component';
 import { BookingConfirmationComponent } from './components/viewsComponent/booking/booking-messages/booking-confirmation.component';
 import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-rating.component";
+import {RestaurantComponent} from "./components/viewsComponent/restaurant/restaurant.component";
 
 const routes: Routes = [
   // public
@@ -71,6 +72,9 @@ const routes: Routes = [
       { path: 'booking/existing',      component: BookingExistingComponent,  data: { title: 'Existing Reservation', showTitle: false } },
       { path: 'booking/cancelled',     component: BookingCancelledComponent, data: { title: 'Booking Cancelled',    showTitle: false } },
       { path: 'booking/confirmation',  component: BookingConfirmationComponent, data: { title: 'Reservation Confirmed', showTitle: false } },
+
+      // restaurants
+      { path: 'restaurants',          component: RestaurantComponent,      data: { title: 'Restaurants', showTitle: true } },
 
       // **ADMIN**
 

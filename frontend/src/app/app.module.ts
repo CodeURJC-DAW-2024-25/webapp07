@@ -55,6 +55,7 @@ import {AccordionItemComponent} from "./components/generalComponents/accordion-i
 import {TestimonialCardComponent} from "./components/generalComponents/testimonial-card/testimonial-card.component";
 import {UnauthorizedComponent} from "./components/viewsComponent/unauthorized/unauthorized.component";
 import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-rating.component";
+import {RestaurantComponent} from "./components/viewsComponent/restaurant/restaurant.component";
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-
     BookingExistingComponent,
     BookingCancelledComponent,
     BookingConfirmationComponent,
+    RestaurantComponent,
     AdminManageBookingsComponent,
     AboutComponent,
     TeamComponent,

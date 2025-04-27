@@ -1,0 +1,48 @@
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+  <div class="container my-5 py-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 text-center text-lg-start">
+        <h1 class="display-3 text-white animated slideInLeft">Our Restaurants</h1>
+        <p class="text-white animated slideInLeft mb-4 pb-2">Explore our locations and visit us today</p>
+        <form #searchForm="ngForm" (ngSubmit)="searchRestaurants(query)" >
+          <input
+            type="text"
+            name="query"
+            [(ngModel)]="query"
+            class="form-control py-3 animated slideInLeft"
+            placeholder="Enter address, city, or postal code"
+          />
+          <button type="submit" class="btn btn-primary py-3 px-4 mt-2">Search</button>
+        </form>
+      </div>
+      <div class="col-lg-6 text-center text-lg-end">
+        <img
+          src="https://media.wired.com/photos/59269cd37034dc5f91bec0f1/master/w_2240,c_limit/GoogleMapTA.jpg"
+          alt="Google Maps"
+          style="width: 100%; max-width: 300px; animation: none; border: 2px solid #fff; border-radius: 10px;"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <h2 class="section-title ff-secondary text-start text-primary fw-normal mb-4">All Restaurants</h2>
+  <div class="row">
+    <div *ngFor="let restaurant of restaurants" class="col-lg-4 col-md-6 mb-4">
+      <div class="card">
+        <img
+          [src]="'/img/restaurants/restaurante' + restaurant.id + '.jpg'"
+          class="card-img-top"
+          [alt]="restaurant.location"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ restaurant.location }}</h5>
+          <p class="card-text">Visit us at our {{ restaurant.location }} location.</p>
+          <!-- Puedes activar el botón si quieres -->
+          <!-- <a [routerLink]="['/restaurant-information', restaurant.id]" class="btn btn-primary">More Info</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
