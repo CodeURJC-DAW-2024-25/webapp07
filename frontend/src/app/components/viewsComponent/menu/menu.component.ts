@@ -46,10 +46,12 @@ export class MenuComponent implements OnInit {
     this.dishService.getDishes(this.currentPage, this.pageSize, this.filters).subscribe((data: DishDTO[]) => {
       this.isLoading = false;
 
-      if (data.length < this.pageSize) {
+      const availableDishes = data.filter(dish => dish.available);
+
+      if (availableDishes.length < this.pageSize) {
         this.hasMoreData = false;
       }
-      this.dishData = [...this.dishData, ...data];
+      this.dishData = [...this.dishData, ...availableDishes];
       this.currentPage++;
     });
   }
