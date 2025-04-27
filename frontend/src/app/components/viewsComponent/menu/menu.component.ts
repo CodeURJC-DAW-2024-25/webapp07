@@ -30,15 +30,6 @@ export class MenuComponent implements OnInit {
     this.loadMoreDishes();
   }
 
-  // loadMoreDishes(): void {
-  //   //   this.dishService.getDishes(this.currentPage, this.pageSize).subscribe((data: DishDTO[]) => {
-  //   //     if (data.length < this.pageSize) {
-  //   //       this.hasMoreData = false;
-  //   //     }
-  //   //     this.dishData = [...this.dishData, ...data];
-  //   //     this.currentPage++;
-  //   //   });
-  //   // }
   loadMoreDishes(): void {
     this.isLoading = true;
 
@@ -62,8 +53,6 @@ export class MenuComponent implements OnInit {
     this.hasMoreData = true;
     this.loadMoreDishes();
   }
-
-
 
   addToCart(dishId: number): void {
     this.orderService.addToCart(dishId).subscribe({
