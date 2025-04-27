@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../../../../services/order.service';
 import { OrderDTO } from '../../../../dtos/order.model';
 
@@ -11,6 +11,7 @@ import { OrderDTO } from '../../../../dtos/order.model';
 export class OrderSummaryComponent implements OnInit {
   order: OrderDTO | null = null;
   isLoading = true;
+  originalAddress = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -24,6 +25,12 @@ export class OrderSummaryComponent implements OnInit {
       this.orderService.getSummary(orderId).subscribe({
         next: (data) => {
           this.order = data;
+          if (this.order) {
+
+            this.originalAddress = this.order.address ?? '';
+
+            this.order.address = this.originalAddress;
+          }
           this.isLoading = false;
         },
         error: (err) => {
@@ -34,8 +41,9 @@ export class OrderSummaryComponent implements OnInit {
     }
   }
 
+
   confirmOrder(): void {
-    if (this.order && this.order.id) {
+    if (this.order && this.order.id != null) {
       const updates = {
         status: 'Accepted',
         address: this.order.address
@@ -51,5 +59,4 @@ export class OrderSummaryComponent implements OnInit {
       });
     }
   }
-
 }

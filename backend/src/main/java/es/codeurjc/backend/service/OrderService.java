@@ -300,30 +300,43 @@ public class OrderService {
         UserDTO userDTO = userService.findUserDtoByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+
         if ("Paid".equals(orderDTO.status())) {
-            throw new ResponseStatusException(HttpStatus.FOUND, "Redirect to paid info");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Order is already paid");
         }
 
         double deliveryCost = 4.99;
-        double totalPrice = orderDTO.totalPrice();
-        double finalPrice = Math.round((totalPrice + deliveryCost) * 100.0) / 100.0;
+        double totalPrice   = orderDTO.totalPrice();
+        double finalPrice   = Math.round((totalPrice + deliveryCost) * 100.0) / 100.0;
+
+
+        String deliveryAddress = orderDTO.address();
+        if (deliveryAddress == null || deliveryAddress.isBlank()) {
+            deliveryAddress = Optional.ofNullable(userDTO.address()).orElse("");
+        }
+
+
+        String usernameSafe  = Optional.ofNullable(userDTO.username()).orElse("");
+        String firstNameSafe = Optional.ofNullable(userDTO.firstName()).orElse("");
+        String lastNameSafe  = Optional.ofNullable(userDTO.lastName()).orElse("");
 
         Map<String, Object> response = new HashMap<>();
-        response.put("id", orderDTO.id());
-        response.put("dishes", orderDTO.dishes());
-        response.put("totalPrice", totalPrice);
-        response.put("deliveryCost", deliveryCost);
-        response.put("finalPrice", finalPrice);
-        response.put("address", orderDTO.address());
+        response.put("id",          orderDTO.id());
+        response.put("dishes",      orderDTO.dishes());
+        response.put("totalPrice",  totalPrice);
+        response.put("deliveryCost",deliveryCost);
+        response.put("finalPrice",  finalPrice);
+        response.put("address",     deliveryAddress);
         response.put("user", Map.of(
-                "id", userDTO.id(),
-                "username", Optional.ofNullable(userDTO.username()).orElse(""),
-                "firstName", Optional.ofNullable(userDTO.firstName()).orElse(""),
-                "lastName", Optional.ofNullable(userDTO.lastName()).orElse("")
+                "id",        userDTO.id(),
+                "username",  usernameSafe,
+                "firstName", firstNameSafe,
+                "lastName",  lastNameSafe
         ));
 
         return response;
     }
+
 
     public OrderDTO updateOrderStatusAndAddressChecked(Long id, String newStatus, String newAddress) {
         Order order = orderRepository.findById(id)
