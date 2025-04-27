@@ -1,0 +1,37 @@
+<div class="container mt-5" *ngIf="order">
+  <h2 class="text-center mb-4">Order Summary</h2>
+
+
+  <div class="row mb-3">
+    <div class="col-md-6"><strong>Total Price:</strong> {{ order.totalPrice | currency:'EUR' }}</div>
+  </div>
+  <div class="form-group mb-4">
+    <label for="addressInput"><strong>Shipping Address</strong></label>
+    <input type="text"
+           id="addressInput"
+           class="form-control"
+           [(ngModel)]="order.address"
+           placeholder="Enter your shipping address">
+  </div>
+
+  <table class="table" *ngIf="order?.dishes?.length">
+    <thead>
+    <tr>
+      <th>Dish</th>
+      <th>Description</th>
+      <th>Price (€)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let dish of order.dishes">
+      <td>{{ dish.name }}</td>
+      <td>{{ dish.description }}</td>
+      <td>{{ dish.price | currency:'EUR' }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="text-center mt-4">
+    <button class="btn btn-success px-5 py-2" (click)="confirmOrder()">Confirm Order</button>
+  </div>
+</div>

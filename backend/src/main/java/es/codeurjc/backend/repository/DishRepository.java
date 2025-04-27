@@ -1,10 +1,14 @@
 package es.codeurjc.backend.repository;
 
 import es.codeurjc.backend.model.Dish;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -13,6 +17,17 @@ import java.util.List;
  */
 @Repository
 public interface DishRepository extends JpaRepository<Dish, Long> {
+
+    @Query("SELECT d FROM Dish d WHERE " +
+            "(:name IS NULL OR LOWER(d.name) LIKE LOWER(CONCAT('%', :name, '%'))) AND " +
+            "(:maxPrice IS NULL OR d.price <= :maxPrice) AND " +
+            "(:ingredient IS NULL OR :ingredient MEMBER OF d.ingredients)")
+    Page<Dish> findFiltered(
+            @Param("name") String name,
+            @Param("maxPrice") Double maxPrice,
+            @Param("ingredient") String ingredient,
+            Pageable pageable);
+
 
     /**
      * Finds dishes by their exact name.

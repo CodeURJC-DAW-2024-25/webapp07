@@ -43,7 +43,7 @@ public class Dish {
 
     private String dishImagePath;
 
-    private boolean isAvailable;
+    private boolean available;
 
     @ElementCollection
     private List<Integer> rates;
@@ -58,7 +58,7 @@ public class Dish {
     /**
      * Constructor with parameters.
      */
-    public Dish(@NotNull String name, String description, int price, List<String> ingredients, boolean isVegan, String dishImagePath, boolean image, List<Allergens> allergens, boolean isAvailable, List<Integer> rates, int rate) {
+    public Dish(@NotNull String name, String description, int price, List<String> ingredients, boolean isVegan, String dishImagePath, boolean image, List<Allergens> allergens, boolean available, List<Integer> rates, int rate) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -67,7 +67,7 @@ public class Dish {
         this.isVegan = isVegan;
         this.dishImagePath = dishImagePath;
         this.image = image;
-        this.isAvailable = isAvailable;
+        this.available = available;
         this.rates = rates;
         this.rate = rate;
     }
@@ -203,10 +203,10 @@ public class Dish {
     }
 
     public boolean isAvailable() {
-        return isAvailable;
+        return this.available;
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        this.available = available;
     }
 }

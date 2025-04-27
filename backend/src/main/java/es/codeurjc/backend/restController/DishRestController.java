@@ -16,6 +16,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
@@ -45,9 +49,27 @@ public class DishRestController {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = DishDTO.class)))
     })
-    @GetMapping({"/", "/filter", "/sort"})
-    public ResponseEntity<List<DishDTO>> showMenu() throws SQLException {
-        List<DishDTO> dishes = dishService.findAll();
+    @GetMapping({"","/", "/filter", "/sort"})
+    public ResponseEntity<List<DishDTO>> getDishes(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) String ingredient) {
+
+        List<DishDTO> filteredDishes = dishService.getFilteredDishes(page, size, name, maxPrice, ingredient);
+        return ResponseEntity.ok(filteredDishes);
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<List<DishDTO>> getAllDishes(
+            @Parameter(description = "Query to search by dishname", required = false)
+            @RequestParam(required = false) String query) {
+
+        List<DishDTO> dishes = (query != null && !query.isEmpty())
+                ? dishService.searchDishes(query)
+                : dishService.getDishes();
+
         return ResponseEntity.ok(dishes);
     }
 
@@ -116,6 +138,7 @@ public class DishRestController {
     @PostMapping("/")
     public ResponseEntity<DishDTO> createDish(@Valid @RequestBody DishDTO dishDTO) {
         long dishId = dishService.createDish(dishDTO);
+        //dishDTO.setId(dishId);
         URI location = URI.create("/api/v1/dishes/" + dishId);
         return ResponseEntity.created(location).body(dishDTO);
     }
@@ -138,6 +161,14 @@ public class DishRestController {
 
         return ResponseEntity.created(location).build();
     }
+
+    @PostMapping("/{id}/rate")
+    public ResponseEntity<Void> rateDish(@PathVariable Long id, @RequestBody Map<String, Integer> ratePayload) {
+        Integer rate = ratePayload.get("rate");
+        dishService.addRate(id, rate);
+        return ResponseEntity.ok().build();
+    }
+
 
     @Operation(summary = "Retrieve the image for a specific dish", description = "Retrieves the image associated with the dish identified by the given ID.")
     @ApiResponses({

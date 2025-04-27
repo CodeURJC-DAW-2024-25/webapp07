@@ -33,6 +33,28 @@ import {MatButton} from "@angular/material/button";
 import {OrderHistoryComponent} from "./components/viewsComponent/order/order-history/order-history.component";
 import {TitleComponent} from "./components/generalComponents/title/title.component";
 import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
+import {DishDetailsComponent} from "./components/viewsComponent/dish-details/dish-details.component";
+import {DishFormComponent} from "./components/viewsComponent/dish-form/dish-form.component";
+import {CartComponent} from "./components/viewsComponent/order/order-cart/cart.component";
+import {OrderSummaryComponent} from "./components/viewsComponent/order/order-summary/summary.component";
+import { ConfirmPaymentComponent } from './components/viewsComponent/order/confirm-payment/confirm-payment.component';
+import {DishFilterComponent} from "./components/viewsComponent/dish-filter/dish-filter.component";
+import {AdminManageDishesComponent} from "./components/adminComponents/manage-dishes/manage-dishes.component";
+
+import { BookingFormComponent } from './components/viewsComponent/booking/booking-form/booking-form.component';
+import { BookingExistingComponent } from './components/viewsComponent/booking/booking-messages/booking-existing.component';
+import { BookingCancelledComponent } from './components/viewsComponent/booking/booking-messages/booking-cancelled.component';
+import { BookingConfirmationComponent } from './components/viewsComponent/booking/booking-messages/booking-confirmation.component';
+import {AdminManageBookingsComponent} from "./components/adminComponents/manage-bookings/manage-bookings.component";
+import {AboutComponent} from "./components/viewsComponent/about/about.component";
+import {TeamComponent} from "./components/viewsComponent/team/team.component";
+import {ChefCardComponent} from "./components/viewsComponent/chef-card/chef-card.component";
+import {CounterComponent} from "./components/generalComponents/counter/counter.component";
+import {FaqsComponent} from "./components/viewsComponent/faqs/faqs.component";
+import {AccordionItemComponent} from "./components/generalComponents/accordion-item/accordion-item.component";
+import {TestimonialCardComponent} from "./components/generalComponents/testimonial-card/testimonial-card.component";
+import {UnauthorizedComponent} from "./components/viewsComponent/unauthorized/unauthorized.component";
+import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-rating.component";
 
 @NgModule({
   declarations: [
@@ -45,9 +67,32 @@ import {MenuComponent} from "./components/viewsComponent/menu/menu.component";
     ConfirmationModalComponent,
     AdminManageUsersComponent,
     AdminManageOrdersComponent,
+    AdminManageDishesComponent,
     OrderHistoryComponent,
     TitleComponent,
-    MenuComponent
+    MenuComponent,
+    CartComponent,
+    OrderSummaryComponent,
+    ConfirmPaymentComponent,
+    MenuComponent,
+    DishDetailsComponent,
+    DishFormComponent,
+    DishFilterComponent,
+    DishRatingComponent,
+    BookingFormComponent,
+    BookingExistingComponent,
+    BookingCancelledComponent,
+    BookingConfirmationComponent,
+    AdminManageBookingsComponent,
+    AboutComponent,
+    TeamComponent,
+    ChefCardComponent,
+    CounterComponent,
+    FaqsComponent,
+    AccordionItemComponent,
+    TestimonialCardComponent,
+    UnauthorizedComponent,
+
   ],
   imports: [
     AppRoutingModule,

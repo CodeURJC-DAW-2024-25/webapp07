@@ -1,0 +1,48 @@
+<a routerLink="/" class="back-link"><i class="bi bi-arrow-left"></i></a>
+<a routerLink="/" class="logo-link">
+  <img class="show-logo" src="/assets/img/logo.jpg" alt="Logo" />
+</a>
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Booking Management</h2>
+
+  <div class="form-group mb-3">
+    <form (ngSubmit)="searchBookings()">
+      <input type="text" class="form-control" placeholder="Search by name, email or phone..." [(ngModel)]="searchQuery" name="query">
+      <button type="submit" class="btn btn-primary mt-2">Search</button>
+    </form>
+  </div>
+
+  <table *ngIf="bookings.length > 0" class="table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Email</th>
+      <th>Restaurant</th>
+      <th>Shift</th>
+      <th>People</th>
+      <th>Date</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let booking of bookings">
+      <td>{{ booking.id }}</td>
+      <td>{{ booking.firstName }} {{ booking.lastName }}</td>
+      <td>{{ booking.phone }}</td>
+      <td>{{ booking.email }}</td>
+      <td>{{ booking.restaurantLocation }}</td>
+      <td>{{ booking.shift }}</td>
+      <td>{{ booking.numPeople }}</td>
+      <td>{{ booking.date }}</td>
+      <td>
+        <button class="btn btn-danger" (click)="cancelBooking(booking.id!)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="bookings.length === 0 && !isLoading">No bookings found.</p>
+</div>

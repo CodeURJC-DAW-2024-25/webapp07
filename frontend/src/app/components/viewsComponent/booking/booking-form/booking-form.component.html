@@ -1,0 +1,73 @@
+<div class="container-xxl py-5" *ngIf="!checkingActiveBooking && !hasActiveBooking">
+<div class="row g-0 align-items-center">
+    <!-- Left Side: Booking Form -->
+    <div class="col-md-6 bg-dark d-flex align-items-center">
+      <div class="p-5 text-white w-100">
+        <h3 class="text-center mb-4" style="color: #FEA116;">Reservation Information</h3>
+        <form #form="ngForm" (ngSubmit)="submitBooking()" novalidate>
+        <div class="row g-3">
+            <!-- Left Column: Booking Details -->
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="restaurant" class="form-label">Select Restaurant</label>
+                <select [(ngModel)]="booking.restaurantId" name="restaurantId" id="restaurant" class="form-select" required (ngModelChange)="updateAvailableSeats()">
+                  <option value="" disabled selected>Choose one</option>
+                  <option *ngFor="let r of restaurants" [value]="r.id">{{ r.location }}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="date" class="form-label">Select Date</label>
+                <input type="date" [(ngModel)]="booking.date" name="date" id="date" class="form-control" required (ngModelChange)="updateAvailableSeats()">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Select Shift</label><br>
+                <input type="radio" [(ngModel)]="booking.shift" name="shift" value="LUNCH" required (ngModelChange)="updateAvailableSeats()"> Lunch
+                <input type="radio" [(ngModel)]="booking.shift" name="shift" value="DINNER" required class="ms-3" (ngModelChange)="updateAvailableSeats()"> Dinner
+              </div>
+
+              <div class="mb-3">
+                <label for="numPeople" class="form-label">Number of People</label>
+                <select [(ngModel)]="booking.numPeople" name="numPeople" id="numPeople" class="form-select" required>
+                  <option *ngFor="let i of availableSeatsArray" [value]="i">{{ i }}</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Right Column: User Info -->
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" id="firstName" name="firstName" [(ngModel)]="booking.firstName" class="form-control" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" id="lastName" name="lastName" [(ngModel)]="booking.lastName" class="form-control" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" id="phone" name="phone" [(ngModel)]="booking.phone" class="form-control" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" [(ngModel)]="booking.email" class="form-control" required>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="confirm-btn" [disabled]="!form.valid">
+            Confirm Booking
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right Side: Logo -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center">
+      <img src="/assets/img/logo.jpg" alt="Restaurant Logo" class="img-fluid rounded shadow" style="border: 5px solid #FEA116; width: 550px;">
+    </div>
+  </div>
+</div>

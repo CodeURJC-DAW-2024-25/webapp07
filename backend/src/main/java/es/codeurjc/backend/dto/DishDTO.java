@@ -50,7 +50,7 @@ public record DishDTO(
         String dishImagePath,
 
         @Schema(description = "Availability status of the dish", example = "true")
-        boolean isAvailable,
+        boolean available,
 
         @Schema(description = "List of user ratings for the dish", example = "[5, 4, 5, 3]")
         List<Integer> rates,

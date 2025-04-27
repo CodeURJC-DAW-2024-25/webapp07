@@ -1,0 +1,50 @@
+<!--manage.users.component.html-->
+
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">User Management</h2>
+
+  <div class="form-group mb-3">
+    <input type="text" class="form-control" placeholder="Search user..." [(ngModel)]="searchQuery">
+    <button class="btn btn-primary mt-2" (click)="loadDishes()">Search</button>
+  </div>
+
+  <p *ngIf="!dishes.length && !isLoading">No users found.</p>
+
+  <table class="table" *ngIf="dishes.length">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>DishName</th>
+      <th>Rate</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let dish of dishes">
+      <td>{{ dish.id }}</td>
+      <td>{{ dish.name || 'N/A' }}</td>
+      <td>{{ dish.rate || 'N/A' }}</td>
+      <td>
+        <button *ngIf="!dish.available" class="btn btn-success btn-sm" (click)="confirmEnable(dish)">
+          Enable
+        </button>
+        <button *ngIf="dish.available" class="btn btn-danger btn-sm" (click)="confirmDisable(dish)">
+          Disable
+        </button>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Confirmation Modal -->
+  <app-confirmation-modal
+    [showModal]="showConfirmationModal"
+    [title]="modalTitle"
+    [message]="modalMessage"
+    (confirmed)="onActionConfirmed()"
+    (closed)="showConfirmationModal = false"
+    (closedCompletely)="onModalFullyClosed()">
+  </app-confirmation-modal>
+</div>

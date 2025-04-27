@@ -1,0 +1,18 @@
+<!-- Team Start -->
+<div class="container-xxl pt-5 pb-3">
+  <div class="container">
+    <div class="text-center animate__animated animate__fadeInUp">
+      <h5 class="section-title ff-secondary text-center text-primary fw-normal">Team Members</h5>
+      <h1 class="mb-5">Our Master Chefs</h1>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6" *ngFor="let chef of chefs; let i = index">
+        <app-chef-card
+          [chef]="chef"
+          [animationDelay]="animationDelays[i]">
+        </app-chef-card>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Team End -->

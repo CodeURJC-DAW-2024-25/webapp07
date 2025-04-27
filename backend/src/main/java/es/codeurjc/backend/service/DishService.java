@@ -1,7 +1,9 @@
 package es.codeurjc.backend.service;
 
 import es.codeurjc.backend.dto.DishDTO;
+import es.codeurjc.backend.dto.UserDTO;
 import es.codeurjc.backend.enums.Allergens;
+import es.codeurjc.backend.exception.custom.ResourceNotFoundException;
 import es.codeurjc.backend.mapper.DishMapper;
 import es.codeurjc.backend.model.Dish;
 import es.codeurjc.backend.repository.DishRepository;
@@ -12,6 +14,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -68,13 +71,13 @@ public class DishService {
         if (name != null && !name.isEmpty()) {
             dishesByName.retainAll(dishesByIngredient);
             dishesByName.retainAll(dishesByPrice);
-            dishesByName.removeIf(dish -> !dish.isAvailable());
+            dishesByName.removeIf(dish -> !dish.available());
 
             processDishes(dishesByName.stream().map(dishMapper::toEntity).toList());
             return dishesByName;  // Final list
         } else {
             dishesByIngredient.retainAll(dishesByPrice);
-            dishesByIngredient.removeIf(dish -> !dish.isAvailable());
+            dishesByIngredient.removeIf(dish -> !dish.available());
 
             processDishes(dishesByIngredient.stream().map(dishMapper::toEntity).toList());
             return dishesByIngredient;  // Final list
@@ -90,10 +93,34 @@ public class DishService {
                 .stream()
                 .map(dishMapper::toDto)
                 .toList();
-        Long id;
-        return aux;
+        List<Dish> lkasd = dishRepository.findAll();
+        List<DishDTO> finalList = calculateRates(aux);
+        return finalList;
 
     }
+
+    public List<DishDTO> getDishes() {
+        calculateRates(dishRepository.findAll()
+                .stream()
+                .map(dishMapper::toDto)
+                .toList());
+        return dishRepository.findAll()
+                .stream()
+                .map(dishMapper::toDto)
+                .toList();
+    }
+
+    public List<DishDTO> getFilteredDishes(int page, int size, String name, Double maxPrice, String ingredient) {
+        calculateRates(dishRepository.findAll()
+                .stream()
+                .map(dishMapper::toDto)
+                .toList());        Pageable pageable = PageRequest.of(page, size);
+        return dishRepository.findFiltered(name, maxPrice, ingredient, pageable)
+                .stream()
+                .map(dishMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
 
     /**
      * Saves a dish to the repository.
@@ -111,9 +138,12 @@ public class DishService {
      * @return an Optional containing the dish if found
      */
     public Optional<DishDTO> findById(long id) {
+        calculateRate(id);
         return dishRepository.findById(id)
                 .map(dishMapper:: toDto);
     }
+
+
 
     /**
      * Deletes a dish by its ID.
@@ -169,6 +199,13 @@ public class DishService {
             save(dish);
         }
         return dishes.stream().map(dishMapper::toDto).toList();
+    }
+
+    private void calculateRate(long id) {
+        Optional<Dish> dish = dishRepository.findById(id);
+        int rate = (int) Math.ceil(dish.get().getRates().stream().mapToInt(Integer::intValue).average().orElse(0));
+        dish.get().setRate(rate);
+        dishRepository.save(dish.orElse(null));
     }
     /**
      * Disables a dish by its unique identifier.
@@ -264,6 +301,15 @@ public class DishService {
         dishRepository.save(dish);
 
         return dish.getId();
+    }
+    public void addRate(Long dishId, Integer newRate) {
+        Dish dish = dishRepository.findById(dishId)
+                .orElseThrow(() -> new ResourceNotFoundException("Dish not found"));
+
+        List <Integer> ratesList = dish.getRates();
+        ratesList.add(newRate);
+        dish.setRates(ratesList); // rates es un List<Integer> en el Dish
+        dishRepository.save(dish);
     }
 
     /**

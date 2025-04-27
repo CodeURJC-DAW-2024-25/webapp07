@@ -52,6 +52,22 @@ public record BookingDTO(
         @Min(1)
         @Max(40)
         @Schema(description = "Number of people", example = "4")
-        int numPeople
+        int numPeople,
+
+        @Schema(description = "First name of the person booking", example = "John")
+        String firstName,
+
+        @Schema(description = "Last name of the person booking", example = "Doe")
+        String lastName,
+
+        @Schema(description = "Phone number provided for the booking", example = "123456789")
+        String phone,
+
+        @Schema(description = "Email provided for the booking", example = "john@example.com")
+        String email,
+
+        @Schema(description = "Location of the restaurant", example = "Calle Gran Vía 10 Madrid")
+        String restaurantLocation
+
 
 ) {}

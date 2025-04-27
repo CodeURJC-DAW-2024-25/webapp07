@@ -34,7 +34,7 @@ export class OrderService {
   }
 
   updateOrderFields(orderId: number, fieldsToUpdate: { [key: string]: any }) {
-    return this.http.put(`/api/v1/orders/${orderId}`, fieldsToUpdate);
+    return this.http.patch(`/api/v1/orders/${orderId}`, fieldsToUpdate);
   }
 
   addToCart(dishId: number): Observable<OrderDTO> {
@@ -46,10 +46,12 @@ export class OrderService {
   }
 
   clearCart(): Observable<any> {
+    // Se usa dishId=0 como valor simbólico porque el backend lo ignora
     return this.http.delete(`${this.baseUrl}/cart/dish`, {
-      params: new HttpParams().set('dishId', '')
+      params: new HttpParams().set('dishId', '0')
     });
   }
+
 
   getHistory(): Observable<OrderDTO[]> {
     return this.http.get<any>(`${this.baseUrl}/history`).pipe(

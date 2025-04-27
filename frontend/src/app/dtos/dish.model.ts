@@ -10,7 +10,7 @@ export interface DishDTO {
   isVegan: boolean;
   dishImagePath: string;
   image: boolean;
-  isAvailable: boolean;
+  available: boolean;
   rates: number[];
   rate: number;
 }

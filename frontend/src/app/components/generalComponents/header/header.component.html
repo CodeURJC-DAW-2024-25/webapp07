@@ -15,12 +15,12 @@
       <div class="nav-item dropdown">
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">More</a>
         <div class="dropdown-menu m-0">
-          <a routerLink="/aboutUs" class="dropdown-item">About Us</a>
+          <a routerLink="/about-us" class="dropdown-item">About Us</a>
           <a routerLink="/faqs" class="dropdown-item">FAQs</a>
         </div>
       </div>
     </div>
-    <a routerLink="/booking" class="btn btn-primary py-2 px-4 me-3">Book A Table</a>
+    <a routerLink="/booking/form" class="btn btn-primary py-2 px-4 me-3">Book A Table</a>
     <!-- Account link -->
     <a routerLink="/profile" class="me-2 auth-link" *ngIf="isLoggedIn$ | async">
       <i class="fa fa-user me-2"></i>Account
