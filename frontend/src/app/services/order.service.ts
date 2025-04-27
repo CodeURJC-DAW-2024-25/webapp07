@@ -62,4 +62,10 @@ export class OrderService {
   getSummary(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}/summary`);
   }
+
+  downloadInvoice(orderId: number): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/${orderId}/invoice`, {
+      responseType: 'blob'
+    });
+  }
 }

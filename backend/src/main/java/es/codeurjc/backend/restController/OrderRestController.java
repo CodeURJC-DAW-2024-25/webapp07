@@ -8,6 +8,7 @@ import es.codeurjc.backend.model.Order;
 import es.codeurjc.backend.model.User;
 import es.codeurjc.backend.service.DishService;
 import es.codeurjc.backend.service.OrderService;
+import es.codeurjc.backend.service.PdfService;
 import es.codeurjc.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -35,6 +38,10 @@ public class OrderRestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PdfService pdfService;
+
 
 
     //ADMIN
@@ -278,8 +285,25 @@ public class OrderRestController {
     }
 
 
+    @GetMapping("/{id}/invoice")
+    public void downloadInvoice(
+            @PathVariable Long id,
+            HttpServletResponse response,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) throws IOException {
 
+        // Obtener datos necesarios
+        OrderDTO orderDTO = orderService.getOrderDTOByIdForUser(id, userDetails.getUsername());
+        UserDTO userDTO = userService.findUserDtoByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
+        // Generar PDF usando el servicio
+        byte[] pdfBytes = pdfService.generateInvoicePdf(orderDTO, userDTO);
 
-
+        // Configurar respuesta HTTP
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=invoice_" + orderDTO.id() + ".pdf");
+        response.getOutputStream().write(pdfBytes);
+    }
 }
+

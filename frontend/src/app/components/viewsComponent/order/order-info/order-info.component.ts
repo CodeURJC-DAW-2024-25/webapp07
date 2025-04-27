@@ -43,7 +43,14 @@ export class OrderInfoComponent implements OnInit {
     this.router.navigate(['/orders/history']);
   }
 
-  downloadInvoice() {
-    window.location.href = `/api/v1/orders/${this.order.id}/invoice`;
+  downloadPdf(orderId: number) {
+    this.orderService.downloadInvoice(orderId).subscribe(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `invoice_${orderId}.pdf`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 }
