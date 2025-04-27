@@ -384,6 +384,20 @@ public class OrderService {
         orderRepository.save(order);
     }
 
+    public void removeDishFromCart(Long userId, Long dishId) {
+        Order cart = findCartByUser(userId)
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
+
+        List<Dish> dishes = cart.getDishes();
+        for (int i = 0; i < dishes.size(); i++) {
+            if (dishes.get(i).getId().equals(dishId)) {
+                dishes.remove(i);
+                break;
+            }
+        }
+
+        saveOrder(cart);
+    }
 
 
 

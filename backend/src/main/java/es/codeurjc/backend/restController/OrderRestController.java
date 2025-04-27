@@ -305,5 +305,18 @@ public class OrderRestController {
         response.setHeader("Content-Disposition", "attachment; filename=invoice_" + orderDTO.id() + ".pdf");
         response.getOutputStream().write(pdfBytes);
     }
+
+    @PostMapping("/cart/remove")
+    public ResponseEntity<Void> removeDishFromCart(
+            @RequestParam Long dishId,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        User user = userService.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        orderService.removeDishFromCart(user.getId(), dishId);
+
+        return ResponseEntity.noContent().build(); // 204 No Content
+    }
 }
 

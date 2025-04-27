@@ -131,18 +131,7 @@ public class OrderController {
         User user = userService.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Order cart = orderService.findCartByUser(user.getId())
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
-
-        List<Dish> dishes = cart.getDishes();
-        for (int i = 0; i < dishes.size(); i++) {
-            if (dishes.get(i).getId().equals(dishId)) {
-                dishes.remove(i);
-                break;
-            }
-        }
-
-        orderService.saveOrder(cart);
+        orderService.removeDishFromCart(user.getId(), dishId);
 
         return "redirect:/orders/cart";
     }
