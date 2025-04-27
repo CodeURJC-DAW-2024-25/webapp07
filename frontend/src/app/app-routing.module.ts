@@ -45,6 +45,8 @@ const routes: Routes = [
   },
   { path: 'about-us', component: AboutComponent, data: { title: 'About us', showTitle: true } },
   { path: 'faqs',     component: FaqsComponent,  data: { title: 'FAQs',     showTitle: true } },
+  // restaurants
+  { path: 'restaurants',          component: RestaurantComponent,      data: { title: 'Restaurants', showTitle: true } },
   {
     path: 'unauthorized',
     component: UnauthorizedComponent,
@@ -72,9 +74,6 @@ const routes: Routes = [
       { path: 'booking/existing',      component: BookingExistingComponent,  data: { title: 'Existing Reservation', showTitle: false } },
       { path: 'booking/cancelled',     component: BookingCancelledComponent, data: { title: 'Booking Cancelled',    showTitle: false } },
       { path: 'booking/confirmation',  component: BookingConfirmationComponent, data: { title: 'Reservation Confirmed', showTitle: false } },
-
-      // restaurants
-      { path: 'restaurants',          component: RestaurantComponent,      data: { title: 'Restaurants', showTitle: true } },
 
       // **ADMIN**
 
