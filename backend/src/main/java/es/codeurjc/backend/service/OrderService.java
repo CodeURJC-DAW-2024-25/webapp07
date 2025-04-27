@@ -317,9 +317,9 @@ public class OrderService {
         response.put("address", orderDTO.address());
         response.put("user", Map.of(
                 "id", userDTO.id(),
-                "username", userDTO.username(),
-                "firstName", userDTO.firstName(),
-                "lastName", userDTO.lastName()
+                "username", Optional.ofNullable(userDTO.username()).orElse(""),
+                "firstName", Optional.ofNullable(userDTO.firstName()).orElse(""),
+                "lastName", Optional.ofNullable(userDTO.lastName()).orElse("")
         ));
 
         return response;
