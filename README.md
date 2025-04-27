@@ -915,7 +915,7 @@ Node.js: [Installation Node.js](https://nodejs.org/)
    Clone the application repository using Git.
 
    ```bash
-   git clone https://github.com/CodeURJC-DAW-2023-24/webapp16
+   git clone https://github.com/CodeURJC-DAW-2024-25/webapp07
    ```
 
 4. Installing Dependencies
@@ -923,7 +923,7 @@ Node.js: [Installation Node.js](https://nodejs.org/)
    Once you have cloned the repository, navigate to the project directory and execute the following command to install all project dependencies:
 
    ```shell
-    cd webapp16
+    cd webapp07
     npm install
 
 5. Compiling and Running the Application
@@ -931,7 +931,7 @@ Node.js: [Installation Node.js](https://nodejs.org/)
    Once you have installed all dependencies, you can compile and run the Angular application locally. Use the following commands in your terminal:
 
    ```shell
-   ng serve
+   ng serve --proxy-config proxy.conf.json
 
 ---
 # :art: Class and templates diagram of SPA
