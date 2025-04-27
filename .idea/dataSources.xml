@@ -37,7 +37,7 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="volteretaCroqueta@localhost" uuid="7572cdc1-e698-4648-a9f2-dacb695690e0">
+    <data-source source="LOCAL" name="volteretaCroqueta@localhost" uuid="79843cfb-1f69-42af-95b8-5ed25c0c0310">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <imported>true</imported>
