@@ -8,7 +8,7 @@
 #>
 
 param(
-    [string]$ImageName = "hugost010/volteretacroqueta:latest"
+    [string]$ImageName = "hugost010/volteretacroqueta2:latest"
 )
 
 # Ruta al Dockerfile (este script se asume dentro de docker/)

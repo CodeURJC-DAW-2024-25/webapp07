@@ -18,7 +18,7 @@ services:
     build:
       context: ..           # contexto = webapp07/
       dockerfile: docker/Dockerfile
-    image: hugost010/volteretacroqueta:latest
+    image: hugost010/volteretacroqueta2:latest
     container_name: volteretacroqueta-app
     restart: on-failure
     ports:
