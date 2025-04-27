@@ -6,7 +6,7 @@
     <!-- Imagen a la izquierda --><!-- Imagen a la izquierda -->
       <div class="col-md-6">
           <div class="dish-image text-center" *ngIf="editMode; else newDishImage">
-              <img [src]="'/api/v1/dishes/' + dish.id + '/image'" alt="{{ dish?.name }}">
+              <img [src]="'/api/v1/dishes/' + dish.id + '/image'" alt="{{ dish.name }}">
           </div>
           <ng-template #newDishImage>
               <div class="text-center text-muted">
