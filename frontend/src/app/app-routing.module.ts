@@ -51,6 +51,7 @@ const routes: Routes = [
   },
   { path: 'dishes',       component: MenuComponent, data: { title: 'Menu', showTitle: true } },
   { path: 'dishes/add',   component: DishFormComponent, data: { title: 'Dish Form', showTitle: false } },
+  { path: 'dishes/:id',   component: DishDetailsComponent, data: { title: 'Dish Info', showTitle: true } },
 
   // login request
   {
@@ -61,7 +62,6 @@ const routes: Routes = [
 
       // menu
 
-      { path: 'dishes/:id',   component: DishDetailsComponent, data: { title: 'Dish Info', showTitle: true } },
       { path: 'dishes/:id/edit', component: DishFormComponent, data: { title: 'Dish Form', showTitle: false } },
       { path: 'dishes/:id/rate', component: DishRatingComponent, data: { title: 'Dish Rate', showTitle: false } },
 
