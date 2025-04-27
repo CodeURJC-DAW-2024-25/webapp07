@@ -76,7 +76,8 @@
         <button
           class="btn btn-success px-5 py-2"
           (click)="confirmOrder()"
-          [disabled]="!order?.address?.trim()"
+          [disabled]="!order.address.trim()"
+
         >
           Confirm Order
         </button>
