@@ -1,38 +1,38 @@
 
-/* Redondea y eleva todas las cards */
+
 .card {
-  border-radius: 1rem;              /* esquinas redondeadas */
-  overflow: hidden;                 /* recorta el contenido sobrante */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* sombra suave */
-  margin-bottom: 1.5rem;            /* separa entre cards */
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  margin-bottom: 1.5rem;
 }
 
-/* Asegura que el header de la card tenga esquinas redondeadas arriba */
+
 .card-head {
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
 }
 
-/* Y que el body las tenga abajo */
+
 .card-body {
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
-  padding: 1.5rem;                  /* un poco más de aire interno */
+  padding: 1.5rem;
 }
 
-/* Opcional: redondear también el botón “More info” y “Back to Menu” */
+
 .btn {
   border-radius: 0.5rem;
 }
 
-/* Ajustes de color y espaciado para que destaque */
+
 .card-head {
-  background-color: #2d2f3f;        /* tono oscuro que combine con tu fondo */
+  background-color: #2d2f3f;
   color: #fff;
 }
 
 .card-body {
-  background-color: #f7f9fc;        /* fondo muy claro para el contenido */
+  background-color: #f7f9fc;
 }
 
 .button-group .btn {
