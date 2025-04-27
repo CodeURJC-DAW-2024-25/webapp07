@@ -46,6 +46,13 @@ export class CartComponent implements OnInit {
       error: (err) => console.error('Error clearing cart:', err)
     });
   }
-
-
+  removeFromCart(itemId: number): void {
+    this.orderService.removeDishFromCart(itemId).subscribe({
+      next: () => {
+        this.loadCart();
+        console.log('Item removed from cart');
+      },
+      error: (err) => console.error('Error removing item from cart:', err)
+    });
+  }
 }

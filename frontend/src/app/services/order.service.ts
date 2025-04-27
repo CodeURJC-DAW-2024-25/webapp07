@@ -68,4 +68,9 @@ export class OrderService {
       responseType: 'blob'
     });
   }
+
+  removeDishFromCart(dishId: number) {
+    const params = new HttpParams().set('dishId', dishId.toString());
+    return this.http.post(`${this.baseUrl}/cart/remove`, null, { params });
+  }
 }
