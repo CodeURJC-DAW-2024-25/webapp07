@@ -55,6 +55,7 @@ import {AccordionItemComponent} from "./components/generalComponents/accordion-i
 import {TestimonialCardComponent} from "./components/generalComponents/testimonial-card/testimonial-card.component";
 import {UnauthorizedComponent} from "./components/viewsComponent/unauthorized/unauthorized.component";
 import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-rating.component";
+import {OrderInfoComponent} from "./components/viewsComponent/order/order-info/order-info.component";
 
 @NgModule({
   declarations: [
@@ -92,7 +93,7 @@ import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-
     AccordionItemComponent,
     TestimonialCardComponent,
     UnauthorizedComponent,
-
+    OrderInfoComponent,
   ],
   imports: [
     AppRoutingModule,

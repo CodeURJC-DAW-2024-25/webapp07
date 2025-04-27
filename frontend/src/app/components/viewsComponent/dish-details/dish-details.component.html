@@ -70,15 +70,20 @@
           <!-- Botones -->
           <div class="col-12 mt-4">
             <a routerLink="/dishes" class="btn btn-primary me-2">Back to menu</a>
-            <a routerLink="/dishes/{{ dish.id }}/edit" *ngIf="isLoggedIn$ | async" class="btn btn-warning me-2">Edit Dish</a>
-            <button class="btn btn-warning" *ngIf="isLoggedIn$ | async" (click)="toggleAvailability()">
+            <a routerLink="/dishes/{{ dish.id }}/edit" *ngIf="isAdmin$ | async" class="btn btn-warning me-2">Edit Dish</a>
+            <button class="btn btn-warning" *ngIf="isAdmin$ | async" (click)="toggleAvailability()">
               {{ dish.available ? 'Deshabilitar' : 'Habilitar' }}
             </button>
+
             <!-- Detalles del plato -->
               <button class="btn btn-primary" [routerLink]="['/dishes', dish.id, 'rate']">
                 Rate this dish
               </button>
-
+            <form (submit)="addToCart(dish.id)" class="addToCartForm" *ngIf="isLoggedIn$ | async">
+              <button type="submit" class="btn btn-primary btn-sm m-2 p-2">
+                <i class="fa fa-shopping-cart"></i> Add To Cart
+              </button>
+            </form>
           </div>
 
         </div>

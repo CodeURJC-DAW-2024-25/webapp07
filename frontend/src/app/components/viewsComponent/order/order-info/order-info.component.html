@@ -1,0 +1,56 @@
+
+<div class="container-xxl py-3" *ngIf="!isLoading">
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="order" class="card rounded-4 shadow-lg">
+    <div class="d-flex py-3 card-head bg-primary text-white justify-content-center align-items-center">
+      <span class="section-title ff-secondary text-white fw-normal fs-3">
+        Order Information
+      </span>
+    </div>
+    <div class="card-body bg-light">
+      <div *ngFor="let dish of order.dishes" class="d-flex align-items-center mb-3">
+        <div class="w-100 d-flex flex-column text-start ps-4">
+          <h5 class="d-flex justify-content-between border-bottom pb-2 mb-1">
+            <span>{{ dish.name }}</span>
+            <span class="text-primary">€{{ dish.price }}</span>
+          </h5>
+          <small class="fst-italic">{{ dish.description }}</small>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between pt-3">
+        <h5>Subtotal</h5>
+        <h5>€{{ order.totalPrice }}</h5>
+      </div>
+      <div class="d-flex justify-content-between">
+        <h5>Delivery</h5>
+        <h5>€4.99</h5>
+      </div>
+
+      <div class="d-flex align-items-center mb-3 mt-4">
+        <div class="w-100 d-flex flex-column text-start ps-4">
+          <h5 class="d-flex justify-content-between border-bottom pb-2 mb-1">
+            <span>Address</span>
+          </h5>
+          <small class="fst-italic">{{ order.address }}</small>
+        </div>
+      </div>
+
+      <hr>
+      <div class="d-flex justify-content-between fw-bold mt-3">
+        <h5>Total</h5>
+        <h5>€{{ order.finalPrice }}</h5>
+      </div>
+
+      <div class="button-group d-flex justify-content-center mt-3">
+        <button class="btn btn-secondary me-3" (click)="goBack()">
+          Back to Order History
+        </button>
+        <button class="btn btn-primary" (click)="downloadInvoice()">
+          Download Invoice (PDF)
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

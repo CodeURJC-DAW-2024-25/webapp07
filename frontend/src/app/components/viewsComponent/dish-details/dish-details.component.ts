@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { DishService } from '../../../services/dish.service';
+import { OrderService } from '../../../services/order.service';
 import { DishDTO } from '../../../dtos/dish.model';
 import {AuthService} from "../../../services/auth.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-dish-details',
@@ -20,8 +22,10 @@ export class DishDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private dishService: DishService,
+    private orderService: OrderService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
 
   ) {}
 
@@ -55,5 +59,15 @@ export class DishDetailsComponent implements OnInit {
       error: err => console.error('Error al cambiar la disponibilidad:', err)
     });
   }
-
+  addToCart(dishId: number): void {
+    this.orderService.addToCart(dishId).subscribe({
+      next: () => {
+        this.toastr.success('Dish added to cart!');
+      },
+      error: (err) => {
+        console.error('Error adding dish to cart:', err);
+        this.toastr.error('Could not add dish to cart.');
+      }
+    });
+  }
 }

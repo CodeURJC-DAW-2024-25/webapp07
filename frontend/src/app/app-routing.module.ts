@@ -29,6 +29,7 @@ import { BookingExistingComponent }  from './components/viewsComponent/booking/b
 import { BookingCancelledComponent } from './components/viewsComponent/booking/booking-messages/booking-cancelled.component';
 import { BookingConfirmationComponent } from './components/viewsComponent/booking/booking-messages/booking-confirmation.component';
 import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-rating.component";
+import {OrderInfoComponent} from "./components/viewsComponent/order/order-info/order-info.component";
 
 const routes: Routes = [
   // public
@@ -51,6 +52,7 @@ const routes: Routes = [
   },
   { path: 'dishes',       component: MenuComponent, data: { title: 'Menu', showTitle: true } },
   { path: 'dishes/add',   component: DishFormComponent, data: { title: 'Dish Form', showTitle: false } },
+  { path: 'dishes/:id',   component: DishDetailsComponent, data: { title: 'Dish Info', showTitle: true } },
 
   // login request
   {
@@ -59,17 +61,12 @@ const routes: Routes = [
     children: [
       { path: 'profile',  component: ProfileComponent, data: { title: 'Profile', showTitle: true } },
 
-      // menu
-
-      { path: 'dishes/:id',   component: DishDetailsComponent, data: { title: 'Dish Info', showTitle: true } },
-      { path: 'dishes/:id/edit', component: DishFormComponent, data: { title: 'Dish Form', showTitle: false } },
-      { path: 'dishes/:id/rate', component: DishRatingComponent, data: { title: 'Dish Rate', showTitle: false } },
-
       // orders
       { path: 'orders/cart',          component: CartComponent },
       { path: 'orders/:id/summary',   component: OrderSummaryComponent },
       { path: 'orders/:id/confirm-payment', component: ConfirmPaymentComponent },
-      { path: 'orders/history',       component: OrderHistoryComponent, data: { title: 'Orders History', showTitle: false } },
+      { path: 'orders/history',       component: OrderHistoryComponent, data: { title: 'Orders History', showTitle: true } },
+      { path: 'orders/:id/more-info',   component: OrderInfoComponent, data: { title: 'Orders info', showTitle: true } },
 
       // bookings
       { path: 'booking/form',          component: BookingFormComponent,      data: { title: 'Booking Form', showTitle: true } },
@@ -78,6 +75,12 @@ const routes: Routes = [
       { path: 'booking/confirmation',  component: BookingConfirmationComponent, data: { title: 'Reservation Confirmed', showTitle: false } },
 
       // **ADMIN**
+
+      // menu
+
+      { path: 'dishes/:id/edit', component: DishFormComponent, data: { title: 'Dish Form', showTitle: false } },
+      { path: 'dishes/:id/rate', component: DishRatingComponent, data: { title: 'Dish Rate', showTitle: false } },
+
       {
         path: 'admin/users',
         component: AdminManageUsersComponent,

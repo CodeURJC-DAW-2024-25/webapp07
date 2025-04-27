@@ -180,8 +180,7 @@ public class BookingService {
      * @return a list of matching bookings
      */
     public List<Booking> searchBookings(String query) {
-        return bookingRepository.findByUser_UsernameContainingOrUser_EmailContainingOrUser_PhoneNumberContaining(query, query, query);
-    }
+        return bookingRepository.searchBookingsByAllFields(query);    }
 
     /**
      * Retrieves a booking by its ID.

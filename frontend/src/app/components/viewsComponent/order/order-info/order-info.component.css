@@ -1,40 +1,17 @@
-
-
 .card {
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  margin-bottom: 1.5rem;
 }
-
-
 .card-head {
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
 }
-
-
 .card-body {
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
-  padding: 1.5rem;
+  padding: 2rem;
 }
-
-
 .btn {
   border-radius: 0.5rem;
-}
-
-
-.card-head {
-  background-color: #2d2f3f;
-  color: #fff;
-}
-
-.card-body {
-  background-color: #f7f9fc;
-}
-
-.button-group .btn {
-  min-width: 120px;
 }

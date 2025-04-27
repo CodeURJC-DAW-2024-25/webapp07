@@ -18,6 +18,7 @@ export class MenuComponent implements OnInit {
   hasMoreData = true;
   isLoading = false;
   isLoggedIn$ = this.authService.isAuthenticated$;
+  isAdmin$ = this.authService.isAdmin$;
   filters = {
     name: '',
     maxPrice: undefined,
@@ -30,15 +31,6 @@ export class MenuComponent implements OnInit {
     this.loadMoreDishes();
   }
 
-  // loadMoreDishes(): void {
-  //   //   this.dishService.getDishes(this.currentPage, this.pageSize).subscribe((data: DishDTO[]) => {
-  //   //     if (data.length < this.pageSize) {
-  //   //       this.hasMoreData = false;
-  //   //     }
-  //   //     this.dishData = [...this.dishData, ...data];
-  //   //     this.currentPage++;
-  //   //   });
-  //   // }
   loadMoreDishes(): void {
     this.isLoading = true;
 
@@ -46,10 +38,12 @@ export class MenuComponent implements OnInit {
     this.dishService.getDishes(this.currentPage, this.pageSize, this.filters).subscribe((data: DishDTO[]) => {
       this.isLoading = false;
 
-      if (data.length < this.pageSize) {
+      const availableDishes = data.filter(dish => dish.available);
+
+      if (availableDishes.length < this.pageSize) {
         this.hasMoreData = false;
       }
-      this.dishData = [...this.dishData, ...data];
+      this.dishData = [...this.dishData, ...availableDishes];
       this.currentPage++;
     });
   }
@@ -60,8 +54,6 @@ export class MenuComponent implements OnInit {
     this.hasMoreData = true;
     this.loadMoreDishes();
   }
-
-
 
   addToCart(dishId: number): void {
     this.orderService.addToCart(dishId).subscribe({

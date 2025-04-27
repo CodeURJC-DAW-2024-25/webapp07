@@ -1,0 +1,12 @@
+.message-container {
+  background-color: #f0f6fb;
+}
+
+.message-container h1 {
+  color: #212529;
+  font-weight: bold;
+}
+
+.message-container p {
+  color: #6c757d;
+}

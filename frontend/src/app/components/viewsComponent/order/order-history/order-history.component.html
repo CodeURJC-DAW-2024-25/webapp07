@@ -1,26 +1,37 @@
-<div class="container mt-5">
-  <h2 class="text-center mb-4">My Orders</h2>
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h5 class="section-title ff-secondary text-center text-primary fw-normal">
+        Last orders
+      </h5>
+    </div>
 
-  <p *ngIf="!orders.length && !isLoading">You have no paid orders.</p>
+    <div *ngFor="let order of orders" class="card rounded-4 mb-4 text-sm-start wow fadeInUp" data-wow-delay="0.2s">
+      <div class="d-flex justify-content-between p-2 pb-2 card-head bg-secondary text-white">
+        <span class="text-white">{{ order.orderDate | date:'medium' }}</span>
+        <span>Order Number: {{ order.id }}</span>
+        <span>Total: €{{ order.totalPrice }}</span>
+      </div>
+      <div class="card-body bg-light">
+        <div *ngFor="let dish of order.dishes" class="d-flex align-items-center mb-3">
+          <div class="w-100 d-flex flex-column text-start ps-4">
+            <h5 class="d-flex justify-content-between border-bottom pb-2 mb-1">
+              <span>{{ dish.name }}</span>
+              <span class="text-primary">€{{ dish.price }}</span>
+            </h5>
+            <small class="fst-italic">{{ dish.description }}</small>
+          </div>
+        </div>
+        <div class="button-group d-flex justify-content-between">
+          <a [routerLink]="['/orders', order.id, 'more-info']" class="btn btn-primary mt-4">
+            More info
+          </a>
+        </div>
+      </div>
+    </div>
 
-  <table class="table" *ngIf="orders.length">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>Date</th>
-      <th>Status</th>
-      <th>Total (€)</th>
-      <th>Address</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let order of orders">
-      <td>{{ order.id }}</td>
-      <td>{{ order.orderDate | date:'short' }}</td>
-      <td>{{ order.status }}</td>
-      <td>{{ order.totalPrice | currency:'EUR' }}</td>
-      <td>{{ order.address }}</td>
-    </tr>
-    </tbody>
-  </table>
+    <div class="d-flex justify-content-center mt-4">
+      <a routerLink="/menu" class="btn btn-primary">Back to Menu</a>
+    </div>
+  </div>
 </div>
