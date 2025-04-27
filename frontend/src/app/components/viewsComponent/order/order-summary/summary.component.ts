@@ -73,17 +73,21 @@ export class OrderSummaryComponent implements OnInit {
     if (!this.order) {
       return;
     }
-    const id = this.order.id;
-    const updatedAddress = this.order.address;
+
+    const addr = this.order.address?.trim();
+    if (!addr) {
+      this.error = 'Please provide a valid shipping address.';
+      return;
+    }
 
     const updates = {
       status: 'Accepted',
-      address: updatedAddress
+      address: addr
     };
 
-    this.orderService.updateOrderFields(id, updates).subscribe({
+    this.orderService.updateOrderFields(this.order.id, updates).subscribe({
       next: () => {
-        this.router.navigate(['/orders', id, 'confirm-payment']);
+        this.router.navigate(['/orders', this.order!.id, 'confirm-payment']);
       },
       error: err => {
         console.error('Error confirming order:', err);
@@ -91,4 +95,5 @@ export class OrderSummaryComponent implements OnInit {
       }
     });
   }
+
 }
