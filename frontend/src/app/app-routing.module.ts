@@ -60,11 +60,6 @@ const routes: Routes = [
     children: [
       { path: 'profile',  component: ProfileComponent, data: { title: 'Profile', showTitle: true } },
 
-      // menu
-
-      { path: 'dishes/:id/edit', component: DishFormComponent, data: { title: 'Dish Form', showTitle: false } },
-      { path: 'dishes/:id/rate', component: DishRatingComponent, data: { title: 'Dish Rate', showTitle: false } },
-
       // orders
       { path: 'orders/cart',          component: CartComponent },
       { path: 'orders/:id/summary',   component: OrderSummaryComponent },
@@ -78,6 +73,12 @@ const routes: Routes = [
       { path: 'booking/confirmation',  component: BookingConfirmationComponent, data: { title: 'Reservation Confirmed', showTitle: false } },
 
       // **ADMIN**
+
+      // menu
+
+      { path: 'dishes/:id/edit', component: DishFormComponent, data: { title: 'Dish Form', showTitle: false } },
+      { path: 'dishes/:id/rate', component: DishRatingComponent, data: { title: 'Dish Rate', showTitle: false } },
+
       {
         path: 'admin/users',
         component: AdminManageUsersComponent,

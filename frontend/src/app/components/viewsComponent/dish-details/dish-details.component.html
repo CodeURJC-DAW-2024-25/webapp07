@@ -70,8 +70,8 @@
           <!-- Botones -->
           <div class="col-12 mt-4">
             <a routerLink="/dishes" class="btn btn-primary me-2">Back to menu</a>
-            <a routerLink="/dishes/{{ dish.id }}/edit" *ngIf="isLoggedIn$ | async" class="btn btn-warning me-2">Edit Dish</a>
-            <button class="btn btn-warning" *ngIf="isLoggedIn$ | async" (click)="toggleAvailability()">
+            <a routerLink="/dishes/{{ dish.id }}/edit" *ngIf="isAdmin$ | async" class="btn btn-warning me-2">Edit Dish</a>
+            <button class="btn btn-warning" *ngIf="isAdmin$ | async" (click)="toggleAvailability()">
               {{ dish.available ? 'Deshabilitar' : 'Habilitar' }}
             </button>
             <!-- Detalles del plato -->
