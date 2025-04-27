@@ -30,6 +30,7 @@ import { BookingCancelledComponent } from './components/viewsComponent/booking/b
 import { BookingConfirmationComponent } from './components/viewsComponent/booking/booking-messages/booking-confirmation.component';
 import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-rating.component";
 import {OrderInfoComponent} from "./components/viewsComponent/order/order-info/order-info.component";
+import {RestaurantComponent} from "./components/viewsComponent/restaurant/restaurant.component";
 
 const routes: Routes = [
   // public
@@ -45,6 +46,8 @@ const routes: Routes = [
   },
   { path: 'about-us', component: AboutComponent, data: { title: 'About us', showTitle: true } },
   { path: 'faqs',     component: FaqsComponent,  data: { title: 'FAQs',     showTitle: true } },
+  // restaurants
+  { path: 'restaurants',          component: RestaurantComponent,      data: { title: 'Restaurants', showTitle: true } },
   {
     path: 'unauthorized',
     component: UnauthorizedComponent,

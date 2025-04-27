@@ -56,6 +56,7 @@ import {TestimonialCardComponent} from "./components/generalComponents/testimoni
 import {UnauthorizedComponent} from "./components/viewsComponent/unauthorized/unauthorized.component";
 import {DishRatingComponent} from "./components/viewsComponent/dish-rating/dish-rating.component";
 import {OrderInfoComponent} from "./components/viewsComponent/order/order-info/order-info.component";
+import {RestaurantComponent} from "./components/viewsComponent/restaurant/restaurant.component";
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import {OrderInfoComponent} from "./components/viewsComponent/order/order-info/o
     BookingExistingComponent,
     BookingCancelledComponent,
     BookingConfirmationComponent,
+    RestaurantComponent,
     AdminManageBookingsComponent,
     AboutComponent,
     TeamComponent,
