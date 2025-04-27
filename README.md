@@ -1021,22 +1021,21 @@ Node.js: [Installation Node.js](https://nodejs.org/)
 | 5º  |                                                              [Add: angular folder and SPA proyect files](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/aa2867f3b389e340f67e138a29d3b21ad1c987d1)                                                               | | 5º |                              [Auth.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/services/auth.service.ts)                               |
 
 
-#### Natalia Hernández Vargas
+#### Hugo Sánchez Torres
 
-* I have helped implement the errorComponent and bannerComponent.
-* I have helped implement the teamCardsComponent and playerCardsComponent.
-* I have done the class and templates Diagram.
-* I have implemented the playerComponent.
-* I have implemented the teamComponent.
+* I have done the Docker implementation.
+* I have done the pagination of menu.
+* I have done the managment of the dishes' images.
+* I have implemented the disheseComponent.
 
 
-| #   |                                                                                                           Commit                                                                                                           |     | #   |                                                                                    File                                                                                    |
-| :-: |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| 1º  |                                                   [Add: teamComponent](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/4be45e50d5562bfe6a911420c21cc2fe8c2395b2)                                                   | | 1º | [player.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/playerComponent/player.component.ts) |
-| 2º  |                                                  [Add: playerComponent](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/35a18ba38ad2beb927ae6fbe34dacf9ab13f827d)                                                  | |2º |    [team.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/teamComponent/team.component.ts)    |
-| 3º  | [Fix: playerCardsComponent and teamCardsComponent](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/3b951223960c76cd48c6f0a6b69e92b8907bf883#diff-33924fab0ea9d6793f53a7b2d043767b2cd70beb671b5c5ff1f3e3a452ab1218) | | 3º |  [error.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/errorComponent/error.component.ts)   |
-| 4º  |                                                  [Add: errorComponent](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/b6dd2ba1dd1aec106d7717d033940a483e4c77f5)                                                   | | 4º | [banner.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/bannerComponent/banner.component.ts) |
-| 5º  |                                                     [Class Diagram](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/9b91f5579300bb33cdc49536bd39c81ce26c0892)                                                      | | 5º |                                             [Readme.md](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/README.md)                                              |
+| #   |                                                               Commit                                                                |     | #   |                                                                                     File                                                                                      |
+| :-: |:-----------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |      [Update: Docker files](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/eeb125cf7e4af63fad4787a1797cdab05920fe01)       | | 1º |                                          [Dockerfile](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/docker/Dockerfile)                                           |
+| 2º  | [Update: add frontend pagination](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/b334111a3c9586b58595959347b3ce34b845577c) | |2º |               [menu.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/components/viewsComponent/menu/menu.component.ts)               |
+| 3º  |   [Update: menu and dishDetails](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/80607918471d71e343a34d74d0fc37b047cfe525)  | | 3º |               [menu.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/components/viewsComponent/menu/menu.component.ts)               |
+| 4º  |       [Fix: dish allergens](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/d8cd9c9bf7319331cf2303b403aba57e05e45918)       | | 4º | [dish-form.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/components/viewsComponent/dish-form/dish-form.component.ts) |
+| 5º  |          [Update: add dish rating](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/e89906012d761089d3545279957134e9b2b8ecf5)          | | 5º |     [dish-rating.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/components/viewsComponent/dish-rating/dish-rating.component.ts)    |
 
 
 ---
