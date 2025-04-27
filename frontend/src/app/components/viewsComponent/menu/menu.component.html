@@ -63,7 +63,7 @@
       <button id="loadMoreDishes" class="btn btn-primary mt-5 d-block mx-auto"
               *ngIf="hasMoreData" (click)="loadMoreDishes()">View More</button>
 
-      <button *ngIf="isLoggedIn$ | async" class="btn btn-primary mt-5 d-block mx-auto"
+      <button *ngIf="isAdmin$ | async" class="btn btn-primary mt-5 d-block mx-auto"
               routerLink="/dishes/add">New dish</button>
     </div>
   </div>
