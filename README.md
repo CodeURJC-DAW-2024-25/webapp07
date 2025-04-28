@@ -1046,4 +1046,4 @@ Node.js: [Installation Node.js](https://nodejs.org/)
 
 ---
 
-[[Watch the video!]](https://www.youtube.com/watch?v=Vl9Ap8Mt7kA)
+[[Watch the video!]](https://youtu.be/4jAMQZiRVQQ)
