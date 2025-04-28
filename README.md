@@ -989,22 +989,21 @@ Node.js: [Installation Node.js](https://nodejs.org/)
 | 4º  |                         [feat(profile): implement user profile view and edit functionality with service integration](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/764a697161a6f0aecff72d6e09f6bd81e4b57af5)                         | | 4º |                 [users.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/services/users.service.ts)                  |
 | 5º  |               [feat(auth): implement isAdmin$ observable to control admin panel visibility](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/3c1cbd7bfe0ffa1f15eee964658c11581b7e5677)                | | 5º |                    [title.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/3c1cbd7bfe0ffa1f15eee964658c11581b7e5677)                    |
 
-#### Adrián Soriano Aragón
+#### Jesús López Esquinas
 
-* Algorithms: I implemented the algorithms for calculating the statistics of the teams.
-* Algorithms: Algorithm to generate and update tournamet Bracket with matches reports.
-* Screen : I have implemented and helped with the creation of numerous screen, such as, tournament, tournamentBracket,matchInfo, fillMatchReport..
-* Technology : I have implemented PDF technology to generate reports.
+* I have implemented the restaurant page with its corresponding search bar
+* Created the calculation and drawing of the existing chart in the Dashboard
+* Fixed and added the remove button in the cart following best practices
+* Made small corrections and improvements to the system
 
 
-
-| #   |                                                                                           Commit                                                                                           |     | #   |                                                                                                    File                                                                                                     |
-| :-: |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| 1º  |                                        [Add: PDF](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/0a2d4e7e93ce892c4783083d35ecf201c7f22ebf)                                        | | 1º |                                [tournament.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/services/tournament.service.ts)                                 |
-| 2º  |                                 [Add: tournament Logic](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/ccae648f9756d6ad93dc02166fd3b29e5eee09e3)                                  | |2º |                                    [report.service.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/services/reports.service.ts)                                    |
-| 3º  | [Add : Match info](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/1d862fd32a29fc7926b4ebe1c02ab2eb9d39f2b0#diff-f1b490685397d0aa51631c08d1e5f7f252af3088056372434bae8258a1ff0b5a) | | 3º |           [tournament.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/tournamentComponent/tournament.component.ts)            |
-| 4º  |                                 [Add: tournament screen](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/931c41808bdbd00eb33d7e6e3251427ccb905a2f)                                 | | 4º | [tournamentBracket.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/tournamentBracketComponent/tournamentBracket.component.ts) |
-| 5º  |                               [Add: statistics algorithm](https://github.com/CodeURJC-DAW-2023-24/webapp16/commit/21142855b9fa9512cd849fc342549eb623231512)                                | | 5º |          [teamStatistics.component.ts](https://github.com/CodeURJC-DAW-2023-24/webapp16/blob/main/frontend/webapp16/src/app/components/viewsComponents/teamStatistics/teamStatistics.component.ts)          |
+| #   |                                                                     Commit                                                                     |     | #   |                                                                                File                                                                                 |
+| :-: |:----------------------------------------------------------------------------------------------------------------------------------------------:| :-: | :-: |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| 1º  |           [Add: Restaurant Logic](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/a11a6f87a3311727dfde21fad05e924f0c8d3dc2)            | | 1º | [restaurant.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/components/viewsComponent/restaurant/restaurant.component.ts) |
+| 2º  |                [Fix: Routes](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/59411956210a449035217d686190656d42d8f52c)                 | |2º |                                                                      [restaurant.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/services/restaurant.service.ts)                                                                      |
+| 3º  |           [Add : Deashboard Logic](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/65ee84768d543ec6d3b22deddd30aa23e69580bf)           | | 3º |  [dashboard.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/components/adminComponents/dashboard/dashboard.component.ts)  |
+| 4º  | [Fix: Moved RemoveFromCart logic to Service](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/383b18d3abfc0b812ae155736d6543d35fa867c0) | | 4º |         [OrderService.java](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/backend/src/main/java/es/codeurjc/backend/service/OrderService.java)         |
+| 5º  |         [Add: RemoveFromCart Function](https://github.com/CodeURJC-DAW-2024-25/webapp07/commit/a46ad105861d09b0efc1dc1beb54ce7c9d7f86bc)          | | 5º |    [cart.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp07/blob/main/frontend/src/app/components/viewsComponent/order/order-cart/cart.component.ts)    |
 
 #### Juan Ramirez Blanco
 
